@@ -1,0 +1,12 @@
+{{/* Simple language switcher: if translation exists, link to it; else link to that language home */}}
+{{ $cur := . }}
+<div class="langswitch">
+  {{ range site.Languages }}
+    {{ $target := (where $cur.Page.Translations "Lang" .Lang) | first }}
+    {{ if $target }}
+      <a href="{{ $target.RelPermalink }}">{{ .LanguageName }}</a>
+    {{ else }}
+      <a href="{{ .Lang | relLangURL }}">{{ .LanguageName }}</a>
+    {{ end }}
+  {{ end }}
+</div>

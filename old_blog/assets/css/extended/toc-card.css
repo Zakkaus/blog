@@ -1,0 +1,20 @@
+/* 右側內建 TOC 外觀微調（PaperMod 風格） */
+.toc .inner,
+.toc-embedded {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: var(--theme) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  max-height: calc(100vh - 160px);
+  overflow: auto;
+}
+.toc .inner ul,
+.toc-embedded ul { margin: 0; }
+.toc .inner li,
+.toc-embedded li { margin: 4px 0; line-height: 1.35; }
+.toc .inner a:hover,
+.toc-embedded a:hover { text-decoration: underline; }
+@media (min-width: 1200px) {
+  aside.toc { position: sticky; top: 88px; }
+}

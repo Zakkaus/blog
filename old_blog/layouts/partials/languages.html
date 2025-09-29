@@ -1,0 +1,22 @@
+{{- $curr := .Page -}}
+<nav class="lang-switch">
+  {{- range .Site.Languages -}}
+    {{- $target := "" -}}
+    {{- if and $curr (gt (len $curr.Translations) 0) -}}
+      {{- $t := where $curr.Translations "Lang" .Lang | first -}}
+      {{- if $t -}}{{ $target = $t.RelPermalink }}{{ end -}}
+    {{- end -}}
+    {{- if not $target -}}
+      {{- $home := .Site.Home -}}
+      {{- if $home -}}{{ $target = $home.RelPermalink }}{{ else }}{{ $target = (printf "/%s/" .Lang) }}{{ end -}}
+    {{- end -}}
+    <a href="{{ $target | relURL }}" class="lang">
+      {{- .LanguageName -}}
+    </a>
+  {{- end -}}
+</nav>
+<style>
+.lang-switch{display:flex;gap:.5rem;align-items:center}
+.lang-switch .lang{font-size:.9rem;opacity:.85}
+.lang-switch .lang:hover{opacity:1}
+</style>

@@ -1,0 +1,28 @@
+# 這是您的 config.toml 檔案內容
+
+[params]
+  # 站點圖示（SVG 優先）
+  favicon_svg = "/favicon.svg"
+  favicon = "/favicon.svg"
+
+  # 兼容其他常見鍵名（部分主題會檢測）
+  icon = "/favicon.svg"
+  logo = "/favicon.svg"
+
+# 可選：若主題支援 assets 變體，可再補 PNG
+# [params.favicons]
+#   svg  = "/favicon.svg"
+#   png16 = "/favicon-16x16.png"
+#   png32 = "/favicon-32x32.png"
+
+[params.assets]
+# PaperMod 會依此輸出 <link rel="icon"> / PWA / pinned tab 等標籤
+favicon          = "favicon.svg"
+favicon16x16     = "favicon.svg"
+favicon32x32     = "favicon.svg"
+apple_touch_icon = "favicon.svg"
+safari_pinned_tab = "favicon.svg"
+# 若將來補 PNG / ICO，再替換為對應檔：
+# favicon16x16 = "favicon-16x16.png"
+# favicon32x32 = "favicon-32x32.png"
+# favicon = "favicon.ico"

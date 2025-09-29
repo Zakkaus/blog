@@ -1,0 +1,83 @@
+baseURL = "https://zakk.au/"
+title = "Zakk"
+theme = "PaperMod"
+canonifyURLs = true
+
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+
+[pagination]
+  pagerSize = 10
+
+[params]
+  env = "production"
+  defaultTheme = "auto"
+  disableSpecial1stPost = true
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  mainSections = ["posts"]
+  # 自訂右上角多語按鈕資源（確保存在）
+  customCSS = ["css/header-buttons.css"]
+  customJS = ["js/header-buttons.js"]
+
+  [params.profileMode]
+    enabled = true
+    title = "Zakk"
+    subtitle = "<span>📍 Australia 🇦🇺</span><br/>🕓 UTC +10 (AEST) ❄️<br/>❤️ <a href=\"https://www.instagram.com/0/\" target=\"_blank\" rel=\"noopener\" style=\"background:linear-gradient(to top,rgba(29,111,255,.35),rgba(29,111,255,0) 65%);color:#1d6fff;font-weight:700;padding:0 .2rem;border-radius:4px;text-decoration:none;line-height:1.25;letter-spacing:.25px;\">Paper</a> ✨<br/>🐹 Guinea pigs 🥔<br/>🎮 Gaming · 🐧 Linux · 💹 Finance<br/>🩷💛🩵"
+    imageUrl = "https://avatars.githubusercontent.com/u/221879664?v=4"
+    imageWidth = 168
+    imageHeight = 168
+    [[params.profileMode.buttons]]
+      name = "👤 About"
+      url = "/about/"
+    [[params.profileMode.buttons]]
+      name = "📚 Blog"
+      url = "/posts/"
+
+# 社交按鈕（你的全部連結）
+[[params.socialIcons]]
+  name = "github"
+  url = "https://github.com/Zakkaus"
+[[params.socialIcons]]
+  name = "instagram"
+  url = "https://www.instagram.com/zakk.au/"
+[[params.socialIcons]]
+  name = "x"
+  url = "https://x.com/zakkauu"
+[[params.socialIcons]]
+  name = "email"
+  url = "mailto:admin@zakk.au"
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    languageCode = "en"
+    weight = 1
+    title = "Zakk"
+    contentDir = "content"
+
+  [languages.zh-hant]
+    languageName = "漢語"
+    languageCode = "zh-Hant"
+    weight = 2
+    title = "Zakk"
+    contentDir = "content/zh-hant"
+    [languages.zh-hant.params.profileMode]
+      enabled = true
+      title = "Zakk"
+      subtitle = "<span>📍 澳大利亞 🇦🇺</span><br/>🕓 UTC +10 (AEST) ❄️<br/>❤️ <a href=\"https://www.instagram.com/abyss_74.50/\" target=\"_blank\" rel=\"noopener\" style=\"background:linear-gradient(to top,rgba(29,111,255,.35),rgba(29,111,255,0) 65%);color:#1d6fff;font-weight:700;padding:0 .2rem;border-radius:4px;text-decoration:none;line-height:1.25;letter-spacing:.25px;\">Paper</a> ✨<br/>🐹 天竺鼠 🥔<br/>🎮 遊戲 · 🐧 Linux · 💹 金融<br/>🩷💛🩵"
+      imageUrl = "https://avatars.githubusercontent.com/u/221879664?v=4"
+      imageWidth = 168
+      imageHeight = 168
+      [[languages.zh-hant.params.profileMode.buttons]]
+        name = "👤 關於我"
+        url = "/zh-hant/about/"
+      [[languages.zh-hant.params.profileMode.buttons]]
+        name = "📚 文章"
+        url = "/zh-hant/posts/"
+
+[markup.goldmark.renderer]
+  unsafe = true

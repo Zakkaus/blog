@@ -1,0 +1,56 @@
+<footer class="clean-footer" style="text-align: center; margin-top: 3rem; padding: 2rem 0; border-top: 1px solid rgba(0,0,0,0.1);">
+  <div class="footer-content" style="text-align: center; max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+    <small style="font-size: 12px; color: #888; font-weight: 400; text-align: center;">© {{ now.Format "2006" }} {{ .Site.Title }} · Powered by <a href="https://gohugo.io" target="_blank" style="color: inherit; text-decoration: none;">Hugo</a> & <a href="https://github.com/adityatelange/hugo-PaperMod" target="_blank" style="color: inherit; text-decoration: none;">PaperMod</a></small>
+  </div>
+</footer>
+  </p>
+</footer>
+<!-- 注意：若仍出現外露 ）}; 文字，請檢查 baseof.html 或 theme 內是否有舊腳本殘留 -->
+<script>
+(function(){
+  // 去重（若主題本身產生第二個 footer）
+  const texts=[...document.querySelectorAll('.site-foot-text')];
+  const seen=new Set();
+  texts.forEach(p=>{
+    const t=p.textContent.replace(/\s+/g,' ').trim();
+    if(seen.has(t)) p.closest('footer')?.remove(); else seen.add(t);
+  });
+
+  // 清理尾端外露殘碼（被截斷的舊 script 內容）
+  const PATTERNS=[
+    /custom-topbuttons-css/,
+    /搜尋/,
+    /document\.createElement\('link'\)/,
+    /var\s+container\s*=\s*document\.createElement/,
+    /nowDark\s*\?\s*'light':'dark'/,
+    /m\.classList\.remove\('open'\)/,
+    /const\s+target\s*=\s*nowDark/
+  ];
+  function sweepFooter(){
+    let removed=0;
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null);
+    const trash=[];
+    while(walker.nextNode()){
+      const n=walker.currentNode;
+      const txt=n.textContent;
+      if(!txt) continue;
+      const s=txt.trim();
+      if(!s) continue;
+      if(s.length<800 && PATTERNS.some(p=>p.test(s))){
+        trash.push(n);
+      }
+    }
+    trash.forEach(n=>{ n.parentNode && n.parentNode.removeChild(n); removed++; });
+    if(removed) console.warn('[footer-clean] removed stray tail fragments:', removed);
+  }
+  // 多輪（處理延後注入）
+  [0,150,400,1000].forEach(t=>setTimeout(sweepFooter,t));
+})();
+</script>
+      });
+    });
+  }
+})();
+</script>
+})();
+</script>

@@ -1,0 +1,6 @@
+{{/* 只顯示 tags/categories，無語言切換，避免主題原生插入 */}}
+{{ with .Params.tags }}
+<div class="post-tags-line">
+  {{ range . }}<span class="tag">#{{ . }}</span>{{ end }}
+</div>
+{{ end }}

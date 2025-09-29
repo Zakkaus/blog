@@ -1,0 +1,192 @@
+{{- $isZH := eq .Site.Language.Lang "zh-hant" -}}
+{{- $home := cond $isZH "/zh-hant/" "/" -}}
+{{- $posts := printf "%sposts/" $home -}}
+{{- $about := printf "%sabout/" $home -}}
+{{- $rel := .RelPermalink -}}
+{{- $switch := cond $isZH (replace $rel "/zh-hant/" "/" 1) (printf "/zh-hant%s" $rel) -}}
+<header class="site-header" data-build-hash="hdr-v5">
+  <div class="site-header-inner">
+    <div class="site-brand">
+      <a href="{{ $home }}">{{ .Site.Title }}</a>
+    </div>
+
+    <nav class="main-nav">
+      <ul>
+  <li><a href="{{ $home }}" class="{{ if .IsHome }}active{{ end }}">🏠 {{ if $isZH }}首頁{{ else }}Home{{ end }}</a></li>
+  <li><a href="{{ $posts }}" class="{{ if or (eq .Section "posts") (in .RelPermalink "/posts/") }}active{{ end }}">📄 {{ if $isZH }}文章{{ else }}Posts{{ end }}</a></li>
+  <li><a href="https://help.zakk.au" target="_blank" rel="noopener">🎓 {{ if $isZH }}學生{{ else }}Students{{ end }}</a></li>
+  <li><a href="{{ $about }}" class="{{ if in .RelPermalink "/about/" }}active{{ end }}">ℹ️ {{ if $isZH }}關於{{ else }}About{{ end }}</a></li>
+      </ul>
+    </nav>
+
+    <div class="top-action-group">
+      <div class="custom-topbuttons">
+        <div class="cb-menu">
+          <a class="cb-btn lang-switch" href="{{ $switch }}">🌐 {{ if $isZH }}English{{ else }}漢語{{ end }}</a>
+          <button class="cb-btn" id="themeToggle" type="button">🌓 {{ if $isZH }}黑暗{{ else }}Dark{{ end }}</button>
+        </div>
+      </div>
+
+      <button class="cb-toggle mobile-only"
+              aria-label="Menu"
+              aria-controls="mobileMenu"
+              onclick="document.getElementById('mobileMenu').classList.toggle('open')">☰</button>
+
+      <div id="mobileMenu" class="cb-menu mobile-only">
+        <a class="cb-btn" href="{{ $home }}">🏠 {{ if $isZH }}首頁{{ else }}Home{{ end }}</a>
+        <a class="cb-btn" href="{{ $posts }}">📄 {{ if $isZH }}文章{{ else }}Posts{{ end }}</a>
+        <a class="cb-btn" href="https://help.zakk.au" target="_blank" rel="noopener">🎓 {{ if $isZH }}學生{{ else }}Students{{ end }}</a>
+        <a class="cb-btn" href="{{ $about }}">ℹ️ {{ if $isZH }}關於{{ else }}About{{ end }}</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 主題切換（保持不變） -->
+<script>
+(function(){
+  if (window.__THEME_TOGGLE_INIT) return;
+  window.__THEME_TOGGLE_INIT = true;
+  const root=document.documentElement, body=document.body;
+  const isZH=(root.lang||'').toLowerCase().startsWith('zh');
+  const KEY='site-theme', btn=document.getElementById('themeToggle');
+  function sysPref(){return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
+  function nextLabel(next){return isZH?(next==='dark'?'🌓 黑暗':'🌞 明亮'):(next==='dark'?'🌓 Dark':'🌞 Light');}
+  function updateLabel(cur){ if(!btn)return; const nxt=cur==='dark'?'light':'dark'; btn.textContent=nextLabel(nxt); }
+  function apply(mode){ const dark=mode==='dark'; root.classList.toggle('dark',dark); body.classList.toggle('dark',dark); updateLabel(mode); }
+  function toggle(){ const target=root.classList.contains('dark')?'light':'dark'; apply(target); localStorage.setItem(KEY,target); }
+  apply(localStorage.getItem(KEY)||sysPref());
+  btn&&btn.addEventListener('click',toggle);
+  addEventListener('resize',()=>{ if(innerWidth>900){ const m=document.getElementById('mobileMenu'); m&&m.classList.remove('open'); }});
+})();
+</script>
+
+<!-- 強化清理：新增括號殘碼 pattern -->
+<script>
+(function(){
+  const PAT_LIST = [
+    /nowDark\s*\?\s*'light':'dark'/,
+    /m\.classList\.remove\('open'\)/,
+    /const\s+target\s*=\s*nowDark/,
+    /apply\(target\)/,
+    /\}\);\s*\}\)\(\);\s*$/  // 捕捉 "}); })();"
+  ];
+  function sweep(limit){
+    let removed=0;
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null);
+    const del=[];
+    while(walker.nextNode()){
+      const n=walker.currentNode;
+      const txt=n.textContent.trim();
+      if(!txt) continue;
+      if(txt.length<600 && PAT_LIST.some(p=>p.test(txt))){
+        del.push(n);
+      }
+    }
+    del.forEach(n=>{ n.parentNode && n.parentNode.removeChild(n); removed++; });
+    if(removed) console.warn('[header sanitize] removed stray nodes:',removed);
+    if(limit>0) setTimeout(()=>sweep(limit-1),150);
+  }
+  // 多輪
+  sweep(8);
+  // Mutation 監控短期注入
+  const mo=new MutationObserver(()=>sweep(0));
+  mo.observe(document.body,{childList:true,subtree:true});
+  setTimeout(()=>mo.disconnect(),4000);
+})();
+</script>
+<!-- END header partial -->
+</script>
+
+<!-- 自動清理 & 診斷：移除任何殘留舊 JS 純文字 -->
+<script>
+(function(){
+  const PATTERNS = [
+    /nowDark\s*\?\s*'light':'dark'/,
+    /apply\(target\)/,
+    /toggleTheme/,
+    /const\s+target\s*=\s*nowDark/
+  ];
+  let removed = 0;
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+  const badNodes = [];
+  while(walker.nextNode()){
+    const n = walker.currentNode;
+    const t = n.textContent.trim();
+    if(!t) continue;
+    if(PATTERNS.some(p=>p.test(t))){
+      badNodes.push(n);
+    }
+  }
+  badNodes.forEach(n=>{
+    removed++;
+    n.parentNode.removeChild(n);
+  });
+  if(removed){
+    console.warn('[header-cleanup] removed stray script text nodes:', removed);
+  }
+})();
+</script>
+
+<!-- 強化清理腳本 -->
+<script>
+(function(){
+  // 移除頁面中的外露腳本文字
+  function cleanupStrayText() {
+    const body = document.body;
+    const walker = document.createTreeWalker(
+      body,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
+    
+    const strayPatterns = [
+      /\}\);\s*\}\);\s*\}\s*\}\)\(\);\s*\}\)\(\);/,
+      /©.*Hugo.*PaperMod.*\}\)/,
+      /document\.createElement/,
+      /custom-topbuttons-css/
+    ];
+    
+    const nodesToRemove = [];
+    
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      const text = node.textContent.trim();
+      
+      if (text && strayPatterns.some(pattern => pattern.test(text))) {
+        nodesToRemove.push(node);
+      }
+    }
+    
+    nodesToRemove.forEach(node => {
+      if (node.parentNode) {
+        node.parentNode.removeChild(node);
+      }
+    });
+    
+    if (nodesToRemove.length > 0) {
+      console.log('清理了', nodesToRemove.length, '個外露文字節點');
+    }
+  }
+  
+  // 立即清理
+  cleanupStrayText();
+  
+  // 延遲清理（處理動態插入的內容）
+  setTimeout(cleanupStrayText, 100);
+  setTimeout(cleanupStrayText, 500);
+  
+  // 監聽 DOM 變化
+  const observer = new MutationObserver(cleanupStrayText);
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+  
+  // 2秒後停止監聽
+  setTimeout(() => observer.disconnect(), 2000);
+})();
+</script>
+
+<!-- END header partial (檢查點：若再次出現外露文字，請全文 grep `nowDark ? 'light'` 或 `const target = nowDark`) -->

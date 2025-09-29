@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on Zakk</title><link>https://zakk.au/</link><description>Recent content in Home on Zakk</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>admin@zakk.au (Zakk)</managingEditor><webMaster>admin@zakk.au (Zakk)</webMaster><copyright>© 2025 Zakk</copyright><lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://zakk.au/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on Zakk</title><link>https://blog-7qj.pages.dev/</link><description>Recent content in Home on Zakk</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>admin@zakk.au (Zakk)</managingEditor><webMaster>admin@zakk.au (Zakk)</webMaster><copyright>© 2025 Zakk</copyright><lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://blog-7qj.pages.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://blog-7qj.pages.dev/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://blog-7qj.pages.dev/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
 I’m &lt;strong&gt;Zakk&lt;/strong&gt;, an Australia-based business student who writes bilingual notes about Gentoo, creative experiments, finance, and the everyday moments I share with Paper and our guinea pigs.
 &lt;/div&gt;
 &lt;div
@@ -13,7 +13,7 @@ class="text-primary-400 pe-3 flex items-center"
 &lt;span
 class="dark:text-neutral-300"
 &gt;Paper and I have been long-distance between Australia and Taiwan since &lt;strong&gt;7 Aug 2025&lt;/strong&gt;. We are both pansexual 🩷💛🩵, share playlists, study sessions, late-night design talks, and keep a running counter on the &lt;a
-href="https://zakk.au/timeline/#couple"&gt;Timeline&lt;/a&gt;.&lt;/span&gt;
+href="https://blog-7qj.pages.dev/timeline/#couple"&gt;Timeline&lt;/a&gt;.&lt;/span&gt;
 &lt;/div&gt;
 &lt;h3 class="relative group"&gt;Snapshot
 &lt;div id="snapshot" class="anchor"&gt;&lt;/div&gt;
@@ -42,7 +42,7 @@ target="_blank"
 href="https://www.instagram.com/abyss_74.50/"
 target="_blank"
 &gt;@abyss_74.50&lt;/a&gt; and see how long we’ve been together on the &lt;a
-href="https://zakk.au/timeline/#couple"&gt;Timeline&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Gentoo Installation Guide (Beginner)</title><link>https://zakk.au/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/posts/gentoo-install/</guid><description>&lt;div
+href="https://blog-7qj.pages.dev/timeline/#couple"&gt;Timeline&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Gentoo Installation Guide (Beginner)</title><link>https://blog-7qj.pages.dev/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://blog-7qj.pages.dev/posts/gentoo-install/</guid><description>&lt;div
 class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
 &gt;
 &lt;span
@@ -53,7 +53,7 @@ class="text-primary-400 pe-3 flex items-center"
 &lt;/span&gt;
 &lt;span
 class="dark:text-neutral-300"
-&gt;&lt;p&gt;&lt;strong&gt;Quick navigation&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Gentoo 安裝指南（新手）</title><link>https://zakk.au/zh-hant/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-hant/posts/gentoo-install/</guid><description>&lt;div
+&gt;&lt;p&gt;&lt;strong&gt;Quick navigation&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Gentoo 安裝指南（新手）</title><link>https://blog-7qj.pages.dev/zh-hant/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://blog-7qj.pages.dev/zh-hant/posts/gentoo-install/</guid><description>&lt;div
 class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
 &gt;
 &lt;span
@@ -64,7 +64,7 @@ class="text-primary-400 pe-3 flex items-center"
 &lt;/span&gt;
 &lt;span
 class="dark:text-neutral-300"
-&gt;&lt;p&gt;&lt;strong&gt;快速導覽&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Timeline</title><link>https://zakk.au/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/timeline/</guid><description>Live counters for our relationship and guinea pigs.</description></item><item><title>時間軸</title><link>https://zakk.au/zh-hant/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-hant/timeline/</guid><description>我們關係與天竺鼠的即時計時器。</description></item><item><title>關於我</title><link>https://zakk.au/zh-hant/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-hant/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
+&gt;&lt;p&gt;&lt;strong&gt;快速導覽&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Timeline</title><link>https://blog-7qj.pages.dev/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://blog-7qj.pages.dev/timeline/</guid><description>Live counters for our relationship and guinea pigs.</description></item><item><title>時間軸</title><link>https://blog-7qj.pages.dev/zh-hant/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://blog-7qj.pages.dev/zh-hant/timeline/</guid><description>我們關係與天竺鼠的即時計時器。</description></item><item><title>關於我</title><link>https://blog-7qj.pages.dev/zh-hant/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://blog-7qj.pages.dev/zh-hant/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
 嗨，我是 &lt;strong&gt;Zakk&lt;/strong&gt;。住在澳洲雪梨的商科學生，會用雙語寫 Gentoo / Linux 筆記、設計小實驗、理財心得，以及和 Paper 還有兩隻天竺鼠的生活記事。
 &lt;/div&gt;
 &lt;div
@@ -79,7 +79,7 @@ class="text-primary-400 pe-3 flex items-center"
 &lt;span
 class="dark:text-neutral-300"
 &gt;我和 Paper 從 &lt;strong&gt;2025 年 8 月 7 日&lt;/strong&gt; 開始遠距（澳洲－台灣），我們都是泛性戀 🩷💛🩵，會一起分享每日行程、音樂歌單、設計靈感，也在 &lt;a
-href="https://zakk.au/zh-hant/timeline/#couple"&gt;時間軸&lt;/a&gt; 上記錄相處的天數。&lt;/span&gt;
+href="https://blog-7qj.pages.dev/zh-hant/timeline/#couple"&gt;時間軸&lt;/a&gt; 上記錄相處的天數。&lt;/span&gt;
 &lt;/div&gt;
 &lt;h3 class="relative group"&gt;摘要
 &lt;div id="摘要" class="anchor"&gt;&lt;/div&gt;
@@ -108,4 +108,4 @@ target="_blank"
 href="https://www.instagram.com/abyss_74.50/"
 target="_blank"
 &gt; @abyss_74.50 &lt;/a&gt;，也可以到 &lt;a
-href="https://zakk.au/zh-hant/timeline/#couple"&gt;時間軸&lt;/a&gt; 看實際天數。&lt;/p&gt;</description></item></channel></rss>
+href="https://blog-7qj.pages.dev/zh-hant/timeline/#couple"&gt;時間軸&lt;/a&gt; 看實際天數。&lt;/p&gt;</description></item></channel></rss>

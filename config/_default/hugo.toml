@@ -1,4 +1,4 @@
-baseURL = "https://zakk.au/"
+baseURL = "https://blog-7qj.pages.dev/"
 canonifyURLs = true
 title = "Zakk"
 theme = "blowfish"

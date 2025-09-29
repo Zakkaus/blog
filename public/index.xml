@@ -65,7 +65,7 @@ class="text-primary-400 pe-3 flex items-center"
 &lt;span
 class="dark:text-neutral-300"
 &gt;&lt;p&gt;&lt;strong&gt;快速導覽&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Timeline</title><link>https://blog-7qj.pages.dev/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://blog-7qj.pages.dev/timeline/</guid><description>Live counters for our relationship and guinea pigs.</description></item><item><title>時間軸</title><link>https://blog-7qj.pages.dev/zh-hant/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://blog-7qj.pages.dev/zh-hant/timeline/</guid><description>我們關係與天竺鼠的即時計時器。</description></item><item><title>關於我</title><link>https://blog-7qj.pages.dev/zh-hant/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://blog-7qj.pages.dev/zh-hant/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
-嗨，我是 &lt;strong&gt;Zakk&lt;/strong&gt;。住在澳洲雪梨的商科學生，會用雙語寫 Gentoo / Linux 筆記、設計小實驗、理財心得，以及和 Paper 還有兩隻天竺鼠的生活記事。
+我是 &lt;strong&gt;Zakk&lt;/strong&gt;，住在澳洲雪梨的商科學生，用雙語記錄 Linux 折騰、設計實驗、理財系統，以及和 Paper 還有 Hash Brown、Potato 兩隻天竺鼠的遠距日常。
 &lt;/div&gt;
 &lt;div
 class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
@@ -78,8 +78,8 @@ class="text-primary-400 pe-3 flex items-center"
 &lt;/span&gt;
 &lt;span
 class="dark:text-neutral-300"
-&gt;我和 Paper 從 &lt;strong&gt;2025 年 8 月 7 日&lt;/strong&gt; 開始遠距（澳洲－台灣），我們都是泛性戀 🩷💛🩵，會一起分享每日行程、音樂歌單、設計靈感，也在 &lt;a
-href="https://blog-7qj.pages.dev/zh-hant/timeline/#couple"&gt;時間軸&lt;/a&gt; 上記錄相處的天數。&lt;/span&gt;
+&gt;我和 Paper 從 &lt;strong&gt;2025 年 8 月 7 日&lt;/strong&gt; 開始遠距（澳洲 ↔ 台灣），兩個人都是泛性戀 🩷💛🩵。我們透過歌單、設計靈感與睡前語音維持節奏，並在 &lt;a
+href="https://blog-7qj.pages.dev/zh-hant/timeline/#couple"&gt;時間軸&lt;/a&gt; 上紀錄每一天。&lt;/span&gt;
 &lt;/div&gt;
 &lt;h3 class="relative group"&gt;摘要
 &lt;div id="摘要" class="anchor"&gt;&lt;/div&gt;
@@ -89,10 +89,10 @@ class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-
 &lt;/span&gt;
 &lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;📍 雪梨生活，時區在 AEST / AEDT，主修商業。&lt;/li&gt;
-&lt;li&gt;🧠 興趣：Gentoo、Linux、氛圍音樂、設計系統、理財與整理生活。&lt;/li&gt;
-&lt;li&gt;🎮 日常娛樂：和 Paper 一起語音、畫畫、打電動、研究設備。&lt;/li&gt;
-&lt;li&gt;🐹 家裡成員：Potato 與 Hash Brown 兩隻 Teddy 天竺鼠。&lt;/li&gt;
+&lt;li&gt;📍 雪梨生活，時區 AEST / AEDT，目前主修商業管理。&lt;/li&gt;
+&lt;li&gt;🧠 興趣：Gentoo、Linux、氛圍音樂、設計系統、理財與整理。&lt;/li&gt;
+&lt;li&gt;🎮 日常娛樂：和 Paper 一起語音、畫圖、打電動、研究設備。&lt;/li&gt;
+&lt;li&gt;🐹 家裡成員：Teddy 天竺鼠 Hash Brown 與 Potato。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 class="relative group"&gt;我和 Paper
 &lt;div id="我和-paper" class="anchor"&gt;&lt;/div&gt;
@@ -101,11 +101,11 @@ class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-
 &lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%88%91%e5%92%8c-paper" aria-label="Anchor"&gt;#&lt;/a&gt;
 &lt;/span&gt;
 &lt;/h3&gt;
-&lt;p&gt;我們是在 &lt;a
+&lt;p&gt;在 &lt;a
 href="https://www.youtube.com/@xilanceylan"
 target="_blank"
-&gt;Ceylan&lt;/a&gt; 的 Discord 認識，一開始只是聊天分享生活，後來變成每天互相陪伴、同步彼此日程的默契伙伴。我們每隔幾個月會安排見面，Paper 目前在台灣念高三，之後會來澳洲念書。想看我們的日常可以追蹤 Paper 的 IG：&lt;a
+&gt;Ceylan&lt;/a&gt; 的 Discord 認識，從日常聊天變成每天互相陪伴的默契。現在每隔幾個月計畫見面，Paper 正在台灣念高三，準備來澳洲念大學。如果想看她的視角，可以追蹤 &lt;a
 href="https://www.instagram.com/abyss_74.50/"
 target="_blank"
-&gt; @abyss_74.50 &lt;/a&gt;，也可以到 &lt;a
-href="https://blog-7qj.pages.dev/zh-hant/timeline/#couple"&gt;時間軸&lt;/a&gt; 看實際天數。&lt;/p&gt;</description></item></channel></rss>
+&gt;@abyss_74.50&lt;/a&gt;，或到 &lt;a
+href="https://blog-7qj.pages.dev/zh-hant/timeline/#couple"&gt;時間軸&lt;/a&gt; 看我們的即時計時器。&lt;/p&gt;</description></item></channel></rss>

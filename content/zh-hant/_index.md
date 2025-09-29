@@ -14,9 +14,11 @@ layout: "background"
 - 💌 和在台灣的 Paper 每天語音、同步歌單、周末一起做設計 side quest。
 
 ### 從這裡開始
-{{< button href="/zh-hant/about/" >}}認識我們與設備{{< /button >}}
-{{< button href="/zh-hant/timeline/" >}}查看即時計時器{{< /button >}}
-{{< button href="/zh-hant/posts/" >}}閱讀最新筆記{{< /button >}}
+<div class="not-prose flex flex-wrap gap-3">
+	{{< button href="/zh-hant/about/" >}}認識我們與設備{{< /button >}}
+	{{< button href="/zh-hant/timeline/" >}}查看即時計時器{{< /button >}}
+	{{< button href="/zh-hant/posts/" >}}閱讀最新筆記{{< /button >}}
+</div>
 
 ### 工作台 & 興趣
 - **Gentoo / Linux**：打造可重複的 dotfiles、研究 init system、讓重灌變成有趣挑戰。

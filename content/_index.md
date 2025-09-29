@@ -14,9 +14,11 @@ I’m **Zakk**, an Australia-based business student keeping a bilingual log of L
 - 💌 Balancing time zones with Paper in Taiwan through daily check-ins, collaborative playlists, and weekend design jams.
 
 ### Where to start
-{{< button href="/about/" >}}Meet us & the setup{{< /button >}}
-{{< button href="/timeline/" >}}See the live counters{{< /button >}}
-{{< button href="/posts/" >}}Browse recent guides{{< /button >}}
+<div class="not-prose flex flex-wrap gap-3">
+	{{< button href="/about/" >}}Meet us & the setup{{< /button >}}
+	{{< button href="/timeline/" >}}See the live counters{{< /button >}}
+	{{< button href="/posts/" >}}Browse recent guides{{< /button >}}
+</div>
 
 ### Build log & interests
 - **Gentoo / Linux**: reproducible dotfiles, init system experiments, and scripts that make reinstalling fun.

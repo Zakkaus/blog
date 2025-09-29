@@ -1,23 +1,17 @@
 [[main]]
   name = "關於我"
-  pageRef = "about"
+  url = "/zh-hant/about/"
   weight = 10
 
 [[main]]
   name = "文章"
-  pageRef = "posts"
+  url = "/zh-hant/posts/"
   weight = 20
 
 [[main]]
   name = "時間軸"
-  pageRef = "timeline"
+  url = "/zh-hant/timeline/"
   weight = 30
-
-[[main]]
-  identifier = "en"
-  name = "English"
-  url = "/"
-  weight = 100
 
 [[footer]]
   name = "關於我"

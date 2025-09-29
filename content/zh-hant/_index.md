@@ -1,7 +1,7 @@
-title = "首頁"
-description = "記錄在澳洲的學生生活、Linux 筆記，以及和 Paper 的遠距日常。"
-layout = "hero"
-
+---
+title: "首頁"
+description: "記錄在澳洲的學生生活、Linux 筆記，以及和 Paper 的遠距日常。"
+layout: "hero"
 ---
 
 {{< lead >}}

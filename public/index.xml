@@ -1,119 +1,111 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Zakk</title>
-    <link>https://zakk.au/</link>
-    <description>Recent content on Zakk</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <managingEditor>admin@zakk.au (Zakk)</managingEditor>
-    <webMaster>admin@zakk.au (Zakk)</webMaster>
-    <copyright>© 2025 Zakk</copyright>
-    <lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Gentoo Installation Guide (Beginner)</title>
-      <link>https://zakk.au/posts/gentoo-install/</link>
-      <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
-      <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/posts/gentoo-install/</guid>
-      <description>&lt;div
-  
-    class=&#34;flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900&#34;
-  
-  &gt;
-  &lt;span
-    
-      class=&#34;text-primary-400 pe-3 flex items-center&#34;
-    
-    &gt;
-    &lt;span class=&#34;relative block icon&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 512 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M88 48C101.3 48 112 58.75 112 72V120C112 133.3 101.3 144 88 144H40C26.75 144 16 133.3 16 120V72C16 58.75 26.75 48 40 48H88zM480 64C497.7 64 512 78.33 512 96C512 113.7 497.7 128 480 128H192C174.3 128 160 113.7 160 96C160 78.33 174.3 64 192 64H480zM480 224C497.7 224 512 238.3 512 256C512 273.7 497.7 288 480 288H192C174.3 288 160 273.7 160 256C160 238.3 174.3 224 192 224H480zM480 384C497.7 384 512 398.3 512 416C512 433.7 497.7 448 480 448H192C174.3 448 160 433.7 160 416C160 398.3 174.3 384 192 384H480zM16 232C16 218.7 26.75 208 40 208H88C101.3 208 112 218.7 112 232V280C112 293.3 101.3 304 88 304H40C26.75 304 16 293.3 16 280V232zM88 368C101.3 368 112 378.7 112 392V440C112 453.3 101.3 464 88 464H40C26.75 464 16 453.3 16 440V392C16 378.7 26.75 368 40 368H88z&#34;/&gt;&lt;/svg&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on Zakk</title><link>https://zakk.au/</link><description>Recent content in Home on Zakk</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>admin@zakk.au (Zakk)</managingEditor><webMaster>admin@zakk.au (Zakk)</webMaster><copyright>© 2025 Zakk</copyright><lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://zakk.au/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
+I’m &lt;strong&gt;Zakk&lt;/strong&gt;, an Australia-based business student who writes bilingual notes about Gentoo, creative experiments, finance, and the everyday moments I share with Paper and our guinea pigs.
+&lt;/div&gt;
+&lt;div
+class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
+&gt;
+&lt;span
+class="text-primary-400 pe-3 flex items-center"
+&gt;
+&lt;span class="relative block icon"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"&gt;
+&lt;path fill="currentColor" d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/&gt;&lt;/svg&gt;&lt;/span&gt;
 &lt;/span&gt;
-  &lt;/span&gt;
-
-  &lt;span
-    
-      class=&#34;dark:text-neutral-300&#34;
-    
-    &gt;&lt;p&gt;&lt;strong&gt;Quick navigation&lt;/strong&gt;&lt;/p&gt;</description>
-      
-    </item>
-    
-    <item>
-      <title>Gentoo 安裝指南（新手）</title>
-      <link>https://zakk.au/zh-hant/posts/gentoo-install/</link>
-      <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
-      <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/zh-hant/posts/gentoo-install/</guid>
-      <description>&lt;div
-  
-    class=&#34;flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900&#34;
-  
-  &gt;
-  &lt;span
-    
-      class=&#34;text-primary-400 pe-3 flex items-center&#34;
-    
-    &gt;
-    &lt;span class=&#34;relative block icon&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 512 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M88 48C101.3 48 112 58.75 112 72V120C112 133.3 101.3 144 88 144H40C26.75 144 16 133.3 16 120V72C16 58.75 26.75 48 40 48H88zM480 64C497.7 64 512 78.33 512 96C512 113.7 497.7 128 480 128H192C174.3 128 160 113.7 160 96C160 78.33 174.3 64 192 64H480zM480 224C497.7 224 512 238.3 512 256C512 273.7 497.7 288 480 288H192C174.3 288 160 273.7 160 256C160 238.3 174.3 224 192 224H480zM480 384C497.7 384 512 398.3 512 416C512 433.7 497.7 448 480 448H192C174.3 448 160 433.7 160 416C160 398.3 174.3 384 192 384H480zM16 232C16 218.7 26.75 208 40 208H88C101.3 208 112 218.7 112 232V280C112 293.3 101.3 304 88 304H40C26.75 304 16 293.3 16 280V232zM88 368C101.3 368 112 378.7 112 392V440C112 453.3 101.3 464 88 464H40C26.75 464 16 453.3 16 440V392C16 378.7 26.75 368 40 368H88z&#34;/&gt;&lt;/svg&gt;
+&lt;span
+class="dark:text-neutral-300"
+&gt;Paper and I have been long-distance between Australia and Taiwan since &lt;strong&gt;7 Aug 2025&lt;/strong&gt;. We are both pansexual 🩷💛🩵, share playlists, study sessions, late-night design talks, and keep a running counter on the &lt;a
+href="https://zakk.au/timeline/#couple"&gt;Timeline&lt;/a&gt;.&lt;/span&gt;
+&lt;/div&gt;
+&lt;h3 class="relative group"&gt;Snapshot
+&lt;div id="snapshot" class="anchor"&gt;&lt;/div&gt;
+&lt;span
+class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none"&gt;
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#snapshot" aria-label="Anchor"&gt;#&lt;/a&gt;
 &lt;/span&gt;
-  &lt;/span&gt;
-
-  &lt;span
-    
-      class=&#34;dark:text-neutral-300&#34;
-    
-    &gt;&lt;p&gt;&lt;strong&gt;快速導覽&lt;/strong&gt;&lt;/p&gt;</description>
-      
-    </item>
-    
-    <item>
-      <title>Timeline</title>
-      <link>https://zakk.au/timeline/</link>
-      <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
-      <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/timeline/</guid>
-      <description>Live counters for our relationship and guinea pigs.</description>
-      
-    </item>
-    
-    <item>
-      <title>時間軸</title>
-      <link>https://zakk.au/zh-hant/timeline/</link>
-      <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
-      <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/zh-hant/timeline/</guid>
-      <description>我們關係與天竺鼠的即時計時器。</description>
-      
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://zakk.au/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/about/</guid>
-      <description>&lt;p&gt;title = &amp;ldquo;About&amp;rdquo;
-slug = &amp;ldquo;about&amp;rdquo;
-date = 2025-09-01
-lastmod = 2025-09-29
-description = &amp;ldquo;Meet Zakk, an Australia-based student sharing Linux projects, long-distance life with Paper, and guinea pig stories.&amp;rdquo;&lt;/p&gt;</description>
-      
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://zakk.au/zh-hant/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/zh-hant/about/</guid>
-      <description>&lt;p&gt;title = &amp;ldquo;關於我&amp;rdquo;
-slug = &amp;ldquo;about&amp;rdquo;
-date = 2025-09-01
-lastmod = 2025-09-29
-description = &amp;ldquo;關於 Zakk：在澳洲的學生，雙語紀錄 Linux、設計與和 Paper 的遠距生活。&amp;rdquo;&lt;/p&gt;</description>
-      
-    </item>
-    
-  </channel>
-</rss>
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;📍 Based in Sydney (AEST / AEDT) and studying Business.&lt;/li&gt;
+&lt;li&gt;🧠 Interests: Gentoo &amp;amp; Linux, ambient music, design systems, and tidy finance spreadsheets.&lt;/li&gt;
+&lt;li&gt;🎮 Comfort hobbies: long cozy gaming sessions, drawing, listening to Paper narrate daily adventures.&lt;/li&gt;
+&lt;li&gt;🐹 Home life with two Teddy guinea pigs, Potato and Hash Brown.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 class="relative group"&gt;Relationship
+&lt;div id="relationship" class="anchor"&gt;&lt;/div&gt;
+&lt;span
+class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none"&gt;
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#relationship" aria-label="Anchor"&gt;#&lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;
+&lt;p&gt;We first met inside &lt;a
+href="https://www.youtube.com/@xilanceylan"
+target="_blank"
+&gt;Ceylan&lt;/a&gt;’s Discord server. Casual chats became daily check-ins, then a partnership we both call a soulmate match. We plan trips every few months while Paper finishes senior high school in Taiwan and prepares to study in Australia. You can follow Paper at &lt;a
+href="https://www.instagram.com/abyss_74.50/"
+target="_blank"
+&gt;@abyss_74.50&lt;/a&gt; and see how long we’ve been together on the &lt;a
+href="https://zakk.au/timeline/#couple"&gt;Timeline&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Gentoo Installation Guide (Beginner)</title><link>https://zakk.au/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/posts/gentoo-install/</guid><description>&lt;div
+class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
+&gt;
+&lt;span
+class="text-primary-400 pe-3 flex items-center"
+&gt;
+&lt;span class="relative block icon"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"&gt;&lt;path fill="currentColor" d="M88 48C101.3 48 112 58.75 112 72V120C112 133.3 101.3 144 88 144H40C26.75 144 16 133.3 16 120V72C16 58.75 26.75 48 40 48H88zM480 64C497.7 64 512 78.33 512 96C512 113.7 497.7 128 480 128H192C174.3 128 160 113.7 160 96C160 78.33 174.3 64 192 64H480zM480 224C497.7 224 512 238.3 512 256C512 273.7 497.7 288 480 288H192C174.3 288 160 273.7 160 256C160 238.3 174.3 224 192 224H480zM480 384C497.7 384 512 398.3 512 416C512 433.7 497.7 448 480 448H192C174.3 448 160 433.7 160 416C160 398.3 174.3 384 192 384H480zM16 232C16 218.7 26.75 208 40 208H88C101.3 208 112 218.7 112 232V280C112 293.3 101.3 304 88 304H40C26.75 304 16 293.3 16 280V232zM88 368C101.3 368 112 378.7 112 392V440C112 453.3 101.3 464 88 464H40C26.75 464 16 453.3 16 440V392C16 378.7 26.75 368 40 368H88z"/&gt;&lt;/svg&gt;
+&lt;/span&gt;
+&lt;/span&gt;
+&lt;span
+class="dark:text-neutral-300"
+&gt;&lt;p&gt;&lt;strong&gt;Quick navigation&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Gentoo 安裝指南（新手）</title><link>https://zakk.au/zh-hant/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-hant/posts/gentoo-install/</guid><description>&lt;div
+class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
+&gt;
+&lt;span
+class="text-primary-400 pe-3 flex items-center"
+&gt;
+&lt;span class="relative block icon"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"&gt;&lt;path fill="currentColor" d="M88 48C101.3 48 112 58.75 112 72V120C112 133.3 101.3 144 88 144H40C26.75 144 16 133.3 16 120V72C16 58.75 26.75 48 40 48H88zM480 64C497.7 64 512 78.33 512 96C512 113.7 497.7 128 480 128H192C174.3 128 160 113.7 160 96C160 78.33 174.3 64 192 64H480zM480 224C497.7 224 512 238.3 512 256C512 273.7 497.7 288 480 288H192C174.3 288 160 273.7 160 256C160 238.3 174.3 224 192 224H480zM480 384C497.7 384 512 398.3 512 416C512 433.7 497.7 448 480 448H192C174.3 448 160 433.7 160 416C160 398.3 174.3 384 192 384H480zM16 232C16 218.7 26.75 208 40 208H88C101.3 208 112 218.7 112 232V280C112 293.3 101.3 304 88 304H40C26.75 304 16 293.3 16 280V232zM88 368C101.3 368 112 378.7 112 392V440C112 453.3 101.3 464 88 464H40C26.75 464 16 453.3 16 440V392C16 378.7 26.75 368 40 368H88z"/&gt;&lt;/svg&gt;
+&lt;/span&gt;
+&lt;/span&gt;
+&lt;span
+class="dark:text-neutral-300"
+&gt;&lt;p&gt;&lt;strong&gt;快速導覽&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Timeline</title><link>https://zakk.au/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/timeline/</guid><description>Live counters for our relationship and guinea pigs.</description></item><item><title>時間軸</title><link>https://zakk.au/zh-hant/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-hant/timeline/</guid><description>我們關係與天竺鼠的即時計時器。</description></item><item><title>關於我</title><link>https://zakk.au/zh-hant/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-hant/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
+嗨，我是 &lt;strong&gt;Zakk&lt;/strong&gt;。住在澳洲雪梨的商科學生，會用雙語寫 Gentoo / Linux 筆記、設計小實驗、理財心得，以及和 Paper 還有兩隻天竺鼠的生活記事。
+&lt;/div&gt;
+&lt;div
+class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
+&gt;
+&lt;span
+class="text-primary-400 pe-3 flex items-center"
+&gt;
+&lt;span class="relative block icon"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"&gt;
+&lt;path fill="currentColor" d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/&gt;&lt;/svg&gt;&lt;/span&gt;
+&lt;/span&gt;
+&lt;span
+class="dark:text-neutral-300"
+&gt;我和 Paper 從 &lt;strong&gt;2025 年 8 月 7 日&lt;/strong&gt; 開始遠距（澳洲－台灣），我們都是泛性戀 🩷💛🩵，會一起分享每日行程、音樂歌單、設計靈感，也在 &lt;a
+href="https://zakk.au/zh-hant/timeline/#couple"&gt;時間軸&lt;/a&gt; 上記錄相處的天數。&lt;/span&gt;
+&lt;/div&gt;
+&lt;h3 class="relative group"&gt;摘要
+&lt;div id="摘要" class="anchor"&gt;&lt;/div&gt;
+&lt;span
+class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none"&gt;
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%91%98%e8%a6%81" aria-label="Anchor"&gt;#&lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;📍 雪梨生活，時區在 AEST / AEDT，主修商業。&lt;/li&gt;
+&lt;li&gt;🧠 興趣：Gentoo、Linux、氛圍音樂、設計系統、理財與整理生活。&lt;/li&gt;
+&lt;li&gt;🎮 日常娛樂：和 Paper 一起語音、畫畫、打電動、研究設備。&lt;/li&gt;
+&lt;li&gt;🐹 家裡成員：Potato 與 Hash Brown 兩隻 Teddy 天竺鼠。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 class="relative group"&gt;我和 Paper
+&lt;div id="我和-paper" class="anchor"&gt;&lt;/div&gt;
+&lt;span
+class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none"&gt;
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%88%91%e5%92%8c-paper" aria-label="Anchor"&gt;#&lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;
+&lt;p&gt;我們是在 &lt;a
+href="https://www.youtube.com/@xilanceylan"
+target="_blank"
+&gt;Ceylan&lt;/a&gt; 的 Discord 認識，一開始只是聊天分享生活，後來變成每天互相陪伴、同步彼此日程的默契伙伴。我們每隔幾個月會安排見面，Paper 目前在台灣念高三，之後會來澳洲念書。想看我們的日常可以追蹤 Paper 的 IG：&lt;a
+href="https://www.instagram.com/abyss_74.50/"
+target="_blank"
+&gt; @abyss_74.50 &lt;/a&gt;，也可以到 &lt;a
+href="https://zakk.au/zh-hant/timeline/#couple"&gt;時間軸&lt;/a&gt; 看實際天數。&lt;/p&gt;</description></item></channel></rss>

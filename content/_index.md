@@ -1,7 +1,7 @@
-title = "Home"
-description = "Australia-based student sharing Linux notes, creative projects, and long-distance life updates."
-layout = "hero"
-
+---
+title: "Home"
+description: "Australia-based student sharing Linux notes, creative projects, and long-distance life updates."
+layout: "hero"
 ---
 
 {{< lead >}}

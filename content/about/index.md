@@ -1,9 +1,9 @@
-title = "About"
-slug = "about"
-date = 2025-09-01
-lastmod = 2025-09-29
-description = "Meet Zakk, an Australia-based student sharing Linux projects, long-distance life with Paper, and guinea pig stories."
-
+---
+title: "About"
+slug: "about"
+date: 2025-09-01
+lastmod: 2025-09-29
+description: "Meet Zakk, an Australia-based student sharing Linux projects, long-distance life with Paper, and guinea pig stories."
 ---
 
 {{< lead >}}

@@ -14,7 +14,13 @@ title = "Zakk"
   name = "Zakk"
   email = "admin@zakk.au"
   image = "https://avatars.githubusercontent.com/u/221879664?v=4"
-  headline = "居住在澳洲，記錄 Linux 折騰、創作實驗，以及和 Paper 的遠距生活。"
+  headline = """zakk<br>
+📍 澳大利亞 🇦🇺<br>
+🕓 UTC +10 (AEST) ❄️<br>
+❤️ Paper ✨<br>
+🐹 天竺鼠 🥔<br>
+🎮 遊戲 · 🐧 Linux · 💹 金融<br>
+🩷💛🩵"""
   bio = "分享 Gentoo 安裝筆記、硬體設備與天竺鼠生活記事；和 Paper 的雙語日常也會一起更新。"
   links = [
     { github = "https://github.com/Zakkaus" },

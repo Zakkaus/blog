@@ -27,7 +27,8 @@ authorCardShowSocial = true
   showScrollToTop = true
 
 [homepage]
-  layout = "hero"
+  layout = "background"
+  layoutBackgroundBlur = true
   showRecent = true
   showRecentItems = 4
   showMoreLink = true

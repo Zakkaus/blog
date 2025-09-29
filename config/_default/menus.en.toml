@@ -13,12 +13,6 @@
   pageRef = "timeline"
   weight = 30
 
-[[main]]
-  identifier = "zh-hant"
-  name = "中文"
-  url = "/zh-hant/"
-  weight = 100
-
 [[footer]]
   name = "About"
   pageRef = "about"

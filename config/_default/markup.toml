@@ -1,0 +1,13 @@
+defaultMarkdownHandler = "goldmark"
+
+[goldmark]
+  [goldmark.renderer]
+    unsafe = true
+  [goldmark.extensions]
+    table = true
+    strikethrough = true
+    linkify = true
+
+[highlight]
+  style = "github-dark"
+  noClasses = false

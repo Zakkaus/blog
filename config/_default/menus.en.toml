@@ -1,0 +1,35 @@
+[[main]]
+  name = "About"
+  pageRef = "about"
+  weight = 10
+
+[[main]]
+  name = "Posts"
+  pageRef = "posts"
+  weight = 20
+
+[[main]]
+  name = "Timeline"
+  pageRef = "timeline"
+  weight = 30
+
+[[main]]
+  identifier = "zh-hant"
+  name = "中文"
+  url = "/zh-hant/"
+  weight = 100
+
+[[footer]]
+  name = "About"
+  pageRef = "about"
+  weight = 10
+
+[[footer]]
+  name = "Timeline"
+  pageRef = "timeline"
+  weight = 20
+
+[[footer]]
+  name = "Tags"
+  pageRef = "tags"
+  weight = 30

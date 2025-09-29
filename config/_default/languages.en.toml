@@ -1,0 +1,24 @@
+languageCode = "en"
+languageName = "English"
+weight = 1
+title = "Zakk"
+
+[params]
+  displayName = "English"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2 January 2006"
+  description = "Australia-based student writing about Linux, design, finance, and long-distance life with Paper."
+
+[params.author]
+  name = "Zakk"
+  email = "admin@zakk.au"
+  image = "https://avatars.githubusercontent.com/u/221879664?v=4"
+  headline = "Australia-based student documenting tech tinkering, creative experiments, and cozy long-distance life."
+  bio = "I write about Gentoo installations, hardware setups, and the everyday stories I share with Paper and our guinea pigs."
+  links = [
+    { github = "https://github.com/Zakkaus" },
+    { instagram = "https://www.instagram.com/zakk.au/" },
+    { x = "https://x.com/zakkauu" },
+    { email = "mailto:admin@zakk.au" }
+  ]

@@ -1,0 +1,6 @@
+{{ $timeline := resources.Get "js/timeline-counters.js" }}
+{{ if $timeline }}
+  {{ $fingerprint := .Params.fingerprintAlgorithm | default "sha512" }}
+  {{ $script := $timeline | resources.Minify | resources.Fingerprint $fingerprint }}
+  <script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
+{{ end }}

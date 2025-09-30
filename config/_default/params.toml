@@ -31,6 +31,7 @@ fingerprintAlgorithm = "sha512"
 
 [homepage]
   layout = "background"
+  homepageImage = "img/home-hero.webp"
   showRecent = true
   showRecentItems = 4
   showMoreLink = true

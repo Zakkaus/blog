@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>OpenRC on Zakk</title>
-    <link>https://zakk.au/tags/openrc/</link>
+    <link>http://localhost:1313/tags/openrc/</link>
     <description>Recent content in OpenRC on Zakk</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <managingEditor>admin@zakk.au (Zakk)</managingEditor>
     <webMaster>admin@zakk.au (Zakk)</webMaster>
     <copyright>© 2025 Zakk</copyright>
-    <lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/tags/openrc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/openrc/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Gentoo Installation Guide (Beginner)</title>
-      <link>https://zakk.au/posts/gentoo-install/</link>
+      <link>http://localhost:1313/posts/gentoo-install/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/posts/gentoo-install/</guid>
+      <guid>http://localhost:1313/posts/gentoo-install/</guid>
       <description>&lt;div
   
     class=&#34;flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900&#34;
@@ -41,10 +41,10 @@
     
     <item>
       <title>Gentoo 安装指南（新手）</title>
-      <link>https://zakk.au/zh-cn/posts/gentoo-install/</link>
+      <link>http://localhost:1313/zh-cn/posts/gentoo-install/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/zh-cn/posts/gentoo-install/</guid>
+      <guid>http://localhost:1313/zh-cn/posts/gentoo-install/</guid>
       <description>&lt;div
   
     class=&#34;flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900&#34;
@@ -69,10 +69,10 @@
     
     <item>
       <title>Gentoo 安裝指南（新手）</title>
-      <link>https://zakk.au/zh-tw/posts/gentoo-install/</link>
+      <link>http://localhost:1313/zh-tw/posts/gentoo-install/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/zh-tw/posts/gentoo-install/</guid>
+      <guid>http://localhost:1313/zh-tw/posts/gentoo-install/</guid>
       <description>&lt;div
   
     class=&#34;flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900&#34;

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Welcome on Zakk</title>
-    <link>https://zakk.au/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content in Welcome on Zakk</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <managingEditor>admin@zakk.au (Zakk)</managingEditor>
     <webMaster>admin@zakk.au (Zakk)</webMaster>
     <copyright>© 2025 Zakk</copyright>
-    <lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>About</title>
-      <link>https://zakk.au/about/</link>
+      <link>http://localhost:1313/about/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/about/</guid>
+      <guid>http://localhost:1313/about/</guid>
       <description>&lt;div class=&#34;lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl&#34;&gt;
   I’m &lt;strong&gt;Zakk&lt;/strong&gt;, an Australia-based business student who writes bilingual notes about Gentoo, creative experiments, finance, and the everyday moments I share with Paper and our guinea pigs.
 &lt;/div&gt;
@@ -48,7 +48,7 @@
       class=&#34;dark:text-neutral-300&#34;
     
     &gt;Paper and I have been long-distance between Australia and Taiwan since &lt;strong&gt;7 Aug 2025&lt;/strong&gt;. We are both pansexual 🩷💛🩵, share playlists, study sessions, late-night design talks, and keep a running counter on the &lt;a
-  href=&#34;https://zakk.au/timeline/#couple&#34;&gt;Timeline&lt;/a&gt;.&lt;/span&gt;
+  href=&#34;http://localhost:1313/timeline/#couple&#34;&gt;Timeline&lt;/a&gt;.&lt;/span&gt;
 &lt;/div&gt;
 
 
@@ -84,16 +84,16 @@
   href=&#34;https://www.instagram.com/abyss_74.50/&#34;
     target=&#34;_blank&#34;
   &gt;@abyss_74.50&lt;/a&gt; and see how long we’ve been together on the &lt;a
-  href=&#34;https://zakk.au/timeline/#couple&#34;&gt;Timeline&lt;/a&gt;.&lt;/p&gt;</description>
+  href=&#34;http://localhost:1313/timeline/#couple&#34;&gt;Timeline&lt;/a&gt;.&lt;/p&gt;</description>
       
     </item>
     
     <item>
       <title>Gentoo Installation Guide (Beginner)</title>
-      <link>https://zakk.au/posts/gentoo-install/</link>
+      <link>http://localhost:1313/posts/gentoo-install/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/posts/gentoo-install/</guid>
+      <guid>http://localhost:1313/posts/gentoo-install/</guid>
       <description>&lt;div
   
     class=&#34;flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900&#34;
@@ -118,10 +118,10 @@
     
     <item>
       <title>Gentoo 安装指南（新手）</title>
-      <link>https://zakk.au/zh-cn/posts/gentoo-install/</link>
+      <link>http://localhost:1313/zh-cn/posts/gentoo-install/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/zh-cn/posts/gentoo-install/</guid>
+      <guid>http://localhost:1313/zh-cn/posts/gentoo-install/</guid>
       <description>&lt;div
   
     class=&#34;flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900&#34;
@@ -146,10 +146,10 @@
     
     <item>
       <title>Gentoo 安裝指南（新手）</title>
-      <link>https://zakk.au/zh-tw/posts/gentoo-install/</link>
+      <link>http://localhost:1313/zh-tw/posts/gentoo-install/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/zh-tw/posts/gentoo-install/</guid>
+      <guid>http://localhost:1313/zh-tw/posts/gentoo-install/</guid>
       <description>&lt;div
   
     class=&#34;flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900&#34;
@@ -174,20 +174,20 @@
     
     <item>
       <title>Timeline</title>
-      <link>https://zakk.au/timeline/</link>
+      <link>http://localhost:1313/timeline/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/timeline/</guid>
+      <guid>http://localhost:1313/timeline/</guid>
       <description>Live counters for our relationship and guinea pigs.</description>
       
     </item>
     
     <item>
       <title>关于我</title>
-      <link>https://zakk.au/zh-cn/about/</link>
+      <link>http://localhost:1313/zh-cn/about/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/zh-cn/about/</guid>
+      <guid>http://localhost:1313/zh-cn/about/</guid>
       <description>&lt;div class=&#34;lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl&#34;&gt;
   我是 &lt;strong&gt;Zakk&lt;/strong&gt;，住在澳洲的商科学生，用双语记录 Linux 折腾、设计实验、理财系统，以及和 Paper 还有 Hash Brown、Potato 两只天竺鼠的远距日常。
 &lt;/div&gt;
@@ -219,7 +219,7 @@
       class=&#34;dark:text-neutral-300&#34;
     
     &gt;我和 Paper 从 &lt;strong&gt;2025 年 8 月 7 日&lt;/strong&gt; 开始远距（澳洲 ↔ 台湾），两个人都是泛性恋 🩷💛🩵。我们透过歌单、设计灵感与睡前语音维持节奏，并在 &lt;a
-  href=&#34;https://zakk.au/zh-cn/timeline/#couple&#34;&gt;时间轴&lt;/a&gt; 上纪录每一天。&lt;/span&gt;
+  href=&#34;http://localhost:1313/zh-cn/timeline/#couple&#34;&gt;时间轴&lt;/a&gt; 上纪录每一天。&lt;/span&gt;
 &lt;/div&gt;
 
 
@@ -255,36 +255,36 @@
   href=&#34;https://www.instagram.com/abyss_74.50/&#34;
     target=&#34;_blank&#34;
   &gt;@abyss_74.50&lt;/a&gt;，或到 &lt;a
-  href=&#34;https://zakk.au/zh-cn/timeline/#couple&#34;&gt;时间轴&lt;/a&gt; 看我们的即时计时器。&lt;/p&gt;</description>
+  href=&#34;http://localhost:1313/zh-cn/timeline/#couple&#34;&gt;时间轴&lt;/a&gt; 看我们的即时计时器。&lt;/p&gt;</description>
       
     </item>
     
     <item>
       <title>时间轴</title>
-      <link>https://zakk.au/zh-cn/timeline/</link>
+      <link>http://localhost:1313/zh-cn/timeline/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/zh-cn/timeline/</guid>
+      <guid>http://localhost:1313/zh-cn/timeline/</guid>
       <description>我们关系与天竺鼠的即时计时器。</description>
       
     </item>
     
     <item>
       <title>時間軸</title>
-      <link>https://zakk.au/zh-tw/timeline/</link>
+      <link>http://localhost:1313/zh-tw/timeline/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/zh-tw/timeline/</guid>
+      <guid>http://localhost:1313/zh-tw/timeline/</guid>
       <description>我們關係與天竺鼠的即時計時器。</description>
       
     </item>
     
     <item>
       <title>關於我</title>
-      <link>https://zakk.au/zh-tw/about/</link>
+      <link>http://localhost:1313/zh-tw/about/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://zakk.au/zh-tw/about/</guid>
+      <guid>http://localhost:1313/zh-tw/about/</guid>
       <description>&lt;div class=&#34;lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl&#34;&gt;
   我是 &lt;strong&gt;Zakk&lt;/strong&gt;，住在澳洲的商科學生，用雙語記錄 Linux 折騰、設計實驗、理財系統，以及和 Paper 還有 Hash Brown、Potato 兩隻天竺鼠的遠距日常。
 &lt;/div&gt;
@@ -316,7 +316,7 @@
       class=&#34;dark:text-neutral-300&#34;
     
     &gt;我和 Paper 從 &lt;strong&gt;2025 年 8 月 7 日&lt;/strong&gt; 開始遠距（澳洲 ↔ 台灣），兩個人都是泛性戀 🩷💛🩵。我們透過歌單、設計靈感與睡前語音維持節奏，並在 &lt;a
-  href=&#34;https://zakk.au/zh-tw/timeline/#couple&#34;&gt;時間軸&lt;/a&gt; 上紀錄每一天。&lt;/span&gt;
+  href=&#34;http://localhost:1313/zh-tw/timeline/#couple&#34;&gt;時間軸&lt;/a&gt; 上紀錄每一天。&lt;/span&gt;
 &lt;/div&gt;
 
 
@@ -352,7 +352,7 @@
   href=&#34;https://www.instagram.com/abyss_74.50/&#34;
     target=&#34;_blank&#34;
   &gt;@abyss_74.50&lt;/a&gt;，或到 &lt;a
-  href=&#34;https://zakk.au/zh-tw/timeline/#couple&#34;&gt;時間軸&lt;/a&gt; 看我們的即時計時器。&lt;/p&gt;</description>
+  href=&#34;http://localhost:1313/zh-tw/timeline/#couple&#34;&gt;時間軸&lt;/a&gt; 看我們的即時計時器。&lt;/p&gt;</description>
       
     </item>
     

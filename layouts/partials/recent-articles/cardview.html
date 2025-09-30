@@ -1,8 +1,6 @@
 {{ $recentArticles := .Site.Params.homepage.showRecentItems | default 5 }}
-{{ $lang := .Site.Language.Lang }}
 {{ $sections := .Site.Params.mainSections | default (slice "posts") }}
 {{ $pages := where .Site.RegularPages "Type" "in" $sections }}
-{{ $pages = where $pages "Lang" $lang }}
 
 <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
   {{ range first $recentArticles ($pages.ByDate.Reverse) }}

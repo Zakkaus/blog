@@ -57,6 +57,16 @@ list:
   externalurl_title: "Open external link"
   no_articles: "Nothing published here yet."
 
+menu:
+  about: "About"
+  posts: "Posts"
+  timeline: "Timeline"
+  tags: "Tags"
+  github: ""
+  instagram: ""
+  x-twitter: ""
+  email: ""
+
 nav:
   scroll_to_top_title: "Scroll to top"
   skip_to_main: "Skip to main content"

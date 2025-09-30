@@ -1,0 +1,14 @@
+{{- $item := . -}}
+{{- $ctx := . -}}
+{{- if and (reflect.IsMap .) (isset . "item") -}}
+  {{- $item = index . "item" -}}
+  {{- if isset . "ctx" -}}
+    {{- $ctx = index . "ctx" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if $item.HasChildren -}}
+  {{- partial "header/header-option-nested.html" (dict "item" $item "ctx" $ctx) -}}
+{{- else -}}
+  {{- partial "header/header-option-simple.html" (dict "item" $item "ctx" $ctx) -}}
+{{- end -}}

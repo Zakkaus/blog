@@ -2,14 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Zakk</title>
-    <link>http://localhost:1313/zh-tw/tags/</link>
+    <link>https://zakk.au/zh-tw/tags/</link>
     <description>Recent content in Tags on Zakk</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-TW</language>
+    <language>zh-tw</language>
     <managingEditor>admin@zakk.au (Zakk)</managingEditor>
     <webMaster>admin@zakk.au (Zakk)</webMaster>
     <copyright>© 2025 Zakk</copyright>
-    <atom:link href="http://localhost:1313/zh-tw/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zakk.au/zh-tw/tags/index.xml" rel="self" type="application/rss+xml" />
     
   </channel>
 </rss>

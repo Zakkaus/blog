@@ -1,4 +1,4 @@
-languageCode = "zh-TW"
+languageCode = "zh-tw"
 languageName = "正體中文"
 weight = 2
 title = "Zakk"
@@ -31,62 +31,3 @@ title = "Zakk"
     { globe = "https://help.zakk.au" }
   ]
 
-[menu]
-  [[menu.main]]
-    name = "關於我"
-    url = "/zh-tw/about/"
-    weight = 10
-
-  [[menu.main]]
-    name = "關於我"
-    url = "/zh-tw/about/"
-    weight = 10
-
-  [[menu.main]]
-    name = "文章"
-    url = "/zh-tw/posts/"
-    weight = 20
-
-  [[menu.main]]
-    name = "時間軸"
-    url = "/zh-tw/timeline/"
-    weight = 30
-
-  [[menu.main]]
-    identifier = "github"
-    pre = "github"
-    url = "https://github.com/Zakkaus"
-    weight = 200
-
-  [[menu.main]]
-    identifier = "instagram"
-    pre = "instagram"
-    url = "https://www.instagram.com/zakk.au/"
-    weight = 210
-
-  [[menu.main]]
-    identifier = "x-twitter"
-    pre = "x-twitter"
-    url = "https://x.com/zakkauu"
-    weight = 220
-
-  [[menu.main]]
-    identifier = "email"
-    pre = "email"
-    url = "mailto:admin@zakk.au"
-    weight = 230
-
-  [[menu.footer]]
-    name = "關於我"
-    url = "/zh-tw/about/"
-    weight = 10
-
-  [[menu.footer]]
-    name = "時間軸"
-    url = "/zh-tw/timeline/"
-    weight = 20
-
-  [[menu.footer]]
-    name = "標籤"
-    url = "/zh-tw/tags/"
-    weight = 30

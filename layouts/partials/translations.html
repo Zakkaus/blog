@@ -4,6 +4,8 @@
   {{ range $site.Languages }}
     {{ $scratch.Set (printf "label-%s" .Lang) (.Params.displayName | default .LanguageName | default (upper .Lang)) }}
   {{ end }}
+  {{ $currentLang := .Lang }}
+  {{ $currentLabel := .Language.Params.displayName | default .Language.LanguageName | default (upper $currentLang) }}
   <div>
     <div class="cursor-pointer flex items-center nested-menu">
       <span class="me-1">
@@ -12,7 +14,7 @@
       <div
         class="text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400"
         title="{{ .Title }}">
-        {{- i18n "global.language" | markdownify -}}
+        {{- $currentLabel | emojify -}}
       </div>
     </div>
     <div class="absolute menuhide">

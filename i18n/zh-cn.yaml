@@ -57,6 +57,16 @@ list:
   externalurl_title: "开启外部链接"
   no_articles: "这里还没有文章。"
 
+menu:
+  about: "关于我"
+  posts: "文章"
+  timeline: "时间轴"
+  tags: "标签"
+  github: ""
+  instagram: ""
+  x-twitter: ""
+  email: ""
+
 nav:
   scroll_to_top_title: "回到页面顶端"
   skip_to_main: "跳至主内容"

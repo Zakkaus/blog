@@ -1,59 +1,68 @@
 # -- Main Menu --
 # Configure header navigation for the English locale.
 
-[[main]]
-  name = "About"
-  pageRef = "about"
-  weight = 10
+# -- Main Menu --
+# Configure header navigation for the English locale.
 
 [[main]]
-  name = "Posts"
-  pageRef = "posts"
-  weight = 20
+	identifier = "about"
+	name = "About"
+	pageRef = "about"
+	weight = 10
 
 [[main]]
-  name = "Timeline"
-  pageRef = "timeline"
-  weight = 30
+	identifier = "posts"
+	name = "Posts"
+	pageRef = "posts"
+	weight = 20
 
 [[main]]
-  identifier = "github"
-  pre = "github"
-  url = "https://github.com/Zakkaus"
-  weight = 200
+	identifier = "timeline"
+	name = "Timeline"
+	pageRef = "timeline"
+	weight = 30
 
 [[main]]
-  identifier = "instagram"
-  pre = "instagram"
-  url = "https://www.instagram.com/zakk.au/"
-  weight = 210
+	identifier = "github"
+	pre = "github"
+	url = "https://github.com/Zakkaus"
+	weight = 200
 
 [[main]]
-  identifier = "x-twitter"
-  pre = "x-twitter"
-  url = "https://x.com/zakkauu"
-  weight = 220
+	identifier = "instagram"
+	pre = "instagram"
+	url = "https://www.instagram.com/zakk.au/"
+	weight = 210
 
 [[main]]
-  identifier = "email"
-  pre = "email"
-  url = "mailto:admin@zakk.au"
-  weight = 230
+	identifier = "x-twitter"
+	pre = "x-twitter"
+	url = "https://x.com/zakkauu"
+	weight = 220
+
+[[main]]
+	identifier = "email"
+	pre = "email"
+	url = "mailto:admin@zakk.au"
+	weight = 230
 
 # -- Footer Menu --
 # Configure footer navigation for the English locale.
 
 [[footer]]
-  name = "About"
-  pageRef = "about"
-  weight = 10
+	identifier = "about"
+	name = "About"
+	pageRef = "about"
+	weight = 10
 
 [[footer]]
-  name = "Timeline"
-  pageRef = "timeline"
-  weight = 20
+	identifier = "timeline"
+	name = "Timeline"
+	pageRef = "timeline"
+	weight = 20
 
 [[footer]]
-  name = "Tags"
-  pageRef = "tags"
-  weight = 30
+	identifier = "tags"
+	name = "Tags"
+	pageRef = "tags"
+	weight = 30

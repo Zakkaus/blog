@@ -60,34 +60,35 @@
               {{ . | markdownify }}
             </h2>
           {{ end }}
-          {{ $contactButtons := .Site.Params.Author.contactButtons }}
-          {{ if $contactButtons }}
-            <div class="not-prose mt-6 flex flex-wrap justify-center gap-3">
-              {{ range $button := $contactButtons }}
-                {{ $href := $button.href | default $button.url }}
-                {{ $label := $button.label | default "" }}
-                {{ if and $href (ne $label "") }}
-                  {{ $target := $button.target }}
+          {{ with .Site.Params.Author.contactButtons }}
+            {{ $buttonClasses := "inline-flex items-center gap-2 !rounded-md bg-primary-600 px-4 py-2 text-sm font-medium !text-neutral !no-underline transition-colors hover:!bg-primary-500 dark:bg-primary-800 dark:hover:!bg-primary-700" }}
+            <div class="not-prose mt-6 flex flex-wrap items-center justify-center gap-3">
+              {{ range . }}
+                {{ $href := .href | default .url }}
+                {{ $label := .label | default "" }}
+                {{ if and $href (ne (strings.TrimSpace $label) "") }}
+                  {{ $target := .target }}
                   {{ if not $target }}
                     {{ if or (strings.HasPrefix $href "http:") (strings.HasPrefix $href "https:") }}
                       {{ $target = "_blank" }}
                     {{ end }}
                   {{ end }}
-                  {{ $rel := $button.rel }}
+                  {{ $rel := .rel }}
                   {{ if and (not $rel) (eq $target "_blank") }}
                     {{ $rel = "noopener noreferrer" }}
                   {{ end }}
                   <a
-                    class="inline-flex items-center gap-2 !rounded-md bg-primary-600 px-4 py-2 text-sm font-medium !text-neutral !no-underline transition-colors hover:!bg-primary-500 dark:bg-primary-800 dark:hover:!bg-primary-700"
+                    class="{{ $buttonClasses }}"
                     href="{{ $href }}"
+                    aria-label="{{ $label }}"
                     {{ with $target }}target="{{ . }}"{{ end }}
                     {{ with $rel }}rel="{{ . }}"{{ end }}>
-                    {{ with $button.icon }}
+                    {{ with .icon }}
                       <span class="flex items-center text-base leading-none">
                         {{ partial "icon.html" . }}
                       </span>
                     {{ end }}
-                    <span>{{ $label }}</span>
+                    <span class="leading-none">{{ $label }}</span>
                   </a>
                 {{ end }}
               {{ end }}

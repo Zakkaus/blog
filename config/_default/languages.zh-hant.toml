@@ -4,6 +4,7 @@ weight = 2
 title = "Zakk"
 
 [params]
+  logo = "img/logo.webp"
   displayName = "繁體中文"
   isoCode = "zh-Hant"
   rtl = false

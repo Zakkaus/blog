@@ -1,1 +1,1 @@
-{"name":"","short_name":"","icons":[{"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},{"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}],"theme_color":"#ffffff","background_color":"#ffffff","display":"standalone"}
+{"background_color":"#ffffff","display":"standalone","icons":[{"sizes":"192x192","src":"/img/logo_hu_db59d9346c39a3fa.png","type":"image/png"},{"sizes":"512x512","src":"/img/logo_hu_6b301cb9aed873f7.png","type":"image/png"}],"name":"Zakk","short_name":"Zakk","theme_color":"#2563eb"}

@@ -10,12 +10,14 @@ title = "Zakk"
   dateFormat = "2006-01-02"
   logo = "img/logo-small.png"
   description = """
-🩷💛🩵  📍 澳大利亚 🇦🇺  
-🕓 UTC +10 (AEST) ❄️  
-❤️ Paper ✨  
-🐹 天竺鼠 🥔  
-🎮 游戏 · 🐧 Linux · 💹 金融  
+<div class=\"text-center\">
+🩷💛🩵  📍 澳大利亚 🇦🇺<br/>
+🕓 UTC +10 (AEST) ❄️<br/>
+❤️ Paper ✨<br/>
+🐹 天竺鼠 🥔<br/>
+🎮 游戏 · 🐧 Linux · 💹 金融<br/>
 🩷💛🩵
+</div>
 """
 
 [params.author]
@@ -23,12 +25,14 @@ title = "Zakk"
   email = "admin@zakk.au"
   image = "https://avatars.githubusercontent.com/u/221879664?v=4"
   headline = """
-🩷💛🩵  📍 澳大利亚 🇦🇺
-🕓 UTC +10 (AEST) ❄️
-❤️ Paper ✨
-🐹 天竺鼠 🥔
-🎮 游戏 · 🐧 Linux · 💹 金融
+<div class=\"text-center\">
+🩷💛🩵  📍 澳大利亚 🇦🇺<br/>
+🕓 UTC +10 (AEST) ❄️<br/>
+❤️ Paper ✨<br/>
+🐹 天竺鼠 🥔<br/>
+🎮 游戏 · 🐧 Linux · 💹 金融<br/>
 🩷💛🩵
+</div>
 """
   bio = "与 Paper 异地恋，养着 Potato 与 Hash Brown，两只可爱的天竺鼠，同时写 Gentoo 与日常随笔。"
   links = [

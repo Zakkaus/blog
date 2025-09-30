@@ -10,12 +10,14 @@ title = "Zakk"
   dateFormat = "2 January 2006"
   logo = "img/logo-small.png"
   description = """
-📍 Australia 🇦🇺  
-🕓 UTC +10 (AEST) ❄️  
-❤️ Paper ✨  
-🐹 Guinea pigs 🥔  
-🎮 Gaming · 🐧 Linux · 💹 Finance  
+<div class=\"text-center\">
+📍 Australia 🇦🇺<br/>
+🕓 UTC +10 (AEST) ❄️<br/>
+❤️ Paper ✨<br/>
+🐹 Guinea pigs 🥔<br/>
+🎮 Gaming · 🐧 Linux · 💹 Finance<br/>
 🩷💛🩵
+</div>
 """
 
 [params.author]
@@ -23,12 +25,14 @@ title = "Zakk"
   email = "admin@zakk.au"
   image = "https://avatars.githubusercontent.com/u/221879664?v=4"
   headline = """
-📍 Australia 🇦🇺
-🕓 UTC +10 (AEST) ❄️
-❤️ Paper ✨
-🐹 Guinea pigs 🥔
-🎮 Gaming · 🐧 Linux · 💹 Finance
+<div class=\"text-center\">
+📍 Australia 🇦🇺<br/>
+🕓 UTC +10 (AEST) ❄️<br/>
+❤️ Paper ✨<br/>
+🐹 Guinea pigs 🥔<br/>
+🎮 Gaming · 🐧 Linux · 💹 Finance<br/>
 🩷💛🩵
+</div>
 """
   bio = "Long-distance with Paper, raising Potato & Hash Brown, tinkering with Gentoo, and collecting cozy routines."
   links = [

@@ -12,17 +12,17 @@
 
 [[main]]
   name = "关于我"
-  pageRef = "about"
+  url = "/zh-cn/about/"
   weight = 10
 
 [[main]]
   name = "文章"
-  pageRef = "posts"
+  url = "/zh-cn/posts/"
   weight = 20
 
 [[main]]
   name = "时间轴"
-  pageRef = "timeline"
+  url = "/zh-cn/timeline/"
   weight = 30
 
 
@@ -32,10 +32,10 @@
 
  [[footer]]
    name = "标签"
-   pageRef = "tags"
+   url = "/zh-cn/tags/"
    weight = 10
 
  [[footer]]
    name = "作者"
-   pageRef = "authors"
+   url = "/zh-cn/authors/"
    weight = 20

@@ -4,6 +4,7 @@
 {{ range .Site.Home.AllTranslations }}
   {{ $homePages = $homePages | append . }}
 {{ end }}
+{{ $seen := newScratch }}
 {{ if gt (len $homePages) 1 }}
   <div>
     <div class="cursor-pointer flex items-center nested-menu">
@@ -20,25 +21,28 @@
       <div class="pt-2 p-5 mt-2 rounded-xl backdrop-blur shadow-2xl">
         <div class="flex flex-col space-y-3">
           {{ range $home := $homePages }}
-            {{ $langCode := $home.Lang }}
-            {{ $language := index (where $.Site.Languages "Lang" $langCode) 0 }}
-            {{ $targetPage := $currentPage }}
-            {{ if ne $langCode $currentLanguage.Lang }}
-              {{ $translation := index (where $currentPage.Translations "Lang" $langCode) 0 }}
-              {{ if $translation }}
-                {{ $targetPage = $translation }}
-              {{ else }}
-                {{ $targetPage = $home }}
+            {{ $language := $home.Language }}
+            {{ $langCode := $language.Lang }}
+            {{ if not ($seen.Get $langCode) }}
+              {{ $seen.Set $langCode true }}
+              {{ $targetPage := $currentPage }}
+              {{ if ne $langCode $currentLanguage.Lang }}
+                {{ $translation := index (where $currentPage.Translations "Lang" $langCode) 0 }}
+                {{ if $translation }}
+                  {{ $targetPage = $translation }}
+                {{ else }}
+                  {{ $targetPage = $home }}
+                {{ end }}
               {{ end }}
-            {{ end }}
-            {{ if and $language $targetPage }}
-              <a href="{{ $targetPage.RelPermalink }}" class="flex items-center">
-                <p
-                  class="text-sm font-sm hover:text-primary-600 dark:hover:text-primary-400"
-                  title="{{ $targetPage.Title }}">
-                  {{ $language.Params.displayName | emojify }}
-                </p>
-              </a>
+              {{ if and $language $targetPage }}
+                <a href="{{ $targetPage.RelPermalink }}" class="flex items-center">
+                  <p
+                    class="text-sm font-sm hover:text-primary-600 dark:hover:text-primary-400"
+                    title="{{ $targetPage.Title }}">
+                    {{ $language.Params.displayName | emojify }}
+                  </p>
+                </a>
+              {{ end }}
             {{ end }}
           {{ end }}
         </div>

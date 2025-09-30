@@ -25,6 +25,35 @@
   url = "/zh-tw/timeline/"
   weight = 30
 
+[[main]]
+  name = "更多"
+  identifier = "more"
+  weight = 40
+
+[[main]]
+  name = "Matrix 聊天"
+  parent = "more"
+  url = "https://chat.zakk.au/"
+  weight = 41
+
+[[main]]
+  name = "狀態監控"
+  parent = "more"
+  url = "https://status.zakk.au/"
+  weight = 42
+
+[[main]]
+  name = "學生論壇"
+  parent = "more"
+  url = "https://help.zakk.au/"
+  weight = 43
+
+[[main]]
+  name = "Cloudflare 錯誤頁"
+  parent = "more"
+  url = "https://error.zakk.au/"
+  weight = 44
+
 
 # -- Footer Menu --
 # The footer menu is displayed at the bottom of the page, just before

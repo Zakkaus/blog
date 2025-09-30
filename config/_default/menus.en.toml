@@ -25,6 +25,35 @@
   pageRef = "timeline"
   weight = 30
 
+[[main]]
+  name = "More"
+  identifier = "more"
+  weight = 40
+
+[[main]]
+  name = "Matrix Chat"
+  parent = "more"
+  url = "https://chat.zakk.au/"
+  weight = 41
+
+[[main]]
+  name = "Status Dashboard"
+  parent = "more"
+  url = "https://status.zakk.au/"
+  weight = 42
+
+[[main]]
+  name = "Student Forum"
+  parent = "more"
+  url = "https://help.zakk.au/"
+  weight = 43
+
+[[main]]
+  name = "Cloudflare Error Pages"
+  parent = "more"
+  url = "https://error.zakk.au/"
+  weight = 44
+
 
 # -- Footer Menu --
 # The footer menu is displayed at the bottom of the page, just before

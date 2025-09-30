@@ -8,7 +8,7 @@ description: "关于 Zakk：在澳洲的学生，双语纪录 Linux、设计与�
 ---
 
 {{< lead >}}
-我是 **Zakk**，住在澳洲的商科学生，用双语记录 Linux 折腾、设计实验、理财系统，以及和 Paper 还有 Hash Brown、Potato 两只天竺鼠的远距日常。
+我是 **Zakk**，住在澳洲的商科学生，用双语记录 Linux 折腾、设计实验、理财系统，以及和 Paper 还有 脆薯饼、马铃薯 两只天竺鼠的远距日常。
 {{< /lead >}}
 
 {{< alert icon="heart" >}}
@@ -19,20 +19,20 @@ description: "关于 Zakk：在澳洲的学生，双语纪录 Linux、设计与�
 - 📍 澳洲生活，时区 AEST / AEDT，目前主修商业管理。
 - 🧠 兴趣：Gentoo、Linux、氛围音乐、设计系统、理财与整理。
 - 🎮 日常娱乐：和 Paper 一起语音、画图、打电动、研究设备。
-- 🐹 家里成员：Teddy 天竺鼠 Hash Brown 与 Potato。
+- 🐹 家里成员：泰迪 天竺鼠 脆薯饼 与 马铃薯。
 
 ### 我和 Paper
 在 [Ceylan](https://www.youtube.com/@xilanceylan) 的 Discord 认识，从日常聊天变成每天互相陪伴的默契。现在每隔几个月计划见面，Paper 正在台湾念高三，准备来澳洲念大学。如果想看她的视角，可以追踪 [@abyss_74.50](https://www.instagram.com/abyss_74.50/)，或到 [时间轴](/zh-cn/timeline/#couple) 看我们的即时计时器。
 
 ### 天竺鼠
-#### Hash Brown（2025-06-24 出生） {#hash-brown}
-- 浅棕色 Teddy，活力满点，最爱在笼子里冲刺与搬移小屋。
+#### 脆薯饼（2025-06-24 出生） {#hash-brown}
+- 浅棕色 泰迪，活力满点，最爱在笼子里冲刺与搬移小屋。
 - 听到冰箱门「卡」一声就会用「515151」的叫声讨食。
 - 最爱：红／绿甜椒、玉米须、红萝卜。
 - 更多照片在 [Instagram @zakk.au](https://www.instagram.com/zakk.au/)。
 
-#### Potato（2025-07-27 出生） {#potato}
-- 深棕色 Teddy，超爱吃又很勇敢，常把自己埋在牧草里睡觉。
+#### 马铃薯（2025-07-27 出生） {#potato}
+- 深棕色 泰迪，超爱吃又很勇敢，常把自己埋在牧草里睡觉。
 - 醒来立刻回去啃甜椒与玉米须，偶尔边吃边打盹。
 - 最爱：甜椒、玉米须、红萝卜。
 - [时间轴](/zh-cn/timeline/#potato) 上可以看到她的即时计数，也会出现在 IG 限动。

@@ -1,7 +1,7 @@
 <!doctype html>
 {{- $langScratch := newScratch -}}
 {{- $langScratch.Set "code" "" -}}
-{{- $candidates := slice (.Site.Language.Params.htmlCode) (.Site.Params.isoCode) (.Site.Language.Lang) (.Site.LanguageCode) (.Language.Lang) (.Language.LanguageCode) (.Lang) -}}
+{{- $candidates := slice (.Language.Params.htmlCode) (.Site.Language.Params.htmlCode) (.Site.Params.isoCode) (.Language.LanguageCode) (.Language.Lang) (.Site.LanguageCode) (.Site.Language.Lang) (.Lang) -}}
 {{- range $candidates -}}
   {{- if and (eq ($langScratch.Get "code") "") . -}}
     {{- $langScratch.Set "code" . -}}

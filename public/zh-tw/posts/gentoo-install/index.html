@@ -123,13 +123,15 @@
     <meta property="article:tag" content="Linux">
     <meta property="article:tag" content="OpenRC">
     <meta property="article:tag" content="Systemd">
+    <meta property="og:image" content="https://zakk.au/posts/gentoo-install/feature-gentoo-chan.webp">
 
   
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://zakk.au/posts/gentoo-install/feature-gentoo-chan.webp">
   <meta name="twitter:title" content="Gentoo 安裝指南（新手）">
   <meta name="twitter:description" content="從零開始的 Gentoo 安裝教學：分割、Stage3、Portage、USE、Kernel、桌面環境與常見問題完整步驟。">
-<meta name="twitter:image" content="https://zakk.au/img/blowfish_banner.png">
-    <meta property="og:image" content="https://zakk.au/img/blowfish_banner.png">
+<meta name="twitter:image" content="https://zakk.au/posts/gentoo-install/feature-gentoo-chan.webp">
+    <meta property="og:image" content="https://zakk.au/posts/gentoo-install/feature-gentoo-chan.webp">
   <script type="application/ld+json">
   [{
     "@context": "https://schema.org",
@@ -138,7 +140,7 @@
     "name": "Gentoo 安裝指南（新手）",
     "headline": "Gentoo 安裝指南（新手）",
     "description": "從零開始的 Gentoo 安裝教學：分割、Stage3、Portage、USE、Kernel、桌面環境與常見問題完整步驟。",
-    "abstract": "\u003cdiv class=\u0022gentoo-article\u0022\u003e\n\n\u003ch1 class=\u0022relative group\u0022\u003e我的電腦配置（示例） \n    \u003cdiv id=\u0022my-hardware-zh\u0022 class=\u0022anchor\u0022\u003e\u003c\/div\u003e\n    \n    \u003cspan\n        class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none\u0022\u003e\n        \u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline\u0022 href=\u0022#my-hardware-zh\u0022 aria-label=\u0022段落連結\u0022\u003e#\u003c\/a\u003e\n    \u003c\/span\u003e        \n    \n\u003c\/h1\u003e\n\u003cul\u003e\n\u003cli\u003e\u003cstrong\u003eCPU\u003c\/strong\u003e：AMD Ryzen 9 7950X3D（16C\/32T）\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003e主機板\u003c\/strong\u003e：ASUS ROG STRIX X670E-A GAMING WIFI\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003eRAM\u003c\/strong\u003e：64GB DDR5\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003eGPU\u003c\/strong\u003e：NVIDIA RTX 4080 SUPER \u002b AMD iGPU\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003e儲存\u003c\/strong\u003e：NVMe SSD\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003e雙系統\u003c\/strong\u003e：Windows 11 \u002b Gentoo\u003c\/li\u003e\n\u003c\/ul\u003e\n\u003cblockquote\u003e\n\u003cp\u003e以上為示例，步驟對多數 x86_64 平台通用。\u003c\/p\u003e",
+    "abstract": "\u003cdiv class=\u0022gentoo-article\u0022\u003e\n\u003chr\u003e\n\n\u003ch1 class=\u0022relative group\u0022\u003e我的電腦配置（示例） \n    \u003cdiv id=\u0022my-hardware-zh\u0022 class=\u0022anchor\u0022\u003e\u003c\/div\u003e\n    \n    \u003cspan\n        class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none\u0022\u003e\n        \u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline\u0022 href=\u0022#my-hardware-zh\u0022 aria-label=\u0022段落連結\u0022\u003e#\u003c\/a\u003e\n    \u003c\/span\u003e        \n    \n\u003c\/h1\u003e\n\u003cul\u003e\n\u003cli\u003e\u003cstrong\u003eCPU\u003c\/strong\u003e：AMD Ryzen 9 7950X3D（16C\/32T）\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003e主機板\u003c\/strong\u003e：ASUS ROG STRIX X670E-A GAMING WIFI\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003eRAM\u003c\/strong\u003e：64GB DDR5\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003eGPU\u003c\/strong\u003e：NVIDIA RTX 4080 SUPER \u002b AMD iGPU\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003e儲存\u003c\/strong\u003e：NVMe SSD\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003e雙系統\u003c\/strong\u003e：Windows 11 \u002b Gentoo\u003c\/li\u003e\n\u003c\/ul\u003e\n\u003cblockquote\u003e\n\u003cp\u003e以上為示例，步驟對多數 x86_64 平台通用。\u003c\/p\u003e",
     "inLanguage": "zh-tw",
     "url" : "https:\/\/zakk.au\/zh-tw\/posts\/gentoo-install\/",
     "author" : {
@@ -508,12 +510,6 @@
           
             
             
-          
-            
-            
-          
-            
-            
               
               
               
@@ -656,12 +652,6 @@
                   class="text-sm font-sm hover:text-primary-600 dark:hover:text-primary-400"
                   title="Gentoo Installation Guide (Beginner)">English</p>
               </a>
-            
-          
-            
-            
-          
-            
             
           
             
@@ -953,12 +943,6 @@
       
       
         
-  
-    
-      
-    
-  
-
 
 
     <div id="hero" class="h-[150px] md:h-[200px]"></div>
@@ -970,7 +954,7 @@
     
     <img
       id="background-image"
-      src="/img/home-hero_hu_6aa3b5d70be95ab.webp"
+      src="/posts/gentoo-install/feature-gentoo-chan_hu_2f51d85f3f019be4.webp"
       alt="Background Image"
       class="absolute inset-0 w-full h-full object-cover">
     <div
@@ -991,7 +975,7 @@
       integrity="sha512-AKV8c&#43;oS8sqymAw8PWSeifbYLxkPdLvitn8vXjmrfQMuzkcIZADKBTlnWKrOEymdpJrKQ&#43;pkPSYl5ixQYmehaQ=="
       data-blur-id="background-blur"
       data-image-id="background-image"
-      data-image-url="/img/home-hero.webp"></script>
+      data-image-url="/posts/gentoo-install/feature-gentoo-chan.webp"></script>
   
       
     
@@ -1096,7 +1080,7 @@
 
 <span class="mb-[2px]">
   <a
-    href="https://github.com/Zakkaus/blog/tree/main/content/posts/gentoo-install.md"
+    href="https://github.com/Zakkaus/blog/tree/main/content/posts/gentoo-install/index.zh-tw.md"
     class="text-lg hover:text-primary-500"
     rel="noopener noreferrer"
     target="_blank"
@@ -1593,6 +1577,7 @@
 
         <div class="article-content max-w-prose mb-20">
           <div class="gentoo-article">
+<hr>
 
 <h1 class="relative group">我的電腦配置（示例） 
     <div id="my-hardware-zh" class="anchor"></div>
@@ -2875,20 +2860,14 @@ UUID=&lt;UUID-ROOT&gt; /home  btrfs  noatime,compress=zstd,subvol=@home 0 2
           
           
         
-          
-          
-        
-          
-          
-        
         
         
         <script
           type="text/javascript"
           src="/js/page.min.54b6f4371722649edbe871e431d8670d670878c22be8f36e229fe53cc9b786fe25a834def5e6de621f7a3e37b72bc8cd73839aa5ed907ed6cbd45cd3e1b0fa20.js"
           integrity="sha512-VLb0NxciZJ7b6HHkMdhnDWcIeMIr6PNuIp/lPMm3hv4lqDTe9ebeYh96Pje3K8jNc4Oape2QftbL1FzT4bD6IA=="
-          data-oid="views_posts/gentoo-install.md"
-          data-oid-likes="likes_posts/gentoo-install.md"></script>
+          data-oid="views_posts/gentoo-install/index.md"
+          data-oid-likes="likes_posts/gentoo-install/index.md"></script>
       
     </section>
 

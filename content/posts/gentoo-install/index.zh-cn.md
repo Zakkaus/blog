@@ -9,7 +9,6 @@ description: "从零开始的 Gentoo 安装教学：分割、Stage3、Portage、
 ShowToc: false        # 关闭主题自动 TOC（避免与自订 TOC 重复）
 TocOpen: false
 translationKey: "gentoo-install"
-images: ["/images/gentoo-chan.webp"]
 ---
 <div class="gentoo-article">
 

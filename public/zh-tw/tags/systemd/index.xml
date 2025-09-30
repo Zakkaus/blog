@@ -18,6 +18,7 @@
       <author>admin@zakk.au (Zakk)</author>
       <guid>https://zakk.au/zh-tw/posts/gentoo-install/</guid>
       <description>&lt;div class=&#34;gentoo-article&#34;&gt;
+&lt;hr&gt;
 
 &lt;h1 class=&#34;relative group&#34;&gt;我的電腦配置（示例） 
     &lt;div id=&#34;my-hardware-zh&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;
@@ -38,7 +39,7 @@
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;以上為示例，步驟對多數 x86_64 平台通用。&lt;/p&gt;</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://zakk.au/posts/gentoo-install/feature-gentoo-chan.webp" />
     </item>
     
   </channel>

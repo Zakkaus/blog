@@ -123,13 +123,15 @@
     <meta property="article:tag" content="Linux">
     <meta property="article:tag" content="OpenRC">
     <meta property="article:tag" content="Systemd">
+    <meta property="og:image" content="https://zakk.au/posts/gentoo-install/feature-gentoo-chan.webp">
 
   
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://zakk.au/posts/gentoo-install/feature-gentoo-chan.webp">
   <meta name="twitter:title" content="Gentoo Installation Guide (Beginner)">
   <meta name="twitter:description" content="Beginner friendly Gentoo install: partitioning, Stage3, Portage, USE, kernel, desktop environments, FAQ.">
-<meta name="twitter:image" content="https://zakk.au/img/blowfish_banner.png">
-    <meta property="og:image" content="https://zakk.au/img/blowfish_banner.png">
+<meta name="twitter:image" content="https://zakk.au/posts/gentoo-install/feature-gentoo-chan.webp">
+    <meta property="og:image" content="https://zakk.au/posts/gentoo-install/feature-gentoo-chan.webp">
   <script type="application/ld+json">
   [{
     "@context": "https://schema.org",
@@ -138,7 +140,7 @@
     "name": "Gentoo Installation Guide (Beginner)",
     "headline": "Gentoo Installation Guide (Beginner)",
     "description": "Beginner friendly Gentoo install: partitioning, Stage3, Portage, USE, kernel, desktop environments, FAQ.",
-    "abstract": "\u003cdiv class=\u0022gentoo-article\u0022\u003e\n\n\u003ch1 class=\u0022relative group\u0022\u003eMy Hardware (Example) \n    \u003cdiv id=\u0022my-hardware-example\u0022 class=\u0022anchor\u0022\u003e\u003c\/div\u003e\n    \n    \u003cspan\n        class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none\u0022\u003e\n        \u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline\u0022 href=\u0022#my-hardware-example\u0022 aria-label=\u0022Anchor\u0022\u003e#\u003c\/a\u003e\n    \u003c\/span\u003e        \n    \n\u003c\/h1\u003e\n\u003cul\u003e\n\u003cli\u003e\u003cstrong\u003eCPU\u003c\/strong\u003e: AMD Ryzen 9 7950X3D (16C\/32T)\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003eMotherboard\u003c\/strong\u003e: ASUS ROG STRIX X670E-A GAMING WIFI\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003eRAM\u003c\/strong\u003e: 64GB DDR5\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003eGPU\u003c\/strong\u003e: NVIDIA RTX 4080 SUPER \u002b AMD iGPU\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003eStorage\u003c\/strong\u003e: NVMe SSD\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003eDual boot\u003c\/strong\u003e: Windows 11 \u002b Gentoo\u003c\/li\u003e\n\u003c\/ul\u003e\n\u003cblockquote\u003e\n\u003cp\u003eExample only. Steps apply to most x86_64 hardware.\u003c\/p\u003e",
+    "abstract": "\u003cdiv\n  \n    class=\u0022flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900\u0022\n  \n  \u003e\n  \u003cspan\n    \n      class=\u0022text-primary-400 pe-3 flex items-center\u0022\n    \n    \u003e\n    \u003cspan class=\u0022relative block icon\u0022\u003e\u003csvg xmlns=\u0022http:\/\/www.w3.org\/2000\/svg\u0022 viewBox=\u00220 0 512 512\u0022\u003e\u003cpath fill=\u0022currentColor\u0022 d=\u0022M88 48C101.3 48 112 58.75 112 72V120C112 133.3 101.3 144 88 144H40C26.75 144 16 133.3 16 120V72C16 58.75 26.75 48 40 48H88zM480 64C497.7 64 512 78.33 512 96C512 113.7 497.7 128 480 128H192C174.3 128 160 113.7 160 96C160 78.33 174.3 64 192 64H480zM480 224C497.7 224 512 238.3 512 256C512 273.7 497.7 288 480 288H192C174.3 288 160 273.7 160 256C160 238.3 174.3 224 192 224H480zM480 384C497.7 384 512 398.3 512 416C512 433.7 497.7 448 480 448H192C174.3 448 160 433.7 160 416C160 398.3 174.3 384 192 384H480zM16 232C16 218.7 26.75 208 40 208H88C101.3 208 112 218.7 112 232V280C112 293.3 101.3 304 88 304H40C26.75 304 16 293.3 16 280V232zM88 368C101.3 368 112 378.7 112 392V440C112 453.3 101.3 464 88 464H40C26.75 464 16 453.3 16 440V392C16 378.7 26.75 368 40 368H88z\u0022\/\u003e\u003c\/svg\u003e\n\u003c\/span\u003e\n  \u003c\/span\u003e\n\n  \u003cspan\n    \n      class=\u0022dark:text-neutral-300\u0022\n    \n    \u003e\u003cp\u003e\u003cstrong\u003eQuick navigation\u003c\/strong\u003e\u003c\/p\u003e",
     "inLanguage": "en",
     "url" : "https:\/\/zakk.au\/posts\/gentoo-install\/",
     "author" : {
@@ -154,7 +156,7 @@
     "keywords": ["Gentoo","Linux","OpenRC","systemd"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "1200"
+    "wordCount": "1270"
   }]
   </script>
 
@@ -508,12 +510,6 @@
           
             
             
-          
-            
-            
-          
-            
-            
               
               
               
@@ -656,12 +652,6 @@
                   class="text-sm font-sm hover:text-primary-600 dark:hover:text-primary-400"
                   title="Gentoo Installation Guide (Beginner)">English</p>
               </a>
-            
-          
-            
-            
-          
-            
             
           
             
@@ -953,12 +943,6 @@
       
       
         
-  
-    
-      
-    
-  
-
 
 
     <div id="hero" class="h-[150px] md:h-[200px]"></div>
@@ -970,7 +954,7 @@
     
     <img
       id="background-image"
-      src="/img/home-hero_hu_6aa3b5d70be95ab.webp"
+      src="/posts/gentoo-install/feature-gentoo-chan_hu_2f51d85f3f019be4.webp"
       alt="Background Image"
       class="absolute inset-0 w-full h-full object-cover">
     <div
@@ -991,7 +975,7 @@
       integrity="sha512-AKV8c&#43;oS8sqymAw8PWSeifbYLxkPdLvitn8vXjmrfQMuzkcIZADKBTlnWKrOEymdpJrKQ&#43;pkPSYl5ixQYmehaQ=="
       data-blur-id="background-blur"
       data-image-id="background-image"
-      data-image-url="/img/home-hero.webp"></script>
+      data-image-url="/posts/gentoo-install/feature-gentoo-chan.webp"></script>
   
       
     
@@ -1576,9 +1560,83 @@
         
 
         <div class="article-content max-w-prose mb-20">
-          <div class="gentoo-article">
+          
+  
+  
+  
+  
 
-<h1 class="relative group">My Hardware (Example) 
+
+
+<div
+  
+    class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
+  
+  >
+  <span
+    
+      class="text-primary-400 pe-3 flex items-center"
+    
+    >
+    <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M88 48C101.3 48 112 58.75 112 72V120C112 133.3 101.3 144 88 144H40C26.75 144 16 133.3 16 120V72C16 58.75 26.75 48 40 48H88zM480 64C497.7 64 512 78.33 512 96C512 113.7 497.7 128 480 128H192C174.3 128 160 113.7 160 96C160 78.33 174.3 64 192 64H480zM480 224C497.7 224 512 238.3 512 256C512 273.7 497.7 288 480 288H192C174.3 288 160 273.7 160 256C160 238.3 174.3 224 192 224H480zM480 384C497.7 384 512 398.3 512 416C512 433.7 497.7 448 480 448H192C174.3 448 160 433.7 160 416C160 398.3 174.3 384 192 384H480zM16 232C16 218.7 26.75 208 40 208H88C101.3 208 112 218.7 112 232V280C112 293.3 101.3 304 88 304H40C26.75 304 16 293.3 16 280V232zM88 368C101.3 368 112 378.7 112 392V440C112 453.3 101.3 464 88 464H40C26.75 464 16 453.3 16 440V392C16 378.7 26.75 368 40 368H88z"/></svg>
+</span>
+  </span>
+
+  <span
+    
+      class="dark:text-neutral-300"
+    
+    ><p><strong>Quick navigation</strong></p>
+<ul>
+<li><a
+  href="#my-hardware-example">My Hardware (Example)</a></li>
+<li><a
+  href="#0-download-create-installation-media">0. Download &amp; Create Installation Media</a></li>
+<li><a
+  href="#1-boot-network">1. Boot &amp; Network</a></li>
+<li><a
+  href="#2-partitioning-lsblk-and-cfdisk">2. Partitioning</a></li>
+<li><a
+  href="#3-filesystem-formatting-mounting-ext4-xfs-btrfs">3. Filesystem Formatting &amp; Mounting</a></li>
+<li><a
+  href="#4-download-stage3-mount-system-directories-chroot">4. Stage3 &amp; chroot</a></li>
+<li><a
+  href="#5-portage-mirrors-with-full-makeconf-example">5. Portage &amp; Mirrors</a></li>
+<li><a
+  href="#6-use-flags-licenses-beginner-solutions">6. USE Flags &amp; Licenses</a></li>
+<li><a
+  href="#7-profile-selection-desktop-server">7. Profile Selection</a></li>
+<li><a
+  href="#8-localization-language-timezone">8. Localization</a></li>
+<li><a
+  href="#9-kernel-selection-compilation-full-commands">9. Kernel</a></li>
+<li><a
+  href="#10-generate-fstab-ext4-btrfs-examples">10. fstab</a></li>
+<li><a
+  href="#11-install-bootloader-grub-with-os-prober">11. GRUB</a></li>
+<li><a
+  href="#12-enable-networking-openrc-systemd">12. Networking</a></li>
+<li><a
+  href="#13-wayland-x11-choice-use">13. Wayland / X11</a></li>
+<li><a
+  href="#14-gpu-drivers-cpu-microcode">14. GPU &amp; Microcode</a></li>
+<li><a
+  href="#15-desktop-environments-optional">15. Desktop Environments</a></li>
+<li><a
+  href="#16-users-sudo">16. Users &amp; sudo</a></li>
+<li><a
+  href="#17-ssh-optional">17. SSH</a></li>
+<li><a
+  href="#18-reboot">18. Reboot</a></li>
+<li><a
+  href="#faq">FAQ</a></li>
+<li><a
+  href="#references">References</a></li>
+</ul></span>
+</div>
+
+
+<h1 class="relative group">💻 My Hardware (Example) 
     <div id="my-hardware-example" class="anchor"></div>
     
     <span
@@ -2507,34 +2565,6 @@ UUID=&lt;UUID-ROOT&gt; /home  btrfs  noatime,compress=zstd,subvol=@home 0 2
         
       
         
-          
-        
-      
-    
-    
-  
-    
-    
-    
-      
-      
-        
-          
-        
-      
-        
-      
-    
-    
-  
-    
-    
-    
-      
-      
-        
-      
-        
       
     
     
@@ -2878,12 +2908,6 @@ UUID=&lt;UUID-ROOT&gt; /home  btrfs  noatime,compress=zstd,subvol=@home 0 2
       
       
         
-        
-          
-          
-        
-          
-          
         
           
           

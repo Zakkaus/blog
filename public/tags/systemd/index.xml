@@ -17,7 +17,9 @@
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
       <guid>https://zakk.au/posts/gentoo-install/</guid>
-      <description>&lt;h1 class=&#34;relative group&#34;&gt;💻 My Hardware (Example) 
+      <description>&lt;div class=&#34;gentoo-article&#34;&gt;
+
+&lt;h1 class=&#34;relative group&#34;&gt;My Hardware (Example) 
     &lt;div id=&#34;my-hardware-example&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;
     
     &lt;span

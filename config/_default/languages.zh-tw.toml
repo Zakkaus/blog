@@ -35,7 +35,7 @@ title = "Zakk"
 🩷💛🩵
 </div>
 """
-  bio = "與 Paper 遠距離戀愛，養著 Potato 及 Hash Brown，撰寫 Gentoo 筆記與生活雜記。"
+  bio = "在澳洲澳洲學習商科與 Paper 遠距離戀愛，養著 馬鈴薯 及 脆薯餅，撰寫 Linux 筆記與生活雜記。"
   links = [
     { instagram = "https://www.instagram.com/zakk.au/" },
     { github = "https://github.com/Zakkaus" },

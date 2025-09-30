@@ -3,23 +3,23 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>http://localhost:1313/zh-tw/</loc>
+    <loc>https://zakk.au/zh-tw/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="http://localhost:1313/"
+      href="https://zakk.au/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="zh-cn"
-      href="http://localhost:1313/zh-cn/"
+      href="https://zakk.au/zh-cn/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="zh-tw"
-      href="http://localhost:1313/zh-tw/"
+      href="https://zakk.au/zh-tw/"
     />
   </url>
 </urlset>

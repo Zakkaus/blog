@@ -4,7 +4,7 @@ weight = 2
 title = "Zakk"
 
 [params]
-  logo = "img/logo.webp"
+  logo = "img/logo-small.png"
   displayName = "繁體中文"
   isoCode = "zh-Hant"
   rtl = false
@@ -28,27 +28,3 @@ title = "Zakk"
     { x = "https://x.com/zakkauu" },
     { email = "mailto:admin@zakk.au" }
   ]
-  [[params.author.contactButtons]]
-    label = "Instagram：@zakk.au"
-    href = "https://www.instagram.com/zakk.au/"
-    icon = "instagram"
-
-  [[params.author.contactButtons]]
-    label = "GitHub：Zakkaus"
-    href = "https://github.com/Zakkaus"
-    icon = "github"
-
-  [[params.author.contactButtons]]
-    label = "X：@zakkauu"
-    href = "https://x.com/zakkauu"
-    icon = "x-twitter"
-
-  [[params.author.contactButtons]]
-    label = "Email：admin@zakk.au"
-    href = "mailto:admin@zakk.au"
-    icon = "envelope"
-
-  [[params.author.contactButtons]]
-    label = "論壇：help.zakk.au"
-    href = "https://help.zakk.au"
-    icon = "comment"

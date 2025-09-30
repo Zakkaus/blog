@@ -9,7 +9,14 @@ title = "Zakk"
   rtl = false
   dateFormat = "2006年1月2日"
   logo = "img/logo-small.png"
-  description = "雙語分享 Gentoo 筆記、設計實驗、與 Paper 的遠距生活還有兩隻天竺鼠。"
+  description = """
+🩷💛🩵  📍 澳大利亞 🇦🇺  
+🕓 UTC +10 (AEST) ❄️  
+❤️ Paper ✨  
+🐹 天竺鼠 🥔  
+🎮 遊戲 · 🐧 Linux · 💹 金融  
+🩷💛🩵
+"""
 
 [params.author]
   name = "Zakk"

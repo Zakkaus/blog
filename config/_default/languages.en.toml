@@ -9,7 +9,14 @@ title = "Zakk"
   rtl = false
   dateFormat = "2 January 2006"
   logo = "img/logo-small.png"
-  description = "Bilingual Gentoo notes, cozy design experiments, and long-distance life with Paper."
+  description = """
+📍 Australia 🇦🇺  
+🕓 UTC +10 (AEST) ❄️  
+❤️ Paper ✨  
+🐹 Guinea pigs 🥔  
+🎮 Gaming · 🐧 Linux · 💹 Finance  
+🩷💛🩵
+"""
 
 [params.author]
   name = "Zakk"

@@ -9,8 +9,8 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-Hant"
-      href="https://blog-7qj.pages.dev/zh-hant/"
+      hreflang="zh-tw"
+      href="https://blog-7qj.pages.dev/zh-tw/"
     />
     <xhtml:link
       rel="alternate"
@@ -42,13 +42,13 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-hant/</loc>
+    <loc>https://blog-7qj.pages.dev/zh-tw/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-hant/posts/</loc>
+    <loc>https://blog-7qj.pages.dev/zh-tw/posts/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
@@ -66,7 +66,7 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-hant/about/"
+      href="https://blog-7qj.pages.dev/zh-tw/about/"
     />
     <xhtml:link
       rel="alternate"
@@ -87,7 +87,7 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-hant/posts/gentoo-install/"
+      href="https://blog-7qj.pages.dev/zh-tw/posts/gentoo-install/"
     />
     <xhtml:link
       rel="alternate"
@@ -108,7 +108,7 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-hant/posts/gentoo-install/"
+      href="https://blog-7qj.pages.dev/zh-tw/posts/gentoo-install/"
     />
     <xhtml:link
       rel="alternate"
@@ -117,7 +117,7 @@
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-hant/posts/gentoo-install/</loc>
+    <loc>https://blog-7qj.pages.dev/zh-tw/posts/gentoo-install/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
@@ -134,7 +134,7 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-hant/posts/gentoo-install/"
+      href="https://blog-7qj.pages.dev/zh-tw/posts/gentoo-install/"
     />
   </url>
   <url>
@@ -150,7 +150,7 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-hant/timeline/"
+      href="https://blog-7qj.pages.dev/zh-tw/timeline/"
     />
     <xhtml:link
       rel="alternate"
@@ -171,7 +171,7 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-hant/about/"
+      href="https://blog-7qj.pages.dev/zh-tw/about/"
     />
     <xhtml:link
       rel="alternate"
@@ -192,7 +192,7 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-hant/timeline/"
+      href="https://blog-7qj.pages.dev/zh-tw/timeline/"
     />
     <xhtml:link
       rel="alternate"
@@ -201,7 +201,7 @@
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-hant/timeline/</loc>
+    <loc>https://blog-7qj.pages.dev/zh-tw/timeline/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
@@ -218,11 +218,11 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-hant/timeline/"
+      href="https://blog-7qj.pages.dev/zh-tw/timeline/"
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-hant/about/</loc>
+    <loc>https://blog-7qj.pages.dev/zh-tw/about/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
@@ -239,7 +239,7 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-hant/about/"
+      href="https://blog-7qj.pages.dev/zh-tw/about/"
     />
   </url>
 </urlset>

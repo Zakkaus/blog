@@ -4,19 +4,25 @@
   window.__HB_INIT__ = true;
 
   const LABELS = {
-    en:       { home: "Home",  posts: "Posts",  about: "About",  search: "Search" },
-    "zh-hant":{ home: "首頁",  posts: "文章",   about: "關於我", search: "搜尋" }
+    en:    { home: "Home",  posts: "Posts",  about: "About",  search: "Search" },
+    "zh-tw": { home: "首頁",  posts: "文章",   about: "關於我", search: "搜尋" },
+    "zh-cn": { home: "首页",  posts: "文章",   about: "关于我", search: "搜索" }
   };
 
   function detectLang() {
-    if (location.pathname.startsWith("/zh-hant/")) return "zh-hant";
+    if (location.pathname.startsWith("/zh-tw/")) return "zh-tw";
+    if (location.pathname.startsWith("/zh-cn/")) return "zh-cn";
     const h = (document.documentElement.lang || "").toLowerCase();
-    if (h.startsWith("zh")) return "zh-hant";
+    if (h.startsWith("zh-tw") || h.startsWith("zh-hant") || h.startsWith("zh_hant")) return "zh-tw";
+    if (h.startsWith("zh-cn") || h.startsWith("zh-hans") || h.startsWith("zh_hans")) return "zh-cn";
+    if (h.startsWith("zh")) return "zh-tw";
     return "en";
   }
 
   function prefix(lang) {
-    return lang === "zh-hant" ? "/zh-hant" : "";
+    if (lang === "zh-tw") return "/zh-tw";
+    if (lang === "zh-cn") return "/zh-cn";
+    return "";
   }
 
   function ensureCSS() {
@@ -120,9 +126,11 @@
       return ('/' + p).replace(/\/+/g, '/').replace(/\/$/, '');
     };
 
-    const lang = (document.documentElement.lang || '').toLowerCase();
-    const isZh = lang.startsWith('zh');
-    const timelineHref = isZh ? '/zh-hant/timeline/' : '/timeline/';
+    const langAttr = (document.documentElement.lang || '').toLowerCase();
+    const isZhTw = langAttr.startsWith('zh-tw') || langAttr.startsWith('zh-hant') || langAttr.startsWith('zh_hant');
+    const isZhCn = langAttr.startsWith('zh-cn') || langAttr.startsWith('zh-hans') || langAttr.startsWith('zh_hans');
+    const isZh = isZhTw || isZhCn;
+    const timelineHref = isZhCn ? '/zh-cn/timeline/' : isZhTw ? '/zh-tw/timeline/' : '/timeline/';
     const timelinePathNorm = normalize(timelineHref);
 
     const currentPathNorm = normalize(window.location.pathname);
@@ -140,7 +148,7 @@
       a.className = (extraClass ? extraClass + ' ' : '') + 'nav-timeline';
       // 內容：與其他項一致 = 純文字 + emoji（不做額外位移）
       // 目前其他導航是直接寫 emoji 和文字在同一個 <a>，所以這裡保持簡單
-      a.textContent = (isZh ? '🕒 天數' : '🕒 Days');
+      a.textContent = (isZhCn ? '🕒 天数' : isZhTw ? '🕒 天數' : '🕒 Days');
       ensureActive(a);
       return a;
     };
@@ -176,7 +184,7 @@
         existingMobile.setAttribute('href', timelineHref);
         ensureActive(existingMobile);
         // 若手機版需要與桌面版相同文字格式，確保內容同步
-        existingMobile.textContent = (isZh ? '🕒 天數' : '🕒 Days');
+        existingMobile.textContent = (isZhCn ? '🕒 天数' : isZhTw ? '🕒 天數' : '🕒 Days');
       }
     }
 

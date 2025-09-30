@@ -5,7 +5,7 @@ title = "Zakk"
 
 [params]
   displayName = "繁體中文"
-  isoCode = "zh-Hant"
+  isoCode = "zh-TW"
   rtl = false
   dateFormat = "2006年1月2日"
   logo = "img/logo-small.png"

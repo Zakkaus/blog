@@ -962,7 +962,8 @@ body.dark .about-page .about-contacts a:hover {
 
 /* 保險：移除語系特殊覆寫造成的差異 */
 html[lang="en"] .about-page .about-contacts a,
-html[lang="zh-hant"] .about-page .about-contacts a {
+html[lang="zh-tw"] .about-page .about-contacts a,
+html[lang="zh-Hant"] .about-page .about-contacts a {
   font-size:.72rem !important;
   padding:.46rem .95rem .50rem !important;
   border-radius:16px !important;
@@ -1067,8 +1068,14 @@ html[lang="en"] .about-page .about-contacts li .contact-label{
 }
 /* === End EN About Contact override === */
 
-/* === zh-hant About Hero Instagram 重新建立扁平高亮（移除多餘膠囊圓角） === */
-html[lang="zh-hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]{
+/* === zh-tw About Hero Instagram 重新建立扁平高亮（移除多餘膠囊圓角） === */
+html[lang="zh-tw"],
+html[lang="zh-Hant"] {
+  --zh-traditional-lang: 1;
+}
+
+html[lang="zh-tw"] .about-page .about-hero a.blue-highlight[href*="instagram.com"],
+html[lang="zh-Hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]{
   background:linear-gradient(to top,rgba(29,111,255,.35),rgba(29,111,255,0) 65%) !important;
   color:#1d6fff !important;
   padding:0 .2rem !important;
@@ -1082,11 +1089,13 @@ html[lang="zh-hant"] .about-page .about-hero a.blue-highlight[href*="instagram.c
   text-decoration:none !important;
   transform:none !important;
 }
-html[lang="zh-hant"] body.dark .about-page .about-hero a.blue-highlight[href*="instagram.com"]{
+html[lang="zh-tw"] body.dark .about-page .about-hero a.blue-highlight[href*="instagram.com"],
+html[lang="zh-Hant"] body.dark .about-page .about-hero a.blue-highlight[href*="instagram.com"]{
   background:linear-gradient(to top,rgba(29,111,255,.55),rgba(29,111,255,0) 65%) !important;
   color:#8bc4ff !important;
 }
-html[lang="zh-hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]:hover{
+html[lang="zh-tw"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]:hover,
+html[lang="zh-Hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]:hover{
   background:linear-gradient(to top,rgba(29,111,255,.55),rgba(29,111,255,0) 65%) !important;
   color:#fff !important;
   text-decoration:none !important;
@@ -1095,13 +1104,16 @@ html[lang="zh-hant"] .about-page .about-hero a.blue-highlight[href*="instagram.c
   transform:none !important;
 }
 /* 清除任何殘留 pseudo 造成的圓角/膠囊效果 */
-html[lang="zh-hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]::before,
-html[lang="zh-hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]::after{
+html[lang="zh-tw"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]::before,
+html[lang="zh-tw"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]::after,
+html[lang="zh-Hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]::before,
+html[lang="zh-Hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]::after{
   content:none !important;
   display:none !important;
 }
 /* 內部 strong 不再疊加背景 */
-html[lang="zh-hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"] strong{
+html[lang="zh-tw"] .about-page .about-hero a.blue-highlight[href*="instagram.com"] strong,
+html[lang="zh-Hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"] strong{
   background:none !important;
   color:inherit !important;
   padding:0 !important;
@@ -1109,4 +1121,4 @@ html[lang="zh-hant"] .about-page .about-hero a.blue-highlight[href*="instagram.c
   font:inherit !important;
   letter-spacing:inherit !important;
 }
-/* === End zh-hant Instagram 修復 === */
+/* === End zh-tw Instagram 修復 === */

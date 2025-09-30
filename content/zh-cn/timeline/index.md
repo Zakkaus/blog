@@ -1,6 +1,7 @@
 ---
 title: "时间轴"
 slug: "timeline"
+translationKey: "timeline"
 date: 2025-09-01
 lastmod: 2025-09-29
 summary: "我们关系与天竺鼠的即时计时器。"
@@ -36,11 +37,11 @@ description: "记录我和 Paper 的远距天数，以及 Hash Brown、Potato �
 {{< timelineItem id="potato" icon="leaf" header="Potato" badge="2025-07-27 出生" subheader="Teddy 天竺鼠" md="true" >}}
 **成长天数：** <span class="counter-days" data-counter-origin="2025-07-27T00:00:00+10:00" data-counter-format="days">0</span>
 
-深棕色 Teddy，胆子大又超爱吃。最常把自己埋在牧草里睡觉，醒来继续啃甜椒、玉米须和红萝卜。她常在 [关于我](/zh-hant/about/#potato) 和 [Instagram](https://www.instagram.com/zakk.au/) 出现。
+深棕色 Teddy，胆子大又超爱吃。最常把自己埋在牧草里睡觉，醒来继续啃甜椒、玉米须和红萝卜。她常在 [关于我](/zh-cn/about/#potato) 和 [Instagram](https://www.instagram.com/zakk.au/) 出现。
 {{< /timelineItem >}}
 {{< /timeline >}}
 
 ### 延伸阅读
-- [我们的故事](/zh-hant/about/#%E6%88%91%E5%92%8C-paper)
-- [Hash Brown 的介绍](/zh-hant/about/#hash-brown)
-- [Potato 的介绍](/zh-hant/about/#potato)
+- [我们的故事](/zh-cn/about/#%E6%88%91%E5%92%8C-paper)
+- [Hash Brown 的介绍](/zh-cn/about/#hash-brown)
+- [Potato 的介绍](/zh-cn/about/#potato)

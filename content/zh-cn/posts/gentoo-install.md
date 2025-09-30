@@ -8,6 +8,7 @@ draft: false
 description: "从零开始的 Gentoo 安装教学：分割、Stage3、Portage、USE、Kernel、桌面环境与常见问题完整步骤。"
 ShowToc: false        # 关闭主题自动 TOC（避免与自订 TOC 重复）
 TocOpen: false
+translationKey: "gentoo-install"
 ---
 
 

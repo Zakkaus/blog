@@ -1,6 +1,7 @@
 ---
 title: "時間軸"
 slug: "timeline"
+translationKey: "timeline"
 date: 2025-09-01
 lastmod: 2025-09-29
 summary: "我們關係與天竺鼠的即時計時器。"

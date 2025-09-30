@@ -1,6 +1,7 @@
 ---
 title: "關於我"
 slug: "about"
+translationKey: "about"
 date: 2025-09-01
 lastmod: 2025-09-29
 description: "關於 Zakk：在澳洲的學生，雙語紀錄 Linux、設計與和 Paper 的遠距生活。"

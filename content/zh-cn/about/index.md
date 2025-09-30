@@ -1,6 +1,7 @@
 ---
 title: "关于我"
 slug: "about"
+translationKey: "about"
 date: 2025-09-01
 lastmod: 2025-09-29
 description: "关于 Zakk：在澳洲的学生，双语纪录 Linux、设计与和 Paper 的远距生活。"
@@ -11,7 +12,7 @@ description: "关于 Zakk：在澳洲的学生，双语纪录 Linux、设计与�
 {{< /lead >}}
 
 {{< alert icon="heart" >}}
-我和 Paper 从 **2025 年 8 月 7 日** 开始远距（澳洲 ↔ 台湾），两个人都是泛性恋 🩷💛🩵。我们透过歌单、设计灵感与睡前语音维持节奏，并在 [时间轴](/zh-hant/timeline/#couple) 上纪录每一天。
+我和 Paper 从 **2025 年 8 月 7 日** 开始远距（澳洲 ↔ 台湾），两个人都是泛性恋 🩷💛🩵。我们透过歌单、设计灵感与睡前语音维持节奏，并在 [时间轴](/zh-cn/timeline/#couple) 上纪录每一天。
 {{< /alert >}}
 
 ### 摘要
@@ -21,7 +22,7 @@ description: "关于 Zakk：在澳洲的学生，双语纪录 Linux、设计与�
 - 🐹 家里成员：Teddy 天竺鼠 Hash Brown 与 Potato。
 
 ### 我和 Paper
-在 [Ceylan](https://www.youtube.com/@xilanceylan) 的 Discord 认识，从日常聊天变成每天互相陪伴的默契。现在每隔几个月计划见面，Paper 正在台湾念高三，准备来澳洲念大学。如果想看她的视角，可以追踪 [@abyss_74.50](https://www.instagram.com/abyss_74.50/)，或到 [时间轴](/zh-hant/timeline/#couple) 看我们的即时计时器。
+在 [Ceylan](https://www.youtube.com/@xilanceylan) 的 Discord 认识，从日常聊天变成每天互相陪伴的默契。现在每隔几个月计划见面，Paper 正在台湾念高三，准备来澳洲念大学。如果想看她的视角，可以追踪 [@abyss_74.50](https://www.instagram.com/abyss_74.50/)，或到 [时间轴](/zh-cn/timeline/#couple) 看我们的即时计时器。
 
 ### 天竺鼠
 #### Hash Brown（2025-06-24 出生） {#hash-brown}
@@ -34,7 +35,7 @@ description: "关于 Zakk：在澳洲的学生，双语纪录 Linux、设计与�
 - 深棕色 Teddy，超爱吃又很勇敢，常把自己埋在牧草里睡觉。
 - 醒来立刻回去啃甜椒与玉米须，偶尔边吃边打盹。
 - 最爱：甜椒、玉米须、红萝卜。
-- [时间轴](/zh-hant/timeline/#potato) 上可以看到她的即时计数，也会出现在 IG 限动。
+- [时间轴](/zh-cn/timeline/#potato) 上可以看到她的即时计数，也会出现在 IG 限动。
 
 ### 使用的设备
 #### 桌机

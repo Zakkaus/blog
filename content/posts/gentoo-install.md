@@ -4,6 +4,7 @@ title: "Gentoo Installation Guide (Beginner)"
 date: 2025-09-01
 tags: ["Gentoo","Linux","OpenRC","systemd"]
 description: "Beginner friendly Gentoo install: partitioning, Stage3, Portage, USE, kernel, desktop environments, FAQ."
+translationKey: "gentoo-install"
 ---
 
 

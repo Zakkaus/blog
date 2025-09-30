@@ -1,6 +1,7 @@
 ---
 title: "Timeline"
 slug: "timeline"
+translationKey: "timeline"
 date: 2025-09-01
 lastmod: 2025-09-29
 summary: "Live counters for our relationship and guinea pigs."

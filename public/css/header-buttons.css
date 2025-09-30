@@ -1,0 +1,1139 @@
+/* Header 基本框架 */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  backdrop-filter:blur(10px);
+  background:rgba(255,255,255,0.85);
+  border-bottom:1px solid rgba(0,0,0,.06);
+}
+body.dark .site-header{
+  background:rgba(30,30,30,0.82);
+  border-color:rgba(255,255,255,.12);
+}
+
+.site-header-inner{
+  max-width:1200px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  padding:.6rem 1.1rem;
+}
+
+.site-brand{
+  display:flex;
+  align-items:center;
+}
+
+.site-brand a{
+  font-weight:700;
+  font-size:1.22rem;
+  text-decoration:none;
+  color:var(--hb-text,#222);
+  letter-spacing:.6px;
+  line-height: 1;
+  display:inline-flex;
+  align-items:center;
+  gap:.58rem;
+}
+body.dark .site-brand a{color:var(--hb-text,#eee);}
+
+.site-brand a::before{
+  content:"";
+  width:var(--brand-logo-size);
+  height:var(--brand-logo-size);
+  flex:0 0 var(--brand-logo-size);
+  background:currentColor;
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90'><path fill='currentColor' d='M47.755 3.765l11.525 23.353c.448.907 1.313 1.535 2.314 1.681l25.772 3.745c2.52.366 3.527 3.463 1.703 5.241L70.42 55.962c-.724.706-1.055 1.723-.884 2.72l4.402 25.667c.431 2.51-2.204 4.424-4.458 3.239L46.43 75.47c-.895-.471-1.965-.471-2.86 0L20.519 87.588c-2.254 1.185-4.889-.729-4.458-3.239l4.402-25.667c.171-.997-.16-2.014-.884-2.72L.931 37.784c-1.824-1.778-.817-4.875 1.703-5.241l25.772-3.745c1.001-.145 1.866-.774 2.314-1.681L42.245 3.765c1.127-2.284 4.383-2.284 5.51 0z'/></svg>") no-repeat center/contain;
+  mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90'><path fill='currentColor' d='M47.755 3.765l11.525 23.353c.448.907 1.313 1.535 2.314 1.681l25.772 3.745c2.52.366 3.527 3.463 1.703 5.241L70.42 55.962c-.724.706-1.055 1.723-.884 2.72l4.402 25.667c.431 2.51-2.204 4.424-4.458 3.239L46.43 75.47c-.895-.471-1.965-.471-2.86 0L20.519 87.588c-2.254 1.185-4.889-.729-4.458-3.239l4.402-25.667c.171-.997-.16-2.014-.884-2.72L.931 37.784c-1.824-1.778-.817-4.875 1.703-5.241l25.772-3.745c1.001-.145 1.866-.774 2.314-1.681L42.245 3.765c1.127-2.284 4.383-2.284 5.51 0z'/></svg>") no-repeat center/contain;
+  position:relative;
+  top:0;
+  transform:translateY(-1.55px); /* 再抬 0.15px 讓星星更居中 */
+  opacity:.9;
+  transition:opacity .25s,transform .25s;
+}
+
+.site-brand a:hover::before{opacity:1;transform:translateY(-1.4px) scale(1.07);}
+
+.main-nav ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  gap:.9rem;
+  align-items:center;
+}
+.main-nav a{
+  text-decoration:none;
+  padding:.4rem .7rem;
+  border-radius:6px;
+  font-size:.9rem;
+  font-weight:600;
+  color:var(--hb-text,#222);
+  position:relative;
+  border:1px solid transparent;
+  transition:background .25s,border-color .25s,color .25s;
+}
+.main-nav a:hover{
+  background:rgba(225,48,108,.09);
+  border-color:rgba(225,48,108,.4);
+}
+.main-nav a.active{
+  background:var(--hb-active,#e1306c);
+  color:#fff;
+  border-color:var(--hb-active,#e1306c);
+  box-shadow:0 2px 5px -2px rgba(225,48,108,.55);
+}
+
+body.dark .main-nav a:hover{
+  background:rgba(225,48,108,.22);
+}
+body.dark .main-nav a.active{
+  color:#fff;
+}
+
+/* === 桌面導覽：強化 active 圓角與陰影 === */
+.main-nav a {
+  border-radius:10px; /* 原 6px -> 更圓 */
+}
+.main-nav a.active,
+.main-nav a.nav-timeline.active {
+  border-radius:12px;
+  box-shadow:0 4px 10px -3px rgba(225,48,108,.45);
+}
+
+/* Hover 時也保持較大圓角（避免跳動） */
+.main-nav a:hover {
+  border-radius:10px;
+}
+
+/* 動作按鈕群組 */
+.top-action-group{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+}
+
+/* 右側自訂三鍵（桌面） */
+.custom-topbuttons{
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  pointer-events:auto;
+}
+.custom-topbuttons .cb-menu{
+  display:flex;
+  gap:.55rem;
+  align-items:center;
+}
+.custom-topbuttons .cb-btn,
+.cb-toggle{
+  background:var(--hb-bg,#fff);
+  color:var(--hb-text,#222);
+  border:1px solid var(--hb-border,rgba(0,0,0,.1));
+  padding:.5rem .75rem;
+  border-radius:6px;
+  font-weight:600;
+  font-size:.8rem;
+  line-height:1.1;
+  cursor:pointer;
+  text-decoration:none;
+  box-shadow:var(--hb-shadow,0 1px 2px rgba(0,0,0,.08));
+  transition:background .25s,transform .18s,border-color .25s,color .25s;
+}
+.custom-topbuttons .cb-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:.45rem;
+}
+.custom-topbuttons .cb-btn .cb-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  line-height:0;
+}
+.custom-topbuttons .cb-btn .cb-icon svg{
+  width:1.05em;
+  height:1.05em;
+}
+.custom-topbuttons .cb-btn:hover,
+.cb-toggle:hover{
+  transform:translateY(-1px);
+  background:rgba(225,48,108,.1);
+  border-color:var(--hb-active,#e1306c);
+}
+body.dark .custom-topbuttons .cb-btn,
+body.dark .cb-toggle{
+  background:var(--hb-bg,#2d2d2d);
+  color:var(--hb-text,#eee);
+}
+
+/* 漢堡（手機顯示） */
+.cb-toggle{
+  display:none;
+}
+
+/* 手機版排版 */
+@media (max-width:900px){
+  .main-nav{display:none;}
+  .desktop-only{display:none!important;}
+  .mobile-only{display:block;}
+  .cb-toggle{
+    display:inline-block;
+    font-size:1.05rem;
+  }
+  #mobileMenu.cb-menu{
+    position:absolute;
+    top:100%;
+    right:1rem;
+    display:none;
+    flex-direction:column;
+    background:var(--hb-bg,#fff);
+    padding:.8rem .85rem .9rem;
+    border:1px solid var(--hb-border,rgba(0,0,0,.1));
+    border-radius:10px;
+    box-shadow:0 10px 30px -6px rgba(0,0,0,.35);
+    min-width:165px;
+    gap:.45rem;
+    z-index:1500;
+  }
+  #mobileMenu.cb-menu.open{display:flex;}
+  #mobileMenu .cb-btn{
+    width:100%;
+    text-align:left;
+    padding:.6rem .75rem;
+    font-size:.82rem;
+  }
+}
+
+/* 桌面保留 */
+@media (min-width:901px){
+  .mobile-only{display:none!important;}
+}
+
+/* 變數（若未定義） */
+:root{
+  --hb-bg:rgba(255,255,255,.92);
+  --hb-text:#222;
+  --hb-active:#e1306c;
+  --hb-border:rgba(0,0,0,.08);
+  --hb-shadow:0 1px 3px rgba(0,0,0,.08);
+  --brand-logo-size:1.42em; /* 稍再放大並與文字比例同步 */
+}
+body.dark{
+  --hb-bg:rgba(50,50,50,.9);
+  --hb-text:#e6e6e6;
+  --hb-border:rgba(255,255,255,.14);
+  --hb-shadow:0 2px 6px -2px rgba(0,0,0,.6);
+}
+
+/* Focus */
+.custom-topbuttons .cb-btn:focus-visible,
+.cb-toggle:focus-visible,
+.main-nav a:focus-visible{
+  outline:2px solid var(--hb-active);
+  outline-offset:2px;
+}
+
+/* 移除（之前為刪搜尋設定的殘留） */
+.cb-searchwrap,
+.cb-search-results{display:none !important;}
+.site-header.header-sanitizing{
+  visibility:hidden;
+}
+
+/* Footer 樣式 */
+/* 刪除舊站腳樣式 */
+/* 移除：.site-footer, .site-footer-inner, .site-footer .site-foot-text 等所有舊定義 */
+
+/* 新站腳樣式 */
+.clean-footer {
+  margin-top: 3rem;
+  padding: 2rem 0;
+  text-align: center !important;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+body.dark .clean-footer {
+  border-color: rgba(255,255,255,0.15);
+}
+
+.clean-footer .footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  text-align: center !important;
+}
+
+.clean-footer small {
+  font-size: 12px !important;
+  color: #888 !important;  /* 灰色，不是亮白 */
+  font-weight: 400 !important;
+  letter-spacing: 0.3px;
+  line-height: 1.5;
+  display: inline-block;
+  text-align: center !important;
+}
+
+body.dark .clean-footer small {
+  color: #aaa !important;  /* 暗色模式下稍亮一點的灰 */
+}
+
+.clean-footer a {
+  color: inherit !important;
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+  transition: all 0.2s ease;
+}
+
+.clean-footer a:hover {
+  color: var(--hb-active, #e1306c) !important;
+  border-color: var(--hb-active, #e1306c);
+}
+
+/* 站腳樣式 - 提高優先級 */
+footer.clean-footer {
+  margin-top: 3rem !important;
+  padding: 2rem 0 !important;
+  text-align: center !important;
+  border-top: 1px solid rgba(0,0,0,0.1) !important;
+  width: 100% !important;
+  background: transparent !important;
+  position: relative !important;
+}
+
+body.dark footer.clean-footer {
+  border-color: rgba(255,255,255,0.15) !important;
+}
+
+footer.clean-footer .footer-content {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 1rem !important;
+  text-align: center !important;
+}
+
+footer.clean-footer small {
+  font-size: 12px !important;
+  color: #888 !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.3px !important;
+  line-height: 1.5 !important;
+  display: inline-block !important;
+  text-align: center !important;
+  margin: 0 !important;
+}
+
+body.dark footer.clean-footer small {
+  color: #aaa !important;
+}
+
+footer.clean-footer a {
+  color: inherit !important;
+  text-decoration: none !important;
+  border-bottom: 1px dotted transparent !important;
+  transition: all 0.2s ease !important;
+  font-size: 12px !important;
+}
+
+footer.clean-footer a:hover {
+  color: var(--hb-active, #e1306c) !important;
+  border-color: var(--hb-active, #e1306c) !important;
+}
+
+/* 覆蓋任何可能的主題樣式 */
+footer.clean-footer,
+footer.clean-footer *,
+footer.clean-footer p,
+footer.clean-footer div {
+  text-align: center !important;
+  font-size: 12px !important;
+  color: #888 !important;
+  font-weight: 400 !important;
+}
+
+body.dark footer.clean-footer,
+body.dark footer.clean-footer *,
+body.dark footer.clean-footer p,
+body.dark footer.clean-footer div {
+  color: #aaa !important;
+}
+
+/* 覆蓋：去掉底欄上方的分界線 */
+.clean-footer,
+footer.clean-footer {
+  border-top: none !important;
+  box-shadow: none !important;
+}
+
+/* 若有暗色模式邊線覆蓋也一併清除 */
+body.dark .clean-footer,
+body.dark footer.clean-footer {
+  border-top: none !important;
+}
+
+/* posts 區段列表自訂樣式 */
+.post-section-list {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 1.2rem 1.1rem 2.5rem;
+}
+.post-section-list .post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.9rem;
+}
+.post-section-list .post-item-title {
+  margin: 0 0 .4rem;
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+.post-section-list .post-item-title a {
+  text-decoration: none;
+  color: var(--hb-text,#222);
+}
+body.dark .post-section-list .post-item-title a {
+  color: var(--hb-text,#eee);
+}
+.post-section-list .post-item-title a:hover {
+  color: var(--hb-active,#e1306c);
+}
+.post-section-list .post-item-meta {
+  font-size: .72rem;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  opacity: .65;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  margin-bottom: .55rem;
+}
+.post-section-list .post-tags .tag {
+  background: rgba(225,48,108,.08);
+  padding: .15rem .45rem;
+  border-radius: 4px;
+  font-size: .65rem;
+  line-height: 1;
+}
+body.dark .post-section-list .post-tags .tag {
+  background: rgba(225,48,108,.18);
+}
+.post-section-list .post-item-desc {
+  margin: 0 0 .65rem;
+  font-size: .85rem;
+  line-height: 1.5;
+  color: #555;
+}
+body.dark .post-section-list .post-item-desc {
+  color: #bbb;
+}
+.post-section-list .post-readmore {
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .5px;
+  text-decoration: none;
+  color: var(--hb-active,#e1306c);
+  border-bottom: 1px solid transparent;
+}
+.post-section-list .post-readmore:hover {
+  border-color: var(--hb-active,#e1306c);
+}
+
+/* 移除連結右側灰色線 (可能由主題 ::after 或邊框產生) */
+.post-section-list a,
+.gentoo-article a,
+.article a,
+.content a {
+  border-right: none !important;
+  box-shadow: none !important;
+  position: relative;
+}
+.post-section-list a::after,
+.gentoo-article a::after,
+.article a::after,
+.content a::after {
+  content: none !important;
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* 確保全站一般內容連結無意外細線 */
+a {
+  border-right: none !important;
+}
+a:visited {
+  border-right: none !important;
+}
+
+/* ---- Post list card style (新增) ---- */
+.post-section-list .post-item{
+  padding:1.15rem 1.25rem 1.05rem;
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:14px;
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(4px);
+  position:relative;
+  transition:background .3s,border-color .3s,box-shadow .28s,transform .25s;
+}
+body.dark .post-section-list .post-item{
+  border-color:rgba(255,255,255,.14);
+  background:rgba(40,40,40,.85);
+}
+.post-section-list .post-item:hover{
+  border-color:var(--hb-active,#e1306c);
+  box-shadow:0 6px 20px -8px rgba(0,0,0,.25);
+  background:rgba(255,255,255,.95);
+  transform:translateY(-2px);
+}
+body.dark .post-section-list .post-item:hover{
+  background:rgba(55,55,55,.92);
+  box-shadow:0 8px 28px -10px rgba(0,0,0,.55);
+}
+.post-section-list .post-item-title{
+  margin-top:0;
+}
+.post-section-list .post-item + .post-item{
+  /* 保險：若瀏覽器不支援 gap（舊）仍有垂直距離 */
+  margin-top:.5rem;
+}
+/* 小螢幕微調 */
+@media (max-width:600px){
+  .post-section-list .post-item{
+    padding:1rem .95rem .9rem;
+    border-radius:12px;
+  }
+}
+
+/* 偏好減少動態：降低 hover 動畫 */
+@media (prefers-reduced-motion:reduce){
+  .post-section-list .post-item{
+    transition:none;
+  }
+  .post-section-list .post-item:hover{
+    transform:none;
+    box-shadow:0 4px 14px -6px rgba(0,0,0,.18);
+  }
+}
+
+/* Posts 列表頁標題與第一卡片間距調整 */
+.post-section-list > h1{
+  margin: 0 0 2.1rem !important; /* 原本距離不足，加大 */
+  font-size:1.9rem;
+  line-height:1.25;
+}
+.post-section-list .post-list{
+  margin-top:0 !important; /* 保證不再額外往上擠 */
+}
+.post-section-list .post-item:first-child{
+  margin-top:0 !important;
+}
+
+/* 小螢幕適度縮小間距 */
+@media (max-width:600px){
+  .post-section-list > h1{
+    margin-bottom:1.55rem !important;
+    font-size:1.55rem;
+  }
+}
+
+/* 移除主題可能加在文章內連結的分隔符（|） */
+.gentoo-article a::before,
+.gentoo-article a::after,
+.post-section-list a::before,
+.post-section-list a::after,
+.post-content a::before,
+.post-content a::after {
+  content: none !important;
+  display: none !important;
+  border: none !important;
+  background: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  box-shadow: none !important;
+}
+
+/* 防止以邊框/背景模擬的右側縱線 */
+.gentoo-article a,
+.post-content a,
+.post-section-list a {
+  border-right: none !important;
+  border-left: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+
+/* 可以點擊的語言切換 / 主題切換按鈕同樣清除殘留線 */
+.cb-menu a::after,
+.cb-menu a::before {
+  content: none !important;
+  border: none !important;
+}
+
+/* 隱藏內文 / Meta 中語言切換及其分隔符 */
+.post-meta .translations,
+.post-meta .i18n-links,
+.post-meta .post-lang,
+.post-meta .post-language,
+.post-meta .lang-switch,
+.post-meta .language-switch,
+.post-meta a[hreflang],
+.article-lang-switch,
+.lang-switch-inline,
+.post-lang-switch {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* 去除可能遺留的直線分隔符（語言切換旁） */
+.post-meta, .post-meta * {
+  background-image: none !important;
+  border: none !important;
+}
+
+/* Post meta & tags */
+.post-meta{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.45rem;
+  font-size:.72rem;
+  letter-spacing:.4px;
+  opacity:.78;
+  margin:.2rem 0 1.1rem;
+}
+.post-meta .post-date,
+.post-meta .post-reading{white-space:nowrap;}
+.post-meta .post-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem;
+  margin-left:.35rem;
+}
+.post-meta .post-tags .tag{
+  text-decoration:none;
+  padding:.28rem .55rem;
+  background:rgba(225,48,108,.10);
+  border:1px solid rgba(225,48,108,.35);
+  border-radius:999px;
+  font-size:.62rem;
+  line-height:1;
+  font-weight:600;
+  color:#c61d52;
+  transition:background .25s,border-color .25s,color .25s,transform .25s;
+}
+.post-meta .post-tags .tag:hover{
+  background:var(--hb-active,#e1306c);
+  border-color:var(--hb-active,#e1306c);
+  color:#fff;
+  transform:translateY(-2px);
+}
+body.dark .post-meta{opacity:.85;}
+body.dark .post-meta .post-tags .tag{
+  background:rgba(225,48,108,.18);
+  border-color:rgba(225,48,108,.5);
+  color:#ff6f9d;
+}
+body.dark .post-meta .post-tags .tag:hover{
+  background:var(--hb-active,#e1306c);
+  color:#fff;
+}
+
+/* 文章描述 */
+.post-header .post-desc{
+  margin:.6rem 0 1rem;
+  font-size:.9rem;
+  line-height:1.55;
+  color:#555;
+}
+body.dark .post-header .post-desc{color:#bbb;}
+
+/* 防止之前全域去除連結樣式導致 tag 失效 */
+.post-meta .post-tags .tag::before,
+.post-meta .post-tags .tag::after{content:none!important;}
+.post-meta .post-tags .tag{border-right:none!important;}
+
+/* ===== About Page 修復樣式（恢復簡介高亮 + 移除不需要的符號） ===== */
+.about-block .about-intro{
+  padding:.9rem 1rem 1rem;
+  margin:0 0 1.9rem;
+  background:linear-gradient(135deg,rgba(0,0,0,.03),rgba(0,0,0,0));
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:12px;
+  font-size:.95rem;
+  line-height:1.62;
+}
+body.dark .about-block .about-intro{
+  background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,0));
+  border-color:rgba(255,255,255,.15);
+}
+.about-block .about-intro strong{
+  font-weight:600;
+  color:#222;
+}
+body.dark .about-block .about-intro strong{color:#eee;}
+.about-block .about-intro mark{
+  background:rgba(225,48,108,.15);
+  color:#b41d55;
+  padding:.12rem .38rem .16rem;
+  border-radius:6px;
+  font-weight:600;
+}
+body.dark .about-block .about-intro mark{
+  background:rgba(225,48,108,.30);
+  color:#ff8ab4;
+}
+
+/* 移除 About 標題小圓點（之前的 ::after 裝飾） */
+.about-block h3::after{
+  content:none !important;
+}
+
+/* 防止主題或舊規則再次注入分隔符/豎線 | */
+.about-block a::before,
+.about-block a::after,
+.about-block h3::before,
+.about-block h3::after{
+  background:none !important;
+  border:none !important;
+  box-shadow:none !important;
+  content:none !important;
+}
+
+/* 避免被全域去邊線規則影響的連結可視性（僅調色，不加底線） */
+.about-block a{
+  text-decoration:none;
+  color:var(--hb-active,#e1306c);
+  font-weight:600;
+}
+.about-block a:hover{
+  text-decoration:underline;
+}
+
+/* 縮小行動版簡介卡 */
+@media (max-width:640px){
+  .about-block .about-intro{
+    padding:.75rem .85rem .85rem;
+    font-size:.93rem;
+  }
+  .about-block .about-intro mark{
+    padding:.1rem .34rem .14rem;
+  }
+}
+
+/* 動畫偏好 */
+@media (prefers-reduced-motion:reduce){
+  .about-block .about-intro{transition:none;}
+}
+
+/* 再次保險：移除任何殘留 | 來源 */
+.about-block *,
+.about-block *::before,
+.about-block *::after{
+  border-right-color:transparent !important;
+}
+
+/* === Timeline / Days 按鈕樣式 === */
+.main-nav a.nav-timeline{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+  font-weight:700;
+  letter-spacing:.4px;
+  line-height: 1;
+  vertical-align: baseline; /* 確保與其他按鈕基線對齊 */
+}
+
+.main-nav a.nav-timeline .tl-emoji{
+  line-height:1;
+  font-size:1.05em;
+  transform:translateY(-0.5px); /* 減少偏移，從-1.5px改為-0.5px */
+  opacity:.92;
+  transition:transform .25s, opacity .25s;
+  display: inline-block;
+}
+
+.main-nav a.nav-timeline:hover .tl-emoji{
+  transform:translateY(-1.5px) rotate(-8deg); /* 調整hover狀態 */
+  opacity: 1;
+}
+
+/* 重要：確保Days按鈕的激活狀態樣式能正確覆蓋 */
+.main-nav a.nav-timeline.active,
+.main-nav a.active.nav-timeline {
+  background: var(--hb-active,#e1306c) !important;
+  color: #fff !important;
+  border-color: var(--hb-active,#e1306c) !important;
+  box-shadow: 0 2px 5px -2px rgba(225,48,108,.55) !important;
+}
+
+.main-nav a.nav-timeline.active .tl-emoji,
+.main-nav a.active.nav-timeline .tl-emoji {
+  opacity: 1 !important;
+  color: #fff !important;
+  filter: brightness(1) !important; /* 確保emoji在激活狀態下可見 */
+}
+
+/* 手機版樣式 */
+#mobileMenu a.nav-timeline{
+  display:flex;
+  align-items:center;
+  gap:.45rem;
+  font-weight:600;
+  line-height: 1;
+  vertical-align: baseline;
+}
+
+#mobileMenu a.nav-timeline.active,
+#mobileMenu a.active.nav-timeline {
+  background: var(--hb-active,#e1306c) !important;
+  color: #fff !important;
+  border-color: var(--hb-active,#e1306c) !important;
+}
+
+#mobileMenu a.nav-timeline .tl-emoji{
+  transform: translateY(-0.5px);
+  transition: transform .25s, opacity .25s;
+}
+
+#mobileMenu a.nav-timeline.active .tl-emoji,
+#mobileMenu a.active.nav-timeline .tl-emoji {
+  opacity: 1 !important;
+  color: #fff !important;
+  filter: brightness(1) !important;
+}
+
+/* 暗色模式下確保激活狀態 */
+body.dark .main-nav a.nav-timeline.active,
+body.dark .main-nav a.active.nav-timeline {
+  color: #fff !important;
+  background: var(--hb-active,#e1306c) !important;
+}
+
+body.dark #mobileMenu a.nav-timeline.active,
+body.dark #mobileMenu a.active.nav-timeline {
+  color: #fff !important;
+  background: var(--hb-active,#e1306c) !important;
+}
+
+/* 增加樣式優先級以確保激活狀態正確顯示 */
+.main-nav li a.nav-timeline.active,
+.main-nav ul li a.nav-timeline.active {
+  background: var(--hb-active,#e1306c) !important;
+  color: #fff !important;
+  border-color: var(--hb-active,#e1306c) !important;
+  box-shadow: 0 2px 5px -2px rgba(225,48,108,.55) !important;
+}
+
+/* 語言切換按鈕文字修正 */
+.cb-menu .lang-switch::before {
+  content: "🇹🇼 漢語" !important;
+}
+
+/* 如果是英文版，顯示英文 */
+html[lang="en"] .cb-menu .lang-switch::before {
+  content: "🌐 English" !important;
+}
+
+/* 隱藏原有文字，顯示偽元素內容 */
+.cb-menu .lang-switch {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+.cb-menu .lang-switch::before {
+  font-size: 0.8rem !important;
+  line-height: 1.1 !important;
+  display: inline-block;
+  font-weight: 600 !important;
+}
+
+/* 覆寫：讓 Days 按鈕視覺與其他導航完全一致（不再單獨上移 / 動畫） */
+.main-nav a.nav-timeline {
+  /* 保留已存在設定，不調整 padding / 邊框，保持與 .main-nav a 相同基礎 */
+  display: inline-flex;
+  align-items: center;
+}
+
+.main-nav a.nav-timeline .tl-emoji {
+  /* 移除位移與特別動畫，保持與文字同一基線 */
+  transform: none !important;
+  transition: none !important;
+}
+
+.main-nav a.nav-timeline:hover .tl-emoji {
+  transform: none !important;
+}
+
+.main-nav a.nav-timeline.active,
+.main-nav a.active.nav-timeline {
+  /* 仍可享用共用 .main-nav a.active 樣式，這裡僅確保優先級 */
+  background: var(--hb-active,#e1306c) !important;
+  color: #fff !important;
+  border-color: var(--hb-active,#e1306c) !important;
+}
+
+#mobileMenu a.nav-timeline .tl-emoji {
+  transform: none !important;
+}
+
+/* === 桌面導覽：強化 active 圓角與陰影 === */
+.main-nav a {
+  border-radius:10px; /* 原 6px -> 更圓 */
+}
+.main-nav a.active,
+.main-nav a.nav-timeline.active {
+  border-radius:12px;
+  box-shadow:0 4px 10px -3px rgba(225,48,108,.45);
+}
+
+/* Hover 時也保持較大圓角（避免跳動） */
+.main-nav a:hover {
+  border-radius:10px;
+}
+
+/* === 手機選單：一般按鈕統一圓角 & active 視覺 === */
+#mobileMenu .cb-btn {
+  border-radius:10px;
+  position:relative;
+  overflow:hidden;
+  transition:background .25s,color .25s,box-shadow .25s;
+}
+
+/* 手機 active（Home / Posts / About / Timeline 全部） */
+#mobileMenu .cb-btn.active,
+#mobileMenu a.nav-timeline.active {
+  background:var(--hb-active,#e1306c) !important;
+  color:#fff !important;
+  border-color:var(--hb-active,#e1306c) !important;
+  box-shadow:0 3px 10px -4px rgba(225,48,108,.55);
+  border-radius:12px;
+}
+
+/* 手機 hover 效果（未 active） */
+#mobileMenu .cb-btn:not(.active):hover {
+  background:rgba(225,48,108,.12);
+  border-color:rgba(225,48,108,.45);
+}
+
+/* 深色模式補強 active 對比 */
+body.dark #mobileMenu .cb-btn.active {
+  box-shadow:0 4px 12px -4px rgba(225,48,108,.65);
+}
+
+/* === Timeline 手機 emoji 與其他一致（保持圓角） === */
+#mobileMenu a.nav-timeline {
+  border-radius:10px;
+}
+
+/* === 若需要在較小螢幕也維持圓角陰影一致 === */
+@media (max-width:900px){
+  #mobileMenu .cb-btn.active {
+    border-radius:12px;
+  }
+}
+
+/* === About 聯絡方式膠囊統一 (中 / 英同步) === */
+.about-page .about-contacts li {
+  /* 統一垂直間距（避免語系差異） */
+  padding: .40rem 0 .40rem 0 !important;
+  line-height: 1.45;
+}
+
+.about-page .about-contacts a {
+  /* 統一膠囊尺寸 / 內距 / 圓角 / 字級 */
+  display:inline-block;
+  padding:.46rem .95rem .50rem !important;
+  border-radius:16px !important;
+  font-size:.72rem !important;
+  font-weight:700 !important;
+  letter-spacing:.35px;
+  background:rgba(225,48,108,.14) !important;
+  color:var(--about-accent,#e1306c) !important;
+  line-height:1 !important;
+  transition:background .22s,color .22s,box-shadow .22s;
+}
+
+body.dark .about-page .about-contacts a {
+  background:rgba(225,48,108,.30) !important;
+  color:#ff8fb7 !important;
+}
+
+.about-page .about-contacts a:hover {
+  background:var(--about-accent,#e1306c) !important;
+  color:#fff !important;
+  box-shadow:0 4px 12px -5px rgba(225,48,108,.55);
+}
+
+body.dark .about-page .about-contacts a:hover {
+  box-shadow:0 5px 15px -6px rgba(225,48,108,.65);
+}
+
+/* 保險：移除語系特殊覆寫造成的差異 */
+html[lang="en"] .about-page .about-contacts a,
+html[lang="zh-tw"] .about-page .about-contacts a,
+html[lang="zh-Hant"] .about-page .about-contacts a {
+  font-size:.72rem !important;
+  padding:.46rem .95rem .50rem !important;
+  border-radius:16px !important;
+}
+
+/* 行動版微調：稍微縮減內距避免換行 */
+@media (max-width:640px){
+  .about-page .about-contacts a{
+    padding:.42rem .80rem .46rem !important;
+    font-size:.70rem !important;
+  }
+}
+
+/* 動畫減少偏好 */
+@media (prefers-reduced-motion:reduce){
+  .about-page .about-contacts a{transition:none!important;box-shadow:none!important;}
+}
+/* === End About 聯絡方式膠囊統一 === */
+
+/* === EN About Contact 對齊調整：保留與有圓點版本相同縮排，但不顯示點 === */
+html[lang="en"] .about-page .about-contacts {
+  --about-contact-indent: 1.1rem; /* 與先前有圓點列表 padding-left 相同 */
+}
+html[lang="en"] .about-page .about-contacts li {
+  padding-left: var(--about-contact-indent) !important;
+  position: relative;
+}
+html[lang="en"] .about-page .about-contacts li::before {
+  content: "";               /* 佔位，不顯示 */
+  position: absolute;
+  left: 0;
+  top: .95rem;                /* 與中文粉點垂直位置一致 */
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: transparent;    /* 不上色，達成「留空」效果 */
+}
+
+/* 行動端微調保持縮排一致 */
+@media (max-width:640px){
+  html[lang="en"] .about-page .about-contacts li {
+    padding-left: var(--about-contact-indent) !important;
+  }
+}
+
+/* 若使用 prefers-reduced-motion 不影響此縮排 */
+@media (prefers-reduced-motion:reduce){
+  html[lang="en"] .about-page .about-contacts li::before { transition:none; }
+}
+
+/* === End EN About Contact 對齊調整 === */
+
+/* === EN About Contact 對齊最終覆寫：使用 label span 控制，統一與中文列表起始列 === */
+html[lang="en"] .about-page .about-contacts li {
+  padding-left:0 !important;          /* 取消之前的縮排 */
+  display:flex;
+  align-items:center;
+  gap:.35rem;
+  position:relative;
+}
+html[lang="en"] .about-page .about-contacts li::before{
+  display:none !important;            /* 移除佔位 pseudo */
+}
+html[lang="en"] .about-page .about-contacts li .contact-label{
+  display:inline-block;
+  padding-left:1.1rem;                /* 保留與中文粉色圓點後文字相同起點 */
+  min-width:6.2rem;                   /* 固定欄寬，讓右側膠囊整齊對齊 */
+  font-weight:600;
+  letter-spacing:.3px;
+  line-height:1.1;
+  position:relative;
+}
+@media (max-width:640px){
+  html[lang="en"] .about-page .about-contacts li .contact-label{
+    min-width:5.6rem;
+    padding-left:1.0rem;
+  }
+}
+
+/* 若瀏覽器支援 :where，降低權重衝突保險；不影響其他語系 */
+html[lang="en"] .about-page .about-contacts li .contact-label:before{
+  content:""; /* 不顯示點，只保留空間語義 */
+}
+
+/* === End EN About Contact 對齊最終覆寫 === */
+
+/* === EN About Contact: remove column alignment for links, keep first-letter indent === */
+html[lang="en"] .about-page .about-contacts li {
+  gap:0 !important; /* 取消 flex 間距，讓連結緊跟冒號 */
+}
+html[lang="en"] .about-page .about-contacts li .contact-label{
+  min-width:0 !important;
+  width:auto !important;
+  margin-right:.45rem; /* 冒號與連結間距 */
+  padding-left:1.1rem; /* 保留與中文版首字對齊的縮排 */
+}
+@media (max-width:640px){
+  html[lang="en"] .about-page .about-contacts li .contact-label{
+    padding-left:1.0rem;
+    margin-right:.4rem;
+  }
+}
+/* === End EN About Contact override === */
+
+/* === zh-tw About Hero Instagram 重新建立扁平高亮（移除多餘膠囊圓角） === */
+html[lang="zh-tw"],
+html[lang="zh-Hant"] {
+  --zh-traditional-lang: 1;
+}
+
+html[lang="zh-tw"] .about-page .about-hero a.blue-highlight[href*="instagram.com"],
+html[lang="zh-Hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]{
+  background:linear-gradient(to top,rgba(29,111,255,.35),rgba(29,111,255,0) 65%) !important;
+  color:#1d6fff !important;
+  padding:0 .2rem !important;
+  margin:0 .15rem 0 0 !important;
+  border-radius:4px !important;
+  line-height:1.25 !important;
+  letter-spacing:.25px !important;
+  font-weight:600 !important;
+  box-shadow:none !important;
+  display:inline !important;
+  text-decoration:none !important;
+  transform:none !important;
+}
+html[lang="zh-tw"] body.dark .about-page .about-hero a.blue-highlight[href*="instagram.com"],
+html[lang="zh-Hant"] body.dark .about-page .about-hero a.blue-highlight[href*="instagram.com"]{
+  background:linear-gradient(to top,rgba(29,111,255,.55),rgba(29,111,255,0) 65%) !important;
+  color:#8bc4ff !important;
+}
+html[lang="zh-tw"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]:hover,
+html[lang="zh-Hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]:hover{
+  background:linear-gradient(to top,rgba(29,111,255,.55),rgba(29,111,255,0) 65%) !important;
+  color:#fff !important;
+  text-decoration:none !important;
+  border-radius:4px !important;
+  box-shadow:none !important;
+  transform:none !important;
+}
+/* 清除任何殘留 pseudo 造成的圓角/膠囊效果 */
+html[lang="zh-tw"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]::before,
+html[lang="zh-tw"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]::after,
+html[lang="zh-Hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]::before,
+html[lang="zh-Hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"]::after{
+  content:none !important;
+  display:none !important;
+}
+/* 內部 strong 不再疊加背景 */
+html[lang="zh-tw"] .about-page .about-hero a.blue-highlight[href*="instagram.com"] strong,
+html[lang="zh-Hant"] .about-page .about-hero a.blue-highlight[href*="instagram.com"] strong{
+  background:none !important;
+  color:inherit !important;
+  padding:0 !important;
+  margin:0 !important;
+  font:inherit !important;
+  letter-spacing:inherit !important;
+}
+/* === End zh-tw Instagram 修復 === */

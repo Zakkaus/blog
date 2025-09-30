@@ -1,5 +1,19 @@
 ---
 title: "首頁"
-description: "雪梨學生的雙語筆記：Linux 折騰、設計玩樂、與 Paper 的遠距日常。"
-layout: "background"
+links:
+  - title: "Instagram：@zakk.au"
+    icon: "instagram"
+    url: "https://www.instagram.com/zakk.au/"
+  - title: "GitHub：Zakkaus"
+    icon: "github"
+    url: "https://github.com/Zakkaus"
+  - title: "X：@zakkauu"
+    icon: "x-twitter"
+    url: "https://x.com/zakkauu"
+  - title: "Email：admin@zakk.au"
+    icon: "envelope"
+    url: "mailto:admin@zakk.au"
+  - title: "論壇：help.zakk.au"
+    icon: "comment"
+    url: "https://help.zakk.au"
 ---

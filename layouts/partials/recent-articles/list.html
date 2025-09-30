@@ -1,0 +1,11 @@
+{{ $recentArticles := .Site.Params.homepage.showRecentItems | default 5 }}
+{{ $lang := .Site.Language.Lang }}
+{{ $sections := .Site.Params.mainSections | default (slice "posts") }}
+{{ $pages := where .Site.RegularPages "Type" "in" $sections }}
+{{ $pages = where $pages "Lang" $lang }}
+
+<section class="space-y-10 w-full">
+  {{ range first $recentArticles ($pages.ByDate.Reverse) }}
+    {{ partial "article-link/simple.html" . }}
+  {{ end }}
+</section>

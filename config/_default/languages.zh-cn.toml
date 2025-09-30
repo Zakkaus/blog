@@ -26,5 +26,6 @@ title = "Zakk"
     { github = "https://github.com/Zakkaus" },
     { instagram = "https://www.instagram.com/zakk.au/" },
     { x-twitter = "https://x.com/zakkauu" },
-    { email = "mailto:admin@zakk.au" }
+    { email = "mailto:admin@zakk.au" },
+    { globe = "https://help.zakk.au" }
   ]

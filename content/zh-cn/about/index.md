@@ -8,7 +8,7 @@ description: "关于 Zakk：在澳洲的学生，双语纪录 Linux、设计与�
 ---
 
 {{< lead >}}
-我是 **Zakk**，住在澳洲雪梨的商科学生，用双语记录 Linux 折腾、设计实验、理财系统，以及和 Paper 还有 Hash Brown、Potato 两只天竺鼠的远距日常。
+我是 **Zakk**，住在澳洲的商科学生，用双语记录 Linux 折腾、设计实验、理财系统，以及和 Paper 还有 Hash Brown、Potato 两只天竺鼠的远距日常。
 {{< /lead >}}
 
 {{< alert icon="heart" >}}
@@ -16,7 +16,7 @@ description: "关于 Zakk：在澳洲的学生，双语纪录 Linux、设计与�
 {{< /alert >}}
 
 ### 摘要
-- 📍 雪梨生活，时区 AEST / AEDT，目前主修商业管理。
+- 📍 澳洲生活，时区 AEST / AEDT，目前主修商业管理。
 - 🧠 兴趣：Gentoo、Linux、氛围音乐、设计系统、理财与整理。
 - 🎮 日常娱乐：和 Paper 一起语音、画图、打电动、研究设备。
 - 🐹 家里成员：Teddy 天竺鼠 Hash Brown 与 Potato。

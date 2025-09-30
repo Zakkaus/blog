@@ -1,5 +1,5 @@
 colorScheme = "blowfish"
-defaultAppearance = "dark"
+defaultAppearance = "light"
 autoSwitchAppearance = true
 
 enableA11y = false
@@ -12,7 +12,7 @@ disableImageOptimization = false
 disableImageOptimizationMD = false
 disableTextInHeader = false
 
-defaultBackgroundImage = "/img/background.svg"
+defaultBackgroundImage = "img/home-hero.webp"
 highlightCurrentMenuArea = true
 smartTOC = true
 smartTOCHideUnfocusedChildren = false

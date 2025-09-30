@@ -16,7 +16,7 @@ Paper and I have been long-distance between Australia and Taiwan since **7 Aug 2
 {{< /alert >}}
 
 ### Snapshot
-- 📍 Based in Sydney (AEST / AEDT) and studying Business.
+- 📍 Based in Australia (AEST / AEDT) and studying Business.
 - 🧠 Interests: Gentoo & Linux, ambient music, design systems, and tidy finance spreadsheets.
 - 🎮 Comfort hobbies: long cozy gaming sessions, drawing, listening to Paper narrate daily adventures.
 - 🐹 Home life with two Teddy guinea pigs, Potato and Hash Brown.

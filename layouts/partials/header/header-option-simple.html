@@ -1,0 +1,16 @@
+{{- $ctx := .ctx -}}
+{{- $item := .item -}}
+{{- $url := partial "header/menu-url" (dict "item" $item "ctx" $ctx) -}}
+<a
+  href="{{ $url }}"
+  {{ if or (strings.HasPrefix $url "http:" ) (strings.HasPrefix $url "https:" ) }}target="_blank" rel="noopener"{{ end }}
+  class="flex items-center hover:text-primary-600 dark:hover:text-primary-400">
+  {{ if $item.Pre }}
+    <span {{ if and $item.Pre $item.Name }}class="mr-1"{{ end }}>
+      {{ partial "icon.html" $item.Pre }}
+    </span>
+  {{ end }}
+  <p class="text-base font-medium" title="{{ $item.Title }}">
+    {{ $item.Name | markdownify }}
+  </p>
+</a>

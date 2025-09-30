@@ -1,0 +1,19 @@
+{{- $ctx := .ctx -}}
+{{- $item := .item -}}
+<li>
+  <details class="py-1 text-end">
+    <summary class="cursor-pointer inline-flex items-center justify-end gap-2 text-sm font-medium">
+      {{ if $item.Pre }}
+        <span {{ if and $item.Pre $item.Name }}class="mr-1"{{ end }}>
+          {{ partial "icon.html" $item.Pre }}
+        </span>
+      {{ end }}
+      <span>{{ $item.Name | markdownify }}</span>
+    </summary>
+    <ul class="mt-2 space-y-2">
+      {{ range $item.Children }}
+        {{ partial "header/header-mobile-option-simple.html" (dict "item" . "ctx" $ctx) }}
+      {{ end }}
+    </ul>
+  </details>
+</li>

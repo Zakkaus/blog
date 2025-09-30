@@ -1,0 +1,55 @@
+{{ if hugo.IsMultilingual }}
+  {{ $site := .Site }}
+  {{ $current := . }}
+  {{ $translations := newScratch }}
+  {{ range .AllTranslations }}
+    {{ $translations.Set .Lang . }}
+  {{ end }}
+  {{ $homeLinks := newScratch }}
+  {{ with site.Home }}
+    {{ $homeLinks.Set .Lang .RelPermalink }}
+    {{ range .AllTranslations }}
+      {{ $homeLinks.Set .Lang .RelPermalink }}
+    {{ end }}
+  {{ end }}
+  <div>
+    <div class="cursor-pointer flex items-center nested-menu">
+      <span class="me-1">
+        {{ partial "icon.html" "language" }}
+      </span>
+      <div
+        class="text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400"
+        title="{{ .Title }}">
+        {{ with .Language.Params.displayName }}{{ . | emojify }}{{ else }}{{ .Language.LanguageName | default (.Lang | upper) | emojify }}{{ end }}
+      </div>
+    </div>
+    <div class="absolute menuhide">
+      <div class="pt-2 p-5 mt-2 rounded-xl backdrop-blur shadow-2xl">
+        <div class="flex flex-col space-y-3">
+          {{ range $site.Languages }}
+            {{ $lang := printf "%s" .Lang }}
+            {{ $label := .Params.displayName | default .LanguageName | default (upper $lang) }}
+            {{ $target := "" }}
+            {{ with $translations.Get $lang }}
+              {{ $target = .RelPermalink }}
+            {{ else }}
+              {{ with $homeLinks.Get $lang }}
+                {{ $target = . }}
+              {{ end }}
+            {{ end }}
+            {{ if eq $target "" }}
+              {{ $target = relLangURL "/" }}
+            {{ end }}
+              <a href="{{ $target }}" class="flex items-center">
+                <p
+                  class="text-sm font-sm hover:text-primary-600 dark:hover:text-primary-400"
+                  title="{{ $current.Title }}">
+                  {{ $label | emojify }}
+                </p>
+              </a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </div>
+{{ end }}

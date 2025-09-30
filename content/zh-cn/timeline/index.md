@@ -5,11 +5,11 @@ translationKey: "timeline"
 date: 2025-09-01
 lastmod: 2025-09-29
 summary: "我们关系与天竺鼠的即时计时器。"
-description: "记录我和 Paper 的远距天数，以及 Hash Brown、Potato 的成长天数，皆以雪梨时间更新。"
+description: "记录我和 Paper 的远距天数，以及 脆薯饼、马铃薯 的成长天数，皆以雪梨时间更新。"
 ---
 
 {{< lead >}}
-把最重要的里程碑放在这里：远距的天数，以及 Hash Brown 和 Potato 到今天几岁。
+把最重要的里程碑放在这里：远距的天数，以及 脆薯饼 和 马铃薯 到今天几岁。
 {{< /lead >}}
 
 {{< alert icon="clock" >}}
@@ -28,13 +28,13 @@ description: "记录我和 Paper 的远距天数，以及 Hash Brown、Potato �
 
 ### 天竺鼠生日
 {{< timeline >}}
-{{< timelineItem id="hash-brown" icon="carrot" header="Hash Brown" badge="2025-06-24 出生" subheader="Teddy 天竺鼠" md="true" >}}
+{{< timelineItem id="hash-brown" icon="carrot" header="脆薯饼" badge="2025-06-24 出生" subheader="泰迪 天竺鼠" md="true" >}}
 **成长天数：** <span class="counter-days" data-counter-origin="2025-06-24T00:00:00+10:00" data-counter-format="days">0</span>
 
 浅棕色 Teddy，活动力满点，最爱搬家和在笼子里冲刺。拿红／绿甜椒、玉米须、红萝卜就可以收买。冰箱门一开就会大喊「515151」。更多日常会放在 [Instagram @zakk.au](https://www.instagram.com/zakk.au/)。
 {{< /timelineItem >}}
 
-{{< timelineItem id="potato" icon="leaf" header="Potato" badge="2025-07-27 出生" subheader="Teddy 天竺鼠" md="true" >}}
+{{< timelineItem id="potato" icon="leaf" header="马铃薯" badge="2025-07-27 出生" subheader="泰迪 天竺鼠" md="true" >}}
 **成长天数：** <span class="counter-days" data-counter-origin="2025-07-27T00:00:00+10:00" data-counter-format="days">0</span>
 
 深棕色 Teddy，胆子大又超爱吃。最常把自己埋在牧草里睡觉，醒来继续啃甜椒、玉米须和红萝卜。她常在 [关于我](/zh-cn/about/#potato) 和 [Instagram](https://www.instagram.com/zakk.au/) 出现。
@@ -43,5 +43,5 @@ description: "记录我和 Paper 的远距天数，以及 Hash Brown、Potato �
 
 ### 延伸阅读
 - [我们的故事](/zh-cn/about/#%E6%88%91%E5%92%8C-paper)
-- [Hash Brown 的介绍](/zh-cn/about/#hash-brown)
-- [Potato 的介绍](/zh-cn/about/#potato)
+- [脆薯饼 的介绍](/zh-cn/about/#hash-brown)
+- [马铃薯 的介绍](/zh-cn/about/#potato)

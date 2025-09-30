@@ -8,7 +8,7 @@ translationKey: "gentoo-install"
 ---
 <div class="gentoo-article">
 
-# 💻 My Hardware (Example) {#my-hardware-example}
+# My Hardware (Example) {#my-hardware-example}
 - **CPU**: AMD Ryzen 9 7950X3D (16C/32T)  
 - **Motherboard**: ASUS ROG STRIX X670E-A GAMING WIFI  
 - **RAM**: 64GB DDR5  

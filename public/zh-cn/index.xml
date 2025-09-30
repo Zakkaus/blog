@@ -115,7 +115,7 @@
     target=&#34;_blank&#34;
   &gt;@abyss_74.50&lt;/a&gt;，或到 &lt;a
   href=&#34;https://zakk.au/zh-cn/timeline/#couple&#34;&gt;时间轴&lt;/a&gt; 看我们的即时计时器。&lt;/p&gt;</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://zakk.au/about/feature-hashbrown.webp" />
     </item>
     
     <item>
@@ -125,7 +125,7 @@
       <author>admin@zakk.au (Zakk)</author>
       <guid>https://zakk.au/zh-cn/timeline/</guid>
       <description>我们关系与天竺鼠的即时计时器。</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://zakk.au/timeline/feature-timeline.webp" />
     </item>
     
   </channel>

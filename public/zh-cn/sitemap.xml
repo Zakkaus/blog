@@ -167,16 +167,6 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="en"
-      href="https://zakk.au/zh-cn/about/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://zakk.au/zh-tw/about/"
-    />
-    <xhtml:link
-      rel="alternate"
       hreflang="zh-tw"
       href="https://zakk.au/zh-tw/about/"
     />
@@ -226,16 +216,6 @@
       rel="alternate"
       hreflang="en"
       href="https://zakk.au/timeline/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://zakk.au/zh-cn/timeline/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://zakk.au/zh-tw/timeline/"
     />
     <xhtml:link
       rel="alternate"

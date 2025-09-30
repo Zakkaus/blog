@@ -18,7 +18,6 @@
       <author>admin@zakk.au (Zakk)</author>
       <guid>https://zakk.au/zh-tw/posts/gentoo-install/</guid>
       <description>&lt;div class=&#34;gentoo-article&#34;&gt;
-&lt;hr&gt;
 
 &lt;h1 class=&#34;relative group&#34;&gt;我的電腦配置（示例） 
     &lt;div id=&#34;my-hardware-zh&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;
@@ -49,7 +48,7 @@
       <author>admin@zakk.au (Zakk)</author>
       <guid>https://zakk.au/zh-tw/timeline/</guid>
       <description>我們關係與天竺鼠的即時計時器。</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://zakk.au/timeline/feature-timeline.webp" />
     </item>
     
     <item>
@@ -126,7 +125,7 @@
     target=&#34;_blank&#34;
   &gt;@abyss_74.50&lt;/a&gt;，或到 &lt;a
   href=&#34;https://zakk.au/zh-tw/timeline/#couple&#34;&gt;時間軸&lt;/a&gt; 看我們的即時計時器。&lt;/p&gt;</description>
-      
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://zakk.au/about/feature-hashbrown.webp" />
     </item>
     
   </channel>

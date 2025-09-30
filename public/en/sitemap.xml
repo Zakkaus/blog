@@ -3,14 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
+    <loc>https://blog-7qj.pages.dev/</loc>
+    <lastmod>2025-09-29T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-Hant"
+      href="https://blog-7qj.pages.dev/zh-hant/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://blog-7qj.pages.dev/zh-cn/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://blog-7qj.pages.dev/"
+    />
+  </url>
+  <url>
     <loc>https://blog-7qj.pages.dev/posts/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://blog-7qj.pages.dev/zh-cn/</loc>
+    <lastmod>2025-09-29T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://blog-7qj.pages.dev/zh-cn/posts/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://blog-7qj.pages.dev/zh-hant/</loc>
+    <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url>
@@ -102,27 +135,6 @@
       rel="alternate"
       hreflang="en"
       href="https://blog-7qj.pages.dev/zh-hant/posts/gentoo-install/"
-    />
-  </url>
-  <url>
-    <loc>https://blog-7qj.pages.dev/</loc>
-    <lastmod>2025-09-29T00:00:00+00:00</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-Hant"
-      href="https://blog-7qj.pages.dev/zh-hant/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-cn"
-      href="https://blog-7qj.pages.dev/zh-cn/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://blog-7qj.pages.dev/"
     />
   </url>
   <url>
@@ -229,17 +241,5 @@
       hreflang="en"
       href="https://blog-7qj.pages.dev/zh-hant/about/"
     />
-  </url>
-  <url>
-    <loc>https://blog-7qj.pages.dev/zh-hant/</loc>
-    <lastmod>2025-09-29T00:00:00+00:00</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://blog-7qj.pages.dev/zh-cn/</loc>
-    <lastmod>2025-09-29T00:00:00+00:00</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
   </url>
 </urlset>

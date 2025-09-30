@@ -15,7 +15,14 @@ title = "Zakk"
   name = "Zakk"
   email = "admin@zakk.au"
   image = "https://avatars.githubusercontent.com/u/221879664?v=4"
-  headline = "Australia-based student sharing Linux, finance, design, and life updates with Paper."
+  headline = """
+📍 Australia 🇦🇺
+🕓 UTC +10 (AEST) ❄️
+❤️ Paper ✨
+🐹 Guinea pigs 🥔
+🎮 Gaming · 🐧 Linux · 💹 Finance
+🩷💛🩵
+"""
   bio = "Long-distance with Paper, raising Potato & Hash Brown, tinkering with Gentoo, and collecting cozy routines."
   links = [
     { instagram = "https://www.instagram.com/zakk.au/" },

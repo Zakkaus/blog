@@ -1,17 +1,39 @@
 {{ if .Params.showRelatedContent | default (.Site.Params.article.showRelatedContent | default false) }}
   {{ $related := .Site.RegularPages.Related . }}
+  {{ $relatedPages := slice }}
+  {{ $otherLangPrefixes := slice }}
+  {{ $scratch := newScratch }}
   {{ if hugo.IsMultilingual }}
-    {{ $related = where $related "Lang" .Lang }}
+    {{ range site.Languages }}
+      {{ if ne .Lang $.Site.Language.Lang }}
+        {{ $otherLangPrefixes = $otherLangPrefixes | append (printf "/%s/" .Lang) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  {{ range $related }}
+    {{ $page := .Page }}
+    {{ $scratch.Set "include" true }}
+    {{ if hugo.IsMultilingual }}
+      {{ $rel := $page.RelPermalink }}
+      {{ range $prefix := $otherLangPrefixes }}
+        {{ if strings.HasPrefix $rel $prefix }}
+          {{ $scratch.Set "include" false }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+    {{ if $scratch.Get "include" }}
+      {{ $relatedPages = $relatedPages | append $page }}
+    {{ end }}
   {{ end }}
   {{ $relatedLimit := .Site.Params.article.relatedContentLimit | default 5 }}
   {{ if and $relatedLimit (gt $relatedLimit 0) }}
-    {{ $related = first $relatedLimit $related }}
+    {{ $relatedPages = first $relatedLimit $relatedPages }}
   {{ end }}
-  {{ with $related }}
+  {{ with $relatedPages }}
     <h2 class="mt-8 text-2xl font-extrabold mb-10">{{ i18n "article.related_articles" | emojify }}</h2>
     <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
       {{ range . }}
-        {{ partial "article-link/card-related.html" . }}
+  {{ partial "article-link/card-related.html" . }}
       {{ end }}
     </section>
   {{ end }}

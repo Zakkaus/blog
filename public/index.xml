@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Welcome on Zakk</title><link>https://zakk.au/</link><description>Recent content in Welcome on Zakk</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>admin@zakk.au (Zakk)</managingEditor><webMaster>admin@zakk.au (Zakk)</webMaster><copyright>© 2025 Zakk</copyright><lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://zakk.au/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Welcome on Blowfish</title><link>https://zakk.au/</link><description>Recent content in Welcome on Blowfish</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>nuno@n9o.xyz (Blowfish)</managingEditor><webMaster>nuno@n9o.xyz (Blowfish)</webMaster><copyright>© 2025 Blowfish</copyright><lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://zakk.au/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>nuno@n9o.xyz (Blowfish)</author><guid>https://zakk.au/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
 I’m &lt;strong&gt;Zakk&lt;/strong&gt;, an Australia-based business student who writes bilingual notes about Gentoo, creative experiments, finance, and the everyday moments I share with Paper and our guinea pigs.
 &lt;/div&gt;
 &lt;div
@@ -19,7 +19,7 @@ href="https://zakk.au/timeline/#couple"&gt;Timeline&lt;/a&gt;.&lt;/span&gt;
 &lt;div id="snapshot" class="anchor"&gt;&lt;/div&gt;
 &lt;span
 class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none"&gt;
-&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#snapshot" aria-label="Heading link"&gt;#&lt;/a&gt;
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#snapshot" aria-label="Anchor"&gt;#&lt;/a&gt;
 &lt;/span&gt;
 &lt;/h3&gt;
 &lt;ul&gt;
@@ -32,7 +32,7 @@ class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-
 &lt;div id="relationship" class="anchor"&gt;&lt;/div&gt;
 &lt;span
 class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none"&gt;
-&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#relationship" aria-label="Heading link"&gt;#&lt;/a&gt;
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#relationship" aria-label="Anchor"&gt;#&lt;/a&gt;
 &lt;/span&gt;
 &lt;/h3&gt;
 &lt;p&gt;We first met inside &lt;a
@@ -42,7 +42,7 @@ target="_blank"
 href="https://www.instagram.com/abyss_74.50/"
 target="_blank"
 &gt;@abyss_74.50&lt;/a&gt; and see how long we’ve been together on the &lt;a
-href="https://zakk.au/timeline/#couple"&gt;Timeline&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Gentoo Installation Guide (Beginner)</title><link>https://zakk.au/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/posts/gentoo-install/</guid><description>&lt;div
+href="https://zakk.au/timeline/#couple"&gt;Timeline&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Gentoo Installation Guide (Beginner)</title><link>https://zakk.au/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>nuno@n9o.xyz (Blowfish)</author><guid>https://zakk.au/posts/gentoo-install/</guid><description>&lt;div
 class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
 &gt;
 &lt;span
@@ -53,7 +53,7 @@ class="text-primary-400 pe-3 flex items-center"
 &lt;/span&gt;
 &lt;span
 class="dark:text-neutral-300"
-&gt;&lt;p&gt;&lt;strong&gt;Quick navigation&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Gentoo 安装指南（新手）</title><link>https://zakk.au/zh-cn/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-cn/posts/gentoo-install/</guid><description>&lt;div
+&gt;&lt;p&gt;&lt;strong&gt;Quick navigation&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Gentoo 安装指南（新手）</title><link>https://zakk.au/zh-cn/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>nuno@n9o.xyz (Blowfish)</author><guid>https://zakk.au/zh-cn/posts/gentoo-install/</guid><description>&lt;div
 class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
 &gt;
 &lt;span
@@ -64,7 +64,7 @@ class="text-primary-400 pe-3 flex items-center"
 &lt;/span&gt;
 &lt;span
 class="dark:text-neutral-300"
-&gt;&lt;p&gt;&lt;strong&gt;快速导览&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Gentoo 安裝指南（新手）</title><link>https://zakk.au/zh-tw/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-tw/posts/gentoo-install/</guid><description>&lt;div
+&gt;&lt;p&gt;&lt;strong&gt;快速导览&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Gentoo 安裝指南（新手）</title><link>https://zakk.au/zh-tw/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>nuno@n9o.xyz (Blowfish)</author><guid>https://zakk.au/zh-tw/posts/gentoo-install/</guid><description>&lt;div
 class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
 &gt;
 &lt;span
@@ -75,7 +75,7 @@ class="text-primary-400 pe-3 flex items-center"
 &lt;/span&gt;
 &lt;span
 class="dark:text-neutral-300"
-&gt;&lt;p&gt;&lt;strong&gt;快速導覽&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Timeline</title><link>https://zakk.au/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/timeline/</guid><description>Live counters for our relationship and guinea pigs.</description></item><item><title>关于我</title><link>https://zakk.au/zh-cn/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-cn/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
+&gt;&lt;p&gt;&lt;strong&gt;快速導覽&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Timeline</title><link>https://zakk.au/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>nuno@n9o.xyz (Blowfish)</author><guid>https://zakk.au/timeline/</guid><description>Live counters for our relationship and guinea pigs.</description></item><item><title>关于我</title><link>https://zakk.au/zh-cn/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>nuno@n9o.xyz (Blowfish)</author><guid>https://zakk.au/zh-cn/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
 我是 &lt;strong&gt;Zakk&lt;/strong&gt;，住在澳洲的商科学生，用双语记录 Linux 折腾、设计实验、理财系统，以及和 Paper 还有 Hash Brown、Potato 两只天竺鼠的远距日常。
 &lt;/div&gt;
 &lt;div
@@ -96,7 +96,7 @@ href="https://zakk.au/zh-cn/timeline/#couple"&gt;时间轴&lt;/a&gt; 上纪录�
 &lt;div id="摘要" class="anchor"&gt;&lt;/div&gt;
 &lt;span
 class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none"&gt;
-&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%91%98%e8%a6%81" aria-label="Heading link"&gt;#&lt;/a&gt;
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%91%98%e8%a6%81" aria-label="Anchor"&gt;#&lt;/a&gt;
 &lt;/span&gt;
 &lt;/h3&gt;
 &lt;ul&gt;
@@ -109,7 +109,7 @@ class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-
 &lt;div id="我和-paper" class="anchor"&gt;&lt;/div&gt;
 &lt;span
 class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none"&gt;
-&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%88%91%e5%92%8c-paper" aria-label="Heading link"&gt;#&lt;/a&gt;
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%88%91%e5%92%8c-paper" aria-label="Anchor"&gt;#&lt;/a&gt;
 &lt;/span&gt;
 &lt;/h3&gt;
 &lt;p&gt;在 &lt;a
@@ -119,7 +119,7 @@ target="_blank"
 href="https://www.instagram.com/abyss_74.50/"
 target="_blank"
 &gt;@abyss_74.50&lt;/a&gt;，或到 &lt;a
-href="https://zakk.au/zh-cn/timeline/#couple"&gt;时间轴&lt;/a&gt; 看我们的即时计时器。&lt;/p&gt;</description></item><item><title>时间轴</title><link>https://zakk.au/zh-cn/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-cn/timeline/</guid><description>我们关系与天竺鼠的即时计时器。</description></item><item><title>時間軸</title><link>https://zakk.au/zh-tw/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-tw/timeline/</guid><description>我們關係與天竺鼠的即時計時器。</description></item><item><title>關於我</title><link>https://zakk.au/zh-tw/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-tw/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
+href="https://zakk.au/zh-cn/timeline/#couple"&gt;时间轴&lt;/a&gt; 看我们的即时计时器。&lt;/p&gt;</description></item><item><title>时间轴</title><link>https://zakk.au/zh-cn/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>nuno@n9o.xyz (Blowfish)</author><guid>https://zakk.au/zh-cn/timeline/</guid><description>我们关系与天竺鼠的即时计时器。</description></item><item><title>時間軸</title><link>https://zakk.au/zh-tw/timeline/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>nuno@n9o.xyz (Blowfish)</author><guid>https://zakk.au/zh-tw/timeline/</guid><description>我們關係與天竺鼠的即時計時器。</description></item><item><title>關於我</title><link>https://zakk.au/zh-tw/about/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>nuno@n9o.xyz (Blowfish)</author><guid>https://zakk.au/zh-tw/about/</guid><description>&lt;div class="lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl"&gt;
 我是 &lt;strong&gt;Zakk&lt;/strong&gt;，住在澳洲的商科學生，用雙語記錄 Linux 折騰、設計實驗、理財系統，以及和 Paper 還有 Hash Brown、Potato 兩隻天竺鼠的遠距日常。
 &lt;/div&gt;
 &lt;div
@@ -140,7 +140,7 @@ href="https://zakk.au/zh-tw/timeline/#couple"&gt;時間軸&lt;/a&gt; 上紀錄�
 &lt;div id="摘要" class="anchor"&gt;&lt;/div&gt;
 &lt;span
 class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none"&gt;
-&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%91%98%e8%a6%81" aria-label="Heading link"&gt;#&lt;/a&gt;
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%91%98%e8%a6%81" aria-label="Anchor"&gt;#&lt;/a&gt;
 &lt;/span&gt;
 &lt;/h3&gt;
 &lt;ul&gt;
@@ -153,7 +153,7 @@ class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-
 &lt;div id="我和-paper" class="anchor"&gt;&lt;/div&gt;
 &lt;span
 class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none"&gt;
-&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%88%91%e5%92%8c-paper" aria-label="Heading link"&gt;#&lt;/a&gt;
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%88%91%e5%92%8c-paper" aria-label="Anchor"&gt;#&lt;/a&gt;
 &lt;/span&gt;
 &lt;/h3&gt;
 &lt;p&gt;在 &lt;a

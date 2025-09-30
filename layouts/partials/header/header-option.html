@@ -1,7 +1,0 @@
-{{- $ctx := .ctx -}}
-{{- $item := .item -}}
-{{- if $item.HasChildren -}}
-  {{ partial "header/header-option-nested.html" (dict "item" $item "ctx" $ctx) }}
-{{- else -}}
-  {{ partial "header/header-option-simple.html" (dict "item" $item "ctx" $ctx) }}
-{{- end -}}

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Systemd on Zakk</title><link>https://zakk.au/tags/systemd/</link><description>Recent content in Systemd on Zakk</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>admin@zakk.au (Zakk)</managingEditor><webMaster>admin@zakk.au (Zakk)</webMaster><copyright>© 2025 Zakk</copyright><lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/tags/systemd/index.xml" rel="self" type="application/rss+xml"/><item><title>Gentoo Installation Guide (Beginner)</title><link>https://zakk.au/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/posts/gentoo-install/</guid><description>&lt;div
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Systemd on Blowfish</title><link>https://zakk.au/tags/systemd/</link><description>Recent content in Systemd on Blowfish</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>nuno@n9o.xyz (Blowfish)</managingEditor><webMaster>nuno@n9o.xyz (Blowfish)</webMaster><copyright>© 2025 Blowfish</copyright><lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/tags/systemd/index.xml" rel="self" type="application/rss+xml"/><item><title>Gentoo Installation Guide (Beginner)</title><link>https://zakk.au/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>nuno@n9o.xyz (Blowfish)</author><guid>https://zakk.au/posts/gentoo-install/</guid><description>&lt;div
 class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
 &gt;
 &lt;span
@@ -9,7 +9,7 @@ class="text-primary-400 pe-3 flex items-center"
 &lt;/span&gt;
 &lt;span
 class="dark:text-neutral-300"
-&gt;&lt;p&gt;&lt;strong&gt;Quick navigation&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Gentoo 安装指南（新手）</title><link>https://zakk.au/zh-cn/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-cn/posts/gentoo-install/</guid><description>&lt;div
+&gt;&lt;p&gt;&lt;strong&gt;Quick navigation&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Gentoo 安装指南（新手）</title><link>https://zakk.au/zh-cn/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>nuno@n9o.xyz (Blowfish)</author><guid>https://zakk.au/zh-cn/posts/gentoo-install/</guid><description>&lt;div
 class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
 &gt;
 &lt;span
@@ -20,7 +20,7 @@ class="text-primary-400 pe-3 flex items-center"
 &lt;/span&gt;
 &lt;span
 class="dark:text-neutral-300"
-&gt;&lt;p&gt;&lt;strong&gt;快速导览&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Gentoo 安裝指南（新手）</title><link>https://zakk.au/zh-tw/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>admin@zakk.au (Zakk)</author><guid>https://zakk.au/zh-tw/posts/gentoo-install/</guid><description>&lt;div
+&gt;&lt;p&gt;&lt;strong&gt;快速导览&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Gentoo 安裝指南（新手）</title><link>https://zakk.au/zh-tw/posts/gentoo-install/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><author>nuno@n9o.xyz (Blowfish)</author><guid>https://zakk.au/zh-tw/posts/gentoo-install/</guid><description>&lt;div
 class="flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900"
 &gt;
 &lt;span

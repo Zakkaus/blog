@@ -1,0 +1,30 @@
+languageCode = "zh-cn"
+languageName = "简体中文"
+weight = 3
+title = "Zakk"
+
+[params]
+  displayName = "简体中文"
+  isoCode = "zh-CN"
+  rtl = false
+  dateFormat = "2006年1月2日"
+  logo = "img/logo-small.png"
+  description = "住在澳洲的学生，写下 Linux、设计、理财，以及和 Paper 的远距日常。"
+
+[params.author]
+  name = "Zakk"
+  email = "admin@zakk.au"
+  image = "https://avatars.githubusercontent.com/u/221879664?v=4"
+  headline = """📍 澳大利亚 🇦🇺<br>
+🕓 UTC +10 (AEST) ❄️<br>
+❤️ Paper ✨<br>
+🐹 天竺鼠 🥔<br>
+🎮 游戏 · 🐧 Linux · 💹 金融<br>
+🩷💛🩵"""
+  bio = "分享 Gentoo 安装笔记、硬件设备与天竺鼠生活记事；和 Paper 的双语日常也会一起更新。"
+  links = [
+    { github = "https://github.com/Zakkaus" },
+    { instagram = "https://www.instagram.com/zakk.au/" },
+    { x-twitter = "https://x.com/zakkauu" },
+    { email = "mailto:admin@zakk.au" }
+  ]

@@ -1,0 +1,86 @@
+global:
+  language: "繁"
+
+article:
+  anchor_label: "段落連結"
+  date: "{{ .Date }}"
+  date_updated: "更新於 {{ .Date }}"
+  draft: "草稿"
+  edit_title: "回報內容修訂"
+  reading_time:
+    one: "約 {{ .Count }} 分鐘"
+    other: "約 {{ .Count }} 分鐘"
+  reading_time_title: "閱讀時間"
+  table_of_contents: "本頁導覽"
+  word_count:
+    one: "{{ .Count }} 字"
+    other: "{{ .Count }} 字"
+  views:
+    one: "{{ .Count }} 次瀏覽"
+    other: "{{ .Count }} 次瀏覽"
+  likes:
+    one: "{{ .Count }} 個喜歡"
+    other: "{{ .Count }} 個喜歡"
+  part_of_series: "本文是系列文章的一部分。"
+  part: "第"
+  this_article: "本文"
+  related_articles: "延伸閱讀"
+  zen_mode_title:
+    enable: "開啟專注模式"
+    disable: "關閉專注模式"
+
+a11y:
+  title: "無障礙設定"
+  disable_blur: "停用模糊效果"
+  disable_images: "隱藏圖片"
+  show_link_underline: "顯示連結底線"
+  font_size: "字級"
+
+author:
+  byline_title: "作者"
+
+code:
+  copy: "複製"
+  copied: "已複製"
+
+error:
+  404_title: "找不到頁面 🧭"
+  404_error: "404"
+  404_description: "頁面可能搬家了，或者從未存在過。"
+
+footer:
+  dark_appearance: "切換為深色模式"
+  light_appearance: "切換為淺色模式"
+  powered_by: "本站由 {{ .Hugo }} 與 {{ .Theme }} 驅動"
+
+list:
+  externalurl_title: "開啟外部連結"
+  no_articles: "這裡還沒有文章。"
+
+nav:
+  scroll_to_top_title: "回到頁面頂端"
+  skip_to_main: "跳至主內容"
+
+search:
+  open_button_title: "搜尋 (/)"
+  close_button_title: "關閉 (Esc)"
+  input_placeholder: "搜尋"
+
+sharing:
+  email: "透過電子郵件分享"
+  github: "分享到 GitHub"
+  line: "分享到 LINE"
+  linkedin: "分享到 LinkedIn"
+  pinterest: "儲存至 Pinterest"
+  reddit: "分享到 Reddit"
+  telegram: "透過 Telegram 分享"
+  twitter: "分享到 Twitter"
+  x-twitter: "分享到 X"
+  bluesky: "分享到 Bluesky"
+  whatsapp: "透過 WhatsApp 分享"
+
+shortcode:
+  recent_articles: "最新文章"
+
+recent:
+  show_more: "載入更多"

@@ -1,0 +1,59 @@
+# -- Main Menu --
+# Configure header navigation for the Simplified Chinese locale.
+
+[[main]]
+  name = "关于我"
+  pageRef = "about"
+  weight = 10
+
+[[main]]
+  name = "文章"
+  pageRef = "posts"
+  weight = 20
+
+[[main]]
+  name = "时间轴"
+  pageRef = "timeline"
+  weight = 30
+
+[[main]]
+  identifier = "github"
+  pre = "github"
+  url = "https://github.com/Zakkaus"
+  weight = 200
+
+[[main]]
+  identifier = "instagram"
+  pre = "instagram"
+  url = "https://www.instagram.com/zakk.au/"
+  weight = 210
+
+[[main]]
+  identifier = "x-twitter"
+  pre = "x-twitter"
+  url = "https://x.com/zakkauu"
+  weight = 220
+
+[[main]]
+  identifier = "email"
+  pre = "email"
+  url = "mailto:admin@zakk.au"
+  weight = 230
+
+# -- Footer Menu --
+# Configure footer navigation for the Simplified Chinese locale.
+
+[[footer]]
+  name = "关于我"
+  pageRef = "about"
+  weight = 10
+
+[[footer]]
+  name = "时间轴"
+  pageRef = "timeline"
+  weight = 20
+
+[[footer]]
+  name = "标签"
+  pageRef = "tags"
+  weight = 30

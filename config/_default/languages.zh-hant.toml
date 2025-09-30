@@ -4,11 +4,11 @@ weight = 2
 title = "Zakk"
 
 [params]
-  logo = "img/logo-small.png"
   displayName = "繁體中文"
   isoCode = "zh-Hant"
   rtl = false
   dateFormat = "2006年1月2日"
+  logo = "img/logo-small.png"
   description = "住在澳洲的學生，寫下 Linux、設計、理財，以及和 Paper 的遠距日常。"
 
 [params.author]
@@ -25,6 +25,6 @@ title = "Zakk"
   links = [
     { github = "https://github.com/Zakkaus" },
     { instagram = "https://www.instagram.com/zakk.au/" },
-    { x = "https://x.com/zakkauu" },
+    { x-twitter = "https://x.com/zakkauu" },
     { email = "mailto:admin@zakk.au" }
   ]

@@ -4,10 +4,17 @@
 
   <url>
     <loc>https://blog-7qj.pages.dev/zh-hant/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
       href="https://blog-7qj.pages.dev/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://blog-7qj.pages.dev/zh-cn/"
     />
     <xhtml:link
       rel="alternate"

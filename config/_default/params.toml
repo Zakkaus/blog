@@ -1,20 +1,23 @@
 colorScheme = "blowfish"
-defaultAppearance = "auto"
+defaultAppearance = "dark"
 autoSwitchAppearance = true
 
+enableA11y = false
 enableSearch = true
 enableCodeCopy = true
-mainSections = ["posts"]
-smartTOC = true
-smartTOCHideUnfocusedChildren = false
-fingerprintAlgorithm = "sha512"
+replyByEmail = false
 
+mainSections = ["posts"]
 disableImageOptimization = false
 disableImageOptimizationMD = false
+disableTextInHeader = false
 
-defaultBackgroundImage = "img/background.svg"
+defaultBackgroundImage = "/img/background.svg"
+highlightCurrentMenuArea = true
+smartTOC = true
+smartTOCHideUnfocusedChildren = false
 
-authorCardShowSocial = true
+fingerprintAlgorithm = "sha512"
 
 [header]
   layout = "fixed"
@@ -28,18 +31,20 @@ authorCardShowSocial = true
 
 [homepage]
   layout = "background"
-  layoutBackgroundBlur = true
   showRecent = true
   showRecentItems = 4
   showMoreLink = true
   showMoreLinkDest = "posts"
   cardView = true
   cardViewScreenWidth = false
+  layoutBackgroundBlur = true
+  disableHeroImageFilter = false
 
 [article]
   showDate = true
   showViews = false
   showLikes = false
+  showDateOnlyInArticle = false
   showDateUpdated = true
   showAuthor = true
   showHero = true
@@ -48,6 +53,10 @@ authorCardShowSocial = true
   layoutBackgroundHeaderSpace = true
   showBreadcrumbs = true
   showDraftLabel = false
+  showEdit = false
+  editURL = ""
+  editAppendPath = false
+  seriesOpened = false
   showHeadingAnchors = true
   showPagination = true
   invertPagination = false
@@ -58,8 +67,8 @@ authorCardShowSocial = true
   showTaxonomies = true
   showAuthorsBadges = false
   showWordCount = false
+  sharingLinks = ["github", "x-twitter", "bluesky", "reddit", "telegram", "line", "email"]
   showZenMode = true
-  sharingLinks = ["twitter", "bluesky", "reddit", "telegram", "line", "email"]
 
 [list]
   showHero = true

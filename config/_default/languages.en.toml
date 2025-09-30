@@ -4,11 +4,11 @@ weight = 1
 title = "Zakk"
 
 [params]
-  logo = "img/logo-small.png"
   displayName = "English"
   isoCode = "en"
   rtl = false
   dateFormat = "2 January 2006"
+  logo = "img/logo-small.png"
   description = "Australia-based student writing about Linux, design, finance, and long-distance life with Paper."
 
 [params.author]
@@ -25,6 +25,6 @@ title = "Zakk"
   links = [
     { github = "https://github.com/Zakkaus" },
     { instagram = "https://www.instagram.com/zakk.au/" },
-    { x = "https://x.com/zakkauu" },
+    { x-twitter = "https://x.com/zakkauu" },
     { email = "mailto:admin@zakk.au" }
   ]

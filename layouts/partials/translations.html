@@ -1,11 +1,11 @@
 {{ if and .IsTranslated (hugo.IsMultilingual) }}
-  {{ warnf "page %s sees %d site languages" .Lang (len .Site.Languages) }}
   {{ $labels := newScratch }}
   {{ range .Site.Languages }}
     {{ $code := .Lang }}
     {{ $name := .Params.displayName | default .LanguageName | default (upper $code) }}
-    {{ $labels.Set $code $name }}
+    {{ $labels.Set $code ($name | emojify) }}
   {{ end }}
+  {{ $current := $labels.Get .Lang | default (upper .Lang) }}
   <div>
     <div class="cursor-pointer flex items-center nested-menu">
       <span class="me-1">
@@ -14,7 +14,7 @@
       <div
         class="text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400"
         title="{{ .Title }}">
-        {{- i18n "global.language" | markdownify -}}
+        {{- $current -}}
       </div>
     </div>
     <div class="absolute menuhide">
@@ -23,12 +23,11 @@
           {{ range .AllTranslations }}
             {{ $lang := .Lang }}
             {{ $label := $labels.Get $lang | default (upper $lang) }}
-            {{ warnf "page %s option %s displayName %s resolved %s" $.Lang $lang (.Language.Params.displayName) $label }}
             <a href="{{ .RelPermalink }}" class="flex items-center">
               <p
                 class="text-sm font-sm hover:text-primary-600 dark:hover:text-primary-400"
                 title="{{ .Title }}">
-                {{ printf "%s->%s (%s)*" $.Lang $lang $label }}
+                {{- $label -}}
               </p>
             </a>
           {{ end }}

@@ -3,24 +3,6 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>https://zakk.au/posts/</loc>
-    <lastmod>2025-09-01T00:00:00+00:00</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://zakk.au/zh-cn/posts/</loc>
-    <lastmod>2025-09-01T00:00:00+00:00</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://zakk.au/zh-tw/posts/</loc>
-    <lastmod>2025-09-01T00:00:00+00:00</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://zakk.au/about/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
@@ -105,6 +87,27 @@
     />
   </url>
   <url>
+    <loc>https://zakk.au/posts/</loc>
+    <lastmod>2025-09-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/zh-cn/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/zh-tw/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/posts/"
+    />
+  </url>
+  <url>
     <loc>https://zakk.au/timeline/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
@@ -165,6 +168,48 @@
       rel="alternate"
       hreflang="en"
       href="https://zakk.au/zh-cn/about/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/zh-cn/posts/</loc>
+    <lastmod>2025-09-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/zh-tw/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/zh-cn/posts/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/zh-tw/posts/</loc>
+    <lastmod>2025-09-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/zh-cn/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/zh-tw/posts/"
     />
   </url>
   <url>

@@ -143,6 +143,21 @@ body.dark .main-nav a.active{
   box-shadow:var(--hb-shadow,0 1px 2px rgba(0,0,0,.08));
   transition:background .25s,transform .18s,border-color .25s,color .25s;
 }
+.custom-topbuttons .cb-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:.45rem;
+}
+.custom-topbuttons .cb-btn .cb-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  line-height:0;
+}
+.custom-topbuttons .cb-btn .cb-icon svg{
+  width:1.05em;
+  height:1.05em;
+}
 .custom-topbuttons .cb-btn:hover,
 .cb-toggle:hover{
   transform:translateY(-1px);

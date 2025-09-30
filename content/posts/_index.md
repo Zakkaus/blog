@@ -1,4 +1,5 @@
+---
 draft: false
 title: "Posts"
- translationKey: "posts"
+translationKey: "posts"
 ---

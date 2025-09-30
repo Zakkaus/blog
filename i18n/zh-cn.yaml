@@ -1,0 +1,97 @@
+global:
+  language: "简体中文"
+
+
+article:
+  anchor_label: "段落链接"
+  date: "{{ .Date }}"
+  date_updated: "更新于 {{ .Date }}"
+  draft: "草稿"
+  edit_title: "报告内容修订"
+  reading_time:
+    one: "约 {{ .Count }} 分钟"
+    other: "约 {{ .Count }} 分钟"
+  reading_time_title: "阅读时间"
+  table_of_contents: "本页导航"
+  word_count:
+    one: "{{ .Count }} 字"
+    other: "{{ .Count }} 字"
+  views:
+    one: "{{ .Count }} 次浏览"
+    other: "{{ .Count }} 次浏览"
+  likes:
+    one: "{{ .Count }} 个喜欢"
+    other: "{{ .Count }} 个喜欢"
+  part_of_series: "本文是系列文章的一部分。"
+  part: "第"
+  this_article: "本文"
+  related_articles: "延伸阅读"
+  zen_mode_title:
+    enable: "开启专注模式"
+    disable: "关闭专注模式"
+
+a11y:
+  title: "无障碍设置"
+  disable_blur: "停用模糊效果"
+  disable_images: "隐藏图片"
+  show_link_underline: "显示链接底线"
+  font_size: "字级"
+
+author:
+  byline_title: "作者"
+
+code:
+  copy: "复制"
+  copied: "已复制"
+
+error:
+  404_title: "找不到页面 🧭"
+  404_error: "404"
+  404_description: "页面可能搬家了，或者从未存在过。"
+
+footer:
+  dark_appearance: "切换为深色模式"
+  light_appearance: "切换为浅色模式"
+  powered_by: "本站由 {{ .Hugo }} 与 {{ .Theme }} 驱动"
+
+list:
+  externalurl_title: "打开外部链接"
+  no_articles: "这里还没有文章。"
+
+menu:
+  about: "关于我"
+  posts: "文章"
+  timeline: "时间轴"
+  tags: "标签"
+  github: ""
+  instagram: ""
+  x-twitter: ""
+  email: ""
+
+nav:
+  scroll_to_top_title: "回到页面顶端"
+  skip_to_main: "跳至主内容"
+
+search:
+  open_button_title: "搜索 (/)"
+  close_button_title: "关闭 (Esc)"
+  input_placeholder: "搜索"
+
+sharing:
+  email: "通过电子邮件分享"
+  github: "分享到 GitHub"
+  line: "分享到 LINE"
+  linkedin: "分享到 LinkedIn"
+  pinterest: "保存至 Pinterest"
+  reddit: "分享到 Reddit"
+  telegram: "通过 Telegram 分享"
+  twitter: "分享到 Twitter"
+  x-twitter: "分享到 X"
+  bluesky: "分享到 Bluesky"
+  whatsapp: "通过 WhatsApp 分享"
+
+shortcode:
+  recent_articles: "最新文章"
+
+recent:
+  show_more: "加载更多"

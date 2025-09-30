@@ -40,7 +40,8 @@
             {{ end }}
             {{ $code := $codeScratch.Get "code" }}
             {{ $label := $labels.Get $code | default (upper $code) }}
-            <a href="{{ .RelPermalink }}" class="flex items-center">
+            {{ $isCurrent := eq (trim .RelPermalink "/") (trim $.RelPermalink "/") }}
+            <a href="{{ .RelPermalink }}" class="flex items-center" {{ if $isCurrent }}aria-current="true"{{ end }}>
               <p
                 class="text-sm font-sm hover:text-primary-600 dark:hover:text-primary-400"
                 title="{{ .Title }}">

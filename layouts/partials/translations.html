@@ -1,5 +1,12 @@
 {{ if and .IsTranslated (hugo.IsMultilingual) }}
-  {{ $current := .Language.Params.displayName | default .Language.LanguageName | default (upper .Lang) | emojify }}
+  {{ $labels := newScratch }}
+  {{ range .Site.Languages }}
+    {{ $code := .Lang }}
+    {{ $name := .Params.displayName | default .LanguageName | default (upper $code) }}
+    {{ $labels.Set $code ($name | emojify) }}
+  {{ end }}
+  {{ $defaultLang := .Site.Language.Lang }}
+  {{ $current := $labels.Get .Lang | default (upper .Lang) }}
   <div>
     <div class="cursor-pointer flex items-center nested-menu">
       <span class="me-1">
@@ -15,13 +22,29 @@
       <div class="pt-2 p-5 mt-2 rounded-xl backdrop-blur shadow-2xl">
         <div class="flex flex-col space-y-3">
           {{ range .AllTranslations }}
-            {{ warnf "page %s option languageLang=%s languageName=%s displayName=%s" $.Lang .Language.Lang .Language.LanguageName (.Language.Params.displayName) }}
-            {{ $label := .Language.Params.displayName | default .Language.LanguageName | default (upper .Lang) | emojify }}
+            {{ $codeScratch := newScratch }}
+            {{ $path := trim .RelPermalink "/" }}
+            {{ if $path }}
+              {{ $segments := split $path "/" }}
+              {{ $candidate := index $segments 0 }}
+              {{ with $labels.Get $candidate }}
+                {{ $codeScratch.Set "code" $candidate }}
+              {{ end }}
+            {{ end }}
+            {{ if not ($codeScratch.Get "code") }}
+              {{ if ($labels.Get .Lang) }}
+                {{ $codeScratch.Set "code" .Lang }}
+              {{ else }}
+                {{ $codeScratch.Set "code" $defaultLang }}
+              {{ end }}
+            {{ end }}
+            {{ $code := $codeScratch.Get "code" }}
+            {{ $label := $labels.Get $code | default (upper $code) }}
             <a href="{{ .RelPermalink }}" class="flex items-center">
               <p
                 class="text-sm font-sm hover:text-primary-600 dark:hover:text-primary-400"
                 title="{{ .Title }}">
-                {{ printf "%s | %s | %s | %s" .Lang .Language.Lang .RelPermalink $label }}
+                {{- $label -}}
               </p>
             </a>
           {{ end }}

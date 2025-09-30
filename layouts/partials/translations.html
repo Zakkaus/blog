@@ -1,0 +1,39 @@
+{{ if and .IsTranslated (hugo.IsMultilingual) }}
+  {{ warnf "page %s sees %d site languages" .Lang (len .Site.Languages) }}
+  {{ $labels := newScratch }}
+  {{ range .Site.Languages }}
+    {{ $code := .Lang }}
+    {{ $name := .Params.displayName | default .LanguageName | default (upper $code) }}
+    {{ $labels.Set $code $name }}
+  {{ end }}
+  <div>
+    <div class="cursor-pointer flex items-center nested-menu">
+      <span class="me-1">
+        {{ partial "icon.html" "language" }}
+      </span>
+      <div
+        class="text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400"
+        title="{{ .Title }}">
+        {{- i18n "global.language" | markdownify -}}
+      </div>
+    </div>
+    <div class="absolute menuhide">
+      <div class="pt-2 p-5 mt-2 rounded-xl backdrop-blur shadow-2xl">
+        <div class="flex flex-col space-y-3">
+          {{ range .AllTranslations }}
+            {{ $lang := .Lang }}
+            {{ $label := $labels.Get $lang | default (upper $lang) }}
+            {{ warnf "page %s option %s displayName %s resolved %s" $.Lang $lang (.Language.Params.displayName) $label }}
+            <a href="{{ .RelPermalink }}" class="flex items-center">
+              <p
+                class="text-sm font-sm hover:text-primary-600 dark:hover:text-primary-400"
+                title="{{ .Title }}">
+                {{ printf "%s->%s (%s)*" $.Lang $lang $label }}
+              </p>
+            </a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </div>
+{{ end }}

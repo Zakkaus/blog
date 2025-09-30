@@ -11,69 +11,19 @@
 # ordered by weight from lowest to highest.
 
 [[main]]
-  name = "文檔"
-  pageRef = "docs"
+  name = "關於我"
+  pageRef = "about"
   weight = 10
 
 [[main]]
-  name = "簡碼"
-  pageRef = "docs/shortcodes"
-  weight = 15
-
-[[main]]
-  name = "範例"
+  name = "文章"
+  pageRef = "posts"
   weight = 20
 
 [[main]]
-  name = "功能範例"
-  parent = "範例"
-  pageRef = "samples"
-  weight = 16
-
-[[main]]
-  name = "模板範例"
-  parent = "範例"
-  pageRef = "examples"
+  name = "時間軸"
+  pageRef = "timeline"
   weight = 30
-
-[[main]]
-  name = "部署指南"
-  parent = "範例"
-  pageRef = "guides"
-  weight = 40
-
-[[main]]
-  name = "使用者列表"
-  pageRef = "users"
-  weight = 90
-
-[[main]]
-  name = "周邊"
-  url = "https://www.teepublic.com/user/blowfish-store/t-shirts"
-  weight = 100
-
-#[[main]]
-#  name = "Test"
-#  pageRef = "pagTest"
-#  weight = 1000
-
-[[main]]
-  identifier = "twitter"
-  pre = "x-twitter"
-  url = "https://twitter.com/burufugu"
-  weight = 200
-
-#[[main]]
-#  identifier = "mastodon"
-#  pre = "mastodon"
-#  weight = 300
-#  url = "https://masto.ai/@blowfish"
-
-[[main]]
-  identifier = "github"
-  pre = "github"
-  url = "https://github.com/nunocoracao/blowfish"
-  weight = 400
 
 
 # -- Footer Menu --

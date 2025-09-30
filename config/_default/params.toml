@@ -15,7 +15,7 @@ enableCodeCopy = true
 
 replyByEmail = false
 
-mainSections = ["docs"]
+mainSections = ["posts"]
 # robots = ""
 
 disableImageOptimization = false
@@ -23,7 +23,7 @@ disableImageOptimizationMD = false
 disableTextInHeader = false
 # backgroundImageWidth = 1200
 
-defaultBackgroundImage = "/img/background.svg"
+defaultBackgroundImage = "img/home-hero.webp"
 defaultFeaturedImage = "/img/featured.svg"
 defaultSocialImage = "/img/blowfish_banner.png"
 
@@ -47,12 +47,12 @@ fingerprintAlgorithm = "sha512" # Valid values are "sha512" (default), "sha384",
   showScrollToTop = true
 
 [homepage]
-  layout = "custom" # valid options: page, profile, hero, card, background, custom
+  layout = "background" # valid options: page, profile, hero, card, background, custom
   # homepageImage = "/img/iceland.jpg" # used in: hero, and card
-  showRecent = false
-  showRecentItems = 12
+  showRecent = true
+  showRecentItems = 6
   showMoreLink = true
-  showMoreLinkDest = "docs"
+  showMoreLinkDest = "posts"
   cardView = true
   cardViewScreenWidth = false
   layoutBackgroundBlur = true # only used when layout equals background
@@ -73,7 +73,7 @@ fingerprintAlgorithm = "sha512" # Valid values are "sha512" (default), "sha384",
   showBreadcrumbs = true
   showDraftLabel = true
   showEdit = true
-  editURL = "https://github.com/nunocoracao/blowfish/tree/main/exampleSite/content"
+  editURL = "https://github.com/Zakkaus/blog/tree/main/content"
   editAppendPath = true
   seriesOpened = false
   showHeadingAnchors = true
@@ -155,11 +155,7 @@ fingerprintAlgorithm = "sha512" # Valid values are "sha512" (default), "sha384",
   # enableTrackEvent = false
 
 [buymeacoffee]
-  identifier = "nunocoracao"
-  globalWidget = true
-  globalWidgetMessage = ""
-  globalWidgetColor = "#FFDD00"
-  globalWidgetPosition = "Right"
+  globalWidget = false
 
 [verification]
   # google = ""

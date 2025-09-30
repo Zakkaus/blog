@@ -1,24 +1,26 @@
 languageCode = "zh-tw"
-languageName = "正體中文"
+languageName = "繁體中文"
 weight = 2
-title = "Blowfish"
+title = "Zakk"
 
 [params]
-  displayName = "正體中文"
+  displayName = "繁體中文"
   isoCode = "zh-TW"
   rtl = false
   dateFormat = "2006年1月2日"
-  logo = "img/blowfish_logo_transparent.png"
-  description = "A powerful, lightweight theme for Hugo."
+  logo = "img/logo-small.png"
+  description = "雙語分享 Gentoo 筆記、設計實驗、與 Paper 的遠距生活還有兩隻天竺鼠。"
 
 [params.author]
-  name = "Blowfish"
-  email = "nuno@n9o.xyz"
-  image = "img/blowfish_logo.png"
-  headline = "A powerful, lightweight theme for Hugo."
-  bio = "A powerful, lightweight theme for Hugo."
+  name = "Zakk"
+  email = "admin@zakk.au"
+  image = "https://avatars.githubusercontent.com/u/221879664?v=4"
+  headline = "住在澳洲的學生，記錄 Linux、設計、金融與和 Paper 的日常。"
+  bio = "與 Paper 遠距離戀愛，養著 Potato 及 Hash Brown，撰寫 Gentoo 筆記與生活雜記。"
   links = [
-    { x-twitter = "https://twitter.com/burufugu" },
-    { github = "https://github.com/nunocoracao/blowfish" }
+    { instagram = "https://www.instagram.com/zakk.au/" },
+    { github = "https://github.com/Zakkaus" },
+    { x-twitter = "https://x.com/zakkauu" },
+    { email = "mailto:admin@zakk.au" }
   ]
 

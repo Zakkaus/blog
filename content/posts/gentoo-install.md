@@ -6,34 +6,7 @@ tags: ["Gentoo","Linux","OpenRC","systemd"]
 description: "Beginner friendly Gentoo install: partitioning, Stage3, Portage, USE, kernel, desktop environments, FAQ."
 translationKey: "gentoo-install"
 ---
-
-
-
-{{< alert icon="list" >}}
-**Quick navigation**
-- [My Hardware (Example)](#my-hardware-example)
-- [0. Download & Create Installation Media](#0-download-create-installation-media)
-- [1. Boot & Network](#1-boot-network)
-- [2. Partitioning](#2-partitioning-lsblk-and-cfdisk)
-- [3. Filesystem Formatting & Mounting](#3-filesystem-formatting-mounting-ext4-xfs-btrfs)
-- [4. Stage3 & chroot](#4-download-stage3-mount-system-directories-chroot)
-- [5. Portage & Mirrors](#5-portage-mirrors-with-full-makeconf-example)
-- [6. USE Flags & Licenses](#6-use-flags-licenses-beginner-solutions)
-- [7. Profile Selection](#7-profile-selection-desktop-server)
-- [8. Localization](#8-localization-language-timezone)
-- [9. Kernel](#9-kernel-selection-compilation-full-commands)
-- [10. fstab](#10-generate-fstab-ext4-btrfs-examples)
-- [11. GRUB](#11-install-bootloader-grub-with-os-prober)
-- [12. Networking](#12-enable-networking-openrc-systemd)
-- [13. Wayland / X11](#13-wayland-x11-choice-use)
-- [14. GPU & Microcode](#14-gpu-drivers-cpu-microcode)
-- [15. Desktop Environments](#15-desktop-environments-optional)
-- [16. Users & sudo](#16-users-sudo)
-- [17. SSH](#17-ssh-optional)
-- [18. Reboot](#18-reboot)
-- [FAQ](#faq)
-- [References](#references)
-{{< /alert >}}
+<div class="gentoo-article">
 
 # 💻 My Hardware (Example) {#my-hardware-example}
 - **CPU**: AMD Ryzen 9 7950X3D (16C/32T)  

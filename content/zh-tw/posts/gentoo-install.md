@@ -10,36 +10,6 @@ ShowToc: false        # 關閉主題自動 TOC（避免與自訂 TOC 重複）
 TocOpen: false
 translationKey: "gentoo-install"
 ---
-
-
-{{< alert icon="list" >}}
-**快速導覽**
-- [我的電腦配置（示例）](#my-hardware-zh)
-- [0. 下載與製作安裝媒體](#0-下載與製作安裝媒體)
-- [1. 開機與網路](#1-開機與網路)
-- [2. 磁碟分割（lsblk / cfdisk）](#2-磁碟分割lsblk-與-cfdisk)
-- [3. 檔案系統格式化與掛載](#3-檔案系統格式化與掛載ext4--xfs--btrfs)
-- [4. Stage3、掛載與 chroot](#4-下載-stage3掛載系統目錄與-chroot)
-- [5. Portage 與鏡像源](#5-portage-與鏡像源含-makeconf-完整示例)
-- [6. USE flags 與 License](#6-use-flags-與-license新手解法)
-- [7. 選擇 Profile](#7-選擇-profile桌面伺服器)
-- [8. 本地化](#8-本地化-localization語言與時區)
-- [9. 內核選擇與編譯](#9-內核選擇與編譯完整指令)
-- [10. 產生 fstab](#10-產生-fstab含-btrfs--ext4-範例)
-- [11. 安裝 GRUB](#11-安裝開機器-grub含-os-prober)
-- [12. 啟用網路服務](#12-啟用網路服務openrc--systemd)
-- [13. Wayland / X11 選擇](#13-wayland--x11-選擇與-use)
-- [14. 顯示卡與 CPU 微碼](#14-顯示卡與-cpu-微碼)
-- [15. 桌面環境](#15-桌面環境可選)
-- [16. 使用者與 sudo](#16-使用者與-sudo)
-- [17. SSH（可選）](#17-ssh可選)
-- [18. 重開機](#18-重開機)
-- [常見問題 FAQ](#faq-zh)
-- [參考](#refs-zh)
-{{< /alert >}}
-
-
-
 <div class="gentoo-article">
 
 # 我的電腦配置（示例） {#my-hardware-zh}

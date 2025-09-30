@@ -19,6 +19,16 @@
     />
     <xhtml:link
       rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/about/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/about/"
+    />
+    <xhtml:link
+      rel="alternate"
       hreflang="en"
       href="https://zakk.au/about/"
     />
@@ -49,6 +59,21 @@
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/tags/gentoo/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/tags/gentoo/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/tags/gentoo/"
+    />
   </url>
   <url>
     <loc>https://zakk.au/posts/gentoo-install/</loc>
@@ -64,6 +89,16 @@
       rel="alternate"
       hreflang="en"
       href="https://zakk.au/zh-tw/posts/gentoo-install/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/posts/gentoo-install/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/posts/gentoo-install/"
     />
     <xhtml:link
       rel="alternate"
@@ -88,6 +123,16 @@
     />
     <xhtml:link
       rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/posts/gentoo-install/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/posts/gentoo-install/"
+    />
+    <xhtml:link
+      rel="alternate"
       hreflang="en"
       href="https://zakk.au/zh-cn/posts/gentoo-install/"
     />
@@ -105,6 +150,16 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
+      href="https://zakk.au/zh-cn/posts/gentoo-install/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/posts/gentoo-install/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
       href="https://zakk.au/zh-cn/posts/gentoo-install/"
     />
     <xhtml:link
@@ -130,6 +185,16 @@
     />
     <xhtml:link
       rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/"
+    />
+    <xhtml:link
+      rel="alternate"
       hreflang="en"
       href="https://zakk.au/"
     />
@@ -139,24 +204,74 @@
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/tags/linux/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/tags/linux/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/tags/linux/"
+    />
   </url>
   <url>
     <loc>https://zakk.au/categories/linux-%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/categories/linux-%E7%AC%94%E8%AE%B0/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/categories/linux-%E7%AC%94%E8%AE%B0/"
+    />
   </url>
   <url>
     <loc>https://zakk.au/categories/linux-%E7%AD%86%E8%A8%98/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/categories/linux-%E7%AD%86%E8%A8%98/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/categories/linux-%E7%AD%86%E8%A8%98/"
+    />
   </url>
   <url>
     <loc>https://zakk.au/tags/openrc/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/tags/openrc/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/tags/openrc/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/tags/openrc/"
+    />
   </url>
   <url>
     <loc>https://zakk.au/posts/</loc>
@@ -175,6 +290,16 @@
     />
     <xhtml:link
       rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
       hreflang="en"
       href="https://zakk.au/posts/"
     />
@@ -184,6 +309,21 @@
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/tags/systemd/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/tags/systemd/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/tags/systemd/"
+    />
   </url>
   <url>
     <loc>https://zakk.au/tags/</loc>
@@ -223,6 +363,16 @@
     />
     <xhtml:link
       rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/timeline/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/timeline/"
+    />
+    <xhtml:link
+      rel="alternate"
       hreflang="en"
       href="https://zakk.au/timeline/"
     />
@@ -241,6 +391,16 @@
       rel="alternate"
       hreflang="en"
       href="https://zakk.au/zh-tw/about/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/about/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/about/"
     />
     <xhtml:link
       rel="alternate"
@@ -265,6 +425,16 @@
     />
     <xhtml:link
       rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
       hreflang="en"
       href="https://zakk.au/zh-cn/posts/"
     />
@@ -282,6 +452,16 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
+      href="https://zakk.au/zh-cn/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
       href="https://zakk.au/zh-cn/posts/"
     />
     <xhtml:link
@@ -307,6 +487,16 @@
     />
     <xhtml:link
       rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/timeline/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/timeline/"
+    />
+    <xhtml:link
+      rel="alternate"
       hreflang="en"
       href="https://zakk.au/zh-cn/timeline/"
     />
@@ -324,6 +514,16 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
+      href="https://zakk.au/zh-cn/timeline/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/timeline/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
       href="https://zakk.au/zh-cn/timeline/"
     />
     <xhtml:link
@@ -349,6 +549,16 @@
     />
     <xhtml:link
       rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/about/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/about/"
+    />
+    <xhtml:link
+      rel="alternate"
       hreflang="en"
       href="https://zakk.au/zh-tw/about/"
     />
@@ -366,6 +576,16 @@
     <xhtml:link
       rel="alternate"
       hreflang="en"
+      href="https://zakk.au/zh-cn/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
       href="https://zakk.au/zh-cn/"
     />
     <xhtml:link
@@ -388,6 +608,16 @@
       rel="alternate"
       hreflang="en"
       href="https://zakk.au/zh-tw/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-tw"
+      href="https://zakk.au/zh-tw/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-cn"
+      href="https://zakk.au/zh-cn/"
     />
     <xhtml:link
       rel="alternate"

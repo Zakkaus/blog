@@ -1,4 +1,5 @@
 languageCode = "en"
+contentDir = "content"
 languageName = "English"
 weight = 1
 title = "Zakk"

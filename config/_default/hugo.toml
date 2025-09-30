@@ -1,5 +1,5 @@
 theme = "blowfish"
-baseURL = "https://blog-7qj.pages.dev/"
+baseURL = "https://zakk.au/"
 defaultContentLanguage = "en"
 disableLanguages = []
 hasCJKLanguage = true

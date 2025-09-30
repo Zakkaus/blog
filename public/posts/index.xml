@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Zakk</title>
-    <link>https://blog-7qj.pages.dev/posts/</link>
+    <link>https://zakk.au/posts/</link>
     <description>Recent content on Zakk</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <managingEditor>admin@zakk.au (Zakk)</managingEditor>
     <webMaster>admin@zakk.au (Zakk)</webMaster>
     <copyright>© 2025 Zakk</copyright>
-    <lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://blog-7qj.pages.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/posts/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Gentoo Installation Guide (Beginner)</title>
-      <link>https://blog-7qj.pages.dev/posts/gentoo-install/</link>
+      <link>https://zakk.au/posts/gentoo-install/</link>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
       <author>admin@zakk.au (Zakk)</author>
-      <guid>https://blog-7qj.pages.dev/posts/gentoo-install/</guid>
+      <guid>https://zakk.au/posts/gentoo-install/</guid>
       <description>&lt;div
   
     class=&#34;flex px-4 py-3 rounded-md bg-primary-100 dark:bg-primary-900&#34;

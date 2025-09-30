@@ -3,273 +3,273 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>https://blog-7qj.pages.dev/posts/</loc>
+    <loc>https://zakk.au/posts/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-cn/posts/</loc>
+    <loc>https://zakk.au/zh-cn/posts/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-tw/posts/</loc>
+    <loc>https://zakk.au/zh-tw/posts/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/about/</loc>
+    <loc>https://zakk.au/about/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-cn/about/"
+      href="https://zakk.au/zh-cn/about/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-tw/about/"
+      href="https://zakk.au/zh-tw/about/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/about/"
+      href="https://zakk.au/about/"
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/posts/gentoo-install/</loc>
-    <lastmod>2025-09-01T00:00:00+00:00</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-cn/posts/gentoo-install/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-tw/posts/gentoo-install/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://blog-7qj.pages.dev/posts/gentoo-install/"
-    />
-  </url>
-  <url>
-    <loc>https://blog-7qj.pages.dev/zh-cn/posts/gentoo-install/</loc>
+    <loc>https://zakk.au/posts/gentoo-install/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/posts/gentoo-install/"
+      href="https://zakk.au/zh-cn/posts/gentoo-install/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-tw/posts/gentoo-install/"
+      href="https://zakk.au/zh-tw/posts/gentoo-install/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-cn/posts/gentoo-install/"
+      href="https://zakk.au/posts/gentoo-install/"
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-tw/posts/gentoo-install/</loc>
+    <loc>https://zakk.au/zh-cn/posts/gentoo-install/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/posts/gentoo-install/"
+      href="https://zakk.au/posts/gentoo-install/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-cn/posts/gentoo-install/"
+      href="https://zakk.au/zh-tw/posts/gentoo-install/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-tw/posts/gentoo-install/"
+      href="https://zakk.au/zh-cn/posts/gentoo-install/"
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/timeline/</loc>
+    <loc>https://zakk.au/zh-tw/posts/gentoo-install/</loc>
+    <lastmod>2025-09-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/posts/gentoo-install/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/zh-cn/posts/gentoo-install/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/zh-tw/posts/gentoo-install/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/timeline/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-cn/timeline/"
+      href="https://zakk.au/zh-cn/timeline/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-tw/timeline/"
+      href="https://zakk.au/zh-tw/timeline/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/timeline/"
+      href="https://zakk.au/timeline/"
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/</loc>
+    <loc>https://zakk.au/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-tw/"
+      href="https://zakk.au/zh-tw/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-cn/"
+      href="https://zakk.au/zh-cn/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/"
+      href="https://zakk.au/"
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-cn/about/</loc>
+    <loc>https://zakk.au/zh-cn/about/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/about/"
+      href="https://zakk.au/about/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-tw/about/"
+      href="https://zakk.au/zh-tw/about/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-cn/about/"
+      href="https://zakk.au/zh-cn/about/"
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-cn/timeline/</loc>
+    <loc>https://zakk.au/zh-cn/timeline/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/timeline/"
+      href="https://zakk.au/timeline/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-tw/timeline/"
+      href="https://zakk.au/zh-tw/timeline/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-cn/timeline/"
+      href="https://zakk.au/zh-cn/timeline/"
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-tw/timeline/</loc>
+    <loc>https://zakk.au/zh-tw/timeline/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/timeline/"
+      href="https://zakk.au/timeline/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-cn/timeline/"
+      href="https://zakk.au/zh-cn/timeline/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-tw/timeline/"
+      href="https://zakk.au/zh-tw/timeline/"
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-tw/about/</loc>
+    <loc>https://zakk.au/zh-tw/about/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/about/"
+      href="https://zakk.au/about/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-cn/about/"
+      href="https://zakk.au/zh-cn/about/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-tw/about/"
+      href="https://zakk.au/zh-tw/about/"
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-tw/</loc>
+    <loc>https://zakk.au/zh-tw/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/"
+      href="https://zakk.au/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-cn/"
+      href="https://zakk.au/zh-cn/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-tw/"
+      href="https://zakk.au/zh-tw/"
     />
   </url>
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-cn/</loc>
+    <loc>https://zakk.au/zh-cn/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/"
+      href="https://zakk.au/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-tw/"
+      href="https://zakk.au/zh-tw/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/zh-cn/"
+      href="https://zakk.au/zh-cn/"
     />
   </url>
 </urlset>

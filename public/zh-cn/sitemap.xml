@@ -3,23 +3,23 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>https://blog-7qj.pages.dev/zh-cn/</loc>
+    <loc>https://zakk.au/zh-cn/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://blog-7qj.pages.dev/"
+      href="https://zakk.au/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="zh-tw"
-      href="https://blog-7qj.pages.dev/zh-tw/"
+      href="https://zakk.au/zh-tw/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="zh-cn"
-      href="https://blog-7qj.pages.dev/zh-cn/"
+      href="https://zakk.au/zh-cn/"
     />
   </url>
 </urlset>

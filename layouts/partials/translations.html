@@ -1,11 +1,9 @@
-{{ $currentPage := . }}
-{{ $currentLanguage := .Site.Language }}
-{{ $homePages := slice .Site.Home }}
-{{ range .Site.Home.AllTranslations }}
-  {{ $homePages = $homePages | append . }}
-{{ end }}
-{{ $seen := newScratch }}
-{{ if gt (len $homePages) 1 }}
+{{ if .IsTranslated }}
+  {{ $site := .Site }}
+  {{ $scratch := newScratch }}
+  {{ range $site.Languages }}
+    {{ $scratch.Set (printf "label-%s" .Lang) (.Params.displayName | default .LanguageName | default (upper .Lang)) }}
+  {{ end }}
   <div>
     <div class="cursor-pointer flex items-center nested-menu">
       <span class="me-1">
@@ -20,30 +18,29 @@
     <div class="absolute menuhide">
       <div class="pt-2 p-5 mt-2 rounded-xl backdrop-blur shadow-2xl">
         <div class="flex flex-col space-y-3">
-          {{ range $home := $homePages }}
-            {{ $language := $home.Language }}
-            {{ $langCode := $language.Lang }}
-            {{ if not ($seen.Get $langCode) }}
-              {{ $seen.Set $langCode true }}
-              {{ $targetPage := $currentPage }}
-              {{ if ne $langCode $currentLanguage.Lang }}
-                {{ $translation := index (where $currentPage.Translations "Lang" $langCode) 0 }}
-                {{ if $translation }}
-                  {{ $targetPage = $translation }}
-                {{ else }}
-                  {{ $targetPage = $home }}
-                {{ end }}
-              {{ end }}
-              {{ if and $language $targetPage }}
-                <a href="{{ $targetPage.RelPermalink }}" class="flex items-center">
-                  <p
-                    class="text-sm font-sm hover:text-primary-600 dark:hover:text-primary-400"
-                    title="{{ $targetPage.Title }}">
-                    {{ $language.Params.displayName | emojify }}
-                  </p>
-                </a>
+          {{ range .AllTranslations }}
+            {{ $lang := .Lang }}
+            {{ $siteLang := .Site.Language.Lang }}
+            {{ $rel := .RelPermalink }}
+            {{ $scratch.Set "candidate" "" }}
+            {{ $trimmed := trim $rel "/" }}
+            {{ if $trimmed }}
+              {{ $parts := split $trimmed "/" }}
+              {{ $first := index $parts 0 }}
+              {{ if $scratch.Get (printf "label-%s" $first) }}
+                {{ $scratch.Set "candidate" $first }}
               {{ end }}
             {{ end }}
+            {{ $langCode := or ($scratch.Get "candidate") $lang $siteLang }}
+            {{ $label := or ($scratch.Get (printf "label-%s" $langCode)) (.Site.Language.Params.displayName | default .Site.Language.LanguageName | default (upper $langCode)) }}
+            {{ $scratch.Delete "candidate" }}
+            <a href="{{ .RelPermalink }}" class="flex items-center">
+              <p
+                class="text-sm font-sm hover:text-primary-600 dark:hover:text-primary-400"
+                title="{{ .Title }}">
+                {{ $label | emojify }}
+              </p>
+            </a>
           {{ end }}
         </div>
       </div>

@@ -1,4 +1,4 @@
-languageCode = "zh-tw"
+languageCode = "zh-TW"
 languageName = "正體中文"
 weight = 2
 title = "Zakk"
@@ -32,6 +32,11 @@ title = "Zakk"
   ]
 
 [menu]
+  [[menu.main]]
+    name = "關於我"
+    url = "/zh-tw/about/"
+    weight = 10
+
   [[menu.main]]
     name = "關於我"
     url = "/zh-tw/about/"

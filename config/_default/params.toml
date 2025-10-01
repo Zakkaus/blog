@@ -16,7 +16,8 @@ enableCodeCopy = true
 replyByEmail = false
 
 mainSections = ["posts"]
-# robots = ""
+robots = "index,follow"
+keywords = ["Zakk", "Linux", "Gentoo", "long-distance relationship", "design systems", "finance", "guinea pigs", "Australia blog"]
 
 disableImageOptimization = false
 disableImageOptimizationMD = false
@@ -169,3 +170,10 @@ fingerprintAlgorithm = "sha512" # Valid values are "sha512" (default), "sha384",
 
 [advertisement]
   # adsense = ""
+
+[seo]
+  description = "Zakk shares bilingual notes on Gentoo Linux, design experiments, long-distance life with Paper, and stories about two guinea pigs in Australia."
+  keywords = ["Zakk", "Linux", "Gentoo", "long-distance relationship", "design systems", "finance", "guinea pigs", "Australia blog"]
+  twitterSite = "@zakkauu"
+  twitterCreator = "@zakkauu"
+  imageAlt = "Zakk and Paper's long-distance life journal cover"

@@ -1,0 +1,143 @@
+{{- $sitePermalink := (site.GetPage "/").Permalink -}}
+{{- $siteSEO := .Site.Params.seo | default dict -}}
+{{- $pageSEO := .Params.seo | default dict -}}
+{{- $description := (index $pageSEO "description") | default .Summary | default .Description | default (index $siteSEO "description") | default .Site.Params.description -}}
+{{- $languageCode := .Site.LanguageCode -}}
+{{- $graph := slice -}}
+{{- $authorParams := dict -}}
+{{- with .Site.Params.Author }}{{- $authorParams = merge $authorParams . }}{{- end -}}
+{{- with .Site.Params.author }}{{- $authorParams = merge $authorParams . }}{{- end -}}
+{{- with .Site.Author }}{{- $authorParams = merge $authorParams . }}{{- end -}}
+{{- $authorName := index $authorParams "name" | default .Site.Title -}}
+{{- $authorImage := index $authorParams "image" -}}
+{{- $authorDescription := index $authorParams "bio" | default (index $authorParams "headline") -}}
+{{- $authorLinks := slice -}}
+{{- with index $authorParams "links" -}}
+  {{- range . -}}
+    {{- range $key, $value := . -}}
+      {{- if and $value (not (strings.HasPrefix $value "mailto:")) -}}
+        {{- $authorLinks = $authorLinks | append $value -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $personID := printf "%s#person" $sitePermalink -}}
+{{- $person := dict "@type" "Person" "@id" $personID "name" ($authorName | plainify) -}}
+{{- with $authorImage -}}
+  {{- $person = merge $person (dict "image" .) -}}
+{{- end -}}
+{{- with $authorDescription -}}
+  {{- $person = merge $person (dict "description" (. | plainify)) -}}
+{{- end -}}
+{{- if gt (len $authorLinks) 0 -}}
+  {{- $person = merge $person (dict "sameAs" $authorLinks) -}}
+{{- end -}}
+{{- $graph = $graph | append $person -}}
+
+{{- $websiteID := printf "%s#website" $sitePermalink -}}
+{{- $siteNode := dict "@type" "WebSite" "@id" $websiteID "url" $sitePermalink "name" (.Site.Title | plainify) "publisher" (dict "@id" $personID) -}}
+{{- with (index $siteSEO "description") | default .Site.Params.description -}}
+  {{- $siteNode = merge $siteNode (dict "description" (. | plainify)) -}}
+{{- end -}}
+{{- with $languageCode -}}
+  {{- $siteNode = merge $siteNode (dict "inLanguage" .) -}}
+{{- end -}}
+{{- if gt (len $authorLinks) 0 -}}
+  {{- $siteNode = merge $siteNode (dict "sameAs" $authorLinks) -}}
+{{- end -}}
+{{- $graph = $graph | append $siteNode -}}
+
+{{- $webPageTypes := slice "WebPage" -}}
+{{- if or .IsHome (or .IsSection (eq .Kind "term")) -}}
+  {{- $webPageTypes = slice "WebPage" "CollectionPage" -}}
+{{- end -}}
+{{- $webPageID := printf "%s#webpage" .Permalink -}}
+{{- $webPage := dict "@type" $webPageTypes "@id" $webPageID "url" .Permalink "name" (.Title | plainify) "isPartOf" (dict "@id" $websiteID) -}}
+{{- with $languageCode -}}
+  {{- $webPage = merge $webPage (dict "inLanguage" .) -}}
+{{- end -}}
+{{- with $description -}}
+  {{- $webPage = merge $webPage (dict "description" (. | plainify)) -}}
+{{- end -}}
+{{- with .PublishDate -}}
+  {{- $webPage = merge $webPage (dict "datePublished" (.Format "2006-01-02T15:04:05-07:00")) -}}
+{{- end -}}
+{{- with .Lastmod -}}
+  {{- $webPage = merge $webPage (dict "dateModified" (.Format "2006-01-02T15:04:05-07:00")) -}}
+{{- end -}}
+{{- $graph = $graph | append $webPage -}}
+
+{{- if .IsPage -}}
+  {{- $articleID := printf "%s#article" .Permalink -}}
+  {{- $article := dict "@type" "Article" "@id" $articleID "url" .Permalink "name" (.Title | plainify) "headline" (.Title | plainify) "mainEntityOfPage" (dict "@id" $webPageID) "isPartOf" (dict "@id" $websiteID) "publisher" (dict "@id" $personID) "author" (dict "@id" $personID) "wordCount" .WordCount -}}
+  {{- with (site.GetPage .Section) -}}
+    {{- $article = merge $article (dict "articleSection" (.Title | plainify)) -}}
+  {{- else -}}
+    {{- with .Section -}}
+      {{- $article = merge $article (dict "articleSection" (. | plainify)) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $description -}}
+    {{- $article = merge $article (dict "description" (. | plainify)) -}}
+  {{- end -}}
+  {{- with .Summary -}}
+    {{- $article = merge $article (dict "abstract" (. | plainify)) -}}
+  {{- end -}}
+  {{- with .PublishDate -}}
+    {{- $article = merge $article (dict "datePublished" (.Format "2006-01-02T15:04:05-07:00")) -}}
+  {{- end -}}
+  {{- with .Date -}}
+    {{- $article = merge $article (dict "dateCreated" (.Format "2006-01-02T15:04:05-07:00")) -}}
+  {{- end -}}
+  {{- with .Lastmod -}}
+    {{- $article = merge $article (dict "dateModified" (.Format "2006-01-02T15:04:05-07:00")) -}}
+  {{- end -}}
+  {{- with .ExpiryDate -}}
+    {{- $article = merge $article (dict "expires" (.Format "2006-01-02T15:04:05-07:00")) -}}
+  {{- end -}}
+  {{- $articleKeywords := (index $pageSEO "keywords") | default (.Params.tags | default .Params.Tags) -}}
+  {{- with $articleKeywords -}}
+    {{- if (reflect.IsSlice .) -}}
+      {{- $article = merge $article (dict "keywords" (delimit . ",")) -}}
+    {{- else -}}
+      {{- $article = merge $article (dict "keywords" .) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $socialImage := "" -}}
+  {{- with (.Resources.ByType "image").GetMatch "*feature*" -}}
+    {{- $socialImage = .Permalink -}}
+  {{- end -}}
+  {{- if eq $socialImage "" -}}
+    {{- with .Site.Params.defaultSocialImage -}}
+      {{- $socialImage = absURL . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if ne $socialImage "" -}}
+    {{- $article = merge $article (dict "image" (slice $socialImage)) -}}
+  {{- end -}}
+  {{- $graph = $graph | append $article -}}
+{{- end -}}
+
+{{- $breadcrumbItems := slice -}}
+{{- $position := 1 -}}
+{{- $breadcrumbItems = $breadcrumbItems | append (dict "@type" "ListItem" "position" $position "name" (.Site.Home.Title | plainify) "item" $sitePermalink) -}}
+{{- with .Ancestors -}}
+  {{- range .Reverse -}}
+    {{- $position = add $position 1 -}}
+    {{- $breadcrumbItems = $breadcrumbItems | append (dict "@type" "ListItem" "position" $position "name" (.Title | plainify) "item" .Permalink) -}}
+  {{- end -}}
+{{- end -}}
+{{- if not .IsHome -}}
+  {{- $position = add $position 1 -}}
+  {{- $breadcrumbItems = $breadcrumbItems | append (dict "@type" "ListItem" "position" $position "name" (.Title | plainify) "item" .Permalink) -}}
+{{- end -}}
+{{- if gt (len $breadcrumbItems) 1 -}}
+  {{- $graph = $graph | append (dict "@type" "BreadcrumbList" "@id" (printf "%s#breadcrumb" .Permalink) "itemListElement" $breadcrumbItems) -}}
+{{- end -}}
+
+{{- if gt (len $graph) 0 -}}
+  {{- $schema := dict "@context" "https://schema.org" "@graph" $graph -}}
+  <script type="application/ld+json">
+  {{ $schema | jsonify (dict "indent" "  ") | safeJS }}
+  </script>
+{{- end -}}

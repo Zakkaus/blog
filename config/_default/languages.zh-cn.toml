@@ -1,4 +1,4 @@
-languageCode = "zh-cn"
+languageCode = "zh-CN"
 contentDir = "content"
 languageName = "简体中文"
 weight = 3
@@ -6,7 +6,7 @@ title = "Zakk"
 
 [params]
   displayName = "简体中文"
-  isoCode = "zh-cn"
+  isoCode = "zh-CN"
   rtl = false
   dateFormat = "2006-01-02"
   logo = "img/logo-small.png"
@@ -20,6 +20,10 @@ title = "Zakk"
 🩷💛🩵
 </div>
 """
+
+[params.seo]
+  description = "Zakk 在澳洲记录 Gentoo Linux 折腾、设计实验、理财流程，以及和 Paper 的异地生活与天竺鼠日常的双语随记。"
+  keywords = ["Zakk", "Linux 博客", "Gentoo", "异地恋", "设计系统", "理财", "效率工具", "天竺鼠"]
 
 [params.author]
   name = "Zakk"

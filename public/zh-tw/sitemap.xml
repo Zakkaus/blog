@@ -14,12 +14,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/categories/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/categories/"
     />
   </url>
@@ -35,12 +35,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/tags/gentoo/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/tags/gentoo/"
     />
   </url>
@@ -56,12 +56,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/posts/gentoo-install/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/posts/gentoo-install/"
     />
   </url>
@@ -77,12 +77,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/tags/linux/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/tags/linux/"
     />
   </url>
@@ -104,12 +104,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/tags/openrc/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/tags/openrc/"
     />
   </url>
@@ -125,12 +125,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/tags/systemd/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/tags/systemd/"
     />
   </url>
@@ -146,12 +146,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/tags/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/tags/"
     />
   </url>
@@ -167,12 +167,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/posts/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/posts/"
     />
   </url>
@@ -188,12 +188,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/timeline/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/timeline/"
     />
   </url>
@@ -209,12 +209,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/about/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/about/"
     />
   </url>
@@ -230,12 +230,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/"
     />
   </url>
@@ -250,12 +250,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/authors/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/authors/"
     />
   </url>
@@ -270,12 +270,12 @@
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/series/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/series/"
     />
   </url>

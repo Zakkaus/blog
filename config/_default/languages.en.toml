@@ -21,6 +21,10 @@ title = "Zakk"
 </div>
 """
 
+[params.seo]
+  description = "Bilingual notes on Gentoo Linux, design experiments, finance workflows, and long-distance life with Paper from Australia."
+  keywords = ["Zakk", "Gentoo", "Linux blog", "long-distance relationship", "design systems", "finance", "productivity", "guinea pigs"]
+
 [params.author]
   name = "Zakk"
   email = "admin@zakk.au"

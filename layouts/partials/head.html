@@ -9,6 +9,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="theme-color">
+  {{ $siteSEO := .Site.Params.seo | default dict }}
+  {{ $pageSEO := .Params.seo | default dict }}
+  {{ $langParams := .Site.Language.Params | default dict }}
+  {{ $selfHrefLang := index $langParams "isoCode" | default $langCode }}
 
   {{/* Title */}}
   {{ if .IsHome -}}
@@ -20,19 +24,33 @@
   {{- end }}
 
   {{/* Metadata */}}
-  {{ with (.Params.Summary | default .Params.Description) | default .Site.Params.description -}}
-    <meta name="description" content="{{ . }}">
+  {{ $pageTags := .Params.tags | default .Params.Tags }}
+  {{ $description := (index $pageSEO "description") | default .Summary | default .Description | default (index $siteSEO "description") | default .Site.Params.description }}
+  {{ $keywords := (index $pageSEO "keywords") | default $pageTags | default (index $siteSEO "keywords") | default .Site.Params.keywords }}
+  {{ $robots := (index $pageSEO "robots") | default .Params.robots | default (index $siteSEO "robots") | default .Site.Params.robots }}
+  {{ with $description -}}
+    <meta name="description" content="{{ . | plainify }}">
   {{- end }}
-  {{ with  .Params.Tags | default .Site.Params.keywords -}}
-    <meta name="keywords" content="{{ range . }}{{ . }},{{ end -}}">
+  {{ with $keywords -}}
+    {{ if (reflect.IsSlice .) -}}
+      <meta name="keywords" content="{{ delimit . "," }}">
+    {{- else -}}
+      <meta name="keywords" content="{{ . }}">
+    {{- end }}
   {{- end }}
-  {{ with .Site.Params.robots }}
-    <meta name="robots" content="{{ . }}">
-  {{ end }}
-  {{ with .Params.robots }}
+  {{ with $robots }}
     <meta name="robots" content="{{ . }}">
   {{ end }}
   <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="alternate" hreflang="{{ $selfHrefLang }}" href="{{ .Permalink }}">
+  {{ range .Translations }}
+    {{ $altLangParams := .Site.Language.Params | default dict }}
+    {{ $translationHrefLang := index $altLangParams "isoCode" | default .Lang }}
+    <link rel="alternate" hreflang="{{ $translationHrefLang }}" href="{{ .Permalink }}">
+  {{ end }}
+  {{ with .Site.Home }}
+    <link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">
+  {{ end }}
   {{ range .AlternativeOutputFormats -}}
     {{ printf `
       <link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .RelPermalink ($.Site.Title | emojify) |
@@ -153,6 +171,35 @@
   {{/* Social */}}
   {{ template "_internal/opengraph.html" . }}
   {{ template "_internal/twitter_cards.html" . }}
+  {{ $ogLocale := $selfHrefLang }}
+  {{ if strings.Contains $ogLocale "-" }}
+    {{ $parts := split $ogLocale "-" }}
+    {{ $ogLocale = printf "%s_%s" (lower (index $parts 0)) (upper (index $parts 1)) }}
+  {{ else }}
+    {{ $ogLocale = lower $ogLocale }}
+  {{ end }}
+  {{ with $ogLocale }}
+    <meta property="og:locale" content="{{ . }}">
+  {{ end }}
+  {{ range .Translations }}
+    {{ $altLocale := (index (.Site.Language.Params | default dict) "isoCode") | default .Lang }}
+    {{ if strings.Contains $altLocale "-" }}
+      {{ $altParts := split $altLocale "-" }}
+      {{ $altLocale = printf "%s_%s" (lower (index $altParts 0)) (upper (index $altParts 1)) }}
+    {{ else }}
+      {{ $altLocale = lower $altLocale }}
+    {{ end }}
+    <meta property="og:locale:alternate" content="{{ $altLocale }}">
+  {{ end }}
+  {{ with (index $siteSEO "twitterSite") }}
+    <meta name="twitter:site" content="{{ . }}">
+  {{ end }}
+  {{ with (index $pageSEO "twitterCreator") | default (index $siteSEO "twitterCreator") }}
+    <meta name="twitter:creator" content="{{ . }}">
+  {{ end }}
+  {{ with (index $pageSEO "imageAlt") | default (index $siteSEO "imageAlt") }}
+    <meta name="twitter:image:alt" content="{{ . }}">
+  {{ end }}
 
   {{- /* Main page always uses this; fallback elsewhere if no feature image */ -}}
   {{- /* See https://gohugo.io/templates/embedded/#open-graph */ -}}

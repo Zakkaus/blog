@@ -1,4 +1,4 @@
-languageCode = "zh-tw"
+languageCode = "zh-TW"
 contentDir = "content"
 languageName = "正體中文"
 weight = 2
@@ -20,6 +20,10 @@ title = "Zakk"
 🩷💛🩵
 </div>
 """
+
+[params.seo]
+  description = "Zakk 在澳洲記錄 Gentoo Linux 折騰、設計實驗、理財流程，以及和 Paper 的遠距生活與天竺鼠日常的雙語筆記。"
+  keywords = ["Zakk", "Linux 部落格", "Gentoo", "遠距離戀愛", "設計系統", "理財", "效率工具", "天竺鼠"]
 
 [params.author]
   name = "Zakk"

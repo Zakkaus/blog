@@ -9,12 +9,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/about/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/about/"
     />
     <xhtml:link
@@ -30,12 +30,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/tags/gentoo/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/tags/gentoo/"
     />
     <xhtml:link
@@ -51,12 +51,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/posts/gentoo-install/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/posts/gentoo-install/"
     />
     <xhtml:link
@@ -72,12 +72,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/"
     />
     <xhtml:link
@@ -93,12 +93,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/tags/linux/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/tags/linux/"
     />
     <xhtml:link
@@ -114,12 +114,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/tags/openrc/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/tags/openrc/"
     />
     <xhtml:link
@@ -135,12 +135,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/posts/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/posts/"
     />
     <xhtml:link
@@ -156,12 +156,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/tags/systemd/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/tags/systemd/"
     />
     <xhtml:link
@@ -177,12 +177,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/tags/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/tags/"
     />
     <xhtml:link
@@ -198,12 +198,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/timeline/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/timeline/"
     />
     <xhtml:link
@@ -218,12 +218,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/authors/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/authors/"
     />
     <xhtml:link
@@ -238,12 +238,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/categories/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/categories/"
     />
     <xhtml:link
@@ -258,12 +258,12 @@
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh-tw"
+      hreflang="zh-TW"
       href="https://zakk.au/zh-tw/series/"
     />
     <xhtml:link
       rel="alternate"
-      hreflang="zh-cn"
+      hreflang="zh-CN"
       href="https://zakk.au/zh-cn/series/"
     />
     <xhtml:link

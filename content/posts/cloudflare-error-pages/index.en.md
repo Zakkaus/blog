@@ -33,6 +33,27 @@ That led to the [`Zakkaus/cf-pages`](https://github.com/Zakkaus/cf-pages) projec
 
 ![Screenshot of the error.zakk.au homepage](feature-cloudflare.webp)
 
+## Interface highlights
+
+<div class="grid gap-6 md:grid-cols-2">
+  <figure class="space-y-3">
+    <img src="homepage-light.webp" alt="Homepage of the custom Cloudflare error pages in light mode" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">The light theme keeps typography airy and pairs the language/menu controls side by side for quick scanning.</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="homepage-dark.webp" alt="Homepage of the custom Cloudflare error pages in dark mode" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">Dark mode leans on the brand blue accents while maintaining contrast ratios that pass WCAG.</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="challenge-light.webp" alt="Managed challenge screen in light mode" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">The challenge template walks visitors through the verification flow and keeps context links one tap away.</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="challenge-dark.webp" alt="Managed challenge screen in dark mode" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">Dark mode preserves hierarchy and CTA prominence so the brand story and accessibility stay aligned.</figcaption>
+  </figure>
+</div>
+
 ## What ships with the repository?
 
 The repo bundles the full catalogue of Cloudflare error templates, each rewritten with a clean card layout and Tailwind CSS styling:
@@ -47,7 +68,7 @@ The repo bundles the full catalogue of Cloudflare error templates, each rewritte
 | `cf-rate-limit.html` | 429 rate limiting responses |
 | `offline.html` | Always Online™ fallback |
 
-Every page injects brand visuals (logo, koala 3D hero), the current Ray ID, and a single CTA leading to self-serve troubleshooting.
+Every page injects brand visuals (logo, koala 3D hero), the current Ray ID, and a single CTA leading to self-serve troubleshooting. The card layout keeps critical guidance above the fold no matter the viewport.
 
 ## Multilingual copy and automatic detection
 
@@ -61,9 +82,10 @@ Once the page loads, visitors can still toggle languages manually—the state st
 
 ## Design system & theming
 
-- **Tailwind CSS pipeline**: Author classes in `input.css`, build `output.css` via `npm run build` (or `pnpm run build`).
+- **Tailwind CSS pipeline**: Author classes in `input.css`, build a minified `output.css` via `npm run build` (or `pnpm run build`) with PurgeCSS trimming unused utilities.
 - **Day/night parity**: Screenshots (`assets/screenshots/*.webp`) capture both light and dark variants to ensure contrast passes WCAG.
 - **Shared components**: Buttons, alerts, and layout primitives map closely to the Blowfish theme I run on this blog, so switching contexts feels seamless.
+- **Brand system carryover**: Illustration tone, gradient tokens, and CTA colors stay in sync with the rest of the zakk.au ecosystem.
 
 ## Deployment on Cloudflare Pages
 

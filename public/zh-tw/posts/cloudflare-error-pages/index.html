@@ -263,7 +263,7 @@
         "@id": "https://zakk.au/zh-tw/#person"
       },
       "url": "https://zakk.au/zh-tw/posts/cloudflare-error-pages/",
-      "wordCount": 1043
+      "wordCount": 1245
     },
     {
       "@id": "https://zakk.au/zh-tw/posts/cloudflare-error-pages/#breadcrumb",
@@ -1473,6 +1473,7 @@
     <nav id="TableOfContents">
   <ul>
     <li><a href="#為什麼要做-errorzakkau">為什麼要做 error.zakk.au？</a></li>
+    <li><a href="#介面亮點搶先看">介面亮點搶先看</a></li>
     <li><a href="#儲存庫包含哪些模板">儲存庫包含哪些模板？</a></li>
     <li><a href="#多語文案與自動切換">多語文案與自動切換</a></li>
     <li><a href="#設計系統與樣式">設計系統與樣式</a></li>
@@ -1493,6 +1494,7 @@
     <nav id="TableOfContents">
   <ul>
     <li><a href="#為什麼要做-errorzakkau">為什麼要做 error.zakk.au？</a></li>
+    <li><a href="#介面亮點搶先看">介面亮點搶先看</a></li>
     <li><a href="#儲存庫包含哪些模板">儲存庫包含哪些模板？</a></li>
     <li><a href="#多語文案與自動切換">多語文案與自動切換</a></li>
     <li><a href="#設計系統與樣式">設計系統與樣式</a></li>
@@ -1649,6 +1651,34 @@
 </figure>
 </p>
 
+<h2 class="relative group">介面亮點搶先看 
+    <div id="介面亮點搶先看" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e4%bb%8b%e9%9d%a2%e4%ba%ae%e9%bb%9e%e6%90%b6%e5%85%88%e7%9c%8b" aria-label="段落連結">#</a>
+    </span>        
+    
+</h2>
+<div class="grid gap-6 md:grid-cols-2">
+  <figure class="space-y-3">
+    <img src="homepage-light.webp" alt="Cloudflare 錯誤頁首頁（淺色模式）" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">首頁在淺色模式維持柔和配色與分段資訊，導覽語系切換與深淺色按鈕並列。</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="homepage-dark.webp" alt="Cloudflare 錯誤頁首頁（深色模式）" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">深色模式保留品牌藍重點，同時提升閱讀對比，確保夜間也能舒適瀏覽。</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="challenge-light.webp" alt="Cloudflare 管理式挑戰畫面（淺色模式）" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">挑戰頁清楚說明接下來的驗證步驟，並提供快速求助與狀態頁連結。</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="challenge-dark.webp" alt="Cloudflare 管理式挑戰畫面（深色模式）" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">深色版本維持同樣資訊層次，讓品牌視覺與可讀性同步在線。</figcaption>
+  </figure>
+</div>
+
 <h2 class="relative group">儲存庫包含哪些模板？ 
     <div id="儲存庫包含哪些模板" class="anchor"></div>
     
@@ -1697,7 +1727,7 @@
       </tr>
   </tbody>
 </table>
-<p>每個頁面都會注入品牌視覺（Logo、3D 無尾熊）、即時 Ray ID，以及一個指向自助排錯的行動按鈕。</p>
+<p>每個頁面都會注入品牌視覺（Logo、3D 無尾熊）、即時 Ray ID，以及一個指向自助排錯的行動按鈕。配合上方卡片式設計，訪客能快速找到下一步行動。</p>
 
 <h2 class="relative group">多語文案與自動切換 
     <div id="多語文案與自動切換" class="anchor"></div>
@@ -1726,9 +1756,10 @@
     
 </h2>
 <ul>
-<li><strong>Tailwind CSS 流程</strong>：在 <code>input.css</code> 撰寫樣式，透過 <code>npm run build</code>（或 <code>pnpm run build</code>）輸出 <code>output.css</code>。</li>
+<li><strong>Tailwind CSS 流程</strong>：在 <code>input.css</code> 撰寫樣式，透過 <code>npm run build</code>（或 <code>pnpm run build</code>）輸出壓縮後的 <code>output.css</code>，保留 PurgeCSS 最佳化。</li>
 <li><strong>日夜模式一致</strong>：<code>assets/screenshots/*.webp</code> 同步展示淺色與深色，確保符合 WCAG 對比要求。</li>
 <li><strong>共用元件</strong>：按鈕、提示框、版面結構與本站 Blowfish 主題相近，讓使用者在各站之間切換不違和。</li>
+<li><strong>品牌細節延伸</strong>：錯誤插畫、動態背景與 CTA 配色皆採一致 Token，維持完整敘事。</li>
 </ul>
 
 <h2 class="relative group">部署到 Cloudflare Pages 

@@ -263,7 +263,7 @@
         "@id": "https://zakk.au/zh-cn/#person"
       },
       "url": "https://zakk.au/zh-cn/posts/cloudflare-error-pages/",
-      "wordCount": 945
+      "wordCount": 1235
     },
     {
       "@id": "https://zakk.au/zh-cn/posts/cloudflare-error-pages/#breadcrumb",
@@ -1207,7 +1207,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2025-10-01T00:00:00&#43;00:00">2025-10-01</time><span class="px-2 text-primary-500">&middot;</span><span title="阅读时间">约 2 分钟</span><span class="px-2 text-primary-500">&middot;</span>
+      <time datetime="2025-10-01T00:00:00&#43;00:00">2025-10-01</time><span class="px-2 text-primary-500">&middot;</span><span title="阅读时间">约 3 分钟</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
@@ -1473,6 +1473,7 @@
     <nav id="TableOfContents">
   <ul>
     <li><a href="#为什么要做-errorzakkau">为什么要做 error.zakk.au？</a></li>
+    <li><a href="#界面亮点速览">界面亮点速览</a></li>
     <li><a href="#仓库里有哪些模板">仓库里有哪些模板？</a></li>
     <li><a href="#多语言文案与自动切换">多语言文案与自动切换</a></li>
     <li><a href="#设计系统与样式">设计系统与样式</a></li>
@@ -1493,6 +1494,7 @@
     <nav id="TableOfContents">
   <ul>
     <li><a href="#为什么要做-errorzakkau">为什么要做 error.zakk.au？</a></li>
+    <li><a href="#界面亮点速览">界面亮点速览</a></li>
     <li><a href="#仓库里有哪些模板">仓库里有哪些模板？</a></li>
     <li><a href="#多语言文案与自动切换">多语言文案与自动切换</a></li>
     <li><a href="#设计系统与样式">设计系统与样式</a></li>
@@ -1610,6 +1612,12 @@
     
 </h2>
 <p>Cloudflare 默认错误页与网站调性差很多，访问者会觉得被跳出站外。我想要一个轻量替代方案，能够：</p>
+<ul>
+<li>自动侦测浅色／深色模式，同时允许用户手动切换</li>
+<li>自动侦测语言（英文、繁体中文、简体中文），并提供切换按钮</li>
+<li>显示 <strong>Ray ID</strong> 与预填资料的支援邮件连结，缩短排障时间</li>
+<li>完全托管在 Cloudflare Pages，只要 git push 就能更新</li>
+</ul>
 <p>于是就诞生了 <a
   href="https://github.com/Zakkaus/cf-pages"
     target="_blank"
@@ -1642,6 +1650,34 @@
   
 </figure>
 </p>
+
+<h2 class="relative group">界面亮点速览 
+    <div id="界面亮点速览" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e7%95%8c%e9%9d%a2%e4%ba%ae%e7%82%b9%e9%80%9f%e8%a7%88" aria-label="段落链接">#</a>
+    </span>        
+    
+</h2>
+<div class="grid gap-6 md:grid-cols-2">
+  <figure class="space-y-3">
+    <img src="homepage-light.webp" alt="自定义 Cloudflare 错误页首页（浅色模式）" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">浅色首页聚焦在语言、模式切换以及 Ray ID 支援，让访客迅速掌握重点。</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="homepage-dark.webp" alt="自定义 Cloudflare 错误页首页（深色模式）" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">深色主题保留品牌蓝色点缀，同时维持充足对比，不影响夜间阅读体验。</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="challenge-light.webp" alt="Cloudflare 管理式挑战页（浅色模式）" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">挑战流程逐步说明下一步动作，并将状态页、求助连结放在同一视线范围。</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="challenge-dark.webp" alt="Cloudflare 管理式挑战页（深色模式）" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">深色版本延续同样层级与按钮强调色，强化品牌一致性。</figcaption>
+  </figure>
+</div>
 
 <h2 class="relative group">仓库里有哪些模板？ 
     <div id="仓库里有哪些模板" class="anchor"></div>
@@ -1691,7 +1727,7 @@
       </tr>
   </tbody>
 </table>
-<p>每个页面都会显示品牌视觉（Logo、3D 树袋熊）、实时 Ray ID，以及引导使用者自助排障的主要按钮。</p>
+<p>每个页面都会显示品牌视觉（Logo、3D 树袋熊）、实时 Ray ID，以及引导使用者自助排障的主要按钮；搭配卡片式排版，关键信息永远停留在首屏。</p>
 
 <h2 class="relative group">多语言文案与自动切换 
     <div id="多语言文案与自动切换" class="anchor"></div>
@@ -1720,9 +1756,10 @@
     
 </h2>
 <ul>
-<li><strong>Tailwind CSS 流程</strong>：在 <code>input.css</code> 编写类名，执行 <code>npm run build</code>（或 <code>pnpm run build</code>）生成 <code>output.css</code>。</li>
+<li><strong>Tailwind CSS 流程</strong>：在 <code>input.css</code> 编写类名，执行 <code>npm run build</code>（或 <code>pnpm run build</code>）生成压缩后的 <code>output.css</code>，并透过 PurgeCSS 自动移除未使用样式。</li>
 <li><strong>日夜模式成对设计</strong>：<code>assets/screenshots/*.webp</code> 保留浅色与深色截图，确保对比符合 WCAG。</li>
 <li><strong>共享组件</strong>：按钮、提示、栅格与本站 Blowfish 主题一致，让使用者在各站切换毫无违和感。</li>
+<li><strong>品牌细节延伸</strong>：插画、渐层与 CTA 色票沿用 zakk.au 设计系统，维持完整体验。</li>
 </ul>
 
 <h2 class="relative group">部署到 Cloudflare Pages 

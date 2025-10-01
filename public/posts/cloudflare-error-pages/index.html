@@ -263,7 +263,7 @@
         "@id": "https://zakk.au/#person"
       },
       "url": "https://zakk.au/posts/cloudflare-error-pages/",
-      "wordCount": 518
+      "wordCount": 624
     },
     {
       "@id": "https://zakk.au/posts/cloudflare-error-pages/#breadcrumb",
@@ -1473,6 +1473,7 @@
     <nav id="TableOfContents">
   <ul>
     <li><a href="#why-build-a-dedicated-errorzakkau">Why build a dedicated error.zakk.au?</a></li>
+    <li><a href="#interface-highlights">Interface highlights</a></li>
     <li><a href="#what-ships-with-the-repository">What ships with the repository?</a></li>
     <li><a href="#multilingual-copy-and-automatic-detection">Multilingual copy and automatic detection</a></li>
     <li><a href="#design-system--theming">Design system &amp; theming</a></li>
@@ -1493,6 +1494,7 @@
     <nav id="TableOfContents">
   <ul>
     <li><a href="#why-build-a-dedicated-errorzakkau">Why build a dedicated error.zakk.au?</a></li>
+    <li><a href="#interface-highlights">Interface highlights</a></li>
     <li><a href="#what-ships-with-the-repository">What ships with the repository?</a></li>
     <li><a href="#multilingual-copy-and-automatic-detection">Multilingual copy and automatic detection</a></li>
     <li><a href="#design-system--theming">Design system &amp; theming</a></li>
@@ -1649,6 +1651,34 @@
 </figure>
 </p>
 
+<h2 class="relative group">Interface highlights 
+    <div id="interface-highlights" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#interface-highlights" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<div class="grid gap-6 md:grid-cols-2">
+  <figure class="space-y-3">
+    <img src="homepage-light.webp" alt="Homepage of the custom Cloudflare error pages in light mode" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">The light theme keeps typography airy and pairs the language/menu controls side by side for quick scanning.</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="homepage-dark.webp" alt="Homepage of the custom Cloudflare error pages in dark mode" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">Dark mode leans on the brand blue accents while maintaining contrast ratios that pass WCAG.</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="challenge-light.webp" alt="Managed challenge screen in light mode" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">The challenge template walks visitors through the verification flow and keeps context links one tap away.</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="challenge-dark.webp" alt="Managed challenge screen in dark mode" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">Dark mode preserves hierarchy and CTA prominence so the brand story and accessibility stay aligned.</figcaption>
+  </figure>
+</div>
+
 <h2 class="relative group">What ships with the repository? 
     <div id="what-ships-with-the-repository" class="anchor"></div>
     
@@ -1697,7 +1727,7 @@
       </tr>
   </tbody>
 </table>
-<p>Every page injects brand visuals (logo, koala 3D hero), the current Ray ID, and a single CTA leading to self-serve troubleshooting.</p>
+<p>Every page injects brand visuals (logo, koala 3D hero), the current Ray ID, and a single CTA leading to self-serve troubleshooting. The card layout keeps critical guidance above the fold no matter the viewport.</p>
 
 <h2 class="relative group">Multilingual copy and automatic detection 
     <div id="multilingual-copy-and-automatic-detection" class="anchor"></div>
@@ -1726,9 +1756,10 @@
     
 </h2>
 <ul>
-<li><strong>Tailwind CSS pipeline</strong>: Author classes in <code>input.css</code>, build <code>output.css</code> via <code>npm run build</code> (or <code>pnpm run build</code>).</li>
+<li><strong>Tailwind CSS pipeline</strong>: Author classes in <code>input.css</code>, build a minified <code>output.css</code> via <code>npm run build</code> (or <code>pnpm run build</code>) with PurgeCSS trimming unused utilities.</li>
 <li><strong>Day/night parity</strong>: Screenshots (<code>assets/screenshots/*.webp</code>) capture both light and dark variants to ensure contrast passes WCAG.</li>
 <li><strong>Shared components</strong>: Buttons, alerts, and layout primitives map closely to the Blowfish theme I run on this blog, so switching contexts feels seamless.</li>
+<li><strong>Brand system carryover</strong>: Illustration tone, gradient tokens, and CTA colors stay in sync with the rest of the zakk.au ecosystem.</li>
 </ul>
 
 <h2 class="relative group">Deployment on Cloudflare Pages 

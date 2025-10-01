@@ -24,10 +24,35 @@ seo:
 
 Cloudflare 默认错误页与网站调性差很多，访问者会觉得被跳出站外。我想要一个轻量替代方案，能够：
 
+- 自动侦测浅色／深色模式，同时允许用户手动切换
+- 自动侦测语言（英文、繁体中文、简体中文），并提供切换按钮
+- 显示 **Ray ID** 与预填资料的支援邮件连结，缩短排障时间
+- 完全托管在 Cloudflare Pages，只要 git push 就能更新
 
 于是就诞生了 [`Zakkaus/cf-pages`](https://github.com/Zakkaus/cf-pages) 仓库，以及正式上线的 [error.zakk.au](https://error.zakk.au/)。
 
 ![error.zakk.au 首页预览](feature-cloudflare.webp)
+
+## 界面亮点速览
+
+<div class="grid gap-6 md:grid-cols-2">
+  <figure class="space-y-3">
+    <img src="homepage-light.webp" alt="自定义 Cloudflare 错误页首页（浅色模式）" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">浅色首页聚焦在语言、模式切换以及 Ray ID 支援，让访客迅速掌握重点。</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="homepage-dark.webp" alt="自定义 Cloudflare 错误页首页（深色模式）" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">深色主题保留品牌蓝色点缀，同时维持充足对比，不影响夜间阅读体验。</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="challenge-light.webp" alt="Cloudflare 管理式挑战页（浅色模式）" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">挑战流程逐步说明下一步动作，并将状态页、求助连结放在同一视线范围。</figcaption>
+  </figure>
+  <figure class="space-y-3">
+    <img src="challenge-dark.webp" alt="Cloudflare 管理式挑战页（深色模式）" loading="lazy" />
+    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">深色版本延续同样层级与按钮强调色，强化品牌一致性。</figcaption>
+  </figure>
+</div>
 
 ## 仓库里有哪些模板？
 
@@ -43,7 +68,7 @@ Cloudflare 默认错误页与网站调性差很多，访问者会觉得被跳出
 | `cf-rate-limit.html` | 429 速率限制 |
 | `offline.html` | Always Online™ 离线提示 |
 
-每个页面都会显示品牌视觉（Logo、3D 树袋熊）、实时 Ray ID，以及引导使用者自助排障的主要按钮。
+每个页面都会显示品牌视觉（Logo、3D 树袋熊）、实时 Ray ID，以及引导使用者自助排障的主要按钮；搭配卡片式排版，关键信息永远停留在首屏。
 
 ## 多语言文案与自动切换
 
@@ -57,9 +82,10 @@ Cloudflare 默认错误页与网站调性差很多，访问者会觉得被跳出
 
 ## 设计系统与样式
 
-- **Tailwind CSS 流程**：在 `input.css` 编写类名，执行 `npm run build`（或 `pnpm run build`）生成 `output.css`。
+- **Tailwind CSS 流程**：在 `input.css` 编写类名，执行 `npm run build`（或 `pnpm run build`）生成压缩后的 `output.css`，并透过 PurgeCSS 自动移除未使用样式。
 - **日夜模式成对设计**：`assets/screenshots/*.webp` 保留浅色与深色截图，确保对比符合 WCAG。
 - **共享组件**：按钮、提示、栅格与本站 Blowfish 主题一致，让使用者在各站切换毫无违和感。
+- **品牌细节延伸**：插画、渐层与 CTA 色票沿用 zakk.au 设计系统，维持完整体验。
 
 ## 部署到 Cloudflare Pages
 

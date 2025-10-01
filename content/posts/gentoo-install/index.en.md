@@ -448,6 +448,38 @@ emerge --ask sys-firmware/intel-microcode  # Intel CPU
 
 ## 8. Base tools and desktop prerequisites {#step-8-base-packages}
 
+### switch Portage sync to Git
+
+Install Git first so `emerge --sync` can talk to the Gentoo tree via Git:
+
+```bash
+emerge --ask dev-vcs/git
+```
+
+If `/etc/portage/repos.conf/gentoo.conf` does not exist yet, copy the example file:
+
+```bash
+mkdir -p /etc/portage/repos.conf
+cp /usr/share/portage/config/repos.conf /etc/portage/repos.conf/gentoo.conf
+```
+
+Edit the `[gentoo]` section in that file (overwrite existing keys if needed) and add:
+
+```ini
+sync-type = git
+sync-uri = https://github.com/gentoo-mirror/gentoo.git
+sync-depth = 1          # Fetch only the latest commit; remove for full history
+sync-git-clone-extra-opts = -b stable # Optional: follow the stable branch
+```
+
+Then run:
+
+```bash
+emerge --sync
+```
+
+> With these settings `emerge --sync` uses Git under the hood. Expect the first sync to take a bit longer; subsequent updates are incremental.
+
 ```bash
 emerge --ask app-editors/neovim app-shells/zsh
 emerge --ask app-portage/cpuid2cpuflags

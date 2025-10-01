@@ -447,6 +447,38 @@ emerge --ask sys-firmware/intel-microcode  # Intel CPU
 
 ## 8. 基礎工具與桌面前置 {#step-8-base-packages}
 
+### 改用 Git 同步 Portage 樹
+
+先安裝 Git，後續 `emerge --sync` 才能使用 Git 後端：
+
+```bash
+emerge --ask dev-vcs/git
+```
+
+若尚未建立設定檔，可先複製範本：
+
+```bash
+mkdir -p /etc/portage/repos.conf
+cp /usr/share/portage/config/repos.conf /etc/portage/repos.conf/gentoo.conf
+```
+
+編輯 `/etc/portage/repos.conf/gentoo.conf` 中的 `[gentoo]` 區塊，加入下列設定（已有相同欄位時請覆寫）：
+
+```ini
+sync-type = git
+sync-uri = https://github.com/gentoo-mirror/gentoo.git
+sync-depth = 1          # 只抓最新 commit，減少空間；需要完整歷史就刪掉
+sync-git-clone-extra-opts = -b stable # 想跟著 stable 分支可加這行
+```
+
+完成後執行：
+
+```bash
+emerge --sync
+```
+
+> `emerge --sync` 會依據上述設定透過 Git 抓取最新樹狀資料，第一次同步會稍花時間，之後就只更新增量。
+
 ```bash
 emerge --ask app-editors/neovim app-shells/zsh
 emerge --ask app-portage/cpuid2cpuflags

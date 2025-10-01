@@ -21,7 +21,7 @@ seo:
 
 {{< lead >}}
 I'm **Zakk**, currently living in Australia. My programming skills are quite basic, but I taught myself in junior high and can build simple websites. I'm now studying Business at university. I studied art in high school, and my first bucket of gold came from gaming during my first year of high school. I've been dealing with some ongoing mental health issues, but I'm very happy living in this new country and environment. Here, I write bilingual notes on Linux, experiments, travel, investing, and interesting daily life moments with Paper and our two Teddy guinea pigs, Hash Brown and Potato.
-02/10/2025 {style="text-align: right;"}
+<p style="text-align:right;">02/10/2025</p>
 
 {{< /lead >}}
 

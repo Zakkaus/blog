@@ -20,11 +20,11 @@ seo:
       - "Portage 入门"
       - "OpenRC 设置"
       - "systemd"
-      - "Zakk 博客"
-      
+      - "Zakk 博客"   
 ---
 
-# 我的电脑配置（示例） {#my-hardware-zh}
+## 我的电脑配置（示例） {#my-hardware-zh}
+
 - **CPU**：AMD Ryzen 9 7950X3D（16C/32T）  
 - **主机板**：ASUS ROG STRIX X670E-A GAMING WIFI  
 - **RAM**：64GB DDR5  

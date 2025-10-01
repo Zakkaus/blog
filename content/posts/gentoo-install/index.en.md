@@ -88,7 +88,7 @@ Download the minimal ISO and signature (Taiwan mirror shown):
 wget https://free.nchc.org.tw/gentoo/releases/amd64/autobuilds/current-install-amd64-minimal/install-amd64-minimal.iso
 wget https://free.nchc.org.tw/gentoo/releases/amd64/autobuilds/current-install-amd64-minimal/install-amd64-minimal.iso.asc
 ```
-Prefer LiveGUI with a browser or easier Wi-Fi setup? Grab the **LiveGUI USB image** instead.
+> Prefer LiveGUI with a browser or easier Wi-Fi setup? Grab the **LiveGUI USB image** instead.
 
 Verify the signature (optional but recommended):
 ```bash

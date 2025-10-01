@@ -87,7 +87,7 @@ seo:
 wget https://free.nchc.org.tw/gentoo/releases/amd64/autobuilds/current-install-amd64-minimal/install-amd64-minimal.iso
 wget https://free.nchc.org.tw/gentoo/releases/amd64/autobuilds/current-install-amd64-minimal/install-amd64-minimal.iso.asc
 ```
-如果你想要在安裝的時候查看瀏覽器或者更容易的圖形化連結Wi-Fi等可以選用 **LiveGUI USB Image**
+> 如果你想要在安裝的時候查看瀏覽器或者更容易的圖形化連結Wi-Fi等可以選用 **LiveGUI USB Image**
 
 驗證簽章（可選）：
 ```bash

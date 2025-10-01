@@ -34,7 +34,8 @@ seo:
 **在一起天數：** <span class="counter-days" data-counter-origin="2025-08-07T11:38:00+10:00" data-counter-format="days">0</span>  
 **經過時間：** <span class="counter-time" data-counter-origin="2025-08-07T11:38:00+10:00" data-counter-format="time">00:00:00</span>
 
-我們在 [錫蘭Ceylan](https://www.youtube.com/@xilanceylan) 的社群認識，從日常聊天變成每天互相的物理與心理幫助維持節奏，。兩個人都是泛性戀 🩷💛🩵，一起分享歌單、打電動、分享和關心彼此生活和跨時區的睡前語音。想看 Paper 的視角，可以追蹤 [@abyss_74.50](https://www.instagram.com/abyss_74.50/)。
+我們在 [錫蘭Ceylan](https://www.youtube.com/@xilanceylan) 的社群認識，從日常聊天變成每天互相的物理與心理幫助維持節奏，。兩個人都是泛性戀 🩷💛🩵，一起分享歌單、打電動、分享和關心彼此生活和跨時區的睡前語音。想看 Paper 的視角，可以追蹤 [@abyss_74.50](https://www.instagram.com/abyss_74.50/)。 - 
+如果想了解更多請看: [我們的故事](/zh-tw/about/#%E6%88%91%E5%92%8C-paper)
 {{< /timelineItem >}}
 {{< /timeline >}}
 
@@ -43,17 +44,15 @@ seo:
 {{< timelineItem id="hash-brown" icon="carrot" header="脆薯饼" badge="2025-06-24 出生" subheader="泰迪 天竺鼠" md="true" >}}
 **成長天數：** <span class="counter-days" data-counter-origin="2025-06-24T00:00:00+10:00" data-counter-format="days">0</span>
 
-淺棕色 Teddy，活動力滿點，最愛搬家和在籠子裡衝刺。拿甜椒、玉米鬚、小零食就可以收買。冰箱門一開就會大喊「515151」。更多日常會放在 [Instagram @zakk.au](https://www.instagram.com/zakk.au/)。
+淺棕色 Teddy，活動力滿點，最愛搬家和在籠子裡衝刺。拿甜椒、玉米鬚、小零食就可以收買。冰箱門一開就會大喊「515151」。更多日常會放在 [@zakk.au](https://www.instagram.com/zakk.au/)。
+如果想了解更多請看: [脆薯饼 的介紹](/zh-tw/about/#hash-brown)
 {{< /timelineItem >}}
 
 {{< timelineItem id="potato" icon="leaf" header="马铃薯" badge="2025-07-27 出生" subheader="泰迪 天竺鼠" md="true" >}}
 **成長天數：** <span class="counter-days" data-counter-origin="2025-07-27T00:00:00+10:00" data-counter-format="days">0</span>
 
-深棕色 Teddy，膽子大又超愛吃。最常把自己埋在燕麥草裡睡覺，醒來繼續啃燕麥草、甜椒、玉米鬚和。她常在 [關於我](/zh-tw/about/#potato) 和 [Instagram](https://www.instagram.com/zakk.au/) 出現。
+深棕色 Teddy，膽子大又超愛吃。最常把自己埋在燕麥草裡睡覺，醒來繼續啃燕麥草、甜椒、玉米鬚和。她常在 [Instagram](https://www.instagram.com/zakk.au/) 出現。
+如果想了解更多請看: [马铃薯 的介紹](/zh-tw/about/#potato)
 {{< /timelineItem >}}
 {{< /timeline >}}
 
-### 延伸閱讀
-- [我們的故事](/zh-tw/about/#%E6%88%91%E5%92%8C-paper)
-- [脆薯饼 的介紹](/zh-tw/about/#hash-brown)
-- [马铃薯 的介紹](/zh-tw/about/#potato)

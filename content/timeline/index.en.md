@@ -9,7 +9,7 @@ description: "Live counters for our relationship milestones and guinea pig birth
 authors:
   - "Zakk"
 seo:
-  description: "Real-time timeline tracking Paper and Zakk’s long-distance milestones plus Hash Brown and Potato’s guinea pig birthdays, updated to Sydney time."
+  description: "Real-time timeline tracking Paper and Zakk's long-distance milestones plus Hash Brown and Potato's guinea pig birthdays, updated to Sydney time."
   keywords:
     - "Paper and Zakk timeline"
     - "long-distance counter"
@@ -21,7 +21,7 @@ seo:
 ---
 
 {{< lead >}}
-Live counters for the milestones Paper and I care about most—how long we’ve been together, and how old Hash Brown & Potato are today.
+Live counters for the milestones Paper and I care about most—how long we've been together, and how old Hash Brown & Potato are today.
 {{< /lead >}}
 
 {{< alert icon="clock" >}}
@@ -34,7 +34,8 @@ Sydney time: **<span data-sydney-now>--:--:--</span>** (<span data-sydney-zone>-
 **Days together:** <span class="counter-days" data-counter-origin="2025-08-07T11:38:00+10:00" data-counter-format="days">0</span>  
 **Time elapsed:** <span class="counter-time" data-counter-origin="2025-08-07T11:38:00+10:00" data-counter-format="time">00:00:00</span>
 
-We met through [Ceylan](https://www.youtube.com/@xilanceylan)’s community and turned daily check-ins into a long-distance rhythm. We’re both pansexual 🩷💛🩵, trading playlist links, sleepy calls, and plans to close the distance in Australia. Follow Paper at [@abyss_74.50](https://www.instagram.com/abyss_74.50/) for her perspective.
+We met through [Ceylan](https://www.youtube.com/@xilanceylan)'s community, evolving from daily chats into mutual physical and mental support that keeps our rhythm going. We're both pansexual 🩷💛🩵, sharing playlists, gaming together, caring about each other's lives, and cross-timezone bedtime voice calls. Follow Paper at [@abyss_74.50](https://www.instagram.com/abyss_74.50/) for her perspective. - 
+Learn more: [Our Story](/about/#relationship)
 {{< /timelineItem >}}
 {{< /timeline >}}
 
@@ -43,17 +44,15 @@ We met through [Ceylan](https://www.youtube.com/@xilanceylan)’s community and 
 {{< timelineItem id="hash-brown" icon="carrot" header="Hash Brown" badge="Born 24 Jun 2025" subheader="Teddy guinea pig" md="true" >}}
 **Days old:** <span class="counter-days" data-counter-origin="2025-06-24T00:00:00+10:00" data-counter-format="days">0</span>
 
-Light brown Teddy with endless zoomies. Loves red & green bell peppers, corn silk, and carrots. Will shout “515151” if the fridge opens without snacks. Photos land on [Instagram @zakk.au](https://www.instagram.com/zakk.au/).
+Light brown Teddy, full of energy, loves moving house and sprinting in the cage. Can be bribed with bell peppers, corn silk, and snacks. Will shout "515151" when the fridge door opens. More daily moments on [@zakk.au](https://www.instagram.com/zakk.au/).
+Learn more: [Hash Brown's Profile](/about/#hash-brown)
 {{< /timelineItem >}}
 
 {{< timelineItem id="potato" icon="leaf" header="Potato" badge="Born 27 Jul 2025" subheader="Teddy guinea pig" md="true" >}}
 **Days old:** <span class="counter-days" data-counter-origin="2025-07-27T00:00:00+10:00" data-counter-format="days">0</span>
 
-Dark brown Teddy who naps under hay piles, then jumps straight back to eating. Shares the same snack rotation and regularly stars on the [About page](/about/#potato) plus [Instagram](https://www.instagram.com/zakk.au/).
+Dark brown Teddy, brave and loves eating. Often buries herself in oat hay to sleep, wakes up and continues munching on oat hay, bell peppers, and corn silk. She frequently appears on [Instagram](https://www.instagram.com/zakk.au/).
+Learn more: [Potato's Profile](/about/#potato)
 {{< /timelineItem >}}
 {{< /timeline >}}
 
-### Quick links
-- [Relationship notes on the About page](/about/#relationship)
-- [Potato’s profile](/about/#potato)
-- [Hash Brown’s profile](/about/#hash-brown)

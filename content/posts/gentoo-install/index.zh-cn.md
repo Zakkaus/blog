@@ -21,8 +21,10 @@ seo:
       - "OpenRC 设置"
       - "systemd"
       - "Zakk 博客"
+
+
+
 ---
-<div class="gentoo-article">
 
 # 我的电脑配置（示例） {#my-hardware-zh}
 - **CPU**：AMD Ryzen 9 7950X3D（16C/32T）  

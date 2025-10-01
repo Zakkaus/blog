@@ -50,7 +50,7 @@ seo:
 - 醒来立刻回去啃燕麦草,偶尔边吃边打盹。偶尔喜欢在水盆上排泄
 - 最爱:甜椒、玉米须
 - [时间轴](/zh-cn/timeline/#potato) 上可以看到她的即时计数,也会出现在 IG 限动。
-- 更多照片在 [@zakk.au](https://www.instagram.com/zakk.au/)。在这里还可以看到她的出生计时器 [时间轴](/zh-cn/timeline/) 
+- 更多照片在 [@zakk.au](https://www.instagram.com/zakk.au/)。在这里还可以看到她的出生计时器 [时间轴](/zh-cn/timeline/#potato) 
 
 ### 使用的设备
 #### 桌机

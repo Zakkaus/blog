@@ -50,7 +50,7 @@ Paper and I started our 8,000 km long-distance relationship (Australia ↔ Taiwa
 - Immediately goes back to munching oat hay when she wakes up, sometimes eating and napping at the same time. Occasionally likes to poop on the water bowl.
 - Favorites: bell peppers, corn silk.
 - You can see her real-time counter on the [Timeline](/timeline/#potato), and she also appears in IG stories.
-- More photos on [@zakk.au](https://www.instagram.com/zakk.au/). You can also see her birth counter on the [Timeline](/timeline/).
+- More photos on [@zakk.au](https://www.instagram.com/zakk.au/). You can also see her birth counter on the [Timeline](/timeline/#potato).
 
 {{< lead >}}
 I’m **Zakk**, living in Australia. My programming skills are modest, but I taught myself in junior high and have been able to build simple websites. I’m currently studying Business at university and took art classes in high school. My first ‘payday’ came from gaming during my first year. Although I’ve faced ongoing mental health challenges, I’m thriving in this new country and environment. Here, I write bilingual notes on Linux, experiments, travel, investing, and the fun daily life with Paper and our two Teddy guinea pigs, Hash Brown and Potato.

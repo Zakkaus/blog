@@ -479,6 +479,7 @@ emerge --sync
 
 > 以上设定让 `emerge --sync` 透过 Git 拉取最新 Portage 树。第一次同步会花久一点，之后都是增量更新。
 
+### 基础工具
 ```bash
 emerge --ask app-editors/neovim app-shells/zsh
 emerge --ask app-portage/cpuid2cpuflags

@@ -1,31 +1,31 @@
 ---
 slug: gentoo-install
-title: "Gentoo install guide (beginner edition)"
+title: "Gentoo Installation Guide (Beginner Edition)"
 date: 2025-09-01
 tags: ["Gentoo","Linux","OpenRC","systemd"]
-categories: ["Linux notes"]
+categories: ["Linux Notes"]
 draft: false
-description: "From-scratch Gentoo install walkthrough: partitioning, Stage3, Portage, USE flags, kernel, desktop environments, and troubleshooting."
+description: "A complete Gentoo installation tutorial from scratch: partitioning, Stage3, Portage, USE flags, kernel, desktop environment, and troubleshooting."
 ShowToc: false
 TocOpen: false
 translationKey: "gentoo-install"
 authors:
-  - "Zakk"
+   - "Zakk"
 seo:
-  description: "Complete Gentoo Linux install guide for newcomers: storage layout, Stage3 bootstrap, Portage and USE configuration, kernel options, OpenRC vs systemd, and GNOME / KDE deployment."
-  keywords:
-    - "Gentoo install"
-    - "Gentoo tutorial"
-    - "USE flags"
-    - "Portage basics"
-    - "OpenRC setup"
-    - "systemd"
-    - "Zakk blog"
+   description: "Complete Gentoo Linux installation guide for beginners, covering disk partitioning, Stage3 extraction, Portage and USE Flags configuration, kernel compilation, OpenRC and systemd switching, and GNOME / KDE desktop deployment."
+   keywords:
+      - "Gentoo install"
+      - "Gentoo tutorial"
+      - "USE Flags"
+      - "Portage basics"
+      - "OpenRC setup"
+      - "systemd"
+      - "Zakk blog"
 ---
 
 {{< lead >}}
-This guide distills the exact workflow I used to reinstall Gentoo on both my desktop and laptop.
-Here is the hardware I validated the process on:
+This guide is based on my experience reinstalling Gentoo on both my desktop and laptop.  
+Here is my system configuration:
 
 - CPU: AMD Ryzen 9 7950X3D (16C/32T)
 - Motherboard: ASUS ROG STRIX X670E-A GAMING WIFI
@@ -34,69 +34,68 @@ Here is the hardware I validated the process on:
 - Storage: NVMe SSD
 - Dual boot: Windows 11 + Gentoo
 
-
-Revalidated against the official handbook as of October 2025. Follow along to deploy a daily-driver Gentoo desktop from a blank disk.
+Revalidated against the official documentation as of October 2025. Follow these steps to deploy a fully functional Gentoo desktop environment from a blank disk.
 {{< /lead >}}
 
-> Target platform: x86_64 with UEFI firmware. Both OpenRC and systemd paths are covered. If you are on BIOS or another architecture, cross-check the Gentoo Handbook and adapt accordingly.
+> This guide assumes x86_64 UEFI platform and provides both OpenRC and systemd approaches. If you are using BIOS or another architecture, please adjust according to the official handbook.
 
 ---
 
-## Installation roadmap
+## Installation Workflow Overview
 
-1. Prepare boot media and confirm networking
-2. Partition disks and create filesystems
-3. Extract Stage3 and enter the chroot
-4. Configure Portage, USE flags, profiles, and localization
-5. Install the kernel, firmware, and essential tools
-6. Configure the bootloader and user accounts
-7. Deploy a desktop environment and daily software
-8. Reboot, verify, and set up ongoing maintenance
+1. Prepare boot media and confirm network connectivity
+2. Create disk partitions and filesystems
+3. Extract Stage3 and enter chroot
+4. Configure Portage, USE flags, Profile, and localization
+5. Install kernel, firmware, and essential tools
+6. Configure bootloader and user accounts
+7. Deploy desktop environment and common applications
+8. Perform first reboot and ongoing maintenance
 
-Each section includes the exact commands I use plus alternatives, so you can safely roll back if something looks off.
+Each section provides complete commands and alternatives, allowing you to return and check at any step.
 
 ---
 
 ## Prerequisites {#prerequisites}
 
-- An x86_64 machine with UEFI firmware (desktop or laptop)
-- USB flash drive (8 GB or larger)
-- Reliable internet connection (pick a domestic mirror if you are in mainland China)
-- A second device for documentation or SSH remote control (strongly recommended)
-- At least 30 GB of free disk space
+- An x86_64 machine with UEFI support (desktop or laptop)
+- USB flash drive of 8 GB or larger
+- Stable internet connection (if in mainland China, select a domestic mirror in advance)
+- A second device for documentation / SSH remote access (recommended)
+- At least 30 GB of available disk space
 
 
-> Back up any important data before you touch partitions
+> It is recommended to back up all important data first
 
 
 ---
 
-## 0. Download and write the installer {#step-0-media}
+## 0. Download and Create Installation Media {#step-0-media}
 
-### 0.1 Choose a mirror and grab the ISO
+### 0.1 Select a mirror and download ISO
 
 Official mirror list: <https://www.gentoo.org/downloads/mirrors/>
 
-| Region | Recommended mirror |
+| Region | Recommended Mirror |
 | ------ | ------------------ |
 | Taiwan | `https://free.nchc.org.tw/gentoo/` |
 | Australia | `https://mirror.aarnet.edu.au/pub/gentoo/` |
 | Mainland China | `https://mirrors.ustc.edu.cn/gentoo/`, `https://mirrors.tuna.tsinghua.edu.cn/gentoo/`, `https://mirrors.aliyun.com/gentoo/` |
 
-Download the minimal ISO and signature (Taiwan mirror shown):
+Download Minimal ISO (Taiwan example):
 ```bash
 wget https://free.nchc.org.tw/gentoo/releases/amd64/autobuilds/current-install-amd64-minimal/install-amd64-minimal.iso
 wget https://free.nchc.org.tw/gentoo/releases/amd64/autobuilds/current-install-amd64-minimal/install-amd64-minimal.iso.asc
 ```
-> Prefer LiveGUI with a browser or easier Wi-Fi setup? Grab the **LiveGUI USB image** instead.
+> If you want to browse the web during installation or use a graphical interface to connect to Wi-Fi more easily, choose the **LiveGUI USB Image**
 
-Verify the signature (optional but recommended):
+Verify signature (optional):
 ```bash
 gpg --keyserver hkps://keys.openpgp.org --recv-keys 0xBB572E0E2D1829105A8D0F7CF7A88992
 gpg --verify install-amd64-minimal.iso.asc install-amd64-minimal.iso
 ```
 
-### 0.2 Write the USB installer
+### 0.2 Create USB installation disk
 
 **Linux**
 ```bash
@@ -479,6 +478,8 @@ emerge --sync
 ```
 
 > With these settings `emerge --sync` uses Git under the hood. Expect the first sync to take a bit longer; subsequent updates are incremental.
+
+### Base tools 
 
 ```bash
 emerge --ask app-editors/neovim app-shells/zsh

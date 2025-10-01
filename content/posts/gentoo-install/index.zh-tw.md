@@ -186,6 +186,45 @@ cfdisk /dev/nvme0n1
 
 > 若只想要最簡配置，可只保留 `/efi` + `/` 兩個分割。
 
+### 2.1 `cfdisk` 實際操作示例
+
+以下畫面截自在雙系統筆電上執行 `cfdisk /dev/nvme2n1`，可在進入 Live 環境後直接參考。方向鍵可以在分割表中移動，`Type`、`Resize`、`Delete`、`Write` 等按鍵對應底部選單。
+
+```text
+Disk: /dev/nvme2n1
+                                                                                 Size: 931.51 GiB, 1000204886016 bytes, 1953525168 sectors
+                                                                              Label: gpt, identifier: 9737D323-129E-4B5F-9049-8080EDD29C02
+
+      Device                                          Start                      End                  Sectors                  Size Type
+>>  /dev/nvme2n1p1                                     34                    32767                    32734                   16M Microsoft reserved                 
+      /dev/nvme2n1p2                                  32768               1416650751               1416617984                675.5G Microsoft basic data
+      /dev/nvme2n1p3                             1416650752               1418747903                  2097152                    1G EFI System
+      /dev/nvme2n1p4                             1418747904               1435525119                 16777216                    8G Linux swap
+      /dev/nvme2n1p5                             1435525120               1437622271                  2097152                    1G Linux filesystem
+      /dev/nvme2n1p6                             1437622272               1953523711                515901440                  246G Linux filesystem
+
+
+
+
+
+
+
+
+
+
+ ┌─                                                                                                                                                                ┐
+ │Partition name: Microsoft reserved partition                                                                                                                     │
+ │Partition UUID: 035B96B8-E321-4388-9C55-9FC0700AFF46                                                                                                             │
+ │Partition type: Microsoft reserved (E3C9E316-0B5C-4DB8-817D-F92DF00215AE)                                                                                        │
+ └─                                                                                                                                                                ┘
+                                                             [ Delete ]  [ Resize ]  [  Quit  ]  [  Type  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+                                                                         Device is currently in use, repartitioning is probably a bad idea.
+                                                                                                Quit program without writing changes
+```
+
+> `cfdisk` 會即時提示裝置是否正在使用。若你只是在確認現況，請選擇 `Quit` 離開，不要 `Write` 變更。確定要修改時，務必先備份並再次核對分割大小與類型。
+
 ---
 
 ## 3. 建立檔案系統並掛載 {#step-3-filesystem}

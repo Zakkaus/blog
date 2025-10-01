@@ -31,28 +31,15 @@ When Cloudflare shows a default error page, the experience feels disconnected fr
 
 That led to the [`Zakkaus/cf-pages`](https://github.com/Zakkaus/cf-pages) project and the live deployment at [error.zakk.au](https://error.zakk.au/).
 
-![Screenshot of the error.zakk.au homepage](feature-cloudflare.webp)
-
 ## Interface highlights
 
-<div class="grid gap-6 md:grid-cols-2">
-  <figure class="space-y-3">
-    <img src="homepage-light.webp" alt="Homepage of the custom Cloudflare error pages in light mode" loading="lazy" />
-    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">The light theme keeps typography airy and pairs the language/menu controls side by side for quick scanning.</figcaption>
-  </figure>
-  <figure class="space-y-3">
-    <img src="homepage-dark.webp" alt="Homepage of the custom Cloudflare error pages in dark mode" loading="lazy" />
-    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">Dark mode leans on the brand blue accents while maintaining contrast ratios that pass WCAG.</figcaption>
-  </figure>
-  <figure class="space-y-3">
-    <img src="challenge-light.webp" alt="Managed challenge screen in light mode" loading="lazy" />
-    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">The challenge template walks visitors through the verification flow and keeps context links one tap away.</figcaption>
-  </figure>
-  <figure class="space-y-3">
-    <img src="challenge-dark.webp" alt="Managed challenge screen in dark mode" loading="lazy" />
-    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">Dark mode preserves hierarchy and CTA prominence so the brand story and accessibility stay aligned.</figcaption>
-  </figure>
-</div>
+| ![Homepage of the custom Cloudflare error pages in light mode](homepage-light.webp) | ![Homepage of the custom Cloudflare error pages in dark mode](homepage-dark.webp) |
+| --- | --- |
+| The light palette keeps typography airy and pairs the language/theme switches side by side for quick scanning. | Dark mode leans on the brand-blue accents while keeping contrast ratios in the safe zone. |
+
+| ![Managed challenge screen in light mode](challenge-light.webp) | ![Managed challenge screen in dark mode](challenge-dark.webp) |
+| --- | --- |
+| The challenge template walks visitors step by step through verification with contextual help links. | The dark counterpart preserves hierarchy, so CTAs and guidance stay obvious when night mode kicks in. |
 
 ## What ships with the repository?
 
@@ -68,7 +55,7 @@ The repo bundles the full catalogue of Cloudflare error templates, each rewritte
 | `cf-rate-limit.html` | 429 rate limiting responses |
 | `offline.html` | Always Online™ fallback |
 
-Every page injects brand visuals (logo, koala 3D hero), the current Ray ID, and a single CTA leading to self-serve troubleshooting. The card layout keeps critical guidance above the fold no matter the viewport.
+Every page injects brand visuals (logo, koala 3D hero), the current Ray ID, and a single CTA leading to self-serve troubleshooting. The compact card layout keeps critical guidance above the fold regardless of viewport size.
 
 ## Multilingual copy and automatic detection
 
@@ -82,7 +69,7 @@ Once the page loads, visitors can still toggle languages manually—the state st
 
 ## Design system & theming
 
-- **Tailwind CSS pipeline**: Author classes in `input.css`, build a minified `output.css` via `npm run build` (or `pnpm run build`) with PurgeCSS trimming unused utilities.
+- **Tailwind CSS pipeline**: Author classes in `input.css`, build a minified `output.css` via `npm run build` (or `pnpm run build`) with PurgeCSS trimming unused utilities for faster loads.
 - **Day/night parity**: Screenshots (`assets/screenshots/*.webp`) capture both light and dark variants to ensure contrast passes WCAG.
 - **Shared components**: Buttons, alerts, and layout primitives map closely to the Blowfish theme I run on this blog, so switching contexts feels seamless.
 - **Brand system carryover**: Illustration tone, gradient tokens, and CTA colors stay in sync with the rest of the zakk.au ecosystem.

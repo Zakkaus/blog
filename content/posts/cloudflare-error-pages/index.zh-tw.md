@@ -31,28 +31,15 @@ Cloudflare 預設錯誤頁與網站風格落差很大，對訪客來說體驗被
 
 於是就有了 [`Zakkaus/cf-pages`](https://github.com/Zakkaus/cf-pages) 這個專案，以及正式部署在 [error.zakk.au](https://error.zakk.au/) 的版本。
 
-![error.zakk.au 首頁預覽](feature-cloudflare.webp)
-
 ## 介面亮點搶先看
 
-<div class="grid gap-6 md:grid-cols-2">
-  <figure class="space-y-3">
-    <img src="homepage-light.webp" alt="Cloudflare 錯誤頁首頁（淺色模式）" loading="lazy" />
-    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">首頁在淺色模式維持柔和配色與分段資訊，導覽語系切換與深淺色按鈕並列。</figcaption>
-  </figure>
-  <figure class="space-y-3">
-    <img src="homepage-dark.webp" alt="Cloudflare 錯誤頁首頁（深色模式）" loading="lazy" />
-    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">深色模式保留品牌藍重點，同時提升閱讀對比，確保夜間也能舒適瀏覽。</figcaption>
-  </figure>
-  <figure class="space-y-3">
-    <img src="challenge-light.webp" alt="Cloudflare 管理式挑戰畫面（淺色模式）" loading="lazy" />
-    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">挑戰頁清楚說明接下來的驗證步驟，並提供快速求助與狀態頁連結。</figcaption>
-  </figure>
-  <figure class="space-y-3">
-    <img src="challenge-dark.webp" alt="Cloudflare 管理式挑戰畫面（深色模式）" loading="lazy" />
-    <figcaption class="text-sm text-neutral-500 dark:text-neutral-400">深色版本維持同樣資訊層次，讓品牌視覺與可讀性同步在線。</figcaption>
-  </figure>
-</div>
+| ![Cloudflare 錯誤頁首頁（淺色模式）](homepage-light.webp) | ![Cloudflare 錯誤頁首頁（深色模式）](homepage-dark.webp) |
+| --- | --- |
+| 淺色首頁維持柔和配色與分段資訊，語系與模式切換按鈕並列，一眼掌握。 | 深色模式鎖定品牌藍重點，同時提升對比，夜間也能舒適瀏覽。 |
+
+| ![Cloudflare 管理式挑戰畫面（淺色模式）](challenge-light.webp) | ![Cloudflare 管理式挑戰畫面（深色模式）](challenge-dark.webp) |
+| --- | --- |
+| 挑戰頁清楚說明下一步，並把求助與狀態頁連結放在同一視線範圍。 | 深色版本維持相同層級與 CTA 強度，品牌視覺與易讀性同步在線。 |
 
 ## 儲存庫包含哪些模板？
 
@@ -68,7 +55,7 @@ Cloudflare 預設錯誤頁與網站風格落差很大，對訪客來說體驗被
 | `cf-rate-limit.html` | 429 流量限制 |
 | `offline.html` | Always Online™ 離線提示 |
 
-每個頁面都會注入品牌視覺（Logo、3D 無尾熊）、即時 Ray ID，以及一個指向自助排錯的行動按鈕。配合上方卡片式設計，訪客能快速找到下一步行動。
+每個頁面都會注入品牌視覺（Logo、3D 無尾熊）、即時 Ray ID，以及一個指向自助排錯的行動按鈕。搭配緊湊卡片式設計，訪客能快速找到下一步行動。
 
 ## 多語文案與自動切換
 
@@ -82,7 +69,7 @@ Cloudflare 預設錯誤頁與網站風格落差很大，對訪客來說體驗被
 
 ## 設計系統與樣式
 
-- **Tailwind CSS 流程**：在 `input.css` 撰寫樣式，透過 `npm run build`（或 `pnpm run build`）輸出壓縮後的 `output.css`，保留 PurgeCSS 最佳化。
+- **Tailwind CSS 流程**：在 `input.css` 撰寫樣式，透過 `npm run build`（或 `pnpm run build`）輸出壓縮後的 `output.css`，並讓 PurgeCSS 幫忙刪除未使用類別。
 - **日夜模式一致**：`assets/screenshots/*.webp` 同步展示淺色與深色，確保符合 WCAG 對比要求。
 - **共用元件**：按鈕、提示框、版面結構與本站 Blowfish 主題相近，讓使用者在各站之間切換不違和。
 - **品牌細節延伸**：錯誤插畫、動態背景與 CTA 配色皆採一致 Token，維持完整敘事。

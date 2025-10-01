@@ -31,6 +31,8 @@ Cloudflare 預設錯誤頁與網站風格落差很大，對訪客來說體驗被
 
 於是就有了 [`Zakkaus/cf-pages`](https://github.com/Zakkaus/cf-pages) 這個專案，以及正式部署在 [error.zakk.au](https://error.zakk.au/) 的版本。
 
+![error.zakk.au 首頁預覽](feature-cloudflare.webp)
+
 ## 儲存庫包含哪些模板？
 
 倉庫收錄所有 Cloudflare 常見錯誤頁，並以 Tailwind CSS 重寫版面：

@@ -31,6 +31,8 @@ When Cloudflare shows a default error page, the experience feels disconnected fr
 
 That led to the [`Zakkaus/cf-pages`](https://github.com/Zakkaus/cf-pages) project and the live deployment at [error.zakk.au](https://error.zakk.au/).
 
+![Screenshot of the error.zakk.au homepage](feature-cloudflare.webp)
+
 ## What ships with the repository?
 
 The repo bundles the full catalogue of Cloudflare error templates, each rewritten with a clean card layout and Tailwind CSS styling:

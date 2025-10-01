@@ -24,12 +24,10 @@ seo:
 
 Cloudflare 默认错误页与网站调性差很多，访问者会觉得被跳出站外。我想要一个轻量替代方案，能够：
 
-- 自动识别浅色 / 深色模式，也允许使用者手动切换
-- 自动识别语言（英文、繁体中文、简体中文），并允许手动切换
-- 显示 **Ray ID** 与预填信息的支援邮件链接，减少排障时间
-- 完全托管在 Cloudflare Pages 上，只要 git push 就能更新
 
 于是就诞生了 [`Zakkaus/cf-pages`](https://github.com/Zakkaus/cf-pages) 仓库，以及正式上线的 [error.zakk.au](https://error.zakk.au/)。
+
+![error.zakk.au 首页预览](feature-cloudflare.webp)
 
 ## 仓库里有哪些模板？
 

@@ -441,7 +441,6 @@ echo 'sys-kernel/linux-firmware linux-fw-redistributable no-source-code' >/etc/p
 echo 'sys-kernel/installkernel dracut' >/etc/portage/package.use/installkernel
 emerge --ask sys-kernel/linux-firmware
 emerge --ask sys-firmware/intel-microcode  # Intel CPU
-emerge --ask sys-kernel/amd-microcode      # AMD CPU
 ```
 
 ---

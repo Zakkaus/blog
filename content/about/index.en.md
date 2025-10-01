@@ -5,6 +5,18 @@ translationKey: "about"
 date: 2025-09-01
 lastmod: 2025-09-29
 description: "Meet Zakk, an Australia-based student sharing Linux projects, long-distance life with Paper, and guinea pig stories."
+authors:
+  - "Zakk"
+seo:
+  description: "Learn about Zakk—an Australia-based student documenting Gentoo Linux experiments, long-distance life with Paper, and the daily adventures of two guinea pigs."
+  keywords:
+    - "Zakk"
+    - "About Zakk"
+    - "Linux blogger"
+    - "long-distance relationship"
+    - "Paper and Zakk"
+    - "guinea pigs"
+    - "Australia student"
 ---
 
 {{< lead >}}

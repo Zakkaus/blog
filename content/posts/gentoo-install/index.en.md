@@ -5,6 +5,18 @@ date: 2025-09-01
 tags: ["Gentoo","Linux","OpenRC","systemd"]
 description: "Beginner friendly Gentoo install: partitioning, Stage3, Portage, USE, kernel, desktop environments, FAQ."
 translationKey: "gentoo-install"
+authors:
+   - "Zakk"
+seo:
+   description: "Step-by-step Gentoo Linux installation guide for beginners, covering partitioning, Stage3, Portage, USE flags, kernel builds, GNOME/KDE setup, and troubleshooting."
+   keywords:
+      - "Gentoo installation"
+      - "Gentoo Linux guide"
+      - "USE flags tutorial"
+      - "Portage basics"
+      - "OpenRC setup"
+      - "systemd"
+      - "Zakk blog"
 ---
 <div class="gentoo-article">
 

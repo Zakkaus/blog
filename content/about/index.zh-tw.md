@@ -5,6 +5,18 @@ translationKey: "about"
 date: 2025-09-01
 lastmod: 2025-09-29
 description: "關於 Zakk：在澳洲的學生，雙語紀錄 Linux、設計與和 Paper 的遠距生活。"
+authors:
+  - "Zakk"
+seo:
+  description: "認識 Zakk——住在澳洲的商科學生，紀錄 Gentoo Linux 折騰、和 Paper 的遠距戀愛，以及脆薯餅與馬鈴薯兩隻天竺鼠的日常。"
+  keywords:
+    - "Zakk"
+    - "關於 Zakk"
+    - "Linux 部落格"
+    - "遠距離戀愛"
+    - "Paper 與 Zakk"
+    - "天竺鼠"
+    - "澳洲學生"
 ---
 
 {{< lead >}}

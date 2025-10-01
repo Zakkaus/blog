@@ -9,6 +9,18 @@ description: "從零開始的 Gentoo 安裝教學：分割、Stage3、Portage、
 ShowToc: false        # 關閉主題自動 TOC（避免與自訂 TOC 重複）
 TocOpen: false
 translationKey: "gentoo-install"
+authors:
+   - "Zakk"
+seo:
+   description: "Gentoo Linux 新手安裝全指南，涵蓋磁碟分割、Stage3 展開、Portage 與 USE Flags 設定、核心編譯、OpenRC 與 systemd 切換，以及 GNOME / KDE 桌面部署。"
+   keywords:
+      - "Gentoo 安裝"
+      - "Gentoo 教學"
+      - "USE Flags"
+      - "Portage 入門"
+      - "OpenRC 設定"
+      - "systemd"
+      - "Zakk 部落格"
 ---
 <div class="gentoo-article">
 

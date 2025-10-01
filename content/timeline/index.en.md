@@ -6,6 +6,18 @@ date: 2025-09-01
 lastmod: 2025-09-29
 summary: "Live counters for our relationship and guinea pigs."
 description: "Live counters for our relationship milestones and guinea pig birthdays, synced to Sydney time."
+authors:
+  - "Zakk"
+seo:
+  description: "Real-time timeline tracking Paper and Zakk’s long-distance milestones plus Hash Brown and Potato’s guinea pig birthdays, updated to Sydney time."
+  keywords:
+    - "Paper and Zakk timeline"
+    - "long-distance counter"
+    - "relationship milestones"
+    - "guinea pig birthdays"
+    - "Sydney time"
+    - "Hash Brown"
+    - "Potato guinea pig"
 ---
 
 {{< lead >}}

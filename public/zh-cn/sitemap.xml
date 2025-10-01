@@ -3,6 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
+    <loc>https://zakk.au/zh-cn/authors/</loc>
+    <lastmod>2025-09-29T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/authors/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/authors/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/authors/"
+    />
+  </url>
+  <url>
     <loc>https://zakk.au/zh-cn/categories/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
@@ -156,6 +177,27 @@
     />
   </url>
   <url>
+    <loc>https://zakk.au/zh-cn/authors/zakk/</loc>
+    <lastmod>2025-09-29T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/authors/zakk/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/authors/zakk/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/authors/zakk/"
+    />
+  </url>
+  <url>
     <loc>https://zakk.au/zh-cn/about/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
@@ -237,26 +279,6 @@
       rel="alternate"
       hreflang="zh-CN"
       href="https://zakk.au/zh-cn/"
-    />
-  </url>
-  <url>
-    <loc>https://zakk.au/zh-cn/authors/</loc>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://zakk.au/authors/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-TW"
-      href="https://zakk.au/zh-tw/authors/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-CN"
-      href="https://zakk.au/zh-cn/authors/"
     />
   </url>
   <url>

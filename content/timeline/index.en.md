@@ -34,7 +34,8 @@ Sydney time: **<span data-sydney-now>--:--:--</span>** (<span data-sydney-zone>-
 **Days together:** <span class="counter-days" data-counter-origin="2025-08-07T11:38:00+10:00" data-counter-format="days">0</span>  
 **Time elapsed:** <span class="counter-time" data-counter-origin="2025-08-07T11:38:00+10:00" data-counter-format="time">00:00:00</span>
 
-We met through [Ceylan](https://www.youtube.com/@xilanceylan)'s community, evolving from daily chats into mutual physical and mental support that keeps our rhythm going. We're both pansexual 🩷💛🩵, sharing playlists, gaming together, caring about each other's lives, and cross-timezone bedtime voice calls. Follow Paper at [@abyss_74.50](https://www.instagram.com/abyss_74.50/) for her perspective. - 
+We met through [Ceylan](https://www.youtube.com/@xilanceylan)'s community, evolving from daily chats into mutual physical and mental support that keeps our rhythm going. We're both pansexual 🩷💛🩵, sharing playlists, gaming together, caring about each other's lives, and cross-timezone bedtime voice calls. Follow Paper at [@abyss_74.50](https://www.instagram.com/abyss_74.50/) for her perspective.
+
 Learn more: [Our Story](/about/#relationship)
 {{< /timelineItem >}}
 {{< /timeline >}}
@@ -45,6 +46,7 @@ Learn more: [Our Story](/about/#relationship)
 **Days old:** <span class="counter-days" data-counter-origin="2025-06-24T00:00:00+10:00" data-counter-format="days">0</span>
 
 Light brown Teddy, full of energy, loves moving house and sprinting in the cage. Can be bribed with bell peppers, corn silk, and snacks. Will shout "515151" when the fridge door opens. More daily moments on [@zakk.au](https://www.instagram.com/zakk.au/).
+
 Learn more: [Hash Brown's Profile](/about/#hash-brown)
 {{< /timelineItem >}}
 
@@ -52,6 +54,7 @@ Learn more: [Hash Brown's Profile](/about/#hash-brown)
 **Days old:** <span class="counter-days" data-counter-origin="2025-07-27T00:00:00+10:00" data-counter-format="days">0</span>
 
 Dark brown Teddy, brave and loves eating. Often buries herself in oat hay to sleep, wakes up and continues munching on oat hay, bell peppers, and corn silk. She frequently appears on [Instagram](https://www.instagram.com/zakk.au/).
+
 Learn more: [Potato's Profile](/about/#potato)
 {{< /timelineItem >}}
 {{< /timeline >}}

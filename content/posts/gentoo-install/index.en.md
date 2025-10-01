@@ -5,6 +5,561 @@ date: 2025-09-01
 tags: ["Gentoo","Linux","OpenRC","systemd"]
 categories: ["Linux notes"]
 draft: false
+description: "From-scratch Gentoo install walkthrough: partitioning, Stage3, Portage, USE flags, kernel, desktop environments, and troubleshooting."
+ShowToc: false
+TocOpen: false
+translationKey: "gentoo-install"
+authors:
+  - "Zakk"
+seo:
+  description: "Complete Gentoo Linux install guide for newcomers: storage layout, Stage3 bootstrap, Portage and USE configuration, kernel options, OpenRC vs systemd, and GNOME / KDE deployment."
+  keywords:
+    - "Gentoo install"
+    - "Gentoo tutorial"
+    - "USE flags"
+    - "Portage basics"
+    - "OpenRC setup"
+    - "systemd"
+    - "Zakk blog"
+---
+
+{{< lead >}}
+This guide distills the exact workflow I used to reinstall Gentoo on both my desktop and laptop.
+Here is the hardware I validated the process on:
+
+- CPU: AMD Ryzen 9 7950X3D (16C/32T)
+- Motherboard: ASUS ROG STRIX X670E-A GAMING WIFI
+- RAM: 64GB DDR5
+- GPU: NVIDIA RTX 4080 SUPER + AMD iGPU
+- Storage: NVMe SSD
+- Dual boot: Windows 11 + Gentoo
+
+
+Revalidated against the official handbook as of October 2025. Follow along to deploy a daily-driver Gentoo desktop from a blank disk.
+{{< /lead >}}
+
+> Target platform: x86_64 with UEFI firmware. Both OpenRC and systemd paths are covered. If you are on BIOS or another architecture, cross-check the Gentoo Handbook and adapt accordingly.
+
+---
+
+## Installation roadmap
+
+1. Prepare boot media and confirm networking
+2. Partition disks and create filesystems
+3. Extract Stage3 and enter the chroot
+4. Configure Portage, USE flags, profiles, and localization
+5. Install the kernel, firmware, and essential tools
+6. Configure the bootloader and user accounts
+7. Deploy a desktop environment and daily software
+8. Reboot, verify, and set up ongoing maintenance
+
+Each section includes the exact commands I use plus alternatives, so you can safely roll back if something looks off.
+
+---
+
+## Prerequisites {#prerequisites}
+
+- An x86_64 machine with UEFI firmware (desktop or laptop)
+- USB flash drive (8 GB or larger)
+- Reliable internet connection (pick a domestic mirror if you are in mainland China)
+- A second device for documentation or SSH remote control (strongly recommended)
+- At least 30 GB of free disk space
+
+```bash
+# Back up any important data before you touch partitions
+```
+
+---
+
+## 0. Download and write the installer {#step-0-media}
+
+### 0.1 Choose a mirror and grab the ISO
+
+Official mirror list: <https://www.gentoo.org/downloads/mirrors/>
+
+| Region | Recommended mirror |
+| ------ | ------------------ |
+| Taiwan | `https://free.nchc.org.tw/gentoo/` |
+| Australia | `https://mirror.aarnet.edu.au/pub/gentoo/` |
+| Mainland China | `https://mirrors.ustc.edu.cn/gentoo/`, `https://mirrors.tuna.tsinghua.edu.cn/gentoo/`, `https://mirrors.aliyun.com/gentoo/` |
+
+Download the minimal ISO and signature (Taiwan mirror shown):
+```bash
+wget https://free.nchc.org.tw/gentoo/releases/amd64/autobuilds/current-install-amd64-minimal/install-amd64-minimal.iso
+wget https://free.nchc.org.tw/gentoo/releases/amd64/autobuilds/current-install-amd64-minimal/install-amd64-minimal.iso.asc
+```
+Prefer LiveGUI with a browser or easier Wi-Fi setup? Grab the **LiveGUI USB image** instead.
+
+Verify the signature (optional but recommended):
+```bash
+gpg --keyserver hkps://keys.openpgp.org --recv-keys 0xBB572E0E2D1829105A8D0F7CF7A88992
+gpg --verify install-amd64-minimal.iso.asc install-amd64-minimal.iso
+```
+
+### 0.2 Write the USB installer
+
+**Linux**
+```bash
+sudo dd if=install-amd64-minimal.iso of=/dev/sdX bs=4M status=progress oflag=sync
+```
+> Replace `sdX` with your USB device, e.g. `/dev/sdb` or `/dev/nvme1n1`.
+
+**macOS**
+```bash
+diskutil list
+diskutil unmountDisk /dev/diskN
+sudo dd if=install-amd64-minimal.iso of=/dev/rdiskN bs=4m
+sudo diskutil eject /dev/diskN
+```
+
+**Windows** — use [Rufus](https://rufus.ie/), select DD write mode when prompted.
+
+---
+
+## 1. Boot the live environment and bring up networking {#step-1-network}
+
+### 1.1 Confirm UEFI mode
+```bash
+ls /sys/firmware/efi && echo "UEFI" || echo "Legacy BIOS"
+```
+If it prints “Legacy BIOS”, switch to MBR partitioning and GRUB.
+
+### 1.2 Wired networking
+```bash
+ip link
+dhcpcd eno1
+ping -c3 gentoo.org
+```
+
+### 1.3 Wi-Fi
+
+**wpa_supplicant**
+```bash
+wpa_passphrase "SSID" "PASSWORD" | tee /etc/wpa_supplicant/wpa_supplicant.conf
+wpa_supplicant -B -i wlp0s20f3 -c /etc/wpa_supplicant/wpa_supplicant.conf
+dhcpcd wlp0s20f3
+```
+
+**iwd (simpler, recommended)**
+```bash
+emerge --ask net-wireless/iwd
+rc-service iwd start
+rc-update add iwd default
+iwctl
+[iwd]# device list
+[iwd]# station wlp0s20f3 scan
+[iwd]# station wlp0s20f3 get-networks
+[iwd]# station wlp0s20f3 connect <SSID>
+```
+> If WPA3 is flaky, fall back to WPA2.
+
+### 1.4 (Optional) enable SSH for remote control
+```bash
+passwd                      # set a root password
+rc-service sshd start
+rc-update add sshd default
+ip a | grep inet
+# From another machine: ssh root@<IP>
+```
+Remember to disable or harden `/etc/ssh/sshd_config` after the install.
+
+---
+
+## 2. Plan the partition layout {#step-2-partition}
+
+Inspect available disks:
+```bash
+lsblk -o NAME,SIZE,TYPE
+```
+
+Launch `cfdisk` or `gdisk`:
+```bash
+cfdisk /dev/nvme0n1
+```
+
+| Slice | Size | Filesystem | Mount point | Notes |
+| ----- | ---- | ---------- | ----------- | ----- |
+| ESP | 512 MB | FAT32 | /efi | `type EF00` |
+| Boot | 1 GB | ext4 | /boot | kernel + initramfs |
+| Root | 80–120 GB | ext4 / XFS / Btrfs | / | OS and applications |
+| Home | remaining | ext4 / XFS / Btrfs | /home | user data |
+| Swap (optional) | 1–2× RAM | swap | swap | consider zram on SSDs |
+
+> Minimalists can keep just `/efi` and `/`.
+
+---
+
+## 3. Create filesystems and mount them {#step-3-filesystem}
+
+### 3.1 Format partitions
+```bash
+mkfs.vfat -F32 /dev/nvme0n1p1
+mkfs.ext4 /dev/nvme0n1p2
+mkfs.ext4 /dev/nvme0n1p3
+mkfs.ext4 /dev/nvme0n1p4
+mkswap /dev/nvme0n1p5
+```
+Using Btrfs?
+```bash
+mkfs.btrfs -L gentoo /dev/nvme0n1p3
+```
+
+### 3.2 Mount (ext4 example)
+```bash
+mount /dev/nvme0n1p3 /mnt/gentoo
+mkdir -p /mnt/gentoo/{boot,efi,home}
+mount /dev/nvme0n1p2 /mnt/gentoo/boot
+mount /dev/nvme0n1p1 /mnt/gentoo/efi
+mount /dev/nvme0n1p4 /mnt/gentoo/home
+swapon /dev/nvme0n1p5
+```
+
+### 3.3 Btrfs subvolume layout
+```bash
+mount /dev/nvme0n1p3 /mnt/gentoo
+btrfs subvolume create /mnt/gentoo/@
+btrfs subvolume create /mnt/gentoo/@home
+umount /mnt/gentoo
+
+mount -o compress=zstd,subvol=@ /dev/nvme0n1p3 /mnt/gentoo
+mkdir -p /mnt/gentoo/{boot,efi,home}
+mount -o subvol=@home /dev/nvme0n1p3 /mnt/gentoo/home
+mount /dev/nvme0n1p2 /mnt/gentoo/boot
+mount /dev/nvme0n1p1 /mnt/gentoo/efi
+```
+
+---
+
+## 4. Download Stage3 and enter the chroot {#step-4-stage3}
+
+### 4.1 Pick the right Stage3
+
+- **OpenRC**: `stage3-amd64-openrc-*.tar.xz`
+- **systemd**: `stage3-amd64-systemd-*.tar.xz`
+- Desktop variants only pre-enable some USE flags; the standard builds are more flexible.
+
+### 4.2 Download and extract
+```bash
+cd /mnt/gentoo
+links https://www.gentoo.org/downloads/mirrors/
+tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
+```
+If you also grabbed `.DIGESTS` or `.CONTENTS`, verify them with `openssl` or `gpg`.
+
+### 4.3 Copy DNS and mount pseudo filesystems
+```bash
+cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
+mount --types proc /proc /mnt/gentoo/proc
+mount --rbind /sys /mnt/gentoo/sys
+mount --rbind /dev /mnt/gentoo/dev
+mount --rbind /run /mnt/gentoo/run
+mount --make-rslave /mnt/gentoo/sys
+mount --make-rslave /mnt/gentoo/dev
+mount --make-rslave /mnt/gentoo/run
+```
+> On OpenRC you can omit the `/run` binding.
+
+### 4.4 Enter the chroot
+```bash
+chroot /mnt/gentoo /bin/bash
+source /etc/profile
+export PS1="(chroot) ${PS1}"
+```
+
+---
+
+## 5. Bootstrap Portage and `make.conf` {#step-5-portage}
+
+### 5.1 Sync the tree and install helpers
+```bash
+emerge-webrsync
+emerge --sync
+emerge --ask app-portage/eix app-portage/gentoolkit
+```
+
+Set mirrors (choose one approach):
+```bash
+mirrorselect -i -o >> /etc/portage/make.conf
+# or manually:
+echo 'GENTOO_MIRRORS="https://free.nchc.org.tw/gentoo/"' >> /etc/portage/make.conf
+```
+
+### 5.2 Sample `/etc/portage/make.conf`
+```conf
+COMMON_FLAGS="-march=native -O2 -pipe"
+MAKEOPTS="-j$(nproc)"
+ACCEPT_LICENSE="*"
+EMERGE_DEFAULT_OPTS="--ask --verbose --with-bdeps=y --complete-graph=y"
+GENTOO_MIRRORS="https://free.nchc.org.tw/gentoo/"
+
+# Wayland-first desktop
+USE="wayland pipewire vulkan egl"
+# Prefer X11? Uncomment instead:
+# USE="X xwayland pipewire vulkan egl"
+
+# GPU drivers — keep only what applies
+VIDEO_CARDS="nvidia"
+# VIDEO_CARDS="amdgpu radeonsi"
+# VIDEO_CARDS="intel i965 iris"
+```
+
+### 5.3 `package.use` and license snippets
+```bash
+echo "sys-kernel/linux-firmware initramfs" >> /etc/portage/package.use/linux-firmware
+echo "sys-kernel/linux-firmware linux-fw-redistributable no-source-code" >> /etc/portage/package.license
+```
+
+---
+
+## 6. Profiles, system settings, and localization {#step-6-system}
+
+### 6.1 Choose a profile
+```bash
+eselect profile list
+eselect profile set <number>
+emerge -avuDN @world
+```
+Popular picks:
+- `default/linux/amd64/23.0/desktop/plasma/systemd`
+- `default/linux/amd64/23.0/desktop/gnome/systemd`
+- `default/linux/amd64/23.0/desktop` (OpenRC desktop)
+
+### 6.2 Timezone and locales
+```bash
+echo "Asia/Taipei" > /etc/timezone
+emerge --config sys-libs/timezone-data
+
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+echo "zh_TW.UTF-8 UTF-8" >> /etc/locale.gen
+locale-gen
+eselect locale set en_US.utf8
+```
+
+### 6.3 Hostname and networking
+```bash
+echo "gentoo" > /etc/hostname
+cat <<'NET' > /etc/conf.d/net
+config_enp5s0="dhcp"
+NET
+```
+OpenRC network service:
+```bash
+ln -s /etc/init.d/net.lo /etc/init.d/net.enp5s0
+rc-update add net.enp5s0 default
+```
+
+Prefer NetworkManager (OpenRC example shown; for systemd use `systemctl enable NetworkManager`):
+```bash
+emerge --ask net-misc/networkmanager
+gpasswd -a <username> plugdev
+rc-update add NetworkManager default
+echo '[main]\ndhcp=internal' >> /etc/NetworkManager/NetworkManager.conf
+```
+
+### 6.4 `fstab` template
+```bash
+blkid
+cat <<'FSTAB' > /etc/fstab
+UUID=<ESP-UUID>   /efi   vfat    defaults,noatime  0 2
+UUID=<BOOT-UUID>  /boot  ext4    defaults,noatime  0 2
+UUID=<ROOT-UUID>  /      ext4    defaults,noatime  0 1
+UUID=<HOME-UUID>  /home  ext4    defaults,noatime  0 2
+UUID=<SWAP-UUID>  none   swap    sw               0 0
+FSTAB
+```
+
+---
+
+## 7. Kernel and firmware {#step-7-kernel}
+
+### 7.1 Easiest path: binary kernel (recommended for installs)
+```bash
+emerge --ask sys-kernel/gentoo-kernel-bin
+```
+Whenever the kernel updates, regenerate your bootloader entries.
+
+### 7.2 Roll your own kernel
+```bash
+emerge --ask sys-kernel/gentoo-sources sys-kernel/genkernel
+cd /usr/src/linux
+make menuconfig
+```
+Suggested toggles:
+- **Processor type and features:** pick the AMD or Intel options for your CPU
+- **File systems:** enable ext4, XFS, Btrfs, etc. for your root/home
+- **Device Drivers → Network device support:** include your NIC driver
+- **Firmware Drivers:** include helpers if you rely on initramfs firmware
+
+Automate with `genkernel`:
+```bash
+genkernel --install all
+```
+
+### 7.3 Firmware and microcode
+```bash
+mkdir -p /etc/portage/package.license
+# Accept the Linux firmware redistribution license
+echo 'sys-kernel/linux-firmware linux-fw-redistributable no-source-code' > /etc/portage/package.license/linux-firmware
+echo 'sys-kernel/installkernel dracut' > /etc/portage/package.use/installkernel
+emerge --ask sys-kernel/linux-firmware
+emerge --ask sys-firmware/intel-microcode  # Intel CPU
+emerge --ask sys-kernel/amd-microcode      # AMD CPU
+```
+
+---
+
+## 8. Base tools and desktop prerequisites {#step-8-base-packages}
+
+```bash
+emerge --ask app-editors/neovim app-shells/zsh
+emerge --ask app-portage/cpuid2cpuflags
+cpuid2cpuflags >> /etc/portage/make.conf
+```
+
+### GPU drivers
+- **NVIDIA proprietary:** `emerge --ask x11-drivers/nvidia-drivers`
+- **AMD:** covered by `VIDEO_CARDS="amdgpu radeonsi"`
+- **Intel:** use `VIDEO_CARDS="intel i965 iris"`
+
+### Audio and Bluetooth
+```bash
+emerge --ask media-video/pipewire media-video/wireplumber
+emerge --ask media-sound/pavucontrol
+emerge --ask net-wireless/bluez bluez-tools blueman
+```
+OpenRC: `rc-update add pipewire default`. On systemd, enable the user services.
+
+---
+
+## 9. Create users and grant privileges {#step-9-users}
+
+```bash
+passwd root
+useradd -m -G wheel,video,audio,plugdev zakk
+passwd zakk
+emerge --ask app-admin/sudo
+echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel
+```
+
+On systemd, add extra groups such as `network` or `lp` if needed.
+
+---
+
+## 10. Install a bootloader {#step-10-bootloader}
+
+### 10.1 systemd-boot (UEFI only)
+```bash
+bootctl --path=/efi install
+cat <<'ENT' > /efi/loader/entries/gentoo.conf
+title   Gentoo Linux
+linux   /vmlinuz
+initrd  /initramfs
+options root=UUID=<ROOT-UUID> rw
+ENT
+cat <<'LOADER' > /efi/loader/loader.conf
+default gentoo.conf
+timeout 3
+console-mode auto
+LOADER
+```
+
+### 10.2 GRUB
+```bash
+emerge --ask sys-boot/grub:2
+mkdir -p /efi/EFI/Gentoo
+grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=Gentoo
+emerge --ask sys-firmware/efibootmgr
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+Add Btrfs or LUKS modules if your setup requires them.
+
+---
+
+## 11. Desktop environments and display managers {#step-11-desktop}
+
+### 11.1 KDE Plasma (Wayland)
+```bash
+echo "kde-plasma/plasma-meta wayland" >> /etc/portage/package.use/plasma
+emerge --ask kde-plasma/plasma-meta kde-apps/kde-apps-meta
+emerge --ask gui-apps/greetd greetd-tuigreet
+rc-update add greetd default
+```
+
+### 11.2 GNOME
+```bash
+emerge --ask gnome-base/gnome
+emerge --ask gnome-base/gdm
+rc-update add gdm default   # on systemd use: systemctl enable gdm
+```
+
+### 11.3 Other options
+- `emerge --ask xfce-base/xfce4 xfce-extra/xfce4-meta`
+- `emerge --ask gui-apps/cage` for a minimal Wayland kiosk
+
+---
+
+## 12. Pre-reboot checklist {#step-12-checklist}
+
+1. `emerge --info` completes without errors
+2. `/etc/fstab` contains correct UUIDs (double-check with `blkid`)
+3. Root and user passwords are set
+4. You ran `grub-mkconfig` or finished your `bootctl` configuration
+5. LUKS setups include `cryptsetup` inside the initramfs
+
+Exit the chroot and reboot:
+```bash
+exit
+umount -l /mnt/gentoo/dev{/shm,/pts,}
+umount -R /mnt/gentoo
+swapoff -a
+reboot
+```
+
+---
+
+## 13. After the first boot {#step-13-post}
+
+```bash
+sudo emerge --sync
+sudo emerge -avuDN @world
+sudo emerge --ask --depclean
+```
+
+Convenient update alias:
+```bash
+echo "alias update='sudo emerge --sync && sudo emerge -avuDN @world && sudo emerge --ask --depclean'" >> ~/.zshrc
+```
+
+### Recommended desktop add-ons
+- Terminals: `kitty`, `alacritty`
+- Browsers: `firefox`, `google-chrome`
+- Office suite: `libreoffice`
+- Flatpak support: `emerge --ask sys-apps/flatpak`
+
+---
+
+## Troubleshooting {#faq}
+
+- **Mirror timeouts** — switch to USTC/TUNA/Aliyun in mainland China, or use `proxychains` through a proxy.
+- **Missing kernel drivers** — inspect `lspci -k`; rebuild the kernel with the required modules or switch to `gentoo-kernel-bin`.
+- **No network after reboot** — verify `/etc/conf.d/net` or NetworkManager status; toggle Wi-Fi with `nmcli radio wifi on`.
+- **Wayland black screen** — NVIDIA can still misbehave; temporarily enable `USE="X xwayland"` and use SDDM or GDM.
+
+---
+
+## References {#reference}
+
+- [Gentoo Handbook: AMD64](https://wiki.gentoo.org/wiki/Handbook:AMD64)
+- [bitbili: Gentoo Linux installation and usage tutorial](https://bitbili.net/gentoo-linux-installation-and-usage-tutorial.html)
+- Personal deployment notes (2023–2025)
+
+Good luck! If you get stuck, hop onto the Gentoo Forums or Discord `#gentoo` for help.---
+slug: gentoo-install
+title: "Gentoo install guide (beginner edition)"
+date: 2025-09-01
+tags: ["Gentoo","Linux","OpenRC","systemd"]
+categories: ["Linux notes"]
+draft: false
 description: "Step-by-step Gentoo install walkthrough: partitioning, Stage3, Portage, USE flags, kernel, desktop environments, and troubleshooting."
 ShowToc: false
 TocOpen: false

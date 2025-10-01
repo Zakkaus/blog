@@ -24,14 +24,16 @@ seo:
 ---
 
 {{< lead >}}
-這篇筆記整理自我在桌機與筆電上重灌 Gentoo 的流程
-這是我的電腦配置如下
-    CPU: AMD Ryzen 9 7950X3D (16C/32T)
-    Motherboard: ASUS ROG STRIX X670E-A GAMING WIFI
-    RAM: 64GB DDR5
-    GPU: NVIDIA RTX 4080 SUPER + AMD iGPU
-    Storage: NVMe SSD
-    Dual boot: Windows 11 + Gentoo
+這篇筆記整理自我在桌機與筆電上重灌 Gentoo 的流程  
+這是我的電腦配置如下：
+
+- CPU: AMD Ryzen 9 7950X3D (16C/32T)
+- Motherboard: ASUS ROG STRIX X670E-A GAMING WIFI
+- RAM: 64GB DDR5
+- GPU: NVIDIA RTX 4080 SUPER + AMD iGPU
+- Storage: NVMe SSD
+- Dual boot: Windows 11 + Gentoo
+
 已重新驗證至 2025 年 10 月的官方文件。跟著步驟做，就能從空白硬碟部署一套可日常使用的 Gentoo 桌面環境。
 {{< /lead >}}
 

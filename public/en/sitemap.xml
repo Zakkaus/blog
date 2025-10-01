@@ -3,6 +3,237 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
+    <loc>https://zakk.au/authors/</loc>
+    <lastmod>2025-10-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/authors/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/authors/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/authors/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/categories/</loc>
+    <lastmod>2025-10-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/categories/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/categories/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/categories/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/tags/cloudflare/</loc>
+    <lastmod>2025-10-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/tags/cloudflare/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/tags/cloudflare/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/tags/cloudflare/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/posts/cloudflare-error-pages/</loc>
+    <lastmod>2025-10-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/posts/cloudflare-error-pages/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/posts/cloudflare-error-pages/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/posts/cloudflare-error-pages/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/tags/error-pages/</loc>
+    <lastmod>2025-10-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/tags/error-pages/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/tags/error-pages/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/tags/error-pages/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/</loc>
+    <lastmod>2025-10-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/categories/infrastructure/</loc>
+    <lastmod>2025-10-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/categories/infrastructure/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/categories/infrastructure/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/categories/infrastructure/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/tags/pages/</loc>
+    <lastmod>2025-10-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/tags/pages/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/tags/pages/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/tags/pages/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/posts/</loc>
+    <lastmod>2025-10-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/posts/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/posts/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/tags/</loc>
+    <lastmod>2025-10-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/tags/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/tags/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/tags/"
+    />
+  </url>
+  <url>
+    <loc>https://zakk.au/authors/zakk/</loc>
+    <lastmod>2025-10-01T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-TW"
+      href="https://zakk.au/zh-tw/authors/zakk/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="zh-CN"
+      href="https://zakk.au/zh-cn/authors/zakk/"
+    />
+    <xhtml:link
+      rel="alternate"
+      hreflang="en"
+      href="https://zakk.au/authors/zakk/"
+    />
+  </url>
+  <url>
     <loc>https://zakk.au/about/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
@@ -21,27 +252,6 @@
       rel="alternate"
       hreflang="en"
       href="https://zakk.au/about/"
-    />
-  </url>
-  <url>
-    <loc>https://zakk.au/authors/</loc>
-    <lastmod>2025-09-29T00:00:00+00:00</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-TW"
-      href="https://zakk.au/zh-tw/authors/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-CN"
-      href="https://zakk.au/zh-cn/authors/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://zakk.au/authors/"
     />
   </url>
   <url>
@@ -87,27 +297,6 @@
     />
   </url>
   <url>
-    <loc>https://zakk.au/</loc>
-    <lastmod>2025-09-29T00:00:00+00:00</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-TW"
-      href="https://zakk.au/zh-tw/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-CN"
-      href="https://zakk.au/zh-cn/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://zakk.au/"
-    />
-  </url>
-  <url>
     <loc>https://zakk.au/tags/linux/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
@@ -150,27 +339,6 @@
     />
   </url>
   <url>
-    <loc>https://zakk.au/posts/</loc>
-    <lastmod>2025-09-01T00:00:00+00:00</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-TW"
-      href="https://zakk.au/zh-tw/posts/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-CN"
-      href="https://zakk.au/zh-cn/posts/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://zakk.au/posts/"
-    />
-  </url>
-  <url>
     <loc>https://zakk.au/tags/systemd/</loc>
     <lastmod>2025-09-01T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
@@ -192,27 +360,6 @@
     />
   </url>
   <url>
-    <loc>https://zakk.au/tags/</loc>
-    <lastmod>2025-09-01T00:00:00+00:00</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-TW"
-      href="https://zakk.au/zh-tw/tags/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-CN"
-      href="https://zakk.au/zh-cn/tags/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://zakk.au/tags/"
-    />
-  </url>
-  <url>
     <loc>https://zakk.au/timeline/</loc>
     <lastmod>2025-09-29T00:00:00+00:00</lastmod>
     <changefreq>always</changefreq>
@@ -231,47 +378,6 @@
       rel="alternate"
       hreflang="en"
       href="https://zakk.au/timeline/"
-    />
-  </url>
-  <url>
-    <loc>https://zakk.au/authors/zakk/</loc>
-    <lastmod>2025-09-29T00:00:00+00:00</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-TW"
-      href="https://zakk.au/zh-tw/authors/zakk/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-CN"
-      href="https://zakk.au/zh-cn/authors/zakk/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://zakk.au/authors/zakk/"
-    />
-  </url>
-  <url>
-    <loc>https://zakk.au/categories/</loc>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-TW"
-      href="https://zakk.au/zh-tw/categories/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="zh-CN"
-      href="https://zakk.au/zh-cn/categories/"
-    />
-    <xhtml:link
-      rel="alternate"
-      hreflang="en"
-      href="https://zakk.au/categories/"
     />
   </url>
   <url>

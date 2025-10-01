@@ -9,7 +9,37 @@
     <managingEditor>admin@zakk.au (Zakk)</managingEditor>
     <webMaster>admin@zakk.au (Zakk)</webMaster>
     <copyright>© 2025 Zakk</copyright>
-    <lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/zh-cn/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/zh-cn/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Cloudflare</title>
+      <link>https://zakk.au/zh-cn/tags/cloudflare/</link>
+      <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
+      <author>admin@zakk.au (Zakk)</author>
+      <guid>https://zakk.au/zh-cn/tags/cloudflare/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Error Pages</title>
+      <link>https://zakk.au/zh-cn/tags/error-pages/</link>
+      <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
+      <author>admin@zakk.au (Zakk)</author>
+      <guid>https://zakk.au/zh-cn/tags/error-pages/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Pages</title>
+      <link>https://zakk.au/zh-cn/tags/pages/</link>
+      <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
+      <author>admin@zakk.au (Zakk)</author>
+      <guid>https://zakk.au/zh-cn/tags/pages/</guid>
+      <description></description>
+      
+    </item>
     
     <item>
       <title>Gentoo</title>

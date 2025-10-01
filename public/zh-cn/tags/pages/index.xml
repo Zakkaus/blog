@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on Zakk</title>
+    <link>https://zakk.au/zh-cn/tags/pages/</link>
+    <description>Recent content in Pages on Zakk</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>admin@zakk.au (Zakk)</managingEditor>
+    <webMaster>admin@zakk.au (Zakk)</webMaster>
+    <copyright>© 2025 Zakk</copyright>
+    <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zakk.au/zh-cn/tags/pages/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>打造多语言 Cloudflare 错误页</title>
+      <link>https://zakk.au/zh-cn/posts/cloudflare-error-pages/</link>
+      <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
+      <author>admin@zakk.au (Zakk)</author>
+      <guid>https://zakk.au/zh-cn/posts/cloudflare-error-pages/</guid>
+      <description>&lt;h2 class=&#34;relative group&#34;&gt;为什么要做 error.zakk.au？ 
+    &lt;div id=&#34;为什么要做-errorzakkau&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;
+    
+    &lt;span
+        class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none&#34;&gt;
+        &lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline&#34; href=&#34;#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%81%9a-errorzakkau&#34; aria-label=&#34;段落链接&#34;&gt;#&lt;/a&gt;
+    &lt;/span&gt;        
+    
+&lt;/h2&gt;
+&lt;p&gt;Cloudflare 默认错误页与网站调性差很多，访问者会觉得被跳出站外。我想要一个轻量替代方案，能够：&lt;/p&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,16 @@
+# ----- Hugo build outputs -----
+public/
+resources/            # Hugo 資源快取與處理後文件（_gen）
+.hugo_build.lock
+
+# ----- Node / 前端工具產物 -----
+node_modules/
+.dist/
+.build/
+.cache/
+
+# ----- 系統 / 編輯器雜項 -----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -65,9 +65,9 @@ Each section includes the exact commands I use plus alternatives, so you can saf
 - A second device for documentation or SSH remote control (strongly recommended)
 - At least 30 GB of free disk space
 
-```bash
-# Back up any important data before you touch partitions
-```
+
+> Back up any important data before you touch partitions
+
 
 ---
 

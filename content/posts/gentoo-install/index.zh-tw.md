@@ -22,9 +22,8 @@ seo:
       - "systemd"
       - "Zakk 部落格"
 
-
-
 ---
+
 # 我的電腦配置（示例） {#my-hardware-zh}
 - **CPU**：AMD Ryzen 9 7950X3D（16C/32T）  
 - **主機板**：ASUS ROG STRIX X670E-A GAMING WIFI  

@@ -21,9 +21,7 @@ seo:
       - "OpenRC 设置"
       - "systemd"
       - "Zakk 博客"
-
-
-
+      
 ---
 
 # 我的电脑配置（示例） {#my-hardware-zh}

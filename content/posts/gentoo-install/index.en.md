@@ -18,8 +18,6 @@ seo:
       - "systemd"
       - "Zakk blog"
 
-
-
 ---
 
 # My Hardware (Example) {#my-hardware-example}

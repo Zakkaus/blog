@@ -535,6 +535,7 @@ emerge -1av virtual/dist-kernel:asahi
 emerge -1av sys-apps/asahi-meta
 emerge -av sys-kernel/linux-firmware
 ```
+>etc-update  出现列表时，选 -3 进行自动合并（auto-merge all）
 
 套件說明：
 - `rust-bin`：編譯 Asahi 內核組件需要

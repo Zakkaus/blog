@@ -535,6 +535,7 @@ emerge -1av virtual/dist-kernel:asahi
 emerge -1av sys-apps/asahi-meta
 emerge -av sys-kernel/linux-firmware
 ```
+>etc-update When the list appears, select -3 to automatically merge (auto-merge all)
 
 Package descriptions:
 - `rust-bin`: Required for compiling Asahi kernel components

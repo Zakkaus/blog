@@ -584,11 +584,6 @@ UUID=<your-boot-uuid>  /boot  vfat   defaults  0 2
 
 ### 5.4 Configure GRUB and dracut
 
-**Install GRUB to ESP**:
-```bash
-grub-install --efi-directory=/boot --bootloader-id=GRUB
-```
-
 **(🔐 Encrypted users only) Configure dracut for LUKS support**:
 
 ```bash

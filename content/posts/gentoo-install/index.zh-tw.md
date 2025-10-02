@@ -479,6 +479,7 @@ emerge --sync
 
 > `emerge --sync` 會依據上述設定透過 Git 抓取最新樹狀資料，第一次同步會稍花時間，之後就只更新增量。
 
+
 ### 基礎工具
 ```bash
 emerge --ask app-editors/neovim app-shells/zsh

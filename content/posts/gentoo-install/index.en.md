@@ -479,8 +479,8 @@ emerge --sync
 
 > With these settings `emerge --sync` uses Git under the hood. Expect the first sync to take a bit longer; subsequent updates are incremental.
 
-### Base tools 
 
+### Base tools 
 ```bash
 emerge --ask app-editors/neovim app-shells/zsh
 emerge --ask app-portage/cpuid2cpuflags

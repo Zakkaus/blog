@@ -1,18 +1,18 @@
 ---
 slug: gentoo-m-series-mac-arm64
-title: "Gentoo ARM64 安装指南:Apple Silicon (M 系列芯片) Mac"
+title: "Gentoo ARM64 安装指南：Apple Silicon（M 系列芯片）Mac"
 date: 2025-10-02
 tags: ["Gentoo","Linux","ARM64","Apple Silicon","M1","M2","M3","Asahi Linux"]
 categories: ["Linux 笔记"]
 draft: false
-description: "完整指导如何在 Apple Silicon Mac (M1/M2/M3) 上安装 Gentoo Linux ARM64 系统:通过 Asahi Linux 引导程序实现原生 ARM64 Linux 环境。"
+description: "在 Apple Silicon Mac（M1/M2/M3）上安装 Gentoo Linux ARM64 的完整教学：通过 Asahi Linux 引导程序实现原生 ARM64 Linux。"
 ShowToc: false
 TocOpen: false
 translationKey: "gentoo-m-series-mac-arm64"
 authors:
    - "Zakk"
 seo:
-   description: "详细说明如何在 Apple Silicon Mac (M1/M2/M3/M4) 上安装 Gentoo Linux ARM64 系统,涵盖 Asahi Linux 引导、LUKS 加密、Stage3 解压、内核编译、桌面环境配置等完整流程。"
+   description: "Apple Silicon Mac（M1/M2/M3/M4）Gentoo Linux ARM64 完整安装指南，涵盖 Asahi Linux 引导、LUKS 加密、Stage3 展开、内核编译与桌面环境配置。"
    keywords:
       - "Gentoo ARM64"
       - "Apple Silicon"
@@ -25,310 +25,358 @@ seo:
 ---
 
 {{< lead >}}
-本指南将带你在 Apple Silicon Mac (M1/M2/M3/M4) 上安装原生 ARM64 架构的 Gentoo Linux。
+本指南将引导你在 Apple Silicon Mac（M1/M2/M3/M4）上安装原生 ARM64 Gentoo Linux。
 
-**重要更新**:感谢 Asahi Linux 团队(特别是 [chadmed](https://wiki.gentoo.org/index.php?title=User:Chadmed&action=edit&redlink=1))的出色工作,现在有了[官方 Gentoo Asahi 安装指南](https://wiki.gentoo.org/wiki/Project:Asahi/Guide),流程大幅简化。本指南参考了原始的 [Jared's M1 Mac Guide](https://wiki.gentoo.org/wiki/User:Jared/Gentoo_On_An_M1_Mac),并整合了最新的最佳实践。
+**重要更新**：Asahi Linux 项目团队（尤其是 [chadmed](https://wiki.gentoo.org/index.php?title=User:Chadmed&action=edit&redlink=1)）的卓越工作使得现在有了[官方 Gentoo Asahi 安装指南](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)，安装流程已大幅简化。
 
-测试时间为 2025 年 10 月,涵盖完整的 LUKS 加密根分区与 systemd 配置。
+**本指南特色**：
+- ✅ 基于官方最新流程（2025.10）
+- ✅ 使用官方 Gentoo Asahi Live USB（无需 Fedora 中转）
+- ✅ 清楚标记可选与必选步骤
+- ✅ 简化版适合所有人（包含加密选项）
+
+已验证至 2025 年 10 月。
 {{< /lead >}}
 
-> **目标平台**:Apple Silicon Mac (M1/M2/M3/M4) ARM64 架构。本指南使用 Asahi Linux 引导程序进行初始配置,然后过渡到完整的 Gentoo 环境。
+> **目标平台**：Apple Silicon Mac（M1/M2/M3/M4）ARM64 架构。本指南使用 Asahi Linux 引导程序进行初始设置，然后转换为完整的 Gentoo 环境。
 
 ---
 
-## 安装流程概览
+## 安装流程总览（简化版）
 
-1. 通过 Asahi Linux 安装程序准备系统
-2. 完成 Asahi Linux (Fedora) 基础配置
-3. 创建 Gentoo "liveusb" 环境 (initramfs)
-4. 配置加密文件系统与分区
-5. 解压 Stage3 并进入 chroot
-6. 配置 Portage 并应用 Asahi overlay
-7. 编译 ARM64 内核与 initramfs
-8. 配置桌面环境与日常维护
+**必选步骤**：
+1. 下载官方 Gentoo Asahi Live USB 镜像
+2. 通过 Asahi 安装程序设置 U-Boot 环境
+3. 从 Live USB 启动
+4. 分割磁盘并挂载文件系统
+5. 展开 Stage3 并进入 chroot
+6. 安装 Asahi 支持套件（自动化脚本）
+7. 重启完成安装
 
-此过程会在你的 Mac 上创建双启动设置:macOS + Gentoo Linux ARM64。
+**可选步骤**：
+- 🔐 LUKS 加密（建议但非必须）
+- 🎨 自定义内核配置（默认 dist-kernel 即可）
+- 🎵 音频设置（PipeWire，依需求）
+- 🖥️ 桌面环境选择
+
+整个流程会在你的 Mac 上建立双启动环境：macOS + Gentoo Linux ARM64。
+
+> **官方简化**：现在可使用 [asahi-gentoosupport 自动化脚本](https://github.com/chadmed/asahi-gentoosupport) 完成大部分配置！
 
 ---
 
-## 前置要求与重要说明 {#prerequisites}
+## 事前准备与注意事项 {#prerequisites}
 
 ### 硬件需求
 
-- Apple Silicon Mac (M1/M2/M3/M4 系列芯片)
-- 至少 80 GB 可用磁盘空间(建议 120 GB+)
-- 稳定的网络连接(Wi-Fi 或有线)
-- 所有重要数据的备份
+- Apple Silicon Mac（M1/M2/M3/M4 系列芯片）
+- 至少 80 GB 的可用磁盘空间（建议 120 GB+）
+- 稳定的网络连接（Wi-Fi 或以太网）
+- 备份所有重要数据
 
 ### 重要警告
 
-⚠️ **本指南涉及高级操作**:
-- 会修改你的分区表
+⚠️ **本指南包含进阶操作**：
+- 会调整你的分区表
 - 需要与 macOS 共存
 - 涉及加密磁盘操作
-- Apple Silicon Linux 支持仍在积极开发中
+- Apple Silicon 对 Linux 的支持仍在积极开发中
 
-✅ **已知可正常工作的功能**:
-- CPU、内存、存储
-- Wi-Fi (通过 Asahi Linux 固件)
+✅ **已知可运作的功能**：
+- CPU、内存、存储设备
+- Wi-Fi（通过 Asahi Linux 固件）
 - 键盘、触控板、电池管理
-- 显示输出(内置屏幕与外接显示器)
+- 显示输出（内建屏幕与外接显示器）
 - USB-C / Thunderbolt
 
-⚠️ **已知限制**:
-- Touch ID 不可用
+⚠️ **已知限制**：
+- Touch ID 无法使用
 - macOS 虚拟化功能受限
-- 部分较新硬件功能可能未完全支持
-- GPU 加速仍在开发中(部分 OpenGL 支持)
+- 部分新硬件功能可能未完全支持
+- GPU 加速仍在开发中（OpenGL 部分支持）
 
 ---
 
-## 0. 准备 Asahi Linux 启动环境 {#step-0-asahi}
+## 0. 准备 Gentoo Asahi Live USB {#step-0-prepare}
 
-### 0.1 运行 Asahi Linux 安装程序
+### 0.1 下载官方 Gentoo Asahi Live USB
 
-在 macOS 终端中执行:
+**官方简化流程**：直接使用 Gentoo 提供的 ARM64 Live USB，无需通过 Fedora！
+
+下载最新版本：
+```bash
+# 方法 1：从官方临时站点下载（官方释出前）
+https://chadmed.au/pub/gentoo/
+
+# 方法 2：（官方正式释出后）
+# 前往 https://www.gentoo.org/downloads/ 下载 ARM64 Asahi 版本
+```
+
+> 💡 **提示**：官方正在整合 Asahi 支持到标准 Live USB。目前使用 chadmed 维护的版本。
+
+### 0.2 制作启动 USB
+
+在 macOS 中：
 
 ```bash
-curl https://alx.sh | EXPERT=1 sh
-```
+# 查看 USB 设备名称
+diskutil list
 
-> ⚠️ **安全提示**:执行前可先访问 <https://alx.sh> 查看脚本内容。
+# 卸载 USB（假设为 /dev/disk4）
+diskutil unmountDisk /dev/disk4
 
-### 0.2 按提示进行配置
+# 写入镜像（注意使用 rdisk 较快）
+sudo dd if=install-arm64-asahi-*.iso of=/dev/rdisk4 bs=4m status=progress
 
-安装程序会引导你完成:
-
-1. **选择分区空间**:决定分配给 Linux 的空间(建议至少 120 GB)
-   - 输入 `r` 调整现有分区大小
-   - 可使用百分比(如 `50%`)或绝对大小(如 `120GB`)
-
-2. **选择操作系统**:选择 **Fedora Asahi Remix 39 Minimal** (选项 4)
-   ```
-   » OS: 4
-   ```
-
-3. **设置名称**:输入 `Gentoo` 作为操作系统名称
-   ```
-   » OS name (Fedora Linux Minimal): Gentoo
-   ```
-
-4. **完成安装**:**不要立即按 Enter 关机!** 请先阅读下方"完成安装"步骤。
-
----
-
-## 1. 完成 Asahi Linux 安装并启动 {#step-1-boot}
-
-### 1.1 关键重启步骤
-
-当安装程序显示"Press enter to shut down the system"时:
-
-**先不要按 Enter!** 按以下步骤操作:
-
-1. **等待 15 秒**确保系统完全关机
-2. **长按电源键**直到看到"Entering startup options"或旋转图标
-3. **松开电源键**
-4. 等待卷列表出现,选择 **Gentoo**
-5. 你会看到类似 macOS 恢复界面的画面:
-   - 如果询问"Select a volume to recover",选择你的 macOS 卷
-   - 输入 macOS 用户密码(FileVault 用户)
-6. 按屏幕指示完成设置
-
-### 1.2 配置 Fedora Minimal 系统
-
-系统会要求你设置基本配置:
-
-```
-1) [ ] Language Options           2) [x] Time Settings
-3) [x] Network Configuration      4) [!] Root password
-5) [!] User Creation
-```
-
-**设置 root 密码**(必需):
-```
-Please make a selection: 4
-Password: <输入密码>
-Password (confirm): <再次输入>
-```
-
-然后输入 `q` 并确认 `yes` 退出(无需创建用户,稍后在 Gentoo 中创建)。
-
-### 1.3 连接网络
-
-以 root 登录后,连接 Wi-Fi:
-
-```bash
-nmcli device wifi connect <SSID> password <密码>
-ping -c 3 www.gentoo.org
-```
-
-### 1.4 更新系统
-
-```bash
-dnf upgrade --refresh
-```
-
-完成后重启:
-```bash
-reboot
+# 完成后弹出
+diskutil eject /dev/disk4
 ```
 
 ---
 
-## 2. 创建 Gentoo "liveusb" 环境 {#step-2-liveusb}
+## 1. 设置 Asahi U-Boot 环境 {#step-1-asahi}
 
-### 2.1 安装必需工具
+### 1.1 执行 Asahi 安装程序
 
-```bash
-dnf install git wget
-```
-
-### 2.2 获取 asahi-gentoosupport
+在 macOS Terminal 中执行：
 
 ```bash
-git clone https://github.com/chadmed/asahi-gentoosupport
-cd asahi-gentoosupport
+curl https://alx.sh | sh
 ```
 
-### 2.3 下载 Gentoo ARM64 Minimal ISO
+> ⚠️ **安全提示**：建议先前往 <https://alx.sh> 查看脚本内容，确认安全后再执行。
 
-使用辅助脚本(建议先查看内容):
+### 1.2 跟随安装程序步骤
 
-```bash
-curl -L https://raw.githubusercontent.com/jaredallard/gentoo-m1-mac/main/fetch-latest-minimal-iso.sh | sh
-```
+安装程序会引导你：
 
-该脚本会:
-- 获取最新的 `install-arm64-minimal-*.iso`
-- 验证 GPG 签名
-- 将文件重命名为 `install.iso`
+1. **选择动作**：输入 `r` (Resize an existing partition to make space for a new OS)
 
-### 2.4 生成 initramfs liveusb
+2. **选择分区空间**：决定分配给 Linux 的空间（建议至少 80 GB）
+   - 可使用百分比（如 `50%`）或绝对大小（如 `120GB`）
+   
+   > 💡 **提示**：建议保留 macOS 分区，以便日后更新固件。
 
-```bash
-./genstrap.sh
-```
+3. **选择操作系统**：选择 **UEFI environment only (m1n1 + U-Boot + ESP)**
+   ```
+   » OS: <选择 UEFI only 选项>
+   ```
+   
+   > ✅ **官方建议**：选择 UEFI only 即可，不需要安装完整发行版。
 
-脚本会:
-- 解压 ISO 内容
-- 创建 initramfs
-- 在 GRUB 中添加"Gentoo Live Install environment"选项
+4. **设置名称**：输入 `Gentoo` 作为操作系统名称
+   ```
+   » OS name: Gentoo
+   ```
 
-完成后重启:
-```bash
-reboot
-```
+5. **完成安装**：记下屏幕指示，然后按 Enter 关机。
 
-从 GRUB 菜单中选择 **Gentoo Live Install Environment**。
+### 1.3 完成 Recovery 模式设置（关键步骤）
+
+**重要的重启步骤**：
+
+1. **等待 25 秒**确保系统完全关机
+2. **按住电源键**直到看到「Loading startup options...」或旋转图标
+3. **释放电源键**
+4. 等待音量列表出现，选择 **Gentoo**
+5. 你会看到 macOS Recovery 画面：
+   - 若要求「Select a volume to recover」，选择你的 macOS 音量并点击 Next
+   - 输入 macOS 用户密码（FileVault 用户）
+6. 依照屏幕指示完成设置
+
+> ⚠️ **故障排除**：若遇到启动循环或要求重新安装 macOS，请按住电源键完全关机，然后从步骤 1 重新开始。可选择 macOS 开机，执行 `curl https://alx.sh | sh` 并选择 `p` 选项重试。
 
 ---
 
-## 3. 配置网络 (Live 环境) {#step-3-network-live}
+## 2. 从 Live USB 启动 {#step-2-boot}
 
-### 3.1 连接 Wi-Fi
+### 2.1 连接 Live USB 并启动
 
-在 Gentoo live 环境中使用 `net-setup`:
+1. **插入 Live USB**（可通过 USB Hub 或 Dock）
+2. **启动 Mac**
+3. **U-Boot 自动启动**：
+   - 若选择了「UEFI environment only」，U-Boot 会自动从 USB 启动 GRUB
+   - 等待 2 秒自动启动序列
+   - 若有多个系统，可能需要中断并手动选择
 
+> 💡 **提示**：若需手动指定 USB 启动，在 U-Boot 提示符下执行：
+> ```
+> setenv boot_targets "usb"
+> setenv bootmeths "efi"
+> boot
+> ```
+
+### 2.2 设置网络（Live 环境）
+
+Gentoo Live USB 内建网络工具：
+
+**Wi-Fi 连接**：
 ```bash
 net-setup
 ```
 
-按照交互式提示配置网络,之后验证:
+依照互动提示设置网络。完成后检查：
 
 ```bash
-ifconfig | grep w -A 2 | grep "inet "
 ping -c 3 www.gentoo.org
 ```
 
-> 💡 **提示**:如果 Wi-Fi 不稳定,可能是 WPA3 兼容性问题。尝试连接 WPA2 或 2.4 GHz 网络。
+> 💡 **提示**：Apple Silicon 的 Wi-Fi 已包含在内核中，应可正常运作。若不稳定，尝试连接 2.4 GHz 网络。
 
-### 3.2 (可选) 启用 SSH 远程访问
-
+**（可选）SSH 远程操作**：
 ```bash
 passwd                     # 设置 root 密码
 /etc/init.d/sshd start
 ip a | grep inet          # 获取 IP 地址
 ```
 
-从另一台电脑连接:
+---
+
+## 3. 分区与文件系统设置 {#step-3-partition}
+
+### 3.1 识别磁盘与分区
+
+> ⚠️ **重要警告**：**不要修改现有的 APFS 容器、EFI 分区或 Recovery 分区！** 只能在 Asahi 安装程序预留的空间中操作。
+
+查看分区结构：
 ```bash
-ssh root@<IP>
+lsblk
+blkid --label "EFI - GENTO"  # 查看你的 EFI 分区
+```
+
+通常会看到：
+```
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0         7:0    0 609.1M  1 loop /run/rootfsbase
+sda           8:0    1 119.5G  0 disk /run/initramfs/live
+|-sda1        8:1    1   118K  0 part 
+|-sda2        8:2    1   2.8M  0 part 
+`-sda3        8:3    1 670.4M  0 part 
+nvme0n1     259:0    0 465.9G  0 disk 
+|-nvme0n1p1 259:1    0   500M  0 part 
+|-nvme0n1p2 259:2    0 307.3G  0 part 
+|-nvme0n1p3 259:3    0   2.3G  0 part 
+|-nvme0n1p4 259:4    0   477M  0 part 
+`-nvme0n1p5 259:5    0     5G  0 part 
+nvme0n2     259:6    0     3M  0 disk 
+nvme0n3     259:7    0   128M  0 disk 
+```
+
+EFI 分区识别（**不要动这个分区！**）：
+```bash
+livecd ~ # blkid --label "EFI - GENTO" 
+/dev/nvme0n1p4  # 这是 EFI 分区勿动
+```
+
+
+> 💡 **建议**：使用 `cfdisk` 进行分区，它理解 Apple 分区类型并会保护系统分区。
+
+### 3.2 建立根分区
+
+假设空白空间从 `/dev/nvme0n1p5` 开始：
+
+**方法 A：简单分区（无加密）**
+
+```bash
+# 使用 cfdisk 建立新分区
+cfdisk /dev/nvme0n1
+```
+
+你会看到类似以下的分区表：
+```
+                                            Disk: /dev/nvme0n1
+                         Size: 465.92 GiB, 500277792768 bytes, 122138133 sectors
+                       Label: gpt, identifier: 6C5A96F2-EFC9-487C-8C3E-01FD5EA77896
+
+    Device                      Start            End       Sectors        Size Type
+    /dev/nvme0n1p1                  6         128005        128000        500M Apple Silicon boot
+    /dev/nvme0n1p2             128006       80694533      80566528      307.3G Apple APFS
+    /dev/nvme0n1p3           80694534       81304837        610304        2.3G Apple APFS
+    /dev/nvme0n1p4           81304838       81426949        122112        477M EFI System
+>>  Free space               81427200      120827418      39400219      150.3G                            
+    /dev/nvme0n1p5          120827419      122138127       1310709          5G Apple Silicon recovery
+
+                        [   New  ]  [  Quit  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+                                   Create new partition from free space
+```
+
+操作步骤：
+1. 选择 **Free space** → **New**
+2. 使用全部空间（或自定义大小）
+3. **Type** → 选择 **Linux filesystem**
+4. **Write** → 输入 `yes` 确认
+5. **Quit** 离开
+
+**格式化分区**：
+```bash
+# 格式化为 ext4 或 btrfs
+mkfs.ext4 /dev/nvme0n1p6
+# 或
+mkfs.btrfs /dev/nvme0n1p6
+
+# 挂载
+mount /dev/nvme0n1p6 /mnt/gentoo
+```
+
+**方法 B：加密分区（🔐 可选，建议）**
+
+```bash
+# 建立 LUKS2 加密分区
+cryptsetup luksFormat --type luks2 --pbkdf argon2id --hash sha512 --key-size 512 /dev/nvme0n1p6
+
+# 输入 YES 确认，设置加密密码
+
+# 打开加密分区
+cryptsetup luksOpen /dev/nvme0n1p6 gentoo-root
+
+# 格式化
+mkfs.btrfs --label root /dev/mapper/gentoo-root
+
+# 挂载
+mount /dev/mapper/gentoo-root /mnt/gentoo
+```
+
+> 💡 **为什么用这些参数？**
+> - `argon2id`：抗 ASIC/GPU 暴力破解
+> - `aes-xts`：M1 有 AES 指令集，硬件加速
+> - `luks2`：更好的安全工具
+
+### 3.3 挂载 EFI 分区
+
+```bash
+mkdir -p /mnt/gentoo/boot
+mount /dev/nvme0n1p4 /mnt/gentoo/boot
 ```
 
 ---
 
-## 4. 准备加密文件系统 {#step-4-filesystem}
+## 4. Stage3 与 chroot {#step-4-stage3}
 
-### 4.1 识别分区
+> 💡 **从这里开始遵循 [AMD64 Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64)** 直到内核安装章节。
 
-```bash
-blkid --label fedora          # asahi-root 分区(未来的 /)
-blkid --label "EFI - GENTO"   # EFI 分区 (/boot)
-```
-
-记录 `asahi-root` 的设备路径,如 `/dev/nvme0n1p5`。
-
-### 4.2 创建 LUKS2 加密分区
+### 4.1 下载并展开 Stage3
 
 ```bash
-cryptsetup luksFormat --type luks2 --pbkdf argon2id --hash sha512 --key-size 512 /dev/nvme0n1p5
-```
-
-输入 `YES` 确认,然后设置加密密码。
-
-**为什么使用这些参数?**
-- `argon2id`:抵抗 ASIC/GPU 暴力破解
-- `aes-xts`:硬件加速支持(M1 有 AES 指令集)
-- `luks2`:提供更好的安全工具(如 `cryptsetup reencrypt`)
-
-### 4.3 打开加密分区并格式化
-
-```bash
-cryptsetup luksOpen /dev/nvme0n1p5 luks
-mkfs.btrfs --label root /dev/mapper/luks
-```
-
-### 4.4 挂载文件系统
-
-```bash
-mkdir -p /mnt/gentoo
-mount /dev/mapper/luks /mnt/gentoo
 cd /mnt/gentoo
+
+# 下载最新 ARM64 Desktop systemd Stage3
+wget https://distfiles.gentoo.org/releases/arm64/autobuilds/current-stage3-arm64-desktop-systemd/stage3-arm64-desktop-systemd-*.tar.xz
+
+# 展开（保持属性）
+tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 ```
 
----
-
-## 5. 下载并解压 Stage3 {#step-5-stage3}
-
-### 5.1 下载 ARM64 Stage3
-
-使用辅助脚本:
-
-```bash
-curl -L https://raw.githubusercontent.com/jaredallard/gentoo-m1-mac/main/fetch-stage-3.sh | bash
-```
-
-将下载 `stage3-arm64-desktop-systemd-*.tar.xz` 并验证签名。
-
-### 5.2 解压 Stage3
-
-```bash
-tar xpvf latest-stage3-arm64-desktop-systemd.tar.xz --xattrs-include='*.*' --numeric-owner
-```
-
-### 5.3 配置 Portage 仓库
+### 4.2 设置 Portage
 
 ```bash
 mkdir --parents /mnt/gentoo/etc/portage/repos.conf
 cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
 ```
 
----
+### 4.3 进入 chroot 环境
 
-## 6. 进入 chroot 环境 {#step-6-chroot}
-
-### 6.1 准备 chroot
-
+**挂载必要文件系统**：
 ```bash
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 mount --types proc /proc /mnt/gentoo/proc
@@ -340,146 +388,235 @@ mount --bind /run /mnt/gentoo/run
 mount --make-slave /mnt/gentoo/run
 ```
 
-### 6.2 进入 chroot
-
+**进入 chroot**：
 ```bash
 chroot /mnt/gentoo /bin/bash
 source /etc/profile
 export PS1="(chroot) ${PS1}"
 ```
 
-### 6.3 挂载 /boot
+### 4.4 基本系统配置
 
-```bash
-# 使用之前 blkid 查询到的 EFI 分区编号
-mount /dev/nvme0n1p4 /boot
-```
+**设置 make.conf**（针对 Apple Silicon 优化）：
 
----
-
-## 7. 配置基本系统 {#step-7-configure}
-
-### 7.1 配置 make.conf
-
-编辑 `/etc/portage/make.conf`:
-
+编辑 `/etc/portage/make.conf`：
 ```bash
 nano -w /etc/portage/make.conf
 ```
 
+加入或修改以下内容：
 ```conf
-CHOST="aarch64-unknown-linux-gnu"
-
-# 针对 Apple Silicon 优化
+# Apple Silicon 优化编译参数
 COMMON_FLAGS="-march=armv8.5-a+fp16+simd+crypto+i8mm -mtune=native -O2 -pipe"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"
 FFLAGS="${COMMON_FLAGS}"
-RUSTFLAGS="-C target-cpu=native"
-
+MAKEOPTS="-j8"  # 依你的核心数调整（M1 Pro/Max 可用 -j10 或更高）
 LC_MESSAGES=C
 
-# 根据你的 CPU 核心数调整(M1/M2 Pro/Max 有更多核心)
-MAKEOPTS="-j8"
-
-# 镜像站(选择离你较近的)
-GENTOO_MIRRORS="https://mirror.aarnet.edu.au/pub/gentoo/"
-
-EMERGE_DEFAULT_OPTS="--jobs 3 --quiet-build"
-
-# 使用 Asahi Mesa
+# Asahi 专用设置
 VIDEO_CARDS="asahi"
-
-# 保留尾部换行符
+EMERGE_DEFAULT_OPTS="--jobs 3"
+GENTOO_MIRRORS="https://gentoo.rgst.io/gentoo"
 ```
 
-### 7.2 同步 Portage 树
-
+**同步 Portage**：
 ```bash
 emerge-webrsync
-emerge --sync
-emerge --ask --verbose --oneshot portage
 ```
 
-### 7.3 时区与语言
-
+**设置时区**：
 ```bash
-ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+# 设置为台湾时区（或改为你所在的时区）
+ln -sf /usr/share/zoneinfo/Asia/Taipei /etc/localtime
+```
 
+**设置语系**：
+```bash
+# 编辑 locale.gen，取消注释需要的语系
 nano -w /etc/locale.gen
-# 取消注释:
-# zh_CN.UTF-8 UTF-8
-# en_US.UTF-8 UTF-8
+# 取消注释：en_US.UTF-8 UTF-8
+# 取消注释：zh_CN.UTF-8 UTF-8（如需中文）
 
+# 生成语系
 locale-gen
-eselect locale set zh_CN.utf8
+
+# 选择系统默认语系
+eselect locale set en_US.utf8
+
+# 重新加载环境
 env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
 ```
 
-### 7.4 创建用户
-
+**建立用户与设置密码**：
 ```bash
-useradd -m -G wheel,audio,video,usb,input <用户名>
-passwd <用户名>
-passwd root
+# 建立用户（替换 <用户名称> 为你的用户名）
+useradd -m -G wheel,audio,video,usb,input <用户名称>
 
-emerge --ask app-admin/sudo
-visudo  # 取消注释 %wheel ALL=(ALL) ALL
+# 设置用户密码
+passwd <用户名称>
+
+# 设置 root 密码
+passwd root
 ```
 
 ---
 
-## 8. 安装 Asahi 内核与固件 {#step-8-kernel}
+## 5. 安装 Asahi 支持套件（核心步骤）{#step-5-asahi}
 
-### 8.1 安装必需工具
+> 🚀 **官方简化流程**：这一章节取代 Handbook 的「安装内核」章节。
 
-```bash
-emerge --ask dev-vcs/git
-```
+### 5.1 方法 A：自动化安装（✅ 推荐）
 
-### 8.2 运行 asahi-gentoosupport 安装脚本
+**使用 asahi-gentoosupport 脚本**（官方提供）：
 
 ```bash
-cd /
+cd /tmp
 git clone https://github.com/chadmed/asahi-gentoosupport
 cd asahi-gentoosupport
 ./install.sh
 ```
 
-该脚本会:
-- 安装 Asahi overlay
-- 屏蔽 `media-libs/mesa::gentoo`(使用 Asahi 版本)
-- Emerge `sys-apps/asahi-meta`(包含内核与固件)
-- 配置 U-Boot 与 m1n1
+此脚本会自动完成：
+- ✅ 启用 Asahi overlay
+- ✅ 安装 GRUB bootloader
+- ✅ 设置 VIDEO_CARDS="asahi"
+- ✅ 安装 asahi-meta（包含内核、固件、m1n1、U-Boot）
+- ✅ 执行 `asahi-fwupdate` 和 `update-m1n1`
+- ✅ 更新系统
 
-### 8.3 配置 dracut 以支持 LUKS
+**脚本完成后直接跳到步骤 5.3（fstab 配置）！**
 
-创建 `/etc/dracut.conf.d/luks.conf`:
+---
+
+### 5.2 方法 B：手动安装（进阶用户）
+
+**步骤 1：启用 Asahi overlay**
 
 ```bash
+emerge --sync 
+emerge --ask --verbose --oneshot portage 
+emerge --ask app-eselect/eselect-repository
+eselect repository enable asahi
+emerge --sync
+```
+
+**步骤 2：设置 VIDEO_CARDS**
+
+```bash
+echo '*/* VIDEO_CARDS: asahi' > /etc/portage/package.use/VIDEO_CARDS
+```
+
+**步骤 3：安装 Bootloader**
+
+```bash
+emerge --ask sys-boot/grub
+```
+
+**步骤 4：安装 Asahi 套件**
+
+```bash
+# 建立目录（如未存在）
+mkdir -p /etc/portage/package.license
+
+# 对本包接受该许可证
+echo 'sys-kernel/linux-firmware linux-fw-redistributable' \
+  >> /etc/portage/package.license/linux-firmware
+
+# 先把必要的依赖单独装上，然后顺序安装减少解环压力
+emerge -1av media-libs/libglvnd dev-lang/rust-bin sys-kernel/installkernel sys-kernel/dracut
+
+# 安装 m1n1（注意是大写 O = --nodeps）
+emerge -1avO sys-boot/m1n1
+
+# 安装 Asahi 内核与固件
+emerge -1av virtual/dist-kernel:asahi
+emerge -1av sys-apps/asahi-meta
+emerge -av sys-kernel/linux-firmware
+```
+
+套件说明：
+- `rust-bin`：编译 Asahi 内核组件需要
+- `linux-firmware`：提供额外固件
+- `asahi-meta`：包含 m1n1、asahi-fwupdate 等工具
+- `virtual/dist-kernel:asahi`：Asahi 特制内核（包含未上游的补丁）
+
+**步骤 5：更新固件与引导程序**
+
+```bash
+asahi-fwupdate
+update-m1n1
+```
+
+> ⚠️ **重要**：每次更新内核、U-Boot 或 m1n1 时都必须执行 `update-m1n1`！
+
+**步骤 6：更新系统**
+
+```bash
+emerge --ask --update --deep --changed-use @world
+```
+
+---
+
+### 5.3 配置 fstab
+
+获取 UUID：
+```bash
+blkid $(blkid --label root)       # 根分区（或 /dev/mapper/gentoo-root）
+blkid $(blkid --label "EFI - GENTO")     # boot 分区
+```
+
+编辑 `/etc/fstab`：
+```bash
+nano -w /etc/fstab
+```
+
+```fstab
+# 根分区（依你的配置调整）
+UUID=<your-root-uuid>  /      ext4   defaults  0 1
+# 或加密版本：
+# UUID=<your-btrfs-uuid>  /      btrfs  defaults  0 1
+
+UUID=<your-boot-uuid>  /boot  vfat   defaults  0 2
+```
+
+### 5.4 配置 GRUB 与 dracut
+
+**安装 GRUB 到 ESP**：
+```bash
+grub-install --efi-directory=/boot --bootloader-id=GRUB
+```
+
+**（🔐 仅加密用户）配置 dracut 支持 LUKS**：
+
+```bash
+# 安装必要套件
+emerge --ask --verbose sys-fs/cryptsetup sys-fs/btrfs-progs sys-kernel/dracut
+
+# 启用 systemd cryptsetup 支持
+mkdir -p /etc/portage/package.use
+echo "sys-apps/systemd cryptsetup" >> /etc/portage/package.use/fde
+
+# 配置 dracut
 mkdir -p /etc/dracut.conf.d
 nano -w /etc/dracut.conf.d/luks.conf
 ```
 
+在 `luks.conf` 中加入：
 ```ini
-# GRUB 会覆盖 kernel_cmdline
 kernel_cmdline=""
 add_dracutmodules+=" btrfs systemd crypt dm "
 install_items+=" /sbin/cryptsetup /bin/grep "
 filesystems+=" btrfs "
 ```
 
-### 8.4 获取分区 UUID
-
+重新生成 initramfs：
 ```bash
-blkid /dev/mapper/luks    # 记录 btrfs UUID
-blkid /dev/nvme0n1p4      # 记录 boot UUID
+dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
 ```
 
-### 8.5 配置 GRUB
-
-编辑 `/etc/default/grub`:
+**设置 GRUB 内核参数**（加密用户需要）：
 
 ```bash
 nano -w /etc/default/grub
@@ -490,187 +627,292 @@ GRUB_CMDLINE_LINUX="rd.auto=1 rd.luks.allow-discards"
 GRUB_DEVICE_UUID="<btrfs UUID>"
 ```
 
-更新 GRUB 配置:
+**生成 GRUB 配置**：
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-### 8.6 配置 fstab
-
-编辑 `/etc/fstab`:
-
-```bash
-nano -w /etc/fstab
-```
-
-```fstab
-UUID=<btrfs UUID>  /      btrfs  rw,defaults  0 1
-UUID=<boot UUID>   /boot  vfat   rw,defaults  0 2
-```
-
-### 8.7 构建 initramfs
-
-```bash
-emerge --ask sys-fs/cryptsetup sys-fs/btrfs-progs sys-apps/grep net-misc/networkmanager
-
-# 配置 systemd 支持 cryptsetup
-mkdir -p /etc/portage/package.use
-echo "sys-apps/systemd cryptsetup" >> /etc/portage/package.use/fde
-emerge --ask --newuse sys-apps/systemd
-
-# 构建 initramfs
-dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
-```
-
 ---
 
-## 9. 最终调整与重启 {#step-9-reboot}
+## 6. 完成安装与重启 {#step-6-finalize}
 
-### 9.1 启用 NetworkManager
+### 6.1 最后设置
 
+**设置主机名称**：
+```bash
+echo "macbook" > /etc/hostname
+```
+
+**启用 NetworkManager**（桌面系统）：
 ```bash
 systemctl enable NetworkManager
 ```
 
-### 9.2 退出 chroot 并重启
+**设置 root 密码**（如果还没设置）：
+```bash
+passwd root
+```
+
+### 6.2 离开 chroot 并重启
 
 ```bash
 exit
-umount -l /mnt/gentoo/dev{/shm,/pts,}
 umount -R /mnt/gentoo
-cryptsetup luksClose luks
+# 若使用加密：
+cryptsetup luksClose gentoo-root
+
 reboot
 ```
 
-### 9.3 首次启动
+### 6.3 首次启动
 
-1. 从 U-Boot 菜单中选择 Gentoo
-2. GRUB 会加载并显示解密提示
-3. 输入你的 LUKS 密码
-4. 系统应成功启动到登录提示符
+1. U-Boot 会自动启动
+2. GRUB 菜单出现，选择 Gentoo
+3. （若加密）输入 LUKS 密码
+4. 系统应成功启动到登录提示
+
+> 🎉 **恭喜！基本系统已安装完成！**
 
 ---
 
-## 10. 安装后步骤 {#step-10-post}
+## 7. 安装后配置（可选）{#step-7-post}
 
-### 10.1 连接网络
+### 7.1 网络连接
 
 ```bash
+# Wi-Fi
 nmcli device wifi connect <SSID> password <密码>
+
+# 或使用 nmtui（图形界面）
+nmtui
 ```
 
-### 10.2 更新系统
+### 7.2 安装桌面环境（🖥️ 可选）
 
-```bash
-emerge --sync
-emerge -avuDN @world
-emerge --depclean
-```
-
-### 10.3 安装桌面环境
-
-**GNOME (原生 Wayland):**
+**GNOME（✅ 推荐，Wayland 原生）：**
 ```bash
 emerge --ask gnome-base/gnome
 systemctl enable gdm
 ```
 
-**KDE Plasma:**
+**KDE Plasma：**
 ```bash
 emerge --ask kde-plasma/plasma-meta
 systemctl enable sddm
 ```
 
-**轻量级选项:**
+**Xfce（轻量级）：**
 ```bash
-emerge --ask xfce-base/xfce4-meta
-emerge --ask x11-misc/lightdm
+emerge --ask xfce-base/xfce4-meta x11-misc/lightdm
 systemctl enable lightdm
 ```
 
----
+### 7.3 音频配置（🎵 可选）
 
-## 故障排除 {#faq}
+Asahi 音频通过 PipeWire 提供。**systemd 系统自动配置**，无需额外设置。
 
-### 问题:启动时卡在"Waiting for root device"
-
-**原因**:dracut 无法找到加密分区或 UUID 错误。
-
-**解决方案**:
-1. 启动到紧急模式
-2. 手动解锁:
-   ```bash
-   cryptsetup luksOpen /dev/nvme0n1p5 luks
-   exit
-   ```
-3. 重新检查 `/etc/default/grub` 中的 UUID
-
-### 问题:Wi-Fi 固件无法加载
-
-**原因**:`/lib/firmware/vendor` 目录不存在。
-
-**解决方案**:
+验证音频：
 ```bash
-mkdir -p /lib/firmware/vendor
-reboot
+emerge --ask media-sound/pavucontrol
+systemctl --user status pipewire
 ```
 
-### 问题:GPU 加速无法正常工作
+### 7.4 GPU 加速
 
-**原因**:Asahi Mesa 仍在开发中。
-
-**解决方案**:
-- 确保使用 `VIDEO_CARDS="asahi"`
-- 检查 `eselect mesa list`
-- 部分 3D 加速功能可能尚未支持
-
-### 问题:电池快速耗电
-
-**原因**:电源管理调优进行中。
-
-**建议**:
+确认使用 Asahi Mesa：
 ```bash
-emerge --ask sys-power/tlp
-systemctl enable tlp
+eselect mesa list
 ```
+
+> 💡 **注意**：Asahi GPU 加速仍在开发中。部分 OpenGL 应用可能不完全支持。
 
 ---
 
-## 维护与更新 {#maintenance}
+## 8. 系统维护 {#step-8-maintenance}
 
-### 常规更新流程
+### 8.1 定期更新流程
 
 ```bash
-# 更新 Portage 树
+# 更新 Portage 树（包含 Asahi overlay）
 emerge --sync
+# 或手动同步 Asahi overlay：
+emaint -r asahi sync
 
-# 更新所有软件包
+# 更新所有套件
 emerge -avuDN @world
 
-# 清理不需要的软件包
+# 清理不需要的套件
 emerge --depclean
 
 # 更新配置文件
 dispatch-conf
+```
 
-# 重建 initramfs(如果内核更新)
-dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
+### 8.2 更新内核后必做
+
+> ⚠️ **极度重要**：每次内核更新后必须执行！
+
+```bash
+# 更新 m1n1 Stage 2（包含 devicetree）
+update-m1n1
+
+# 重新生成 GRUB 配置
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-### 跟踪 Asahi 开发
+**为什么？** m1n1 Stage 2 包含 devicetree blobs，内核需要它来识别硬件。不更新可能导致无法启动或功能缺失。
 
-- [Asahi Linux 官方博客](https://asahilinux.org/blog/)
-- [Gentoo Asahi 项目](https://wiki.gentoo.org/wiki/Project:Asahi)
-- [asahi-gentoosupport GitHub](https://github.com/chadmed/asahi-gentoosupport)
+> 💡 **自动化**：`sys-apps/asahi-scripts` 提供 installkernel hook 自动执行这些步骤。
+
+### 8.3 更新固件
+
+macOS 系统更新时会包含固件更新。**建议保留 macOS 分区**以便获取最新固件。
 
 ---
 
-## 参考资料 {#reference}
+## 9. 常见问题与排错 {#faq}
 
-- [Gentoo Wiki: Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)
+### 问题：无法从 USB 启动
+
+**可能原因**：U-Boot 的 USB 驱动仍有限制。
+
+**解决方法**：
+- 尝试不同的 USB 闪存盘
+- 使用 USB 2.0 设备（兼容性较好）
+- 通过 USB Hub 连接
+
+### 问题：启动卡住或黑屏
+
+**原因**：m1n1/U-Boot/内核不匹配。
+
+**解决方法**：
+1. 从 macOS 重新执行 Asahi 安装程序
+2. 选择 `p` 选项重试 Recovery 流程
+3. 确保在 chroot 中执行了 `update-m1n1`
+
+### 问题：🔐 加密分区无法解锁
+
+**原因**：dracut 配置错误或 UUID 不对。
+
+**解决方法**：
+1. 检查 `/etc/default/grub` 中的 `GRUB_CMDLINE_LINUX`
+2. 确认使用正确的 LUKS UUID：`blkid /dev/nvme0n1p5`
+3. 重新生成 GRUB 配置：`grub-mkconfig -o /boot/grub/grub.cfg`
+
+### 问题：Wi-Fi 不稳定
+
+**原因**：可能是 WPA3 或 6 GHz 频段问题。
+
+**解决方法**：
+- 连接 WPA2 网络
+- 使用 2.4 GHz 或 5 GHz 频段（避免 6 GHz）
+
+### 问题：触控板无法使用
+
+**原因**：固件未加载或驱动问题。
+
+**解决方法**：
+```bash
+# 检查固件
+dmesg | grep -i firmware
+
+# 确保安装了 asahi-meta
+emerge --ask sys-apps/asahi-meta
+```
+
+### 问题：音频无声音
+
+**原因**：PipeWire 未启动。
+
+**解决方法**：
+```bash
+systemctl --user restart pipewire pipewire-pulse
+```
+
+---
+
+## 10. 进阶技巧（🎨 可选）{#advanced}
+
+### 10.1 刘海（Notch）配置
+
+默认刘海区域会显示为黑色。要启用：
+
+```bash
+# 在 GRUB 内核参数中加入
+apple_dcp.show_notch=1
+```
+
+**KDE Plasma 优化**：
+- 在顶部新增全宽面板，高度对齐刘海底部
+- 左侧：Application Dashboard、Global menu、Spacer
+- 右侧：System Tray、Bluetooth、Power、时钟
+
+### 10.2 自定义内核（进阶）
+
+使用 Distribution kernel 即可，但若要自定义：
+
+```bash
+emerge --ask sys-kernel/asahi-sources
+cd /usr/src/linux
+make menuconfig
+make -j$(nproc)
+make modules_install
+make install
+update-m1n1  # 必须！
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+> ⚠️ **记得保留可用内核作为备援**！
+
+### 10.3 多内核切换
+
+支持多个内核共存：
+
+```bash
+eselect kernel list
+eselect kernel set <number>
+update-m1n1  # 切换后必须执行！
+```
+
+---
+
+## 11. 参考资料 {#reference}
+
+### 官方文档
+
+- **[Gentoo Wiki: Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)** ⭐ 官方最新指南
+- [Asahi Linux Official Site](https://asahilinux.org/)
+- [Asahi Linux Feature Support](https://asahilinux.org/docs/platform/feature-support/overview/)
+- [Gentoo AMD64 Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64)（流程相同）
+
+### 工具与脚本
+
+- [asahi-gentoosupport](https://github.com/chadmed/asahi-gentoosupport) - 自动化安装脚本
+- [Gentoo Asahi Releng](https://github.com/chadmed/gentoo-asahi-releng) - Live USB 构建工具
+
+### 社群支持
+
+- [Gentoo Forums](https://forums.gentoo.org/)
+- IRC: `#gentoo` 和 `#asahi` @ [Libera.Chat](https://libera.chat/)
 - [User:Jared/Gentoo On An M1 Mac](https://wiki.gentoo.org/wiki/User:Jared/Gentoo_On_An_M1_Mac)
-- [Asahi Linux 官方网站](https://asahilinux.org/)
-- [Gentoo ARM64 手册](https://wiki.gentoo.org/wiki/Handbook:ARM64)
+- [Asahi Linux Discord](https://discord.gg/asahi-linux)
 
-祝你在 Apple Silicon 上享受 Gentoo!如有问题欢迎在 Gentoo 论坛或 `#gentoo` / `#asahi` IRC/Discord 频道提问。
+### 延伸阅读
+
+- [Asahi Linux Open OS Interoperability](https://asahilinux.org/docs/platform/open-os-interop/) - 理解 Apple Silicon 启动流程
+- [Linux Kernel Devicetree](https://docs.kernel.org/devicetree/usage-model.html) - 为什么需要 update-m1n1
+
+---
+
+## 结语
+
+🎉 **祝你在 Apple Silicon 上享受 Gentoo！**
+
+这份指南基于官方 [Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide) 并简化流程，标记了可选步骤，让更多人能轻松尝试。
+
+**记住三个关键点**：
+1. ✅ 使用官方 Gentoo Asahi Live USB（无需 Fedora 中转）
+2. ✅ asahi-gentoosupport 脚本可自动化大部分流程
+3. ✅ 每次内核更新后必须执行 `update-m1n1`
+
+有任何问题欢迎到社群提问！

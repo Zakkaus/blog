@@ -106,7 +106,7 @@ seo:
 下載最新版本：
 ```bash
 # 方法 1：從官方臨時站點下載（官方釋出前）
-curl -LO https://chadmed.au/pub/gentoo/install-arm64-minimal-asahi-YYYYMMDD.iso
+https://chadmed.au/pub/gentoo/
 
 # 方法 2：（官方正式釋出後）
 # 前往 https://www.gentoo.org/downloads/ 下載 ARM64 Asahi 版本
@@ -126,7 +126,7 @@ diskutil list
 diskutil unmountDisk /dev/disk4
 
 # 寫入映像（注意使用 rdisk 較快）
-sudo dd if=install-arm64-minimal-asahi-*.iso of=/dev/rdisk4 bs=4m status=progress
+sudo dd if=install-arm64-asahi-*.iso of=/dev/rdisk4 bs=4m status=progress
 
 # 完成後彈出
 diskutil eject /dev/disk4
@@ -241,15 +241,33 @@ ip a | grep inet          # 取得 IP 位址
 查看分割結構：
 ```bash
 lsblk
-fdisk -l /dev/nvme0n1
+blkid --label "EFI - GENTO"  # 查看你的 EFI 分區
 ```
 
 通常會看到：
-- `/dev/nvme0n1p1` - EFI System Partition（勿動）
-- `/dev/nvme0n1p2` - macOS APFS Container（勿動）
-- `/dev/nvme0n1p3` - macOS Recovery（勿動）
-- `/dev/nvme0n1p4` - EFI - GENTOO（Asahi 建立的 EFI 分割）
-- 空白空間 - 可用於 Gentoo 根分割
+```
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0         7:0    0 609.1M  1 loop /run/rootfsbase
+sda           8:0    1 119.5G  0 disk /run/initramfs/live
+|-sda1        8:1    1   118K  0 part 
+|-sda2        8:2    1   2.8M  0 part 
+`-sda3        8:3    1 670.4M  0 part 
+nvme0n1     259:0    0 465.9G  0 disk 
+|-nvme0n1p1 259:1    0   500M  0 part 
+|-nvme0n1p2 259:2    0 307.3G  0 part 
+|-nvme0n1p3 259:3    0   2.3G  0 part 
+|-nvme0n1p4 259:4    0   477M  0 part 
+`-nvme0n1p5 259:5    0     5G  0 part 
+nvme0n2     259:6    0     3M  0 disk 
+nvme0n3     259:7    0   128M  0 disk 
+```
+
+EFI 分區識別（**不要動這個分區！**）：
+```bash
+livecd ~ # blkid --label "EFI - GENTO" 
+/dev/nvme0n1p4  # 這是 EFI 分區勿動
+```
+
 
 > 💡 **建議**：使用 `cfdisk` 進行分割，它理解 Apple 分割類型並會保護系統分割。
 
@@ -262,32 +280,58 @@ fdisk -l /dev/nvme0n1
 ```bash
 # 使用 cfdisk 建立新分割
 cfdisk /dev/nvme0n1
+```
 
-# 選擇空白空間 → New → 使用全部空間 → Type: Linux filesystem
-# Write → yes → Quit
+你會看到類似以下的分割表：
+```
+                                            Disk: /dev/nvme0n1
+                         Size: 465.92 GiB, 500277792768 bytes, 122138133 sectors
+                       Label: gpt, identifier: 6C5A96F2-EFC9-487C-8C3E-01FD5EA77896
 
+    Device                      Start            End       Sectors        Size Type
+    /dev/nvme0n1p1                  6         128005        128000        500M Apple Silicon boot
+    /dev/nvme0n1p2             128006       80694533      80566528      307.3G Apple APFS
+    /dev/nvme0n1p3           80694534       81304837        610304        2.3G Apple APFS
+    /dev/nvme0n1p4           81304838       81426949        122112        477M EFI System
+>>  Free space               81427200      120827418      39400219      150.3G                            
+    /dev/nvme0n1p5          120827419      122138127       1310709          5G Apple Silicon recovery
+
+                        [   New  ]  [  Quit  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+                                   Create new partition from free space
+```
+
+操作步驟：
+1. 選擇 **Free space** → **New**
+2. 使用全部空間（或自訂大小）
+3. **Type** → 選擇 **Linux filesystem**
+4. **Write** → 輸入 `yes` 確認
+5. **Quit** 離開
+
+**格式化分區**：
+```bash
 # 格式化為 ext4 或 btrfs
-mkfs.ext4 /dev/nvme0n1p5
+mkfs.ext4 /dev/nvme0n1p6
 # 或
-mkfs.btrfs /dev/nvme0n1p5
+mkfs.btrfs /dev/nvme0n1p6
 
 # 掛載
-mount /dev/nvme0n1p5 /mnt/gentoo
+mount /dev/nvme0n1p6 /mnt/gentoo
 ```
 
 **方法 B：加密分割（🔐 可選，建議）**
 
 ```bash
 # 建立 LUKS2 加密分割
-cryptsetup luksFormat --type luks2 --pbkdf argon2id --hash sha512 --key-size 512 /dev/nvme0n1p5
+cryptsetup luksFormat --type luks2 --pbkdf argon2id --hash sha512 --key-size 512 /dev/nvme0n1p6
 
 # 輸入 YES 確認，設定加密密碼
 
 # 開啟加密分割
-cryptsetup luksOpen /dev/nvme0n1p5 gentoo-root
+cryptsetup luksOpen /dev/nvme0n1p6 gentoo-root
 
 # 格式化
-mkfs.btrfs /dev/mapper/gentoo-root
+mkfs.btrfs --label root /dev/mapper/gentoo-root
 
 # 掛載
 mount /dev/mapper/gentoo-root /mnt/gentoo
@@ -355,43 +399,65 @@ export PS1="(chroot) ${PS1}"
 
 **設定 make.conf**（針對 Apple Silicon 最佳化）：
 
+編輯 `/etc/portage/make.conf`：
 ```bash
 nano -w /etc/portage/make.conf
 ```
 
+加入或修改以下內容：
 ```conf
 # Apple Silicon 最佳化編譯參數
 COMMON_FLAGS="-march=armv8.5-a+fp16+simd+crypto+i8mm -mtune=native -O2 -pipe"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
-MAKEOPTS="-j8"  # 依你的核心數調整
+FCFLAGS="${COMMON_FLAGS}"
+FFLAGS="${COMMON_FLAGS}"
+MAKEOPTS="-j8"  # 依你的核心數調整（M1 Pro/Max 可用 -j10 或更高）
+LC_MESSAGES=C
 
-# Asahi 專用
+# Asahi 專用設定
 VIDEO_CARDS="asahi"
-
-GENTOO_MIRRORS="https://free.nchc.org.tw/gentoo/"
+EMERGE_DEFAULT_OPTS="--jobs 3"
+GENTOO_MIRRORS="https://gentoo.rgst.io/gentoo"
 ```
 
-**同步 Portage、設定時區與語系**：
-
+**同步 Portage**：
 ```bash
-# 同步 Portage
 emerge-webrsync
+```
 
-# 時區
+**設定時區**：
+```bash
+# 設定為台灣時區（或改為你所在的時區）
 ln -sf /usr/share/zoneinfo/Asia/Taipei /etc/localtime
+```
 
-# 語系
-nano -w /etc/locale.gen  # 取消註解 en_US.UTF-8 和 zh_TW.UTF-8
+**設定語系**：
+```bash
+# 編輯 locale.gen，取消註解需要的語系
+nano -w /etc/locale.gen
+# 取消註解：en_US.UTF-8 UTF-8
+# 取消註解：zh_TW.UTF-8 UTF-8（如需中文）
+
+# 生成語系
 locale-gen
+
+# 選擇系統預設語系
 eselect locale set en_US.utf8
+
+# 重新載入環境
 env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
 ```
 
-**建立使用者**：
+**建立使用者與設定密碼**：
 ```bash
+# 建立使用者（替換 <使用者名稱> 為你的使用者名）
 useradd -m -G wheel,audio,video,usb,input <使用者名稱>
+
+# 設定使用者密碼
 passwd <使用者名稱>
+
+# 設定 root 密碼
 passwd root
 ```
 
@@ -429,6 +495,8 @@ cd asahi-gentoosupport
 **步驟 1：啟用 Asahi overlay**
 
 ```bash
+emerge --sync 
+emerge --ask --verbose --oneshot portage 
 emerge --ask app-eselect/eselect-repository
 eselect repository enable asahi
 emerge --sync
@@ -449,8 +517,23 @@ emerge --ask sys-boot/grub
 **步驟 4：安裝 Asahi 套件**
 
 ```bash
-emerge --ask dev-lang/rust-bin sys-kernel/linux-firmware \
-  sys-apps/asahi-meta virtual/dist-kernel:asahi
+# 建立目錄（如未存在）
+mkdir -p /etc/portage/package.license
+
+# 對本包接受該許可證
+echo 'sys-kernel/linux-firmware linux-fw-redistributable' \
+  >> /etc/portage/package.license/linux-firmware
+
+# 先把必要的依賴單獨裝上，然後順序安裝減少解環壓力
+emerge -1av media-libs/libglvnd dev-lang/rust-bin sys-kernel/installkernel sys-kernel/dracut
+
+# 安裝 m1n1（注意是大寫 O = --nodeps）
+emerge -1avO sys-boot/m1n1
+
+# 安裝 Asahi 內核與韌體
+emerge -1av virtual/dist-kernel:asahi
+emerge -1av sys-apps/asahi-meta
+emerge -av sys-kernel/linux-firmware
 ```
 
 套件說明：
@@ -480,8 +563,8 @@ emerge --ask --update --deep --changed-use @world
 
 取得 UUID：
 ```bash
-blkid /dev/nvme0n1p5        # 根分割（或 /dev/mapper/gentoo-root）
-blkid /dev/nvme0n1p4        # boot 分割
+blkid $(blkid --label root)       # 根分割（或 /dev/mapper/gentoo-root）
+blkid $(blkid --label "EFI - GENTO")     # boot 分割
 ```
 
 編輯 `/etc/fstab`：
@@ -508,14 +591,29 @@ grub-install --efi-directory=/boot --bootloader-id=GRUB
 **（🔐 僅加密用戶）配置 dracut 支援 LUKS**：
 
 ```bash
+# 安裝必要套件
+emerge --ask --verbose sys-fs/cryptsetup sys-fs/btrfs-progs sys-kernel/dracut
+
+# 啟用 systemd cryptsetup 支援
+mkdir -p /etc/portage/package.use
+echo "sys-apps/systemd cryptsetup" >> /etc/portage/package.use/fde
+
+# 配置 dracut
 mkdir -p /etc/dracut.conf.d
 nano -w /etc/dracut.conf.d/luks.conf
 ```
 
+在 `luks.conf` 中加入：
 ```ini
 kernel_cmdline=""
-add_dracutmodules+=" crypt dm "
-install_items+=" /sbin/cryptsetup "
+add_dracutmodules+=" btrfs systemd crypt dm "
+install_items+=" /sbin/cryptsetup /bin/grep "
+filesystems+=" btrfs "
+```
+
+重新生成 initramfs：
+```bash
+dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
 ```
 
 **設定 GRUB 內核參數**（加密用戶需要）：
@@ -525,7 +623,8 @@ nano -w /etc/default/grub
 ```
 
 ```conf
-GRUB_CMDLINE_LINUX="rd.luks.uuid=<你的 LUKS UUID>"
+GRUB_CMDLINE_LINUX="rd.auto=1 rd.luks.allow-discards"
+GRUB_DEVICE_UUID="<btrfs UUID>"
 ```
 
 **生成 GRUB 配置**：
@@ -541,7 +640,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 **設定主機名稱**：
 ```bash
-echo "mymac" > /etc/hostname
+echo "macbook" > /etc/hostname
 ```
 
 **啟用 NetworkManager**（桌面系統）：
@@ -795,6 +894,7 @@ update-m1n1  # 切換後必須執行！
 
 - [Gentoo Forums](https://forums.gentoo.org/)
 - IRC: `#gentoo` 和 `#asahi` @ [Libera.Chat](https://libera.chat/)
+- [User:Jared/Gentoo On An M1 Mac](https://wiki.gentoo.org/wiki/User:Jared/Gentoo_On_An_M1_Mac)
 - [Asahi Linux Discord](https://discord.gg/asahi-linux)
 
 ### 延伸閱讀

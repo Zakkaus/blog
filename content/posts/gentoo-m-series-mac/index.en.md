@@ -499,51 +499,68 @@ emerge --sync
 emerge --ask --verbose --oneshot portage 
 emerge --ask app-eselect/eselect-repository
 eselect repository enable asahi
-emerge --sync
+emaint sync -r asahi
 ```
 
-**Step 2: Configure VIDEO_CARDS**
+**Step 2: Configure package.mask (⚠️ Important!)**
+
+Prevent Gentoo's official dist-kernel from overriding Asahi version:
 
 ```bash
-echo '*/* VIDEO_CARDS: asahi' > /etc/portage/package.use/VIDEO_CARDS
+mkdir -p /etc/portage/package.mask
+cat > /etc/portage/package.mask/asahi << 'EOF'
+# Mask the upstream dist-kernel virtual so it doesn't try to force kernel upgrades
+virtual/dist-kernel::gentoo
+EOF
 ```
 
-**Step 3: Install Bootloader**
+**Step 3: Configure package.use**
 
 ```bash
-emerge --ask sys-boot/grub
+mkdir -p /etc/portage/package.use
+
+# Asahi-specific USE flags
+cat > /etc/portage/package.use/asahi << 'EOF'
+dev-lang/rust-bin rustfmt rust-src
+dev-lang/rust rustfmt rust-src
+EOF
+
+# VIDEO_CARDS setting
+echo 'VIDEO_CARDS="asahi"' >> /etc/portage/make.conf
+
+# GRUB platform setting (⚠️ Required!)
+echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
 ```
 
-**Step 4: Install Asahi Packages**
+**Step 4: Configure firmware license**
 
 ```bash
-# Create directory (if not exists)
 mkdir -p /etc/portage/package.license
-
-# Accept license for this package
-echo 'sys-kernel/linux-firmware linux-fw-redistributable' \
-  >> /etc/portage/package.license/linux-firmware
-
-# Install necessary dependencies first, then sequential installation reduces circular dependency pressure
-emerge -1av media-libs/libglvnd dev-lang/rust-bin sys-kernel/installkernel sys-kernel/dracut
-
-# Install m1n1 (note uppercase O = --nodeps)
-emerge -1avO sys-boot/m1n1
-
-# Install Asahi kernel and firmware
-emerge -1av virtual/dist-kernel:asahi
-emerge -1av sys-apps/asahi-meta
-emerge -av sys-kernel/linux-firmware
+echo 'sys-kernel/linux-firmware linux-fw-redistributable no-source-code' > /etc/portage/package.license/firmware
 ```
->etc-update When the list appears, select -3 to automatically merge (auto-merge all)
+
+**Step 5: Install rust-bin (⚠️ Must install first!)**
+
+```bash
+emerge -q1 dev-lang/rust-bin
+```
+
+**Step 6: Install Asahi packages**
+
+```bash
+# Install all necessary packages at once
+emerge -q sys-apps/asahi-meta virtual/dist-kernel:asahi sys-kernel/linux-firmware
+```
+
+> 💡 If `etc-update` shows config file conflicts, select `-3` for auto-merge.
 
 Package descriptions:
-- `rust-bin`: Required for compiling Asahi kernel components
-- `linux-firmware`: Provides additional firmware
-- `asahi-meta`: Contains m1n1, asahi-fwupdate, and other tools
+- `rust-bin`: Required for compiling Asahi kernel components (must install first)
+- `asahi-meta`: Contains m1n1, asahi-fwupdate, U-Boot, and other tools
 - `virtual/dist-kernel:asahi`: Asahi custom kernel (includes patches not yet upstream)
+- `linux-firmware`: Provides Wi-Fi and other hardware firmware
 
-**Step 5: Update firmware and bootloader**
+**Step 7: Update firmware and bootloader**
 
 ```bash
 asahi-fwupdate
@@ -552,7 +569,25 @@ update-m1n1
 
 > ⚠️ **Important**: Must run `update-m1n1` after every kernel, U-Boot, or m1n1 update!
 
-**Step 6: Update system**
+**Step 8: Install and configure GRUB**
+
+```bash
+# Install GRUB
+emerge -q grub:2
+
+# Install GRUB to ESP (⚠️ Note: --removable flag is crucial!)
+grub-install --boot-directory=/boot/ --efi-directory=/boot/ --removable
+
+# Generate GRUB configuration
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+> ⚠️ **Key Points**:
+> - The `--removable` flag is essential for ensuring the system can boot from ESP
+> - Both `--boot-directory` and `--efi-directory` must point to `/boot/`
+> - Must set `GRUB_PLATFORMS="efi-64"` in make.conf
+
+**Step 9: Update system (Optional)**
 
 ```bash
 emerge --ask --update --deep --changed-use @world
@@ -582,17 +617,22 @@ UUID=<your-root-uuid>  /      ext4   defaults  0 1
 UUID=<your-boot-uuid>  /boot  vfat   defaults  0 2
 ```
 
-### 5.4 Configure GRUB and dracut
+### 5.4 Configure Encryption Support (🔐 Encrypted Users Only)
 
-**(🔐 Encrypted users only) Configure dracut for LUKS support**:
+> ⚠️ **Note**: Only execute this step if you chose encrypted partition in step 3.2.
+
+**Configure dracut for LUKS support**:
 
 ```bash
 # Install necessary packages
-emerge --ask --verbose sys-fs/cryptsetup sys-fs/btrfs-progs sys-kernel/dracut
+emerge --ask --verbose sys-fs/cryptsetup sys-fs/btrfs-progs
 
 # Enable systemd cryptsetup support
 mkdir -p /etc/portage/package.use
 echo "sys-apps/systemd cryptsetup" >> /etc/portage/package.use/fde
+
+# Reinstall systemd to enable cryptsetup support
+emerge --ask --oneshot sys-apps/systemd
 
 # Configure dracut
 mkdir -p /etc/dracut.conf.d
@@ -612,18 +652,18 @@ Regenerate initramfs:
 dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
 ```
 
-**Set GRUB kernel parameters** (encrypted users need this):
+**Set GRUB kernel parameters**:
 
 ```bash
 nano -w /etc/default/grub
 ```
 
+Add the following:
 ```conf
 GRUB_CMDLINE_LINUX="rd.auto=1 rd.luks.allow-discards"
-GRUB_DEVICE_UUID="<btrfs UUID>"
 ```
 
-**Generate GRUB configuration**:
+Regenerate GRUB configuration:
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
 ```

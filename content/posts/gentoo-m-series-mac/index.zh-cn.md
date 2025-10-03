@@ -499,51 +499,68 @@ emerge --sync
 emerge --ask --verbose --oneshot portage 
 emerge --ask app-eselect/eselect-repository
 eselect repository enable asahi
-emerge --sync
+emaint sync -r asahi
 ```
 
-**步骤 2：设置 VIDEO_CARDS**
+**步骤 2：配置 package.mask（⚠️ 重要！）**
+
+防止 Gentoo 官方的 dist-kernel 覆盖 Asahi 版本：
 
 ```bash
-echo '*/* VIDEO_CARDS: asahi' > /etc/portage/package.use/VIDEO_CARDS
+mkdir -p /etc/portage/package.mask
+cat > /etc/portage/package.mask/asahi << 'EOF'
+# Mask the upstream dist-kernel virtual so it doesn't try to force kernel upgrades
+virtual/dist-kernel::gentoo
+EOF
 ```
 
-**步骤 3：安装 Bootloader**
+**步骤 3：配置 package.use**
 
 ```bash
-emerge --ask sys-boot/grub
+mkdir -p /etc/portage/package.use
+
+# Asahi 专用 USE flags
+cat > /etc/portage/package.use/asahi << 'EOF'
+dev-lang/rust-bin rustfmt rust-src
+dev-lang/rust rustfmt rust-src
+EOF
+
+# VIDEO_CARDS 设置
+echo 'VIDEO_CARDS="asahi"' >> /etc/portage/make.conf
+
+# GRUB 平台设置（⚠️ 必须！）
+echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
 ```
 
-**步骤 4：安装 Asahi 套件**
+**步骤 4：配置固件许可证**
 
 ```bash
-# 建立目录（如未存在）
 mkdir -p /etc/portage/package.license
-
-# 对本包接受该许可证
-echo 'sys-kernel/linux-firmware linux-fw-redistributable' \
-  >> /etc/portage/package.license/linux-firmware
-
-# 先把必要的依赖单独装上，然后顺序安装减少解环压力
-emerge -1av media-libs/libglvnd dev-lang/rust-bin sys-kernel/installkernel sys-kernel/dracut
-
-# 安装 m1n1（注意是大写 O = --nodeps）
-emerge -1avO sys-boot/m1n1
-
-# 安装 Asahi 内核与固件
-emerge -1av virtual/dist-kernel:asahi
-emerge -1av sys-apps/asahi-meta
-emerge -av sys-kernel/linux-firmware
+echo 'sys-kernel/linux-firmware linux-fw-redistributable no-source-code' > /etc/portage/package.license/firmware
 ```
->etc-update  出现列表时，选 -3 进行自动合并（auto-merge all）
+
+**步骤 5：安装 rust-bin（⚠️ 必须先安装！）**
+
+```bash
+emerge -q1 dev-lang/rust-bin
+```
+
+**步骤 6：安装 Asahi 套件**
+
+```bash
+# 一次性安装所有必要套件
+emerge -q sys-apps/asahi-meta virtual/dist-kernel:asahi sys-kernel/linux-firmware
+```
+
+> 💡 如果 `etc-update` 出现配置文件冲突，选择 `-3` 进行自动合并。
 
 套件说明：
-- `rust-bin`：编译 Asahi 内核组件需要
-- `linux-firmware`：提供额外固件
-- `asahi-meta`：包含 m1n1、asahi-fwupdate 等工具
+- `rust-bin`：编译 Asahi 内核组件需要（必须先安装）
+- `asahi-meta`：包含 m1n1、asahi-fwupdate、U-Boot 等工具
 - `virtual/dist-kernel:asahi`：Asahi 特制内核（包含未上游的补丁）
+- `linux-firmware`：提供 Wi-Fi 等硬件固件
 
-**步骤 5：更新固件与引导程序**
+**步骤 7：更新固件与引导程序**
 
 ```bash
 asahi-fwupdate
@@ -552,7 +569,25 @@ update-m1n1
 
 > ⚠️ **重要**：每次更新内核、U-Boot 或 m1n1 时都必须执行 `update-m1n1`！
 
-**步骤 6：更新系统**
+**步骤 8：安装并配置 GRUB**
+
+```bash
+# 安装 GRUB
+emerge -q grub:2
+
+# 安装 GRUB 到 ESP（⚠️ 注意 --removable 标志很重要！）
+grub-install --boot-directory=/boot/ --efi-directory=/boot/ --removable
+
+# 生成 GRUB 配置
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+> ⚠️ **关键要点**：
+> - `--removable` 标志是必须的，确保系统能从 ESP 启动
+> - `--boot-directory` 和 `--efi-directory` 都必须指向 `/boot/`
+> - 必须在 make.conf 中设置 `GRUB_PLATFORMS="efi-64"`
+
+**步骤 9：更新系统（可选）**
 
 ```bash
 emerge --ask --update --deep --changed-use @world
@@ -582,17 +617,22 @@ UUID=<your-root-uuid>  /      ext4   defaults  0 1
 UUID=<your-boot-uuid>  /boot  vfat   defaults  0 2
 ```
 
-### 5.4 配置 GRUB 与 dracut
+### 5.4 配置加密支持（🔐 仅加密用户）
 
-**（🔐 仅加密用户）配置 dracut 支持 LUKS**：
+> ⚠️ **注意**：如果你在步骤 3.2 中选择了加密分区，才需要执行此步骤。
+
+**配置 dracut 支持 LUKS**：
 
 ```bash
 # 安装必要套件
-emerge --ask --verbose sys-fs/cryptsetup sys-fs/btrfs-progs sys-kernel/dracut
+emerge --ask --verbose sys-fs/cryptsetup sys-fs/btrfs-progs
 
 # 启用 systemd cryptsetup 支持
 mkdir -p /etc/portage/package.use
 echo "sys-apps/systemd cryptsetup" >> /etc/portage/package.use/fde
+
+# 重新安装 systemd 以启用 cryptsetup 支持
+emerge --ask --oneshot sys-apps/systemd
 
 # 配置 dracut
 mkdir -p /etc/dracut.conf.d
@@ -612,18 +652,18 @@ filesystems+=" btrfs "
 dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
 ```
 
-**设置 GRUB 内核参数**（加密用户需要）：
+**设置 GRUB 内核参数**：
 
 ```bash
 nano -w /etc/default/grub
 ```
 
+加入以下内容：
 ```conf
 GRUB_CMDLINE_LINUX="rd.auto=1 rd.luks.allow-discards"
-GRUB_DEVICE_UUID="<btrfs UUID>"
 ```
 
-**生成 GRUB 配置**：
+重新生成 GRUB 配置：
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
 ```

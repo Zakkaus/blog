@@ -1,18 +1,18 @@
 ---
 slug: gentoo-m-series-mac-arm64
-title: "Gentoo ARM64 安装指南：Apple Silicon（M 系列芯片）Mac"
+title: "在 Apple Silicon Mac 上安装 Gentoo Linux（M1/M2/M3/M4 完整教程）"
 date: 2025-10-02
 tags: ["Gentoo","Linux","ARM64","Apple Silicon","M1","M2","M3","Asahi Linux"]
 categories: ["Linux 笔记"]
 draft: false
-description: "在 Apple Silicon Mac（M1/M2/M3）上安装 Gentoo Linux ARM64 的完整教学：通过 Asahi Linux 引导程序实现原生 ARM64 Linux。"
+description: "从零开始在 Apple Silicon Mac（M1/M2/M3/M4）上安装 Gentoo Linux：包含 Asahi 引导、加密设置、内核编译等完整步骤。"
 ShowToc: false
 TocOpen: false
 translationKey: "gentoo-m-series-mac-arm64"
 authors:
    - "Zakk"
 seo:
-   description: "Apple Silicon Mac（M1/M2/M3/M4）Gentoo Linux ARM64 完整安装指南，涵盖 Asahi Linux 引导、LUKS 加密、Stage3 展开、内核编译与桌面环境配置。"
+   description: "Apple Silicon Mac（M1/M2/M3/M4）Gentoo Linux 完整安装教程，涵盖 Asahi Linux 引导程序、LUKS 全盘加密、Stage3 安装、内核编译与系统配置。"
    keywords:
       - "Gentoo ARM64"
       - "Apple Silicon"

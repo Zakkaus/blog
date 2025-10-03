@@ -756,16 +756,6 @@ Verify audio:
 emerge --ask media-sound/pavucontrol
 systemctl --user status pipewire
 ```
-
-### 7.4 GPU Acceleration
-
-Confirm using Asahi Mesa:
-```bash
-eselect mesa list
-```
-
-> 💡 **Note**: Asahi GPU acceleration is still in development. Some OpenGL applications may not be fully supported.
-
 ---
 
 ## 8. System Maintenance {#step-8-maintenance}

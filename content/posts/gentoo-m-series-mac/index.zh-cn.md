@@ -756,16 +756,6 @@ Asahi 音频通过 PipeWire 提供。**systemd 系统自动配置**，无需额�
 emerge --ask media-sound/pavucontrol
 systemctl --user status pipewire
 ```
-
-### 7.4 GPU 加速
-
-确认使用 Asahi Mesa：
-```bash
-eselect mesa list
-```
-
-> 💡 **注意**：Asahi GPU 加速仍在开发中。部分 OpenGL 应用可能不完全支持。
-
 ---
 
 ## 8. 系统维护 {#step-8-maintenance}

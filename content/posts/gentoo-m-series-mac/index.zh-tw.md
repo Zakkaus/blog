@@ -621,52 +621,56 @@ UUID=<your-boot-uuid>  /boot  vfat   defaults  0 2
 
 > ⚠️ **注意**：如果你在步驟 3.2 中選擇了加密分割，才需要執行此步驟。
 
-**配置 dracut 支援 LUKS**：
+**步驟 1：啟用 systemd cryptsetup 支援**
 
 ```bash
-# 安裝必要套件
-emerge --ask --verbose sys-fs/cryptsetup sys-fs/btrfs-progs
-
-# 啟用 systemd cryptsetup 支援
 mkdir -p /etc/portage/package.use
 echo "sys-apps/systemd cryptsetup" >> /etc/portage/package.use/fde
 
-# 重新安裝 systemd 以啟用 cryptsetup 支援
+# 重新編譯 systemd 以啟用 cryptsetup 支援
 emerge --ask --oneshot sys-apps/systemd
-
-# 配置 dracut
-mkdir -p /etc/dracut.conf.d
-nano -w /etc/dracut.conf.d/luks.conf
 ```
 
-在 `luks.conf` 中加入：
-```ini
-kernel_cmdline=""
-add_dracutmodules+=" btrfs systemd crypt dm "
-install_items+=" /sbin/cryptsetup /bin/grep "
-filesystems+=" btrfs "
-```
+**步驟 2：取得 LUKS 分割的 UUID**
 
-重新生成 initramfs：
 ```bash
-dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
+# 取得 LUKS 加密容器的 UUID（不是裡面的檔案系統 UUID）
+blkid /dev/nvme0n1p5
 ```
 
-**設定 GRUB 內核參數**：
+輸出範例：
+```
+/dev/nvme0n1p5: UUID="a1b2c3d4-e5f6-7890-abcd-ef1234567890" TYPE="crypto_LUKS" ...
+```
+
+記下這個 **LUKS UUID**（例如：`a1b2c3d4-e5f6-7890-abcd-ef1234567890`）。
+
+**步驟 3：配置 GRUB 內核參數**
 
 ```bash
 nano -w /etc/default/grub
 ```
 
-加入以下內容：
+加入或修改以下內容（**替換 `<LUKS-UUID>` 為上一步取得的 UUID**）：
 ```conf
-GRUB_CMDLINE_LINUX="rd.auto=1 rd.luks.allow-discards"
+GRUB_CMDLINE_LINUX="rd.luks.uuid=<LUKS-UUID> rd.luks.allow-discards"
 ```
 
-重新生成 GRUB 配置：
+> 📝 **參數說明**：
+> - `rd.luks.uuid=<UUID>`：明確指定要解鎖的 LUKS 分割
+> - `rd.luks.allow-discards`：允許 SSD TRIM 指令穿透加密層（提升 SSD 效能）
+
+**步驟 4：更新 GRUB 配置**
+
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
+
+> 💡 **重要說明**：
+> - 使用 `virtual/dist-kernel:asahi` 時，initramfs 會**自動**包含 LUKS 解密支援
+> - **不需要**手動配置 dracut 或執行 `dracut` 命令
+> - **不需要**重新安裝內核（除非你還沒安裝過）
+> - 系統會在開機時自動提示輸入 LUKS 密碼
 
 ---
 

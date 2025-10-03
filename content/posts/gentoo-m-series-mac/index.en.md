@@ -619,54 +619,58 @@ UUID=<your-boot-uuid>  /boot  vfat   defaults  0 2
 
 ### 5.4 Configure Encryption Support (🔐 Encrypted Users Only)
 
-> ⚠️ **Note**: Only execute this step if you chose encrypted partition in step 3.2.
+> ⚠️ **Note**: Only follow this step if you chose encrypted partitions in Step 3.2.
 
-**Configure dracut for LUKS support**:
+**Step 1: Enable systemd cryptsetup Support**
 
 ```bash
-# Install necessary packages
-emerge --ask --verbose sys-fs/cryptsetup sys-fs/btrfs-progs
-
-# Enable systemd cryptsetup support
 mkdir -p /etc/portage/package.use
 echo "sys-apps/systemd cryptsetup" >> /etc/portage/package.use/fde
 
-# Reinstall systemd to enable cryptsetup support
+# Rebuild systemd to enable cryptsetup support
 emerge --ask --oneshot sys-apps/systemd
-
-# Configure dracut
-mkdir -p /etc/dracut.conf.d
-nano -w /etc/dracut.conf.d/luks.conf
 ```
 
-Add to `luks.conf`:
-```ini
-kernel_cmdline=""
-add_dracutmodules+=" btrfs systemd crypt dm "
-install_items+=" /sbin/cryptsetup /bin/grep "
-filesystems+=" btrfs "
-```
+**Step 2: Get the LUKS Partition UUID**
 
-Regenerate initramfs:
 ```bash
-dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
+# Get the UUID of the LUKS encrypted container (not the filesystem inside)
+blkid /dev/nvme0n1p5
 ```
 
-**Set GRUB kernel parameters**:
+Example output:
+```
+/dev/nvme0n1p5: UUID="a1b2c3d4-e5f6-7890-abcd-ef1234567890" TYPE="crypto_LUKS" ...
+```
+
+Note down this **LUKS UUID** (e.g., `a1b2c3d4-e5f6-7890-abcd-ef1234567890`).
+
+**Step 3: Configure GRUB Kernel Parameters**
 
 ```bash
 nano -w /etc/default/grub
 ```
 
-Add the following:
+Add or modify the following (**replace `<LUKS-UUID>` with the UUID from previous step**):
 ```conf
-GRUB_CMDLINE_LINUX="rd.auto=1 rd.luks.allow-discards"
+GRUB_CMDLINE_LINUX="rd.luks.uuid=<LUKS-UUID> rd.luks.allow-discards"
 ```
 
-Regenerate GRUB configuration:
+> 📝 **Parameter Explanation**:
+> - `rd.luks.uuid=<UUID>`: Explicitly specify which LUKS partition to unlock
+> - `rd.luks.allow-discards`: Allow SSD TRIM commands through encryption layer (improves SSD performance)
+
+**Step 4: Update GRUB Configuration**
+
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
+
+> 💡 **Important Notes**:
+> - When using `virtual/dist-kernel:asahi`, initramfs **automatically** includes LUKS decryption support
+> - **No need** to manually configure dracut or run `dracut` commands
+> - **No need** to reinstall the kernel (unless you haven't installed it yet)
+> - System will automatically prompt for LUKS password during boot
 
 ---
 

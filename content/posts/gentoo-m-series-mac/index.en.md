@@ -13,7 +13,54 @@ authors:
    - "Zakk"
 seo:
    title: "Install Gentoo Linux on Apple Silicon Mac | Complete M1/M2/M3/M4 Guide"
-   descri### 7.2 Install Desktop Environment (🖥️ Optional)
+   description: "Comprehensive tutorial on installing Gentoo Linux ARM64 on Apple Silicon Mac (M1/M2/M3/M4). Covers Asahi Linux bootloader setup, LUKS full-disk encryption, Stage3 installation, kernel compilation, desktop environment configuration, and dual-boot setup with macOS."
+   keywords:
+      - "Gentoo Linux Apple Silicon"
+      - "Install Gentoo on M1 Mac"
+      - "M2 Mac Linux Installation"
+      - "M3 Mac Gentoo Tutorial"
+      - "M4 Mac Linux Dual Boot"
+      - "Asahi Linux Gentoo"
+      - "Apple Silicon ARM64 Linux"
+      - "MacBook Pro M1 Gentoo"
+      - "MacBook Air M2 Linux"
+      - "Mac Studio Gentoo Install"
+      - "LUKS Encryption Mac"
+      - "Gentoo ARM64 Installation"
+      - "macOS Gentoo Dual Boot"
+---
+
+{{< lead >}}
+This guide will walk you through installing native ARM64 Gentoo Linux on Apple Silicon Mac (M1/M2/M3/M4).
+
+**Important Update**: Thanks to the excellent work by the Asahi Linux project team (especially [chadmed](https://wiki.gentoo.org/index.php?title=User:Chadmed&action=edit&redlink=1)), there is now an [official Gentoo Asahi installation guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide), which has significantly simplified the installation process.
+
+**This Guide Features**:
+- ✅ Based on official latest process (Oct 2025)
+- ✅ Uses official Gentoo Asahi Live USB (no Fedora required)
+- ✅ Clearly marked optional vs required steps
+- ✅ Simplified version suitable for everyone (includes encryption option)
+
+Verified as of October 2025.
+{{< /lead >}}
+
+## Table of Contents
+
+- [0. Prerequisites](#step-0-prerequisites)
+- [1. Install Asahi Linux (Fedora Minimal)](#step-1-install-asahi)
+- [2. Enter Asahi Environment and Prepare Gentoo "LiveUSB"](#step-2-prepare-gentoo-live)
+- [3. Partition and Format Disk](#step-3-partition-disk)
+- [4. Install Gentoo Base System](#step-4-install-base)
+- [5. Configure System and Install Kernel](#step-5-configure-system)
+- [6. Finalize Installation and Reboot](#step-6-finalize)
+- [7. Post-Installation Configuration](#step-7-post-install)
+- [8. System Maintenance](#step-8-maintenance)
+
+---
+
+## 0. Prerequisites {#step-0-prerequisites}
+
+
 
 > 💡 **Important Note**: Before installing a desktop environment, it's recommended to switch to the corresponding system profile, which will automatically set many necessary USE flags.
 

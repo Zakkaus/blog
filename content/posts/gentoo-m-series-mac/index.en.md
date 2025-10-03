@@ -2,7 +2,7 @@
 slug: gentoo-m-series-mac-arm64
 title: "Install Gentoo Linux on Apple Silicon Mac (Complete M1/M2/M3/M4 Guide)"
 date: 2025-10-02
-tags: ["Gentoo Linux","Apple Silicon","M1 Mac","M2 Mac","M3 Mac","M4 Mac","Asahi Linux","ARM64","Linux Installation","LUKS Encryption","Dual Boot","macOS Dual Boot"]
+tags: ["Gentoo","Apple Silicon","M1 Mac","M2 Mac","M3 Mac","M4 Mac","Asahi Linux","ARM64","Linux Installation","LUKS Encryption","Dual Boot","macOS Dual Boot"]
 categories: ["Linux Tutorial"]
 draft: false
 description: "Step-by-step guide to installing Gentoo Linux on Apple Silicon Mac (M1/M2/M3/M4): Asahi bootloader, LUKS encryption, kernel compilation, and full system setup. Supports all M-series chips."

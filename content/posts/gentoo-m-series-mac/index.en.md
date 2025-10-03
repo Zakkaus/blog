@@ -13,7 +13,186 @@ authors:
    - "Zakk"
 seo:
    title: "Install Gentoo Linux on Apple Silicon Mac | Complete M1/M2/M3/M4 Guide"
-   description: "Comprehensive tutorial on installing Gentoo Linux ARM64 on Apple Silicon Mac (M1/M2/M3/M4). Covers Asahi Linux bootloader setup, LUKS full-disk encryption, Stage3 installation, kernel compilation, desktop environment configuration, and dual-boot setup with macOS."
+   descri### 7.2 Install Desktop Environment (🖥️ Optional)
+
+> 💡 **Important Note**: Before installing a desktop environment, it's recommended to switch to the corresponding system profile, which will automatically set many necessary USE flags.
+
+#### Step 1: View and Select System Profile
+
+```bash
+# List all available profiles
+eselect profile list
+```
+
+Example output:
+```
+Available profile symlink targets:
+  [1]   default/linux/arm64/23.0 (stable)
+  [2]   default/linux/arm64/23.0/systemd (stable) *
+  [3]   default/linux/arm64/23.0/desktop (stable)
+  [4]   default/linux/arm64/23.0/desktop/gnome (stable)
+  [5]   default/linux/arm64/23.0/desktop/gnome/systemd (stable)
+  [6]   default/linux/arm64/23.0/desktop/plasma (stable)
+  [7]   default/linux/arm64/23.0/desktop/plasma/systemd (stable)
+```
+
+**Select the appropriate profile**:
+
+```bash
+# GNOME Desktop (Recommended)
+eselect profile set 5    # desktop/gnome/systemd
+
+# KDE Plasma Desktop
+eselect profile set 7    # desktop/plasma/systemd
+
+# Generic Desktop (for Xfce, etc.)
+eselect profile set 3    # desktop (without specific DE)
+```
+
+> 📝 **Profile Explanation**:
+> - `desktop/gnome/systemd`: Automatically enables GNOME-related USE flags (gtk, gnome, wayland, etc.)
+> - `desktop/plasma/systemd`: Automatically enables KDE-related USE flags (qt5, kde, plasma, etc.)
+> - `desktop`: Basic desktop USE flags (X, dbus, networkmanager, etc.)
+
+#### Step 2: Update System to Apply New Profile
+
+After switching profiles, you need to rebuild affected packages:
+
+```bash
+# Update all packages to apply new USE flags
+emerge -avuDN @world
+```
+
+**Common Issues and Solutions**:
+
+**Issue 1: USE Flag Conflicts**
+
+If you see errors like:
+```
+The following USE changes are necessary to proceed:
+ >=some-package-1.2.3 USE="foo -bar"
+```
+
+**Solution**:
+```bash
+# Auto-write configuration (recommended)
+emerge --ask --autounmask-write gnome-base/gnome
+dispatch-conf    # Press 'u' to accept changes
+
+# Or manually edit
+nano -w /etc/portage/package.use/gnome
+```
+
+**Issue 2: Package Mask Conflicts**
+
+If you see:
+```
+The following keyword changes are necessary to proceed:
+ =some-package-1.2.3 ~arm64
+```
+
+**Solution**:
+```bash
+# Auto-handle
+emerge --ask --autounmask-write gnome-base/gnome
+dispatch-conf
+
+# Or manually add
+echo "=some-package-1.2.3 ~arm64" >> /etc/portage/package.accept_keywords/gnome
+```
+
+**Issue 3: Circular Dependencies**
+
+**Solution**:
+```bash
+# Use --backtrack to increase backtrack depth
+emerge -avuDN --backtrack=50 @world
+
+# Or install in batches
+emerge -av1 problematic-packageA
+emerge -avuDN @world
+```
+
+#### Step 3: Install Desktop Environment
+
+**Option A: GNOME (✅ Recommended, Native Wayland Support)**
+
+```bash
+# Install complete GNOME desktop
+emerge --ask gnome-base/gnome gnome-extra/gnome-tweaks
+
+# Enable display manager
+systemctl enable gdm
+
+# Install common applications (optional)
+emerge --ask gnome-extra/gnome-system-monitor \
+             gnome-extra/gnome-calculator \
+             www-client/firefox
+```
+
+**Option B: KDE Plasma**
+
+```bash
+# Install KDE Plasma desktop
+emerge --ask kde-plasma/plasma-meta kde-apps/kate kde-apps/dolphin
+
+# Enable display manager
+systemctl enable sddm
+
+# Install common applications (optional)
+emerge --ask kde-apps/konsole \
+             kde-apps/okular \
+             www-client/firefox
+```
+
+**Option C: Xfce (Lightweight)**
+
+```bash
+# Switch back to generic desktop profile
+eselect profile set 3    # desktop
+
+# Update system
+emerge -avuDN @world
+
+# Install Xfce
+emerge --ask xfce-base/xfce4-meta xfce-extra/xfce4-pulseaudio-plugin
+
+# Install and enable display manager
+emerge --ask x11-misc/lightdm
+systemctl enable lightdm
+```
+
+#### Step 4: Optimize Desktop Performance (Optional)
+
+**Enable Video Acceleration (Asahi GPU)**:
+
+```bash
+# Check VIDEO_CARDS setting
+grep VIDEO_CARDS /etc/portage/make.conf
+# Should contain: VIDEO_CARDS="asahi"
+
+# Install Mesa and Asahi drivers (usually already installed)
+emerge --ask media-libs/mesa
+```
+
+**Enable Font Rendering**:
+
+```bash
+# Install basic fonts
+emerge --ask media-fonts/liberation-fonts \
+             media-fonts/noto \
+             media-fonts/noto-cjk \
+             media-fonts/dejavu
+
+# Enable font hinting
+eselect fontconfig enable 10-sub-pixel-rgb.conf
+eselect fontconfig enable 11-lcdfilter-default.conf
+```
+
+> 💡 **Tips**:
+> - First desktop environment installation takes approximately **2-4 hours** (depending on CPU performance)
+> - Recommend using `--jobs 3` or fewer to avoid running out of memory
+> - You can set `EMERGE_DEFAULT_OPTS="--jobs 3 --load-average 8"` in `/etc/portage/make.conf`ve tutorial on installing Gentoo Linux ARM64 on Apple Silicon Mac (M1/M2/M3/M4). Covers Asahi Linux bootloader setup, LUKS full-disk encryption, Stage3 installation, kernel compilation, desktop environment configuration, and dual-boot setup with macOS."
    keywords:
       - "Gentoo Linux Apple Silicon"
       - "Install Gentoo on M1 Mac"

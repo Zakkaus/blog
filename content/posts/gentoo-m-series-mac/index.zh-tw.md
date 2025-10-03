@@ -739,23 +739,184 @@ nmtui
 
 ### 7.2 安裝桌面環境（🖥️ 可選）
 
-**GNOME（✅ 推薦，Wayland 原生）：**
+> 💡 **重要提示**：安裝桌面環境前，建議切換到對應的系統 profile，這會自動設定許多必要的 USE flags。
+
+#### 步驟 1：查看並選擇系統 Profile
+
 ```bash
-emerge --ask gnome-base/gnome
+# 列出所有可用的 profile
+eselect profile list
+```
+
+輸出範例：
+```
+Available profile symlink targets:
+  [1]   default/linux/arm64/23.0 (stable)
+  [2]   default/linux/arm64/23.0/systemd (stable) *
+  [3]   default/linux/arm64/23.0/desktop (stable)
+  [4]   default/linux/arm64/23.0/desktop/gnome (stable)
+  [5]   default/linux/arm64/23.0/desktop/gnome/systemd (stable)
+  [6]   default/linux/arm64/23.0/desktop/plasma (stable)
+  [7]   default/linux/arm64/23.0/desktop/plasma/systemd (stable)
+```
+
+**選擇適合的 profile**：
+
+```bash
+# GNOME 桌面（推薦）
+eselect profile set 5    # desktop/gnome/systemd
+
+# KDE Plasma 桌面
+eselect profile set 7    # desktop/plasma/systemd
+
+# 通用桌面環境（Xfce 等）
+eselect profile set 3    # desktop (不含特定桌面)
+```
+
+> 📝 **Profile 說明**：
+> - `desktop/gnome/systemd`：自動啟用 GNOME 相關 USE flags（gtk、gnome、wayland 等）
+> - `desktop/plasma/systemd`：自動啟用 KDE 相關 USE flags（qt5、kde、plasma 等）
+> - `desktop`：基礎桌面 USE flags（X、dbus、networkmanager 等）
+
+#### 步驟 2：更新系統以套用新 Profile
+
+切換 profile 後，需要重新編譯受影響的套件：
+
+```bash
+# 更新所有套件以套用新的 USE flags
+emerge -avuDN @world
+```
+
+**可能遇到的問題與解決方案**：
+
+**問題 1：USE flag 衝突**
+
+如果看到類似錯誤：
+```
+The following USE changes are necessary to proceed:
+ >=some-package-1.2.3 USE="foo -bar"
+```
+
+**解決方法**：
+```bash
+# 自動寫入配置（推薦）
+emerge --ask --autounmask-write gnome-base/gnome
+dispatch-conf    # 按 'u' 接受變更
+
+# 或手動編輯
+nano -w /etc/portage/package.use/gnome
+```
+
+**問題 2：套件遮罩（package.mask）衝突**
+
+如果看到：
+```
+The following keyword changes are necessary to proceed:
+ =some-package-1.2.3 ~arm64
+```
+
+**解決方法**：
+```bash
+# 自動處理
+emerge --ask --autounmask-write gnome-base/gnome
+dispatch-conf
+
+# 或手動添加
+echo "=some-package-1.2.3 ~arm64" >> /etc/portage/package.accept_keywords/gnome
+```
+
+**問題 3：循環依賴（Circular Dependencies）**
+
+**解決方法**：
+```bash
+# 使用 --backtrack 增加回溯深度
+emerge -avuDN --backtrack=50 @world
+
+# 或分批安裝
+emerge -av1 問題套件A
+emerge -avuDN @world
+```
+
+#### 步驟 3：安裝桌面環境
+
+**選項 A：GNOME（✅ 推薦，Wayland 原生支援）**
+
+```bash
+# 安裝完整 GNOME 桌面
+emerge --ask gnome-base/gnome gnome-extra/gnome-tweaks
+
+# 啟用顯示管理器
 systemctl enable gdm
+
+# 安裝常用應用（可選）
+emerge --ask gnome-extra/gnome-system-monitor \
+             gnome-extra/gnome-calculator \
+             www-client/firefox
 ```
 
-**KDE Plasma：**
+**選項 B：KDE Plasma**
+
 ```bash
-emerge --ask kde-plasma/plasma-meta
+# 安裝 KDE Plasma 桌面
+emerge --ask kde-plasma/plasma-meta kde-apps/kate kde-apps/dolphin
+
+# 啟用顯示管理器
 systemctl enable sddm
+
+# 安裝常用應用（可選）
+emerge --ask kde-apps/konsole \
+             kde-apps/okular \
+             www-client/firefox
 ```
 
-**Xfce（輕量級）：**
+**選項 C：Xfce（輕量級）**
+
 ```bash
-emerge --ask xfce-base/xfce4-meta x11-misc/lightdm
+# 先切換回通用桌面 profile
+eselect profile set 3    # desktop
+
+# 更新系統
+emerge -avuDN @world
+
+# 安裝 Xfce
+emerge --ask xfce-base/xfce4-meta xfce-extra/xfce4-pulseaudio-plugin
+
+# 安裝並啟用顯示管理器
+emerge --ask x11-misc/lightdm
 systemctl enable lightdm
 ```
+
+#### 步驟 4：優化桌面性能（可選）
+
+**啟用視訊加速（Asahi GPU）**：
+
+```bash
+# 檢查 VIDEO_CARDS 設定
+grep VIDEO_CARDS /etc/portage/make.conf
+# 應該包含：VIDEO_CARDS="asahi"
+
+# 安裝 Mesa 與 Asahi 驅動（通常已安裝）
+emerge --ask media-libs/mesa
+```
+
+**啟用字型渲染**：
+
+```bash
+# 安裝基礎字型
+emerge --ask media-fonts/liberation-fonts \
+             media-fonts/noto \
+             media-fonts/noto-cjk \
+             media-fonts/dejavu
+
+# 啟用字型微調
+eselect fontconfig enable 10-sub-pixel-rgb.conf
+eselect fontconfig enable 11-lcdfilter-default.conf
+```
+
+> 💡 **提示**：
+> - 首次安裝桌面環境預計需要 **2-4 小時**（取決於 CPU 效能）
+> - 建議使用 `--jobs 3` 或更少，避免記憶體不足
+> - 可以在 `/etc/portage/make.conf` 設定 `EMERGE_DEFAULT_OPTS="--jobs 3 --load-average 8"`
 
 ### 7.3 音訊配置（🎵 可選）
 

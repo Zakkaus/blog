@@ -27,7 +27,7 @@ seo:
       - "Zakk Blog"
 ---
 
-![Gentoo on Apple Silicon](476cb96532671aec.webp)
+![Gentoo on Apple Silicon](gentoo-asahi-mac.webp)
 
 {{< lead >}}
 This guide will walk you through installing native ARM64 Gentoo Linux on Apple Silicon Mac (M1/M2/M3/M4).

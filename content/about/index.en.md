@@ -103,7 +103,7 @@ Paper and I began our 8,000 km long-distance relationship (Australia ↔ Taiwan)
 - iPhone 17 Pro, iPhone 17 Pro Max (spare devices)
 - Samsung Galaxy Z Fold 7 (primary device)
 - Samsung Galaxy S25 Ultra
-— iPhone 16 Pro (gifted to Paper)
+- iPhone 16 Pro (gifted to Paper)
 - iPhone 15 Pro, iPhone 15 Pro Max, iPhone 14 Pro, iPhone 14 (retired and gifted to family)
 - Google Pixel 7 Pro (damaged)
 

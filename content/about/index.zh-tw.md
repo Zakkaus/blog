@@ -71,7 +71,7 @@ seo:
 - iPhone 17 Pro、iPhone 17 Pro Max (備用設備)
 - Samsung Galaxy Z Fold 7 (主力設備)
 - Samsung Galaxy S25 Ultra
-— iPhone 16 Pro (送Paper)
+- iPhone 16 Pro (送Paper)
 - iPhone 15 Pro、iPhone 15 Pro Max、iPhone 14 Pro、iPhone 14 (退役和贈送家人)
 - Google Pixel 7 Pro (損壞)
 

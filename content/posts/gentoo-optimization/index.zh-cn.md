@@ -497,7 +497,11 @@ smartctl -a /dev/nvme0n1 | grep "Percentage Used" || echo "  需要 root 权限"
 
 echo ""
 echo "ccache 统计:"
-sudo -u portage ccache -s | grep "cache hit rate" || echo "  未配置"
+if sudo -u portage ccache -s &>/dev/null; then
+  sudo -u portage ccache -s | grep -E "Cache size|Hits|Misses" | head -3
+else
+  echo "  未配置"
+fi
 EOF
 
 sudo chmod +x /usr/local/bin/zakk-status

@@ -1,0 +1,6 @@
+article:
+  views: "views"
+
+footer:
+  totalViews: "Total views"
+  totalVisitors: "Visitors"

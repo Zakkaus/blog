@@ -16,9 +16,7 @@ article:
   word_count:
     one: "{{ .Count }} 字"
     other: "{{ .Count }} 字"
-  views:
-    one: "{{ .Count }} 次瀏覽"
-    other: "{{ .Count }} 次瀏覽"
+  views: "次瀏覽"
   likes:
     one: "{{ .Count }} 個喜歡"
     other: "{{ .Count }} 個喜歡"
@@ -53,6 +51,8 @@ footer:
   dark_appearance: "切換為深色模式"
   light_appearance: "切換為淺色模式"
   powered_by: "本站由 {{ .Hugo }} 與 {{ .Theme }} 驅動"
+  totalViews: "總瀏覽量"
+  totalVisitors: "總訪客數"
 
 list:
   externalurl_title: "開啟外部連結"

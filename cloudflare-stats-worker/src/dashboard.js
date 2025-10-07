@@ -116,7 +116,7 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%233b82f6'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='white' font-family='Arial, sans-serif' font-weight='bold'%3EZ%3C/text%3E%3C/svg%3E" alt="Logo" class="logo" id="logo-img">
                 </div>
                 <div class="header-text">
-                    <h1><span data-i18n="title">📊 統計數據儀表板</span></h1>
+                    <h1><span data-i18n="title">統計數據儀表板</span></h1>
                     <p class="subtitle" data-i18n="subtitle">實時查看網站訪問統計</p>
                 </div>
             </div>
@@ -132,9 +132,9 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
             </div>
         </header>
         <div class="stats-grid">
-            <div class="stat-card"><div class="stat-label" data-i18n="totalPageViews">全站總瀏覽量</div><div class="stat-value" id="site-pv">-</div><div class="stat-change" data-i18n="loading">載入中...</div></div>
-            <div class="stat-card"><div class="stat-label" data-i18n="totalUniqueVisitors">全站訪客數</div><div class="stat-value" id="site-uv">-</div><div class="stat-change" data-i18n="loading">載入中...</div></div>
-            <div class="stat-card"><div class="stat-label" data-i18n="todayPageViews">今日瀏覽量</div><div class="stat-value" id="today-pv">-</div><div class="stat-change" data-i18n="loading">載入中...</div></div>
+            <div class="stat-card"><div class="stat-label" data-i18n="totalPageViews">全站總瀏覽量</div><div class="stat-value" id="site-pv">-</div><div class="stat-change">載入中...</div></div>
+            <div class="stat-card"><div class="stat-label" data-i18n="totalUniqueVisitors">全站訪客數</div><div class="stat-value" id="site-uv">-</div><div class="stat-change">載入中...</div></div>
+            <div class="stat-card"><div class="stat-label" data-i18n="todayPageViews">今日瀏覽量</div><div class="stat-value" id="today-pv">-</div><div class="stat-change">載入中...</div></div>
             <div class="stat-card"><div class="stat-label" data-i18n="apiStatus">API 狀態</div><div class="stat-value" id="api-status">-</div><div class="stat-change" id="api-version">-</div></div>
         </div>
         <div class="chart-section">
@@ -327,8 +327,8 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
             try {
                 const res = await fetch(\`\${API_BASE}/api/top?limit=10\`), data = await res.json();
                 loadingDiv.style.display = 'none';
-                if (data.success && data.top && data.top.length > 0) {
-                    listEl.innerHTML = data.top.map((page, index) => \`
+                if (data.success && data.results && data.results.length > 0) {
+                    listEl.innerHTML = data.results.map((page, index) => \`
                         <li class="page-item">
                             <div class="page-rank">\${index + 1}</div>
                             <div class="page-info">

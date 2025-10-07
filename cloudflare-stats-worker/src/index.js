@@ -3,7 +3,7 @@ import { DASHBOARD_HTML } from './dashboard.js';
 const CACHEABLE_PATHS = new Set(["/api/batch", "/api/stats", "/api/top"]);
 const CACHE_TTL_SECONDS = 30;
 const TOP_CACHE_TTL_SECONDS = 60;
-const WORKER_VERSION = "1.5.0";
+const WORKER_VERSION = "1.5.1";
 
 export default {
   async fetch(request, env, ctx) {

@@ -1,4 +1,4 @@
-// 儀表板 HTML 內容
+// 儀表板 HTML 內容（雙語版本）
 export const DASHBOARD_HTML = `<!DOCTYPE html>
 <html lang="zh-TW" data-theme="dark">
 <head>
@@ -24,15 +24,19 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
         .container { max-width: 1400px; margin: 0 auto; }
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;
             padding: 30px 0; border-bottom: 2px solid var(--border); flex-wrap: wrap; gap: 20px; }
-        .header-left { flex: 1; }
+        .header-left { flex: 1; display: flex; align-items: center; gap: 20px; }
+        .logo-container { width: 60px; height: 60px; }
+        .logo { width: 100%; height: 100%; object-fit: contain; }
+        .header-text { flex: 1; }
         h1 { font-size: 2.5rem; margin-bottom: 10px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .subtitle { color: var(--text-muted); font-size: 1.1rem; }
-        .theme-toggle { padding: 12px 20px; background: var(--card-bg); border: 1px solid var(--border);
+        .header-controls { display: flex; gap: 10px; align-items: center; }
+        .lang-toggle, .theme-toggle { padding: 10px 16px; background: var(--card-bg); border: 1px solid var(--border);
             border-radius: 8px; color: var(--text); cursor: pointer; transition: all 0.2s;
-            font-size: 1rem; display: flex; align-items: center; gap: 8px; }
-        .theme-toggle:hover { background: var(--primary); color: white; border-color: var(--primary); }
+            font-size: 0.95rem; display: flex; align-items: center; gap: 6px; }
+        .lang-toggle:hover, .theme-toggle:hover { background: var(--primary); color: white; border-color: var(--primary); }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
         .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
             padding: 24px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 1px 3px var(--shadow); }
@@ -95,6 +99,7 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
             header { flex-direction: column; text-align: center; }
+            .header-left { flex-direction: column; }
             .stats-grid { grid-template-columns: 1fr; }
             .result-stats { flex-direction: column; gap: 16px; }
             .chart-container { height: 300px; }
@@ -105,118 +110,160 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
     <div class="container">
         <header>
             <div class="header-left">
-                <h1>📊 統計數據儀表板</h1>
-                <p class="subtitle">實時查看網站訪問統計</p>
+                <div class="logo-container">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%233b82f6'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='white' font-family='Arial, sans-serif' font-weight='bold'%3EZ%3C/text%3E%3C/svg%3E" alt="Logo" class="logo" id="logo-img">
+                </div>
+                <div class="header-text">
+                    <h1><span data-i18n="title">📊 統計數據儀表板</span></h1>
+                    <p class="subtitle" data-i18n="subtitle">實時查看網站訪問統計</p>
+                </div>
             </div>
-            <button class="theme-toggle" id="theme-toggle">
-                <span id="theme-icon">🌙</span>
-                <span id="theme-text">深色模式</span>
-            </button>
+            <div class="header-controls">
+                <button class="lang-toggle" id="lang-toggle">
+                    <span id="lang-icon">🌐</span>
+                    <span id="lang-text">EN</span>
+                </button>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span id="theme-icon">🌙</span>
+                    <span id="theme-text" data-i18n="darkMode">深色模式</span>
+                </button>
+            </div>
         </header>
         <div class="stats-grid">
-            <div class="stat-card"><div class="stat-label">全站總瀏覽量</div><div class="stat-value" id="site-pv">-</div><div class="stat-change">載入中...</div></div>
-            <div class="stat-card"><div class="stat-label">全站訪客數</div><div class="stat-value" id="site-uv">-</div><div class="stat-change">載入中...</div></div>
-            <div class="stat-card"><div class="stat-label">今日瀏覽量</div><div class="stat-value" id="today-pv">-</div><div class="stat-change">載入中...</div></div>
-            <div class="stat-card"><div class="stat-label">API 狀態</div><div class="stat-value" id="api-status">-</div><div class="stat-change" id="api-version">-</div></div>
+            <div class="stat-card"><div class="stat-label" data-i18n="totalPageViews">全站總瀏覽量</div><div class="stat-value" id="site-pv">-</div><div class="stat-change" data-i18n="loading">載入中...</div></div>
+            <div class="stat-card"><div class="stat-label" data-i18n="totalUniqueVisitors">全站訪客數</div><div class="stat-value" id="site-uv">-</div><div class="stat-change" data-i18n="loading">載入中...</div></div>
+            <div class="stat-card"><div class="stat-label" data-i18n="todayPageViews">今日瀏覽量</div><div class="stat-value" id="today-pv">-</div><div class="stat-change" data-i18n="loading">載入中...</div></div>
+            <div class="stat-card"><div class="stat-label" data-i18n="apiStatus">API 狀態</div><div class="stat-value" id="api-status">-</div><div class="stat-change" id="api-version">-</div></div>
         </div>
         <div class="chart-section">
-            <h2>📈 每日訪問趨勢</h2>
+            <h2><span data-i18n="dailyTrend">📈 每日訪問趨勢</span></h2>
             <div class="chart-controls">
-                <button class="active" data-days="7">過去 7 天</button>
-                <button data-days="14">過去 14 天</button>
-                <button data-days="30">過去 30 天</button>
+                <button class="active" data-days="7" data-i18n="last7Days">過去 7 天</button>
+                <button data-days="14" data-i18n="last14Days">過去 14 天</button>
+                <button data-days="30" data-i18n="last30Days">過去 30 天</button>
             </div>
             <div class="chart-container"><canvas id="dailyChart"></canvas></div>
         </div>
         <div class="search-section">
-            <h2>🔍 查詢頁面統計</h2>
+            <h2><span data-i18n="searchPage">🔍 查詢頁面統計</span></h2>
             <div class="search-box">
-                <input type="text" id="path-input" placeholder="輸入路徑，例如: /posts/hello-world/" value="/">
-                <button id="search-btn">查詢</button>
+                <input type="text" id="path-input" data-i18n-placeholder="searchPlaceholder" placeholder="輸入路徑，例如: /posts/hello-world/" value="/">
+                <button id="search-btn" data-i18n="search">查詢</button>
             </div>
             <div id="search-result" class="result">
                 <div class="result-header"><div class="result-path" id="result-path"></div></div>
                 <div class="result-stats">
-                    <div class="result-stat"><div class="result-stat-label">頁面瀏覽量</div><div class="result-stat-value" id="result-pv">-</div></div>
-                    <div class="result-stat"><div class="result-stat-label">獨立訪客</div><div class="result-stat-value" id="result-uv">-</div></div>
+                    <div class="result-stat"><div class="result-stat-label" data-i18n="pageViews">頁面瀏覽量</div><div class="result-stat-value" id="result-pv">-</div></div>
+                    <div class="result-stat"><div class="result-stat-label" data-i18n="uniqueVisitors">獨立訪客</div><div class="result-stat-value" id="result-uv">-</div></div>
                 </div>
             </div>
             <div id="search-error"></div>
         </div>
         <div class="top-pages">
-            <h2>🔥 熱門頁面 Top 10</h2>
-            <div id="top-loading" class="loading"><div class="spinner"></div><div>載入中...</div></div>
+            <h2><span data-i18n="topPages">🔥 熱門頁面 Top 10</span></h2>
+            <div id="top-loading" class="loading"><div class="spinner"></div><div data-i18n="loading">載入中...</div></div>
             <ul id="top-list" class="page-list"></ul>
             <div id="top-error"></div>
         </div>
         <footer>
-            <p>Powered by <a href="https://github.com/Zakkaus/cloudflare-stats-worker" target="_blank">Cloudflare Stats Worker</a> • <a href="https://zakk.au" target="_blank">zakk.au</a></p>
+            <p><span data-i18n="poweredBy">Powered by</span> <a href="https://github.com/Zakkaus/cloudflare-stats-worker" target="_blank">Cloudflare Stats Worker</a> • <a href="https://zakk.au" target="_blank">zakk.au</a></p>
         </footer>
     </div>
     <script>
         const API_BASE = window.location.origin;
-        let dailyChart = null, currentDays = 7;
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
-        const themeText = document.getElementById('theme-text');
-        const html = document.documentElement;
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        html.setAttribute('data-theme', savedTheme);
-        updateThemeButton(savedTheme);
+        let dailyChart = null, currentDays = 7, currentLang = 'zh-TW';
+        const i18n = {
+            'zh-TW': {
+                title: '📊 統計數據儀表板', subtitle: '實時查看網站訪問統計', darkMode: '深色模式', lightMode: '淺色模式',
+                totalPageViews: '全站總瀏覽量', totalUniqueVisitors: '全站訪客數', todayPageViews: '今日瀏覽量', apiStatus: 'API 狀態',
+                dailyTrend: '📈 每日訪問趨勢', last7Days: '過去 7 天', last14Days: '過去 14 天', last30Days: '過去 30 天',
+                searchPage: '🔍 查詢頁面統計', searchPlaceholder: '輸入路徑，例如: /posts/hello-world/', search: '查詢',
+                pageViews: '頁面瀏覽量', uniqueVisitors: '獨立訪客', topPages: '🔥 熱門頁面 Top 10',
+                loading: '載入中...', total: '總計', today: '今日', normal: '✅ 正常', error: '❌ 錯誤', version: '版本',
+                cannotConnect: '無法連接', loadFailed: '載入失敗', poweredBy: 'Powered by',
+                pvLabel: '瀏覽量 (PV)', uvLabel: '訪客數 (UV)', views: '次瀏覽', visitors: '位訪客',
+                noData: '暫無數據或 D1 未配置', loadError: '載入失敗（可能需要配置 D1 數據庫）'
+            },
+            'en': {
+                title: '📊 Statistics Dashboard', subtitle: 'Real-time website analytics', darkMode: 'Dark Mode', lightMode: 'Light Mode',
+                totalPageViews: 'Total Page Views', totalUniqueVisitors: 'Total Unique Visitors', todayPageViews: 'Today\\'s Views', apiStatus: 'API Status',
+                dailyTrend: '📈 Daily Traffic Trend', last7Days: 'Last 7 Days', last14Days: 'Last 14 Days', last30Days: 'Last 30 Days',
+                searchPage: '🔍 Search Page Stats', searchPlaceholder: 'Enter path, e.g.: /posts/hello-world/', search: 'Search',
+                pageViews: 'Page Views', uniqueVisitors: 'Unique Visitors', topPages: '🔥 Top 10 Pages',
+                loading: 'Loading...', total: 'Total', today: 'Today', normal: '✅ Normal', error: '❌ Error', version: 'Version',
+                cannotConnect: 'Cannot Connect', loadFailed: 'Load Failed', poweredBy: 'Powered by',
+                pvLabel: 'Page Views (PV)', uvLabel: 'Unique Visitors (UV)', views: ' views', visitors: ' visitors',
+                noData: 'No data or D1 not configured', loadError: 'Load failed (D1 database may be required)'
+            }
+        };
+        function updateI18n() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang] && i18n[currentLang][key]) el.textContent = i18n[currentLang][key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (i18n[currentLang] && i18n[currentLang][key]) el.placeholder = i18n[currentLang][key];
+            });
+            document.documentElement.lang = currentLang;
+            if (dailyChart) { dailyChart.data.datasets[0].label = i18n[currentLang].pvLabel; dailyChart.data.datasets[1].label = i18n[currentLang].uvLabel; dailyChart.update(); }
+        }
+        const themeToggle = document.getElementById('theme-toggle'), themeIcon = document.getElementById('theme-icon'),
+              themeText = document.getElementById('theme-text'), langToggle = document.getElementById('lang-toggle'),
+              langText = document.getElementById('lang-text'), html = document.documentElement;
+        const savedTheme = localStorage.getItem('theme') || 'dark', savedLang = localStorage.getItem('lang') || 'zh-TW';
+        html.setAttribute('data-theme', savedTheme); currentLang = savedLang;
+        updateThemeButton(savedTheme); langText.textContent = currentLang === 'zh-TW' ? 'EN' : '中文'; updateI18n();
         themeToggle.addEventListener('click', () => {
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeButton(newTheme);
-            if (dailyChart) updateChartTheme();
+            const currentTheme = html.getAttribute('data-theme'), newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme); localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme); if (dailyChart) updateChartTheme();
+        });
+        langToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'zh-TW' ? 'en' : 'zh-TW';
+            localStorage.setItem('lang', currentLang); langText.textContent = currentLang === 'zh-TW' ? 'EN' : '中文'; updateI18n();
         });
         function updateThemeButton(theme) {
-            if (theme === 'dark') { themeIcon.textContent = '🌙'; themeText.textContent = '深色模式'; }
-            else { themeIcon.textContent = '☀️'; themeText.textContent = '淺色模式'; }
+            if (theme === 'dark') { themeIcon.textContent = '🌙'; themeText.textContent = i18n[currentLang].darkMode; }
+            else { themeIcon.textContent = '☀️'; themeText.textContent = i18n[currentLang].lightMode; }
         }
         async function loadSiteStats() {
             try {
-                const res = await fetch(\`\${API_BASE}/api/stats?url=/\`);
-                const data = await res.json();
+                const res = await fetch(\`\${API_BASE}/api/stats?url=/\`), data = await res.json();
                 if (data.success) {
                     document.getElementById('site-pv').textContent = formatNumber(data.page?.pv || 0);
                     document.getElementById('site-uv').textContent = formatNumber(data.page?.uv || 0);
-                    document.querySelector('#site-pv').nextElementSibling.textContent = '總計';
-                    document.querySelector('#site-uv').nextElementSibling.textContent = '總計';
+                    document.querySelector('#site-pv').nextElementSibling.textContent = i18n[currentLang].total;
+                    document.querySelector('#site-uv').nextElementSibling.textContent = i18n[currentLang].total;
                 }
             } catch (err) {
-                document.querySelector('#site-pv').nextElementSibling.textContent = '載入失敗';
-                document.querySelector('#site-uv').nextElementSibling.textContent = '載入失敗';
+                document.querySelector('#site-pv').nextElementSibling.textContent = i18n[currentLang].loadFailed;
+                document.querySelector('#site-uv').nextElementSibling.textContent = i18n[currentLang].loadFailed;
             }
         }
         async function checkHealth() {
             try {
-                const res = await fetch(\`\${API_BASE}/health\`);
-                const data = await res.json();
+                const res = await fetch(\`\${API_BASE}/health\`), data = await res.json();
                 if (data.status === 'ok') {
-                    document.getElementById('api-status').textContent = '✅ 正常';
-                    document.getElementById('api-version').textContent = \`版本 \${data.version}\`;
+                    document.getElementById('api-status').textContent = i18n[currentLang].normal;
+                    document.getElementById('api-version').textContent = \`\${i18n[currentLang].version} \${data.version}\`;
                 }
             } catch (err) {
-                document.getElementById('api-status').textContent = '❌ 錯誤';
-                document.getElementById('api-version').textContent = '無法連接';
+                document.getElementById('api-status').textContent = i18n[currentLang].error;
+                document.getElementById('api-version').textContent = i18n[currentLang].cannotConnect;
             }
         }
         function generateDailyData(days) {
             const data = [], now = new Date();
             for (let i = days - 1; i >= 0; i--) {
-                const date = new Date(now);
-                date.setDate(date.getDate() - i);
-                const pv = Math.floor(Math.random() * 500) + 200;
-                const uv = Math.floor(pv * (0.3 + Math.random() * 0.2));
+                const date = new Date(now); date.setDate(date.getDate() - i);
+                const pv = Math.floor(Math.random() * 500) + 200, uv = Math.floor(pv * (0.3 + Math.random() * 0.2));
                 data.push({ date: date.toISOString().split('T')[0], pv, uv });
             }
             return data;
         }
         function initChart(days = 7) {
-            const ctx = document.getElementById('dailyChart').getContext('2d');
-            const data = generateDailyData(days);
+            const ctx = document.getElementById('dailyChart').getContext('2d'), data = generateDailyData(days);
             const theme = html.getAttribute('data-theme'), isDark = theme === 'dark';
             const textColor = isDark ? '#e2e8f0' : '#1e293b', gridColor = isDark ? '#334155' : '#e2e8f0';
             if (dailyChart) dailyChart.destroy();
@@ -225,8 +272,8 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                 data: {
                     labels: data.map(d => { const date = new Date(d.date); return \`\${date.getMonth() + 1}/\${date.getDate()}\`; }),
                     datasets: [
-                        { label: '瀏覽量 (PV)', data: data.map(d => d.pv), borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', borderWidth: 2, fill: true, tension: 0.4 },
-                        { label: '訪客數 (UV)', data: data.map(d => d.uv), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderWidth: 2, fill: true, tension: 0.4 }
+                        { label: i18n[currentLang].pvLabel, data: data.map(d => d.pv), borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', borderWidth: 2, fill: true, tension: 0.4 },
+                        { label: i18n[currentLang].uvLabel, data: data.map(d => d.uv), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderWidth: 2, fill: true, tension: 0.4 }
                     ]
                 },
                 options: {
@@ -240,53 +287,43 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
             });
             const todayData = data[data.length - 1];
             document.getElementById('today-pv').textContent = formatNumber(todayData.pv);
-            document.querySelector('#today-pv').nextElementSibling.textContent = '今日';
+            document.querySelector('#today-pv').nextElementSibling.textContent = i18n[currentLang].today;
         }
         function updateChartTheme() {
             if (!dailyChart) return;
             const theme = html.getAttribute('data-theme'), isDark = theme === 'dark';
             const textColor = isDark ? '#e2e8f0' : '#1e293b', gridColor = isDark ? '#334155' : '#e2e8f0';
             dailyChart.options.plugins.legend.labels.color = textColor;
-            dailyChart.options.scales.y.ticks.color = textColor;
-            dailyChart.options.scales.y.grid.color = gridColor;
-            dailyChart.options.scales.x.ticks.color = textColor;
-            dailyChart.options.scales.x.grid.color = gridColor;
+            dailyChart.options.scales.y.ticks.color = textColor; dailyChart.options.scales.y.grid.color = gridColor;
+            dailyChart.options.scales.x.ticks.color = textColor; dailyChart.options.scales.x.grid.color = gridColor;
             dailyChart.update();
         }
         document.querySelectorAll('.chart-controls button').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.chart-controls button').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const days = parseInt(btn.getAttribute('data-days'));
-                currentDays = days;
-                initChart(days);
+                btn.classList.add('active'); const days = parseInt(btn.getAttribute('data-days'));
+                currentDays = days; initChart(days);
             });
         });
         async function searchPage() {
             const path = document.getElementById('path-input').value.trim();
-            const resultDiv = document.getElementById('search-result');
-            const errorDiv = document.getElementById('search-error');
-            errorDiv.innerHTML = '';
-            resultDiv.classList.remove('show');
-            if (!path) { errorDiv.innerHTML = '<div class="error">請輸入路徑</div>'; return; }
+            const resultDiv = document.getElementById('search-result'), errorDiv = document.getElementById('search-error');
+            errorDiv.innerHTML = ''; resultDiv.classList.remove('show');
+            if (!path) { errorDiv.innerHTML = \`<div class="error">\${i18n[currentLang].searchPlaceholder}</div>\`; return; }
             try {
-                const res = await fetch(\`\${API_BASE}/api/stats?url=\${encodeURIComponent(path)}\`);
-                const data = await res.json();
+                const res = await fetch(\`\${API_BASE}/api/stats?url=\${encodeURIComponent(path)}\`), data = await res.json();
                 if (data.success) {
                     document.getElementById('result-path').textContent = data.page?.path || path;
                     document.getElementById('result-pv').textContent = formatNumber(data.page?.pv || 0);
                     document.getElementById('result-uv').textContent = formatNumber(data.page?.uv || 0);
                     resultDiv.classList.add('show');
-                } else { errorDiv.innerHTML = \`<div class="error">\${data.error || '查詢失敗'}</div>\`; }
-            } catch (err) { errorDiv.innerHTML = '<div class="error">網絡錯誤，請稍後再試</div>'; }
+                } else { errorDiv.innerHTML = \`<div class="error">\${data.error || i18n[currentLang].loadFailed}</div>\`; }
+            } catch (err) { errorDiv.innerHTML = \`<div class="error">\${i18n[currentLang].loadFailed}</div>\`; }
         }
         async function loadTopPages() {
-            const loadingDiv = document.getElementById('top-loading');
-            const listEl = document.getElementById('top-list');
-            const errorDiv = document.getElementById('top-error');
+            const loadingDiv = document.getElementById('top-loading'), listEl = document.getElementById('top-list'), errorDiv = document.getElementById('top-error');
             try {
-                const res = await fetch(\`\${API_BASE}/api/top?limit=10\`);
-                const data = await res.json();
+                const res = await fetch(\`\${API_BASE}/api/top?limit=10\`), data = await res.json();
                 loadingDiv.style.display = 'none';
                 if (data.success && data.top && data.top.length > 0) {
                     listEl.innerHTML = data.top.map((page, index) => \`
@@ -294,15 +331,19 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                             <div class="page-rank">\${index + 1}</div>
                             <div class="page-info">
                                 <div class="page-path">\${page.path}</div>
-                                <div class="page-stats">\${formatNumber(page.pv)} 次瀏覽 · \${formatNumber(page.uv)} 位訪客</div>
+                                <div class="page-stats">\${formatNumber(page.pv)}\${i18n[currentLang].views} · \${formatNumber(page.uv)}\${i18n[currentLang].visitors}</div>
                             </div>
                             <div class="page-views">\${formatNumber(page.pv)}</div>
                         </li>
                     \`).join('');
-                } else { loadingDiv.style.display = 'none'; errorDiv.innerHTML = '<div class="error">暫無數據或 D1 未配置</div>'; }
-            } catch (err) { loadingDiv.style.display = 'none'; errorDiv.innerHTML = '<div class="error">載入失敗（可能需要配置 D1 數據庫）</div>'; }
+                } else { loadingDiv.style.display = 'none'; errorDiv.innerHTML = \`<div class="error">\${i18n[currentLang].noData}</div>\`; }
+            } catch (err) { loadingDiv.style.display = 'none'; errorDiv.innerHTML = \`<div class="error">\${i18n[currentLang].loadError}</div>\`; }
         }
-        function formatNumber(num) { return new Intl.NumberFormat('zh-TW').format(num); }
+        function formatNumber(num) { return new Intl.NumberFormat(currentLang).format(num); }
+        // 嘗試載入真實 logo
+        fetch(\`\${API_BASE}/logo.webp\`).then(res => { if (res.ok) return res.blob(); }).then(blob => {
+            if (blob) document.getElementById('logo-img').src = URL.createObjectURL(blob);
+        }).catch(() => {});
         document.addEventListener('DOMContentLoaded', () => {
             loadSiteStats(); checkHealth(); loadTopPages(); initChart(currentDays);
             document.getElementById('search-btn').addEventListener('click', searchPage);

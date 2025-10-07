@@ -42,6 +42,11 @@ export default {
           ensureGet(method);
           response = await handleDashboard(env, corsHeaders);
           break;
+        case "/logo.webp":
+          // 服務 logo 圖片
+          ensureGet(method);
+          response = await handleLogo(env, corsHeaders);
+          break;
         case "/api/count":
           ensureGet(method);
           response = await handleCount(request, env, corsHeaders, ctx);
@@ -396,6 +401,29 @@ async function handleDashboard(env, corsHeaders) {
       ...corsHeaders,
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'public, max-age=3600',
+    },
+  });
+}
+
+async function handleLogo(env, corsHeaders) {
+  // 返回簡單的 SVG logo（與博客風格一致）
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <defs>
+      <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    <circle cx="50" cy="50" r="45" fill="url(#grad)"/>
+    <text x="50" y="68" font-size="55" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-weight="bold">Z</text>
+  </svg>`;
+  
+  return new Response(svg, {
+    status: 200,
+    headers: {
+      ...corsHeaders,
+      'Content-Type': 'image/svg+xml',
+      'Cache-Control': 'public, max-age=86400',
     },
   });
 }

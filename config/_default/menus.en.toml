@@ -54,6 +54,12 @@
   url = "https://error.zakk.au/"
   weight = 44
 
+[[main]]
+  name = "Stats Monitor"
+  parent = "more"
+  url = "https://stats.zakk.au/"
+  weight = 45
+
 
 # -- Footer Menu --
 # The footer menu is displayed at the bottom of the page, just before

@@ -1,7 +1,7 @@
 (function () {
   if (typeof window === "undefined") return;
 
-  const API_BASE = "https://cloudflare-stats-worker.zakkauu.workers.dev";
+  const API_BASE = "https://stats.zakk.au";
   const FETCH_TIMEOUT = 5000;
 
   document.addEventListener("DOMContentLoaded", init, { once: true });

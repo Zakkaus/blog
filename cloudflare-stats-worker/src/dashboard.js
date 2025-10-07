@@ -145,6 +145,7 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                 <button data-days="30" data-i18n="last30Days">過去 30 天</button>
             </div>
             <div class="chart-container"><canvas id="dailyChart"></canvas></div>
+            <div id="daily-error" class="error" style="display:none"></div>
         </div>
         <div class="search-section">
             <h2><span data-i18n="searchPage">🔍 查詢頁面統計</span></h2>
@@ -255,27 +256,18 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                 document.getElementById('api-version').textContent = i18n[currentLang].cannotConnect;
             }
         }
-        function generateDailyData(days) {
-            const data = [], now = new Date();
-            for (let i = days - 1; i >= 0; i--) {
-                const date = new Date(now); date.setDate(date.getDate() - i);
-                const pv = Math.floor(Math.random() * 500) + 200, uv = Math.floor(pv * (0.3 + Math.random() * 0.2));
-                data.push({ date: date.toISOString().split('T')[0], pv, uv });
-            }
-            return data;
-        }
-        function initChart(days = 7) {
-            const ctx = document.getElementById('dailyChart').getContext('2d'), data = generateDailyData(days);
+        function initChart() {
+            const ctx = document.getElementById('dailyChart').getContext('2d');
             const theme = html.getAttribute('data-theme'), isDark = theme === 'dark';
             const textColor = isDark ? '#e2e8f0' : '#1e293b', gridColor = isDark ? '#334155' : '#e2e8f0';
             if (dailyChart) dailyChart.destroy();
             dailyChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: data.map(d => { const date = new Date(d.date); return \`\${date.getMonth() + 1}/\${date.getDate()}\`; }),
+                    labels: [],
                     datasets: [
-                        { label: i18n[currentLang].pvLabel, data: data.map(d => d.pv), borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', borderWidth: 2, fill: true, tension: 0.4 },
-                        { label: i18n[currentLang].uvLabel, data: data.map(d => d.uv), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderWidth: 2, fill: true, tension: 0.4 }
+                        { label: i18n[currentLang].pvLabel, data: [], borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', borderWidth: 2, fill: true, tension: 0.4 },
+                        { label: i18n[currentLang].uvLabel, data: [], borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderWidth: 2, fill: true, tension: 0.4 }
                     ]
                 },
                 options: {
@@ -287,9 +279,6 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                     }
                 }
             });
-            const todayData = data[data.length - 1];
-            document.getElementById('today-pv').textContent = formatNumber(todayData.pv);
-            document.querySelector('#today-pv').nextElementSibling.textContent = i18n[currentLang].today;
         }
         function updateChartTheme() {
             if (!dailyChart) return;
@@ -300,11 +289,63 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
             dailyChart.options.scales.x.ticks.color = textColor; dailyChart.options.scales.x.grid.color = gridColor;
             dailyChart.update();
         }
+        async function loadDailyChart(days = 7) {
+            const todayValueEl = document.getElementById('today-pv');
+            const todayLabelEl = todayValueEl ? todayValueEl.nextElementSibling : null;
+            const errorEl = document.getElementById('daily-error');
+            if (todayLabelEl) todayLabelEl.textContent = i18n[currentLang].loading;
+            if (errorEl) errorEl.style.display = 'none';
+
+            try {
+                const res = await fetch(\`\${API_BASE}/api/daily?days=\${days}&t=\${Date.now()}\`);
+                if (!res.ok) throw new Error(\`HTTP \${res.status}\`);
+                const data = await res.json();
+                const series = Array.isArray(data.results) && data.results.length
+                    ? data.results
+                    : Array.from({ length: days }, (_, idx) => {
+                        const date = new Date();
+                        date.setDate(date.getDate() - (days - 1 - idx));
+                        return { date: date.toISOString().split('T')[0], pv: 0, uv: 0 };
+                    });
+
+                updateDailyChart(series);
+
+                const todayData = series[series.length - 1] || { pv: 0 };
+                if (todayValueEl) todayValueEl.textContent = formatNumber(todayData.pv || 0);
+                if (todayLabelEl) todayLabelEl.textContent = i18n[currentLang].today;
+            } catch (err) {
+                console.warn('[dashboard] daily fetch error', err);
+                const fallbackSeries = Array.from({ length: days }, (_, idx) => {
+                    const date = new Date();
+                    date.setDate(date.getDate() - (days - 1 - idx));
+                    return { date: date.toISOString().split('T')[0], pv: 0, uv: 0 };
+                });
+                updateDailyChart(fallbackSeries);
+                if (todayValueEl) todayValueEl.textContent = '0';
+                if (todayLabelEl) todayLabelEl.textContent = i18n[currentLang].today;
+                if (errorEl) {
+                    errorEl.style.display = 'block';
+                    errorEl.textContent = i18n[currentLang].loadFailed;
+                }
+            }
+        }
+        function updateDailyChart(series) {
+            if (!dailyChart) return;
+            const labels = series.map((item) => {
+                const date = new Date(item.date);
+                if (Number.isNaN(date.getTime())) return item.date;
+                return \`\${date.getMonth() + 1}/\${date.getDate()}\`;
+            });
+            dailyChart.data.labels = labels;
+            dailyChart.data.datasets[0].data = series.map((item) => item.pv || 0);
+            dailyChart.data.datasets[1].data = series.map((item) => item.uv || 0);
+            dailyChart.update();
+        }
         document.querySelectorAll('.chart-controls button').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.chart-controls button').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active'); const days = parseInt(btn.getAttribute('data-days'));
-                currentDays = days; initChart(days);
+                currentDays = days; loadDailyChart(days);
             });
         });
         async function searchPage() {
@@ -325,7 +366,10 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
         async function loadTopPages() {
             const loadingDiv = document.getElementById('top-loading'), listEl = document.getElementById('top-list'), errorDiv = document.getElementById('top-error');
             try {
-                const res = await fetch(\`\${API_BASE}/api/top?limit=10\`), data = await res.json();
+                const topUrl = new URL('/api/top', API_BASE);
+                topUrl.searchParams.set('limit', '10');
+                topUrl.searchParams.set('t', Date.now().toString());
+                const res = await fetch(topUrl.toString()), data = await res.json();
                 loadingDiv.style.display = 'none';
                 if (data.success && data.results && data.results.length > 0) {
                     listEl.innerHTML = data.results.map((page, index) => \`
@@ -347,7 +391,7 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
             if (blob) document.getElementById('logo-img').src = URL.createObjectURL(blob);
         }).catch(() => {});
         document.addEventListener('DOMContentLoaded', () => {
-            loadSiteStats(); checkHealth(); loadTopPages(); initChart(currentDays);
+            loadSiteStats(); checkHealth(); loadTopPages(); initChart(); loadDailyChart(currentDays);
             document.getElementById('search-btn').addEventListener('click', searchPage);
             document.getElementById('path-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') searchPage(); });
         });

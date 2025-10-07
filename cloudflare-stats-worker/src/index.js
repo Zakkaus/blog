@@ -1,6 +1,6 @@
 import { DASHBOARD_HTML } from './dashboard.js';
 
-const CACHEABLE_PATHS = new Set(["/api/batch", "/api/stats", "/api/top", "/api/daily", "/logo.webp"]);
+const CACHEABLE_PATHS = new Set(["/api/batch", "/api/stats", "/api/daily", "/logo.webp"]);
 const CACHE_TTL_SECONDS = 30;
 const TOP_CACHE_TTL_SECONDS = 60;
 const WORKER_VERSION = "1.5.1";
@@ -493,25 +493,47 @@ async function syncKVToD1(env, db) {
   const statements = [];
 
   try {
-    const { keys } = await kv.list({ prefix: "page:", limit: 500 });
+    const { keys } = await kv.list({ prefix: "page:", limit: 1000 });
     const pageMap = new Map();
 
     for (const key of keys) {
-      const match = key.name.match(/^page:(.+):(pv|uv)$/);
-      if (!match) {
+      const name = key?.name;
+      if (!name) {
         continue;
       }
 
-      const [, path, metric] = match;
-      const entry = pageMap.get(path) || { pv: 0, uv: 0 };
-      entry[metric] = toInt(await kv.get(key.name));
-      pageMap.set(path, entry);
+      const metricMatch = name.match(/^page:(.+):(pv|uv)$/);
+      if (metricMatch) {
+        const [, rawPath, metric] = metricMatch;
+        const entry = pageMap.get(rawPath) || { pv: 0, uv: 0 };
+        entry[metric] = toInt(await kv.get(name));
+        pageMap.set(rawPath, entry);
+        continue;
+      }
+
+      // Backward compatibility: legacy JSON structure stored at key "page:<path>"
+      if (name.startsWith("page:")) {
+        try {
+          const legacy = await kv.get(name, "json");
+          if (legacy && (legacy.pv || legacy.uv)) {
+            const rawPath = name.replace(/^page:/, "");
+            const entry = pageMap.get(rawPath) || { pv: 0, uv: 0 };
+            if (legacy.pv) entry.pv = toInt(legacy.pv);
+            if (legacy.uv) entry.uv = toInt(legacy.uv);
+            pageMap.set(rawPath, entry);
+          }
+        } catch (legacyError) {
+          console.warn("[worker] legacy KV parse error", legacyError);
+        }
+      }
     }
 
-    for (const [path, metrics] of pageMap.entries()) {
-      if (!metrics.pv && !metrics.uv) {
+    for (const [rawPath, metrics] of pageMap.entries()) {
+      if (!metrics || (!metrics.pv && !metrics.uv)) {
         continue;
       }
+
+      const path = normalizePath(rawPath);
 
       statements.push(
         db

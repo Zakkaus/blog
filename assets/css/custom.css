@@ -4,11 +4,3 @@ span[id^="views_"] {
   margin-top: 0 !important;
   vertical-align: baseline !important;
 }
-
-/* 防止加載動畫（animate-pulse）時元素向上偏移 */
-/* 移除動畫效果，只保留主題默認的閃爍效果 */
-span[id^="views_"].animate-pulse {
-  margin-top: 0 !important;
-  transform: none !important;
-  animation: none !important;
-}

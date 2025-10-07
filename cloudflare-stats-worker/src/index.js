@@ -3,7 +3,7 @@ import { DASHBOARD_HTML } from './dashboard.js';
 const CACHEABLE_PATHS = new Set(["/api/batch", "/api/stats", "/api/top"]);
 const CACHE_TTL_SECONDS = 30;
 const TOP_CACHE_TTL_SECONDS = 60;
-const WORKER_VERSION = "1.3.0";
+const WORKER_VERSION = "1.5.0";
 
 export default {
   async fetch(request, env, ctx) {
@@ -279,6 +279,27 @@ async function handleTop(request, env, corsHeaders) {
   );
   const { results } = await statement.bind(minPv, limit).all();
 
+  // 如果 D1 沒有數據，嘗試從 KV 同步
+  if (results.length === 0 && env.PAGE_STATS) {
+    try {
+      await syncKVToD1(env, db);
+      // 重新查詢
+      const { results: newResults } = await statement.bind(minPv, limit).all();
+      return jsonResponse(
+        {
+          success: true,
+          count: newResults.length,
+          results: newResults,
+          timestamp: new Date().toISOString(),
+        },
+        corsHeaders,
+        200,
+      );
+    } catch (error) {
+      console.error("[worker] sync KV to D1 error", error);
+    }
+  }
+
   return jsonResponse(
     {
       success: true,
@@ -392,6 +413,65 @@ async function updateD1PageStats(env, path, isNewPageVisitor) {
 
 function getD1(env) {
   return env.DB || env.cloudflare_stats_top || null;
+}
+
+// 同步 KV 數據到 D1（僅在 D1 為空時調用）
+async function syncKVToD1(env, db) {
+  const kv = env.PAGE_STATS;
+  if (!kv) return;
+
+  // 嘗試獲取常見路徑的數據
+  const commonPaths = ['/', '/about/', '/posts/', '/timeline/'];
+  const statements = [];
+  
+  // 首先嘗試從常見路徑同步
+  for (const path of commonPaths) {
+    const key = `page:${path}`;
+    const data = await kv.get(key, "json");
+    if (data && data.pv) {
+      statements.push(
+        db.prepare(
+          `INSERT INTO page_stats (path, pv, uv, updated_at)
+           VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+           ON CONFLICT(path) DO UPDATE SET
+             pv = excluded.pv,
+             uv = excluded.uv,
+             updated_at = CURRENT_TIMESTAMP`
+        ).bind(path, data.pv || 0, data.uv || 0)
+      );
+    }
+  }
+
+  // 再嘗試列出所有頁面鍵
+  try {
+    const { keys } = await kv.list({ prefix: "page:" });
+    for (const key of keys.slice(0, 100)) {
+      const data = await kv.get(key.name, "json");
+      if (data && data.pv) {
+        const path = key.name.replace("page:", "");
+        // 避免重複添加常見路徑
+        if (!commonPaths.includes(path)) {
+          statements.push(
+            db.prepare(
+              `INSERT INTO page_stats (path, pv, uv, updated_at)
+               VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+               ON CONFLICT(path) DO UPDATE SET
+                 pv = excluded.pv,
+                 uv = excluded.uv,
+                 updated_at = CURRENT_TIMESTAMP`
+            ).bind(path, data.pv || 0, data.uv || 0)
+          );
+        }
+      }
+    }
+  } catch (error) {
+    console.error("[worker] KV list error", error);
+  }
+
+  if (statements.length > 0) {
+    await db.batch(statements);
+    console.log(`[worker] synced ${statements.length} pages from KV to D1`);
+  }
 }
 
 async function handleDashboard(env, corsHeaders) {

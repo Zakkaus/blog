@@ -6,6 +6,8 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>統計數據 - Cloudflare Stats</title>
     <meta name="description" content="查看網站訪問統計數據">
+    <link rel="icon" type="image/svg+xml" href="/logo.webp">
+    <link rel="apple-touch-icon" href="/logo.webp">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -174,7 +176,7 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
         let dailyChart = null, currentDays = 7, currentLang = 'zh-TW';
         const i18n = {
             'zh-TW': {
-                title: '📊 統計數據儀表板', subtitle: '實時查看網站訪問統計', darkMode: '深色模式', lightMode: '淺色模式',
+                title: '統計數據儀表板', subtitle: '實時查看網站訪問統計', darkMode: '深色模式', lightMode: '淺色模式',
                 totalPageViews: '全站總瀏覽量', totalUniqueVisitors: '全站訪客數', todayPageViews: '今日瀏覽量', apiStatus: 'API 狀態',
                 dailyTrend: '📈 每日訪問趨勢', last7Days: '過去 7 天', last14Days: '過去 14 天', last30Days: '過去 30 天',
                 searchPage: '🔍 查詢頁面統計', searchPlaceholder: '輸入路徑，例如: /posts/hello-world/', search: '查詢',
@@ -182,10 +184,10 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                 loading: '載入中...', total: '總計', today: '今日', normal: '✅ 正常', error: '❌ 錯誤', version: '版本',
                 cannotConnect: '無法連接', loadFailed: '載入失敗', poweredBy: 'Powered by',
                 pvLabel: '瀏覽量 (PV)', uvLabel: '訪客數 (UV)', views: '次瀏覽', visitors: '位訪客',
-                noData: '暫無數據或 D1 未配置', loadError: '載入失敗（可能需要配置 D1 數據庫）'
+                noData: '暫無熱門頁面數據', loadError: '載入失敗'
             },
             'en': {
-                title: '📊 Statistics Dashboard', subtitle: 'Real-time website analytics', darkMode: 'Dark Mode', lightMode: 'Light Mode',
+                title: 'Statistics Dashboard', subtitle: 'Real-time website analytics', darkMode: 'Dark Mode', lightMode: 'Light Mode',
                 totalPageViews: 'Total Page Views', totalUniqueVisitors: 'Total Unique Visitors', todayPageViews: 'Today\\'s Views', apiStatus: 'API Status',
                 dailyTrend: '📈 Daily Traffic Trend', last7Days: 'Last 7 Days', last14Days: 'Last 14 Days', last30Days: 'Last 30 Days',
                 searchPage: '🔍 Search Page Stats', searchPlaceholder: 'Enter path, e.g.: /posts/hello-world/', search: 'Search',
@@ -193,7 +195,7 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                 loading: 'Loading...', total: 'Total', today: 'Today', normal: '✅ Normal', error: '❌ Error', version: 'Version',
                 cannotConnect: 'Cannot Connect', loadFailed: 'Load Failed', poweredBy: 'Powered by',
                 pvLabel: 'Page Views (PV)', uvLabel: 'Unique Visitors (UV)', views: ' views', visitors: ' visitors',
-                noData: 'No data or D1 not configured', loadError: 'Load failed (D1 database may be required)'
+                noData: 'No popular pages yet', loadError: 'Load failed'
             }
         };
         function updateI18n() {

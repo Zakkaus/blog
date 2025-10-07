@@ -59,3 +59,15 @@ seo:
 {{< /timelineItem >}}
 {{< /timeline >}}
 
+### 網站統計
+{{< timeline >}}
+{{< timelineItem id="blog-stats" icon="chart" header="Blog 建立時間" badge="自 2025-09-01" subheader="紀錄與成長" md="true" >}}
+**運行天數：** <span class="counter-days" data-counter-origin="2025-09-01T00:00:00+10:00" data-counter-format="days">0</span>  
+**總瀏覽量：** <span id="site-pv" class="animate-pulse">載入中...</span>  
+**總訪客數：** <span id="site-uv" class="animate-pulse">載入中...</span>
+
+從 2025 年 9 月開始記錄技術筆記、生活分享和天竺鼠日常。採用 Hugo + Cloudflare Pages 部署，並自建統計系統追蹤訪問數據。
+{{< /timelineItem >}}
+{{< /timeline >}}
+
+

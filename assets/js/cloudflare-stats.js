@@ -7,6 +7,9 @@
   document.addEventListener("DOMContentLoaded", init, { once: true });
 
   function init() {
+    // 處理網站總流量 (timeline 頁面)
+    initSiteStats();
+    
     // 找出主題產生的所有 views_ placeholder
     const viewNodes = Array.from(document.querySelectorAll("span[id^='views_']"));
     
@@ -58,6 +61,41 @@
     }
   }
 
+  function initSiteStats() {
+    const pvEl = document.getElementById("site-pv");
+    const uvEl = document.getElementById("site-uv");
+    
+    if (!pvEl && !uvEl) return;
+    
+    // 獲取網站總流量 (path="/")
+    fetchStats("/")
+      .then((json) => {
+        if (!json || !json.success) return;
+        const pv = json.page?.pv || 0;
+        const uv = json.page?.uv || 0;
+        
+        if (pvEl) {
+          pvEl.classList.remove("animate-pulse");
+          pvEl.textContent = formatNumber(pv);
+        }
+        if (uvEl) {
+          uvEl.classList.remove("animate-pulse");
+          uvEl.textContent = formatNumber(uv);
+        }
+      })
+      .catch((err) => {
+        console.warn("[stats] site stats error", err);
+        if (pvEl) {
+          pvEl.classList.remove("animate-pulse");
+          pvEl.textContent = "—";
+        }
+        if (uvEl) {
+          uvEl.classList.remove("animate-pulse");
+          uvEl.textContent = "—";
+        }
+      });
+  }
+
   function groupViewNodes(nodes, currentPath) {
     const map = new Map();
     nodes.forEach((node) => {
@@ -86,15 +124,31 @@
       return currentPath || null;
     }
 
-    // 一般文章: views_content/posts/example/index.en.md
+    // 一般文章: views_posts/gentoo-m-series-mac/index.md
+    // 移除: content/ 前綴, .md 後綴, /index, /_index
+    // 保留: posts/... 的路徑結構
     let path = raw;
+    
+    // 移除 .md 擴展名（包括語言變體如 .zh-tw.md）
+    path = path.replace(/\.(en|zh-tw|zh-cn)\.md$/i, "");
     path = path.replace(/\.md$/i, "");
-    path = path.replace(/\/_index$/i, "/");
-    path = path.replace(/\/index$/i, "/");
-    path = path.replace(/^content\//i, "/");
+    
+    // 移除 index 和 _index
+    path = path.replace(/\/_index$/i, "");
+    path = path.replace(/\/index$/i, "");
+    
+    // 移除開頭的 content/ 如果存在
+    path = path.replace(/^content\//i, "");
+    
+    // 確保以 / 開頭
     if (!path.startsWith("/")) path = "/" + path;
+    
+    // 合併多個斜線
     path = path.replace(/\/+/g, "/");
-    if (!path.endsWith("/")) path += "/";
+    
+    // 確保以 / 結尾（除非是根路徑）
+    if (path !== "/" && !path.endsWith("/")) path += "/";
+    if (path === "") path = "/";
 
     return normalizePath(path);
   }
@@ -140,6 +194,12 @@
   function fetchBatch(paths) {
     const url = new URL("/api/batch", API_BASE);
     url.searchParams.set("urls", paths.join(","));
+    return fetchWithTimeout(url.toString());
+  }
+
+  function fetchStats(path) {
+    const url = new URL("/api/stats", API_BASE);
+    url.searchParams.set("url", path);
     return fetchWithTimeout(url.toString());
   }
 

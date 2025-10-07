@@ -1,93 +1,183 @@
-# Cloudflare Stats Worker
+# Cloudflare Stats Worker# Cloudflare Stats Worker
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/Zakkaus/cloudflare-stats-worker)
+
+
+**English** · Cloudflare Worker analytics stack with KV + D1, shipping a real-time dashboard and Hugo integration helpers.  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+**繁體中文** · 基於 Cloudflare Worker 的輕量統計服務，整合 KV 與 D1，內建即時儀表板與 Hugo 集成工具。[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/Zakkaus/cloudflare-stats-worker)
+
 [![Version](https://img.shields.io/badge/version-1.5.0-brightgreen.svg)](https://github.com/Zakkaus/cloudflare-stats-worker/releases)
+
+---
 
 🚀 **輕量級、隱私優先的頁面訪問統計系統** - 基於 Cloudflare Workers + KV + D1
 
-完美替代 Google Analytics，專為靜態網站設計（Hugo、Hexo、Jekyll、VuePress 等）
+## Overview · 概觀
 
-[繁體中文文檔](README.zh-TW.md) | [English](#)
+- **Serverless analytics** – `/api/count` increases PV/UV with KV; `/api/daily` / `/api/top` read from D1.  完美替代 Google Analytics，專為靜態網站設計（Hugo、Hexo、Jekyll、VuePress 等）
 
----
+  **無伺服器統計** – 透過 KV 追蹤 PV/UV，D1 儲存每日趨勢與熱門頁面。
+
+- **Single deployment** – one Worker serves the JSON APIs *and* the dashboard UI.  [繁體中文文檔](README.zh-TW.md) | [English](#)
+
+  **一次部署** – 同一個 Worker 同時提供 API 與儀表板。
+
+- **Hugo friendly** – sample script keeps Blowfish placeholders in sync without custom CSS.  ---
+
+  **支援 Hugo** – 腳本自動填入 Blowfish 產生的閱讀量佔位符。
 
 ## ✨ 核心功能
 
-### 🎯 統計功能
-- **📊 實時統計**: 頁面瀏覽量（PV）、獨立訪客數（UV）實時更新
-- **🔥 熱門頁面**: Top 10 頁面排行榜（基於 D1 數據庫）
-- **📈 趨勢圖表**: 每日訪問趨勢可視化（Chart.js）
-- **🔍 路徑查詢**: 單頁面、批量查詢統計數據
+## Features · 功能
+
+- `/api/count`, `/api/stats`, `/api/batch`, `/api/top`, `/api/daily`, `/health` endpoints with CORS。  ### 🎯 統計功能
+
+  支援單頁遞增、批次查詢、熱門頁面、每日趨勢、健康檢查等端點。- **📊 實時統計**: 頁面瀏覽量（PV）、獨立訪客數（UV）實時更新
+
+- Zero-state dashboard with dark/light toggle and Chart.js trends。  - **🔥 熱門頁面**: Top 10 頁面排行榜（基於 D1 數據庫）
+
+  儀表板具備零資料提示、深淺色切換與 Chart.js 趨勢圖。- **📈 趨勢圖表**: 每日訪問趨勢可視化（Chart.js）
+
+- Edge-aware cache control (`?t=timestamp`) to avoid stale responses。  - **🔍 路徑查詢**: 單頁面、批量查詢統計數據
+
+  透過快取控制避免 Cloudflare 邊界快取返回舊資料。
 
 ### 🌐 多語言支持
-- **🌍 雙語儀表板**: 繁體中文 ⇄ English 一鍵切換
-- **💾 語言記憶**: LocalStorage 保存用戶語言偏好
-- **🔤 i18n 路徑**: 自動合併多語言路徑（`/zh-tw/posts/` → `/posts/`）
 
-### 🎨 用戶體驗
-- **🌓 主題切換**: 深色/淺色模式自由切換
-- **🎯 Logo 顯示**: SVG 漸變 logo，與博客風格統一
-- **📱 響應式**: 完美適配桌面、平板、手機
-- **⚡ 極速加載**: 全球 300+ CDN 節點，延遲 <50ms
+## Quick Start · 快速安裝- **🌍 雙語儀表板**: 繁體中文 ⇄ English 一鍵切換
 
-### 🔒 隱私與安全
-- **🛡️ 隱私優先**: 無 Cookies、IP 哈希處理
-- **⏰ 訪客匿名化**: 24 小時後自動清除訪客記錄
-- **🚫 防濫用**: 內建速率限制（120 req/60s per IP）
-- **🔐 CORS 保護**: 僅允許授權域名訪問
+```bash- **💾 語言記憶**: LocalStorage 保存用戶語言偏好
 
-### 💰 成本與性能
-- **💸 幾乎免費**: Cloudflare 免費版 10 萬次請求/日
-- **🚀 邊緣計算**: Workers 分佈式執行，零冷啟動
-- **📦 單一部署**: API + 儀表板整合在一個 Worker
+cd cloudflare-stats-worker- **🔤 i18n 路徑**: 自動合併多語言路徑（`/zh-tw/posts/` → `/posts/`）
+
+./scripts/install.sh
+
+```### 🎨 用戶體驗
+
+- Guided prompts choose Worker name, optional custom domain, and whether to create D1。  - **🌓 主題切換**: 深色/淺色模式自由切換
+
+  指令會引導輸入 Worker 名稱、自訂網域與是否建立 D1。- **🎯 Logo 顯示**: SVG 漸變 logo，與博客風格統一
+
+- Wrangler login is required once。  - **📱 響應式**: 完美適配桌面、平板、手機
+
+  需事先安裝並登入 Wrangler。- **⚡ 極速加載**: 全球 300+ CDN 節點，延遲 <50ms
+
+
+
+## Manual Setup · 手動部署### 🔒 隱私與安全
+
+1. 安裝 Wrangler：`npm install -g wrangler`。  - **🛡️ 隱私優先**: 無 Cookies、IP 哈希處理
+
+   Install Wrangler first.- **⏰ 訪客匿名化**: 24 小時後自動清除訪客記錄
+
+2. `wrangler login` 授權 Cloudflare 帳號。  - **🚫 防濫用**: 內建速率限制（120 req/60s per IP）
+
+   Authorize Wrangler with your account.- **🔐 CORS 保護**: 僅允許授權域名訪問
+
+3. `wrangler kv namespace create PAGE_STATS` 建立 KV，將 `id` 與 `preview_id` 寫入 `wrangler.toml`。  
+
+   Create KV namespace and update `wrangler.toml` bindings.### 💰 成本與性能
+
+4.（可選）`wrangler d1 create cloudflare-stats-top` 並執行 `wrangler d1 execute ... --file=schema.sql`。  - **💸 幾乎免費**: Cloudflare 免費版 10 萬次請求/日
+
+   Optional D1 setup for `/api/top` & `/api/daily`.- **🚀 邊緣計算**: Workers 分佈式執行，零冷啟動
+
+5. `wrangler deploy` 完成部署。  - **📦 單一部署**: API + 儀表板整合在一個 Worker
+
+   Deploy the Worker.
 
 ---
 
-## 🎯 在線演示
+## Configuration · 設定
 
-- **📊 儀表板**: https://stats.zakk.au（查看統計、圖表、趨勢）
+- `wrangler.toml` – Worker name, KV binding (`PAGE_STATS`), D1 binding (`DB`)。  ## 🎯 在線演示
+
+  可依需要修改名稱與綁定。
+
+- `schema.sql` – 建立 `page_stats` 與 `site_daily_stats` 兩個資料表。- **📊 儀表板**: https://stats.zakk.au（查看統計、圖表、趨勢）
+
 - **🔌 API 端點**: https://stats.zakk.au/api/*
-- **💚 健康檢查**: https://stats.zakk.au/health
 
-**儀表板功能：**
-- ✅ 全站總瀏覽量 / 訪客數
-- ✅ 今日訪問數據
-- ✅ 每日趨勢圖表（7 / 14 / 30 天）
-- ✅ 頁面查詢工具
-- ✅ 熱門頁面 Top 10
-- ✅ 雙語切換（中文 ⇄ English）
+## API Reference · 介面- **💚 健康檢查**: https://stats.zakk.au/health
+
+| Method | Path | Description |
+
+|--------|------|-------------|**儀表板功能：**
+
+| GET | `/api/count?url=/posts/` | Increment PV/UV; returns page + site totals. |- ✅ 全站總瀏覽量 / 訪客數
+
+| GET | `/api/stats?url=/posts/` | Read-only stats (omit `url` for site totals). |- ✅ 今日訪問數據
+
+| GET | `/api/batch?urls=/, /about/` | Fetch up to 50 paths in one request. |- ✅ 每日趨勢圖表（7 / 14 / 30 天）
+
+| GET | `/api/top?limit=10&min_pv=5` | D1-based top pages. |- ✅ 頁面查詢工具
+
+| GET | `/api/daily?days=7` | Rolling PV/UV trend; zero-filled when data missing. |- ✅ 熱門頁面 Top 10
+
+| GET | `/health` | Health check with version + timestamp. |- ✅ 雙語切換（中文 ⇄ English）
+
 - ✅ 深色/淺色主題
 
+Responses are JSON with `Access-Control-Allow-Origin: *`。
+
 ---
 
-## 🏗️ 系統架構
+## Dashboard · 儀表板
 
-本項目將 **API 和儀表板整合在單一 Worker** 中：
+- Worker 根路徑即為儀表板，含 i18n (`zh-TW`, `en`)。  ## 🏗️ 系統架構
 
-```
+  The dashboard lives at `/`, supporting multiple languages.
+
+- 零資料時顯示 0 與提示訊息。  本項目將 **API 和儀表板整合在單一 Worker** 中：
+
+  Graceful empty-state messaging keeps UI consistent.
+
+- 要新增語言，只需複製 `src/dashboard.js` 內的 `i18n` 區塊並翻譯。```
+
 stats.zakk.au/              → 📊 儀表板（HTML 界面）
-stats.zakk.au/logo.webp     → 🎨 SVG Logo
-stats.zakk.au/api/count     → ➕ 增加頁面瀏覽量
-stats.zakk.au/api/stats     → 📈 獲取統計數據
-stats.zakk.au/api/batch     → 📋 批量查詢
-stats.zakk.au/api/top       → 🔥 熱門頁面（需要 D1）
-stats.zakk.au/health        → 💚 健康檢查
-```
 
-**優勢：**
+## Hugo Integration · Hugo 集成stats.zakk.au/logo.webp     → 🎨 SVG Logo
+
+1. 複製 `assets/js/cloudflare-stats.js` 至自己的 Hugo 專案並在 `extend-head.html` 引入。  stats.zakk.au/api/count     → ➕ 增加頁面瀏覽量
+
+   Include the script so Blowfish `views_` spans get populated.stats.zakk.au/api/stats     → 📈 獲取統計數據
+
+2. 將腳本內 `API_BASE` 改成你的 Worker 網域。  stats.zakk.au/api/batch     → 📋 批量查詢
+
+   Point the script to your deployed worker domain.stats.zakk.au/api/top       → 🔥 熱門頁面（需要 D1）
+
+3. 若需要顯示全站 PV/UV，可在模板加入 `site-pv`、`site-uv` span。  stats.zakk.au/health        → 💚 健康檢查
+
+   Optional global counters are supported out of the box.```
+
+4. 腳本會自動移除骨架動畫並對齊圖示，不需額外 CSS。  
+
+   No custom CSS necessary for alignment.**優勢：**
+
 - ✅ 單次部署，API + 儀表板全包
-- ✅ 無 CORS 跨域問題（同源）
-- ✅ 簡化維護和更新
-- ✅ 支持自定義域名（CNAME）
 
-**數據存儲：**
-- **KV 命名空間**: 存儲所有頁面統計數據（PV、UV、訪客哈希）
-- **D1 數據庫**: 存儲熱門頁面排行榜（可選但推薦）
+## Maintenance · 維運- ✅ 無 CORS 跨域問題（同源）
 
----
+- `wrangler deploy` 重新部署最新程式。  - ✅ 簡化維護和更新
 
-## 📦 快速開始
+  Redeploy after code changes.- ✅ 支持自定義域名（CNAME）
+
+- `wrangler d1 export cloudflare-stats-top --remote` 備份資料。  
+
+  Export D1 for backups.**數據存儲：**
+
+- `wrangler d1 execute ... "DELETE FROM page_stats"` 清除統計。  - **KV 命名空間**: 存儲所有頁面統計數據（PV、UV、訪客哈希）
+
+  Use destructive commands cautiously.- **D1 數據庫**: 存儲熱門頁面排行榜（可選但推薦）
+
+
+
+## License · 授權---
+
+MIT License – commercial and personal use allowed.  
+
+MIT 授權，可自由使用、修改與再散佈。## 📦 快速開始
+
 
 ### 🚀 一鍵安裝（推薦）
 

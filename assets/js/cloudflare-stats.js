@@ -184,7 +184,9 @@
     const display = typeof value === "number" ? formatNumber(value) : String(value);
 
     nodes.forEach((node) => {
-      node.classList.remove("animate-pulse", "text-transparent", "bg-neutral-300", "dark:bg-neutral-400");
+      node.classList.remove("animate-pulse", "text-transparent", "bg-neutral-300", "dark:bg-neutral-400", "-mt-[2px]");
+      node.style.marginTop = "0";
+      node.style.verticalAlign = "baseline";
       node.textContent = display;
     });
   }

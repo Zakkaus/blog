@@ -8,13 +8,14 @@
 - ✅ 儀表板新增「暫無趨勢數據」狀態訊息，缺資料時自動補零並提示使用者。
 - ✅ 熱門頁面請求附加時間戳參數，避免 Cloudflare edge 快取造成的舊資料。
 - ✅ Blog 前端腳本 `assets/js/cloudflare-stats.js` 清理多餘註解，保留主題原生外觀並確保載入後移除骨架樣式。
+- ✅ Installer `scripts/install.sh` 重寫為精簡互動式版本，可自訂 Worker 名稱與自有網域。
 - ✅ 自訂 `assets/css/custom.css` 已清空，改由 Blowfish 主題原生樣式控制，避免後續升級破版。
 - ✅ 文檔整併：原 `DASHBOARD_DEPLOY.md`、`FIXES_SUMMARY.md`、`DEPLOYMENT_SUMMARY.md`、`HUGO_INTEGRATION.md` 內容已濃縮至本更新紀錄與 README，減少重複維護。
 
 ## 🛠️ 修復詳情
 
 - 修正零資料時圖表仍顯示載入動畫的問題，缺資料時會顯示 0 並同步更新「今日」指標。
-- `updateNodes()` 會一併移除 `animate-pulse / text-transparent` 等骨架類別，確保數字顯示正常。
+- `updateNodes()` 會一併移除 `animate-pulse / text-transparent / -mt-[2px]` 等骨架類別，確保數字與圖示對齊。
 - 新增 `/api/daily` 失敗時的錯誤處理與本地 fallback，避免圖表崩潰。
 - Cloudflare Worker 佈署腳本與 README 已更新，指向最新的 Hugo 集成步驟與儀表板操作流程。
 

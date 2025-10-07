@@ -18,24 +18,47 @@
     const currentPath = normalizePath(window.location.pathname);
     const groups = groupViewNodes(viewNodes, currentPath);
 
+    // 當前頁面：優先使用頁面上的 views_ ID 對應的路徑
+    let currentPagePath = null;
+    let currentPageNodes = null;
+    
+    // 找出當前頁面的 views_ 節點（通常在文章頁頂部單獨出現）
+    viewNodes.forEach((node) => {
+      const path = getPathFromId(node.id, currentPath);
+      if (path && !currentPagePath) {
+        // 第一個不在列表中重複的節點，可能就是當前頁面
+        const samePathNodes = groups.get(path) || [];
+        if (samePathNodes.length === 1) {
+          currentPagePath = path;
+          currentPageNodes = samePathNodes;
+        }
+      }
+    });
+    
+    // 如果沒找到，回退到使用當前 URL
+    if (!currentPagePath && groups.has(currentPath)) {
+      currentPagePath = currentPath;
+      currentPageNodes = groups.get(currentPath);
+    }
+
     // 當前頁面遞增 + 取值
-    if (groups.has(currentPath)) {
-      fetchCount(currentPath)
+    if (currentPagePath && currentPageNodes) {
+      fetchCount(currentPagePath)
         .then((json) => {
           if (!json || !json.success) return;
           const pv = json.page?.pv || 0;
-          updateNodes(groups.get(currentPath), pv);
-          groups.delete(currentPath);
+          updateNodes(currentPageNodes, pv);
+          groups.delete(currentPagePath);
         })
         .catch((err) => {
           console.warn("[stats] count error", err);
-          updateNodes(groups.get(currentPath), "—");
-          groups.delete(currentPath);
+          updateNodes(currentPageNodes, "—");
+          groups.delete(currentPagePath);
         });
     }
 
     // 列表頁其他路徑批次查詢
-    const otherPaths = Array.from(groups.keys()).filter((p) => p !== currentPath);
+    const otherPaths = Array.from(groups.keys()).filter((p) => p !== currentPagePath);
     if (otherPaths.length) {
       fetchBatch(otherPaths)
         .then((json) => {

@@ -1,26 +1,6 @@
 /* 修復閱讀量數字與眼睛圖標對齊問題 */
-/* 確保數字和圖標在同一基線 */
+/* 移除主題的 margin-top 偏移，統一使用 vertical-align */
 span[id^="views_"] {
-  display: inline-block;
-  vertical-align: middle;
   margin-top: 0 !important;
-  min-width: 1ch; /* 防止數字載入時佈局跳動 */
-}
-
-/* 眼睛圖標對齊 */
-span[id^="views_"] + span {
-  display: inline-flex;
-  align-items: center;
-  vertical-align: middle;
-}
-
-/* 確保 icon 內的 SVG 對齊 */
-span[id^="views_"] + span .icon {
-  display: inline-flex;
-  align-items: center;
-  vertical-align: middle;
-}
-
-span[id^="views_"] + span .icon svg {
-  vertical-align: middle;
+  vertical-align: baseline !important;
 }

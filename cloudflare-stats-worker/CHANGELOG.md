@@ -1,3 +1,26 @@
+# v1.5.4 更新說明
+
+發布日期：2025-10-08
+
+## ✨ 重點
+
+- ✅ 儀表板內嵌腳本全面重寫成 IIFE 模式，移除巢狀模板字串，解決 VS Code TypeScript 解析錯誤並恢復資料載入。
+- ✅ 卡片與趨勢圖保留載入 / 失敗 / 成功狀態，顯示最後成功同步的 UTC 時戳，使用者可立即判斷數據新鮮度。
+- ✅ `robots.txt` 改為靜態檔案並停用 Hugo 生成邏輯，移除 Search Console 提示的 `Content-signal` 非標準指令。
+
+## 🛠️ 修復詳情
+
+- `loadSiteStats()` 與 `loadDailyChart()` 拆分責任，重新整理錯誤處理、快取破壞參數與 UI 更新邏輯。
+- 新的 `loadTopPages()` 與 `searchPage()` 採用 `URL` 物件組裝查詢字串，避免模板字串轉義問題並增強快取控制。
+- `initChart()` / `updateChartTheme()` 現採用安全的主題切換流程，確保 Chart.js 在模式切換時不會殘留舊設定。
+
+## 📚 文件調整
+
+- README（中英）補充「狀態提示」與 UTC 標註說明，對應新版儀表板行為。
+- 靜態 `robots.txt` 加入專屬章節在部落格 README，並於 Hugo 主設定中顯式關閉 `enableRobotsTXT`。
+
+---
+
 # v1.5.2 更新說明
 
 發布日期：2025-10-08

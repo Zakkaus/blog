@@ -44,7 +44,10 @@ hugo --gc --minify
   可在 `API_BASE` 改成自己的 Worker 網域。
 - 佔位符：Blowfish 產生 `views_` span；腳本會填入 PV 並維持圖示對齊。
 - 全站統計：`/api/stats` 省略 `url` 時回傳全站 PV/UV，現已同時供 timeline 與儀表板使用，並附上 UTC 時戳避免數據不一致。
-- Dashboard：`https://stats.zakk.au/` 顯示即時 PV/UV、熱門頁面與每日趨勢，頁面會在卡片與圖表上標示「更新於 (UTC)」。
+- Dashboard：`https://stats.zakk.au/` 顯示即時 PV/UV、熱門頁面與每日趨勢，卡片與圖表會標示最新「更新於 (UTC)」並在載入或錯誤時顯示狀態提示。
+
+## SEO
+- `static/robots.txt` 提供標準 `User-agent` / `Allow` / `Sitemap` 指令，已移除 Search Console 無法解析的自訂標頭。
 
 ## Folder overview · 資料夾總覽
 ```

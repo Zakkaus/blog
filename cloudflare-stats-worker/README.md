@@ -14,7 +14,7 @@
 
 ## Overview · 概觀
 
-- **All-in-one deployment** – the same Worker serves JSON APIs and the dashboard UI.[![Version](https://img.shields.io/badge/version-1.5.2-brightgreen.svg)](https://github.com/Zakkaus/cloudflare-stats-worker/releases)
+ **All-in-one deployment** – the same Worker serves JSON APIs and the dashboard UI.[![Version](https://img.shields.io/badge/version-1.5.4-brightgreen.svg)](https://github.com/Zakkaus/cloudflare-stats-worker/releases)
 
 - **KV for counters** – `/api/count` 儲存頁面與全站 PV/UV。
 
@@ -23,6 +23,7 @@
 - **Hugo friendly** – 腳本自動填入 Blowfish 產生的 `views_` 佔位符，無需額外 CSS。
 - **Unified totals** – `/api/stats` without `url` now powers both the Hugo timeline and the dashboard, returning a UTC timestamp for the last refresh.
 - **UTC refresh note** – Dashboard cards and charts show "Updated (UTC)" so you always know when numbers were last synchronised.
+- **Live status hints** – dashboard cards surface loading/errors and display the last successful UTC refresh for totals and daily charts.
 
 🚀 **輕量級、隱私優先的頁面訪問統計系統** - 基於 Cloudflare Workers + KV + D1
 

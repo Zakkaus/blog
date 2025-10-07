@@ -58,3 +58,15 @@ seo:
 如果想了解更多请看: [马铃薯 的介绍](/zh-cn/about/#potato)
 {{< /timelineItem >}}
 {{< /timeline >}}
+
+### 网站统计
+{{< timeline >}}
+{{< timelineItem id="blog-stats" icon="chart" header="Blog 建立时间" badge="自 2025-09-01" subheader="记录与成长" md="true" >}}
+**运行天数：** <span class="counter-days" data-counter-origin="2025-09-01T00:00:00+10:00" data-counter-format="days">0</span>  
+**总浏览量：** <span id="site-pv" class="animate-pulse">加载中...</span>  
+**总访客数：** <span id="site-uv" class="animate-pulse">加载中...</span>
+
+从 2025 年 9 月开始记录技术笔记、生活分享和天竺鼠日常。采用 Hugo + Cloudflare Pages 部署，并自建统计系统追踪访问数据。
+{{< /timelineItem >}}
+{{< /timeline >}}
+

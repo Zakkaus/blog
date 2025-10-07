@@ -59,3 +59,15 @@ Learn more: [Potato's Profile](/about/#potato)
 {{< /timelineItem >}}
 {{< /timeline >}}
 
+### Website Statistics
+{{< timeline >}}
+{{< timelineItem id="blog-stats" icon="chart" header="Blog Launch" badge="Since 2025-09-01" subheader="Recording & Growth" md="true" >}}
+**Days Online:** <span class="counter-days" data-counter-origin="2025-09-01T00:00:00+10:00" data-counter-format="days">0</span>  
+**Total Page Views:** <span id="site-pv" class="animate-pulse">Loading...</span>  
+**Total Unique Visitors:** <span id="site-uv" class="animate-pulse">Loading...</span>
+
+Started recording tech notes, life sharing, and guinea pig daily life since September 2025. Built with Hugo + Cloudflare Pages deployment, with a self-hosted statistics system tracking visitor data.
+{{< /timelineItem >}}
+{{< /timeline >}}
+
+

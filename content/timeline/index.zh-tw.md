@@ -3,7 +3,7 @@ title: "時間軸"
 slug: "timeline"
 translationKey: "timeline"
 date: 2025-09-01
-lastmod: 2025-09-29
+lastmod: 2025-10-08
 summary: "我們關係與天竺鼠的即時計時器。"
 description: "記錄我和 Paper 的遠距天數，以及 脆薯饼、马铃薯 的成長天數，皆以雪梨時間更新。"
 authors:
@@ -67,6 +67,8 @@ seo:
 **總訪客數：** <span id="site-uv" class="animate-pulse">載入中...</span>
 
 從 2025 年 9 月開始記錄技術筆記、生活分享和天竺鼠日常。採用 Hugo + Cloudflare Pages 部署，並自建統計系統追蹤訪問數據。
+
+想看更完整的流量圖表與路由細節，歡迎造訪 [Cloudflare 統計儀表板](https://stats.zakk.au/)。
 {{< /timelineItem >}}
 {{< /timeline >}}
 

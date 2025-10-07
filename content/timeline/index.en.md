@@ -3,7 +3,7 @@ title: "Timeline"
 slug: "timeline"
 translationKey: "timeline"
 date: 2025-09-01
-lastmod: 2025-09-29
+lastmod: 2025-10-08
 summary: "Live counters for our relationship and guinea pigs."
 description: "Live counters for our relationship milestones and guinea pig birthdays, synced to Sydney time."
 authors:
@@ -67,6 +67,8 @@ Learn more: [Potato's Profile](/about/#potato)
 **Total Unique Visitors:** <span id="site-uv" class="animate-pulse">Loading...</span>
 
 Started recording tech notes, life sharing, and guinea pig daily life since September 2025. Built with Hugo + Cloudflare Pages deployment, with a self-hosted statistics system tracking visitor data.
+
+For the full analytics breakdown, head over to [stats.zakk.au](https://stats.zakk.au/).
 {{< /timelineItem >}}
 {{< /timeline >}}
 

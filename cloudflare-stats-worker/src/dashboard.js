@@ -232,10 +232,13 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
         }
         async function loadSiteStats() {
             try {
-                const res = await fetch(\`\${API_BASE}/api/stats?url=/\`), data = await res.json();
+                const res = await fetch(`${API_BASE}/api/stats`);
+                const data = await res.json();
                 if (data.success) {
-                    document.getElementById('site-pv').textContent = formatNumber(data.page?.pv || 0);
-                    document.getElementById('site-uv').textContent = formatNumber(data.page?.uv || 0);
+                    const pv = data.site?.pv ?? data.page?.pv ?? 0;
+                    const uv = data.site?.uv ?? data.page?.uv ?? 0;
+                    document.getElementById('site-pv').textContent = formatNumber(pv);
+                    document.getElementById('site-uv').textContent = formatNumber(uv);
                     document.querySelector('#site-pv').nextElementSibling.textContent = i18n[currentLang].total;
                     document.querySelector('#site-uv').nextElementSibling.textContent = i18n[currentLang].total;
                 }

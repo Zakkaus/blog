@@ -177,12 +177,14 @@
   function fetchCount(path) {
     const url = new URL("/api/count", API_BASE);
     url.searchParams.set("url", path);
+    url.searchParams.set("t", Date.now().toString());
     return fetchWithTimeout(url.toString());
   }
 
   function fetchBatch(paths) {
     const url = new URL("/api/batch", API_BASE);
     url.searchParams.set("urls", paths.join(","));
+    url.searchParams.set("t", Date.now().toString());
     return fetchWithTimeout(url.toString());
   }
 

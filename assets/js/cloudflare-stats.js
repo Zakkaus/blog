@@ -18,41 +18,24 @@
     const currentPath = normalizePath(window.location.pathname);
     const groups = groupViewNodes(viewNodes, currentPath);
 
-    let currentPagePath = null;
-    let currentPageNodes = null;
-    
-    viewNodes.forEach((node) => {
-      const path = getPathFromId(node.id, currentPath);
-      if (path && !currentPagePath) {
-        const samePathNodes = groups.get(path) || [];
-        if (samePathNodes.length === 1) {
-          currentPagePath = path;
-          currentPageNodes = samePathNodes;
-        }
-      }
-    });
-    
-    if (!currentPagePath && groups.has(currentPath)) {
-      currentPagePath = currentPath;
-      currentPageNodes = groups.get(currentPath);
-    }
+    const currentPageNodes = groups.get(currentPath) || null;
 
-    if (currentPagePath && currentPageNodes) {
-      fetchCount(currentPagePath)
+    if (currentPageNodes) {
+      fetchCount(currentPath)
         .then((json) => {
           if (!json || !json.success) return;
           const pv = json.page?.pv || 0;
           updateNodes(currentPageNodes, pv);
-          groups.delete(currentPagePath);
+          groups.delete(currentPath);
         })
         .catch((err) => {
           console.warn("[stats] count error", err);
           updateNodes(currentPageNodes, "—");
-          groups.delete(currentPagePath);
+          groups.delete(currentPath);
         });
     }
 
-    const otherPaths = Array.from(groups.keys()).filter((p) => p !== currentPagePath);
+    const otherPaths = Array.from(groups.keys());
     if (otherPaths.length) {
       fetchBatch(otherPaths)
         .then((json) => {

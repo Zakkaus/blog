@@ -419,7 +419,6 @@ A: 當前版本統計累計值。時間範圍查詢需要 D1 + 自定義查詢�
 
 - GitHub Issues: [提交問題](https://github.com/Zakkaus/cloudflare-stats-worker/issues)
 - Discussions: [討論區](https://github.com/Zakkaus/cloudflare-stats-worker/discussions)
-- Email: zakk@yourdomain.com
 
 ---
 

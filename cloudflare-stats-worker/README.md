@@ -272,47 +272,38 @@ GET /api/top?limit=10&min_pv=5
 
 ## 🌐 博客集成
 
-### Hugo 集成示例
+### Hugo（Blowfish 主題）快速整合
 
-詳細集成指南請參考：[HUGO_INTEGRATION.md](HUGO_INTEGRATION.md)
+以下步驟以本倉庫的 Hugo 部落格為範例，其他主題也可依樣調整：
 
-**快速集成步驟：**
+1. **放置統計腳本**  
+   將 `assets/js/cloudflare-stats.js` 複製到你的 Hugo 專案，並在 `layouts/partials/extend-head.html` 引入：
 
-1. **添加統計代碼** (`layouts/partials/extend-head.html`):
-```html
-<script>
-const STATS_API = 'https://stats.zakk.au';
-const currentPath = window.location.pathname;
+   ```html
+   {{ $stats := resources.Get "js/cloudflare-stats.js" | resources.Minify }}
+   <script defer src="{{ $stats.RelPermalink }}"></script>
+   ```
 
-// 增加瀏覽量
-fetch(`${STATS_API}/api/count?url=${encodeURIComponent(currentPath)}&action=both`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' }
-}).then(res => res.json())
-  .then(data => {
-    if (data.success && data.page) {
-      const viewsEl = document.querySelector(`#views_${currentPath.replace(/\//g, '_')}`);
-      if (viewsEl) viewsEl.textContent = data.page.pv;
-    }
-  });
-</script>
-```
+2. **確保模板輸出 `views_` 佔位符**  
+   Blowfish 已在 `partials/meta/views.html` 內產生 `span`，ID 形如 `views_posts/example/`。若自訂模板，可參考：
 
-2. **顯示閱讀量** (在文章模板中):
-```html
-<span id="views_{{ .RelPermalink | replaceRE "/" "_" }}" class="animate-pulse">
-  <i class="fa-solid fa-eye"></i> ...
-</span>
-```
+   ```html
+   <span id="views_{{ .File.Path }}" class="animate-pulse text-transparent bg-neutral-300 dark:bg-neutral-400">0</span>
+   ```
 
-3. **防止動畫偏移** (`assets/css/custom.css`):
-```css
-span[id^="views_"].animate-pulse {
-  margin-top: 0 !important;
-  transform: none !important;
-  animation: none !important;
-}
-```
+3. **顯示站點總流量（選擇性）**  
+   於頁面新增：
+
+   ```html
+   <span id="site-pv" class="animate-pulse">0</span>
+   <span id="site-uv" class="animate-pulse">0</span>
+   ```
+
+4. **調整配置**  
+   若採用自訂 Worker 網域，記得在腳本第 5 行將 `API_BASE` 改為你的統計域名。
+
+5. **無需額外 CSS**  
+   腳本在填入資料時會移除骨架樣式（`animate-pulse`、`text-transparent` 等），保持主題原生外觀。
 
 ---
 
@@ -532,9 +523,11 @@ wrangler d1 export cloudflare-stats-top --remote --output=backup.sql
 wrangler d1 execute cloudflare-stats-top --file=backup.sql --remote
 ```
 
-### Q5: 閱讀量顯示時有向上偏移？
+### Q5: 閱讀量還需要額外 CSS 調整嗎？
 
-在博客的 `custom.css` 中添加：
+不需要。最新腳本在寫入數字時會自動移除骨架類別並恢復主題的 `vertical-align` 設定。  
+若你使用舊版主題或自訂樣式，仍可加上以下覆蓋：
+
 ```css
 span[id^="views_"].animate-pulse {
   margin-top: 0 !important;
@@ -557,7 +550,7 @@ cloudflare-stats-worker/
 │   └── deploy.sh          # 舊版部署腳本
 ├── schema.sql             # D1 數據表結構
 ├── wrangler.toml          # Worker 配置文件
-├── HUGO_INTEGRATION.md    # Hugo 集成指南
+├── CHANGELOG.md           # 更新紀錄
 ├── README.md              # 本文檔
 └── LICENSE                # MIT 許可證
 ```

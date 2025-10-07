@@ -18,15 +18,12 @@
     const currentPath = normalizePath(window.location.pathname);
     const groups = groupViewNodes(viewNodes, currentPath);
 
-    // 當前頁面：優先使用頁面上的 views_ ID 對應的路徑
     let currentPagePath = null;
     let currentPageNodes = null;
     
-    // 找出當前頁面的 views_ 節點（通常在文章頁頂部單獨出現）
     viewNodes.forEach((node) => {
       const path = getPathFromId(node.id, currentPath);
       if (path && !currentPagePath) {
-        // 第一個不在列表中重複的節點，可能就是當前頁面
         const samePathNodes = groups.get(path) || [];
         if (samePathNodes.length === 1) {
           currentPagePath = path;
@@ -35,13 +32,11 @@
       }
     });
     
-    // 如果沒找到，回退到使用當前 URL
     if (!currentPagePath && groups.has(currentPath)) {
       currentPagePath = currentPath;
       currentPageNodes = groups.get(currentPath);
     }
 
-    // 當前頁面遞增 + 取值
     if (currentPagePath && currentPageNodes) {
       fetchCount(currentPagePath)
         .then((json) => {
@@ -57,7 +52,6 @@
         });
     }
 
-    // 列表頁其他路徑批次查詢
     const otherPaths = Array.from(groups.keys()).filter((p) => p !== currentPagePath);
     if (otherPaths.length) {
       fetchBatch(otherPaths)
@@ -90,7 +84,6 @@
     
     if (!pvEl && !uvEl) return;
     
-    // 獲取網站總流量 (path="/")
     fetchStats("/")
       .then((json) => {
         if (!json || !json.success) return;
@@ -136,40 +129,29 @@
     const raw = id.slice("views_".length);
     if (!raw) return null;
 
-    // taxonomy: views_taxonomy_tags
     if (raw.startsWith("taxonomy_")) {
       const slug = raw.replace(/^taxonomy_/, "");
       return normalizePath(`/${slug}/`);
     }
 
-    // term: views_term_xxx (use current path)
     if (raw.startsWith("term_")) {
       return currentPath || null;
     }
 
-    // 一般文章: views_posts/gentoo-m-series-mac/index.md
-    // 移除: content/ 前綴, .md 後綴, /index, /_index
-    // 保留: posts/... 的路徑結構
     let path = raw;
     
-    // 移除 .md 擴展名（包括語言變體如 .zh-tw.md）
     path = path.replace(/\.(en|zh-tw|zh-cn)\.md$/i, "");
     path = path.replace(/\.md$/i, "");
     
-    // 移除 index 和 _index
     path = path.replace(/\/_index$/i, "");
     path = path.replace(/\/index$/i, "");
     
-    // 移除開頭的 content/ 如果存在
     path = path.replace(/^content\//i, "");
     
-    // 確保以 / 開頭
     if (!path.startsWith("/")) path = "/" + path;
     
-    // 合併多個斜線
     path = path.replace(/\/+/g, "/");
     
-    // 確保以 / 結尾（除非是根路徑）
     if (path !== "/" && !path.endsWith("/")) path += "/";
     if (path === "") path = "/";
 
@@ -202,7 +184,6 @@
     const display = typeof value === "number" ? formatNumber(value) : String(value);
 
     nodes.forEach((node) => {
-      // 移除主題 loading 樣式
       node.classList.remove("animate-pulse", "text-transparent", "bg-neutral-300", "dark:bg-neutral-400");
       node.textContent = display;
     });

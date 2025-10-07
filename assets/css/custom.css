@@ -1,6 +1,1 @@
-/* 修復閱讀量數字與眼睛圖標對齊問題 */
-/* 移除主題的 margin-top 偏移，統一使用 vertical-align */
-span[id^="views_"] {
-  margin-top: 0 !important;
-  vertical-align: baseline !important;
-}
+

@@ -185,7 +185,7 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                 loading: '載入中...', total: '總計', today: '今日', normal: '✅ 正常', error: '❌ 錯誤', version: '版本',
                 cannotConnect: '無法連接', loadFailed: '載入失敗', poweredBy: 'Powered by',
                 pvLabel: '瀏覽量 (PV)', uvLabel: '訪客數 (UV)', views: '次瀏覽', visitors: '位訪客',
-                noData: '暫無熱門頁面數據', loadError: '載入失敗'
+                noData: '暫無熱門頁面數據', loadError: '載入失敗', noDailyData: '暫無趨勢數據，已顯示 0'
             },
             'en': {
                 title: 'Statistics Dashboard', subtitle: 'Real-time website analytics', darkMode: 'Dark Mode', lightMode: 'Light Mode',
@@ -196,7 +196,7 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                 loading: 'Loading...', total: 'Total', today: 'Today', normal: '✅ Normal', error: '❌ Error', version: 'Version',
                 cannotConnect: 'Cannot Connect', loadFailed: 'Load Failed', poweredBy: 'Powered by',
                 pvLabel: 'Page Views (PV)', uvLabel: 'Unique Visitors (UV)', views: ' views', visitors: ' visitors',
-                noData: 'No popular pages yet', loadError: 'Load failed'
+                noData: 'No popular pages yet', loadError: 'Load failed', noDailyData: 'No trend data yet. Showing zeros.'
             }
         };
         function updateI18n() {
@@ -300,7 +300,8 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                 const res = await fetch(\`\${API_BASE}/api/daily?days=\${days}&t=\${Date.now()}\`);
                 if (!res.ok) throw new Error(\`HTTP \${res.status}\`);
                 const data = await res.json();
-                const series = Array.isArray(data.results) && data.results.length
+                const hasResults = Array.isArray(data.results) && data.results.length > 0;
+                const series = hasResults
                     ? data.results
                     : Array.from({ length: days }, (_, idx) => {
                         const date = new Date();
@@ -313,6 +314,10 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                 const todayData = series[series.length - 1] || { pv: 0 };
                 if (todayValueEl) todayValueEl.textContent = formatNumber(todayData.pv || 0);
                 if (todayLabelEl) todayLabelEl.textContent = i18n[currentLang].today;
+                if (!hasResults && errorEl) {
+                    errorEl.style.display = 'block';
+                    errorEl.textContent = i18n[currentLang].noDailyData;
+                }
             } catch (err) {
                 console.warn('[dashboard] daily fetch error', err);
                 const fallbackSeries = Array.from({ length: days }, (_, idx) => {

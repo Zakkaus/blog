@@ -19,14 +19,38 @@ Perfect alternative to Google Analytics for static sites (Hugo, Hexo, Jekyll, Vu
 - **📊 Real-time**: Live PV/UV updates, batch query support
 - **🛡️ Anti-abuse**: Built-in rate limiting (120 req/60sec per IP)
 - **🌐 i18n Ready**: Auto-merge paths like `/zh-tw/posts/` → `/posts/`
-- **📈 Dashboard**: Built-in web dashboard for viewing statistics
+- **📈 Dashboard**: Built-in web dashboard with daily trend charts
+- **🎨 Dual Theme**: Support for light and dark mode with manual toggle
+- **📉 Charts**: Visualize daily PV/UV trends with Chart.js
 
 ---
 
 ## 🎯 Live Demo
 
-- **API Endpoint**: https://cloudflare-stats-worker.zakkauu.workers.dev
-- **Dashboard**: https://stats.zakk.au (View real-time statistics)
+- **Dashboard**: https://stats.zakk.au (View statistics, charts, and trends)
+- **API Endpoint**: https://stats.zakk.au/api/*
+- **Health Check**: https://stats.zakk.au/health
+
+---
+
+## 🏗️ Architecture
+
+This project integrates **both API and Dashboard** in a single Worker:
+
+```
+stats.zakk.au/              → Dashboard (HTML interface)
+stats.zakk.au/api/count     → Increment page view
+stats.zakk.au/api/stats     → Get statistics
+stats.zakk.au/api/batch     → Batch query
+stats.zakk.au/api/top       → Top pages (D1 required)
+stats.zakk.au/health        → Health check
+```
+
+**Benefits:**
+- ✅ Single deployment for both API and dashboard
+- ✅ No CORS issues (same origin)
+- ✅ Simplified maintenance
+- ✅ Custom domain support via CNAME
 
 ---
 
@@ -290,47 +314,58 @@ wrangler d1 execute cloudflare-stats-top --file=schema.sql
 wrangler deploy
 ```
 
-### Deploy Dashboard (Cloudflare Pages)
+---
 
-The built-in web dashboard allows you to view statistics in a beautiful UI.
+## 📊 Using the Dashboard
 
-**Option 1: Cloudflare Pages (Recommended)**
+The Worker includes a **built-in web dashboard** at the root path (`/`). After deployment, access it directly at your Worker URL:
 
-1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com) → Pages
-2. Create a new project → Connect to Git
-3. Select this repository
-4. Build settings:
-   - Build command: *(leave empty)*
-   - Build output directory: `dashboard`
-5. Deploy!
-6. (Optional) Set custom domain like `stats.yourdomain.com`
-
-**Option 2: Manual Deploy**
-
-```bash
-# Install Wrangler if not already
-npm install -g wrangler
-
-# Navigate to dashboard directory
-cd dashboard
-
-# Deploy to Pages
-wrangler pages deploy . --project-name=stats-dashboard
+```
+https://cloudflare-stats-worker.your-subdomain.workers.dev/
+# or with custom domain:
+https://stats.yourdomain.com/
 ```
 
-**Update API URL**
+### Dashboard Features
 
-Edit `dashboard/index.html` line 335:
-```javascript
-const API_BASE = 'https://your-worker-url.workers.dev';
-```
+**📈 Daily Trend Charts**
+- Visualize PV/UV trends over time (7/14/30 days)
+- Interactive Chart.js graphs
+- Responsive design for all devices
 
-**Features**:
-- 📊 Real-time site statistics (PV/UV)
-- 🔍 Search individual page stats
-- 🔥 Top 10 popular pages (requires D1)
-- 📱 Responsive design
-- 🌙 Dark mode
+**🎨 Theme Customization**
+- 🌙 **Dark Mode** (default): Eye-friendly blue color scheme
+- ☀️ **Light Mode**: Clean white interface
+- Manual toggle button in header
+- Persists preference in localStorage
+
+**📊 Statistics Cards**
+- Total site PV/UV
+- Today's PV count
+- API health status
+
+**🔍 Page Search**
+- Query any page path
+- Real-time PV/UV display
+- Support for normalized paths
+
+**🔥 Top Pages**
+- Top 10 most viewed pages
+- Requires D1 database (optional)
+
+### Custom Domain Setup
+
+To use a custom domain like `stats.zakk.au`:
+
+1. **Cloudflare Dashboard** → Workers & Pages → Your Worker
+2. **Settings** → **Triggers** → **Custom Domains**
+3. Click **Add Custom Domain**
+4. Enter your domain (e.g., `stats.zakk.au`)
+5. DNS records will be auto-configured ✅
+
+**Note**: Dashboard and API share the same domain:
+- `https://stats.zakk.au/` → Dashboard
+- `https://stats.zakk.au/api/*` → API endpoints
 
 ---
 

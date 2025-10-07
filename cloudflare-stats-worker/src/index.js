@@ -1,7 +1,9 @@
+import { DASHBOARD_HTML } from './dashboard.js';
+
 const CACHEABLE_PATHS = new Set(["/api/batch", "/api/stats", "/api/top"]);
 const CACHE_TTL_SECONDS = 30;
 const TOP_CACHE_TTL_SECONDS = 60;
-const WORKER_VERSION = "1.2.0";
+const WORKER_VERSION = "1.3.0";
 
 export default {
   async fetch(request, env, ctx) {
@@ -34,6 +36,12 @@ export default {
 
     try {
       switch (pathname) {
+        case "/":
+        case "/index.html":
+          // 服務儀表板 HTML
+          ensureGet(method);
+          response = await handleDashboard(env, corsHeaders);
+          break;
         case "/api/count":
           ensureGet(method);
           response = await handleCount(request, env, corsHeaders, ctx);
@@ -379,6 +387,17 @@ async function updateD1PageStats(env, path, isNewPageVisitor) {
 
 function getD1(env) {
   return env.DB || env.cloudflare_stats_top || null;
+}
+
+async function handleDashboard(env, corsHeaders) {
+  return new Response(DASHBOARD_HTML, {
+    status: 200,
+    headers: {
+      ...corsHeaders,
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600',
+    },
+  });
 }
 
 async function invalidateCacheEntries(request, path) {

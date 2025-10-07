@@ -55,6 +55,7 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
             border-radius: 6px; color: var(--text); cursor: pointer; transition: all 0.2s; }
         .chart-controls button:hover, .chart-controls button.active { background: var(--primary); color: white; border-color: var(--primary); }
         .chart-container { position: relative; height: 400px; }
+        .chart-note { margin-top: 12px; color: var(--text-muted); font-size: 0.9rem; }
         .search-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
             padding: 30px; margin-bottom: 30px; box-shadow: 0 1px 3px var(--shadow); }
         .search-section h2 { margin-bottom: 20px; font-size: 1.5rem; }
@@ -145,6 +146,7 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                 <button data-days="30" data-i18n="last30Days">過去 30 天</button>
             </div>
             <div class="chart-container"><canvas id="dailyChart"></canvas></div>
+            <p class="chart-note" id="daily-updated"></p>
             <div id="daily-error" class="error" style="display:none"></div>
         </div>
         <div class="search-section">
@@ -185,7 +187,8 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                 loading: '載入中...', total: '總計', today: '今日', normal: '✅ 正常', error: '❌ 錯誤', version: '版本',
                 cannotConnect: '無法連接', loadFailed: '載入失敗', poweredBy: 'Powered by',
                 pvLabel: '瀏覽量 (PV)', uvLabel: '訪客數 (UV)', views: '次瀏覽', visitors: '位訪客',
-                noData: '暫無熱門頁面數據', loadError: '載入失敗', noDailyData: '暫無趨勢數據，已顯示 0'
+                noData: '暫無熱門頁面數據', loadError: '載入失敗', noDailyData: '暫無趨勢數據，已顯示 0',
+                updatedAtPrefix: '更新於 (UTC)', chartUpdatedPrefix: '趨勢圖資料更新 (UTC)'
             },
             'en': {
                 title: 'Statistics Dashboard', subtitle: 'Real-time website analytics', darkMode: 'Dark Mode', lightMode: 'Light Mode',
@@ -196,9 +199,18 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
                 loading: 'Loading...', total: 'Total', today: 'Today', normal: '✅ Normal', error: '❌ Error', version: 'Version',
                 cannotConnect: 'Cannot Connect', loadFailed: 'Load Failed', poweredBy: 'Powered by',
                 pvLabel: 'Page Views (PV)', uvLabel: 'Unique Visitors (UV)', views: ' views', visitors: ' visitors',
-                noData: 'No popular pages yet', loadError: 'Load failed', noDailyData: 'No trend data yet. Showing zeros.'
+                noData: 'No popular pages yet', loadError: 'Load failed', noDailyData: 'No trend data yet. Showing zeros.',
+                updatedAtPrefix: 'Updated (UTC)', chartUpdatedPrefix: 'Trend refreshed (UTC)'
             }
         };
+        const sitePvNote = document.querySelector('#site-pv').nextElementSibling;
+        const siteUvNote = document.querySelector('#site-uv').nextElementSibling;
+        const chartUpdatedEl = document.getElementById('daily-updated');
+
+    let siteStatus = 'loading';
+    let lastSiteTimestamp = null;
+    let dailyStatus = 'loading';
+    let lastDailyTimestamp = null;
         function updateI18n() {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
@@ -210,6 +222,8 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
             });
             document.documentElement.lang = currentLang;
             if (dailyChart) { dailyChart.data.datasets[0].label = i18n[currentLang].pvLabel; dailyChart.data.datasets[1].label = i18n[currentLang].uvLabel; dailyChart.update(); }
+            renderSiteStatus();
+            renderDailyStatus();
         }
         const themeToggle = document.getElementById('theme-toggle'), themeIcon = document.getElementById('theme-icon'),
               themeText = document.getElementById('theme-text'), langToggle = document.getElementById('lang-toggle'),
@@ -230,22 +244,74 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
             if (theme === 'dark') { themeIcon.textContent = '🌙'; themeText.textContent = i18n[currentLang].darkMode; }
             else { themeIcon.textContent = '☀️'; themeText.textContent = i18n[currentLang].lightMode; }
         }
-        async function loadSiteStats() {
+        function renderSiteStatus() {
+            if (!sitePvNote || !siteUvNote) return;
+            let message;
+            if (siteStatus === 'loading') {
+                message = i18n[currentLang].loading;
+            } else if (siteStatus === 'error') {
+                message = i18n[currentLang].loadFailed;
+            } else if (lastSiteTimestamp) {
+                message = i18n[currentLang].total + ' · ' + i18n[currentLang].updatedAtPrefix + ': ' + formatUtcTimestamp(lastSiteTimestamp);
+            } else {
+                message = i18n[currentLang].loadFailed;
+            }
+            sitePvNote.textContent = message;
+            siteUvNote.textContent = message;
+        }
+        function renderDailyStatus() {
+            if (!chartUpdatedEl) return;
+            let detail;
+            if (dailyStatus === 'loading') {
+                detail = i18n[currentLang].loading;
+            } else if (dailyStatus === 'error') {
+                detail = i18n[currentLang].loadFailed;
+            } else if (lastDailyTimestamp) {
+                detail = formatUtcTimestamp(lastDailyTimestamp);
+            } else {
+                detail = '—';
+            }
+            chartUpdatedEl.textContent = i18n[currentLang].chartUpdatedPrefix + ': ' + detail;
+        }
+        function formatUtcTimestamp(value) {
             try {
-                const res = await fetch(`${API_BASE}/api/stats`);
+                const date = typeof value === 'string' ? new Date(value) : value;
+                if (!date || Number.isNaN(date.getTime())) return '—';
+                return date.toISOString().replace('T', ' ').replace('Z', ' UTC');
+            } catch (err) {
+                return '—';
+            }
+        }
+        async function loadDailyChart(days = 7) {
+            siteStatus = 'loading';
+            renderSiteStatus();
+            try {
+            dailyStatus = 'loading';
+            renderDailyStatus();
+                const statsUrl = new URL('/api/stats', API_BASE);
+                statsUrl.searchParams.set('t', Date.now().toString());
+                const res = await fetch(statsUrl.toString());
                 const data = await res.json();
-                if (data.success) {
+                if (data && data.success) {
                     const pv = data.site?.pv ?? data.page?.pv ?? 0;
                     const uv = data.site?.uv ?? data.page?.uv ?? 0;
                     document.getElementById('site-pv').textContent = formatNumber(pv);
                     document.getElementById('site-uv').textContent = formatNumber(uv);
-                    document.querySelector('#site-pv').nextElementSibling.textContent = i18n[currentLang].total;
-                    document.querySelector('#site-uv').nextElementSibling.textContent = i18n[currentLang].total;
+                    lastSiteTimestamp = data.timestamp || new Date().toISOString();
+                    siteStatus = 'ok';
+                } else {
+                    lastSiteTimestamp = null;
+                    siteStatus = 'error';
                 }
             } catch (err) {
-                document.querySelector('#site-pv').nextElementSibling.textContent = i18n[currentLang].loadFailed;
-                document.querySelector('#site-uv').nextElementSibling.textContent = i18n[currentLang].loadFailed;
+                console.warn('[dashboard] stats fetch error', err);
+                lastSiteTimestamp = null;
+                siteStatus = 'error';
             }
+            renderSiteStatus();
+                lastDailyTimestamp = data.timestamp || new Date().toISOString();
+                dailyStatus = 'ok';
+                renderDailyStatus();
         }
         async function checkHealth() {
             try {
@@ -265,6 +331,9 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
             const textColor = isDark ? '#e2e8f0' : '#1e293b', gridColor = isDark ? '#334155' : '#e2e8f0';
             if (dailyChart) dailyChart.destroy();
             dailyChart = new Chart(ctx, {
+                lastDailyTimestamp = null;
+                dailyStatus = 'error';
+                renderDailyStatus();
                 type: 'line',
                 data: {
                     labels: [],
@@ -399,6 +468,8 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
             if (blob) document.getElementById('logo-img').src = URL.createObjectURL(blob);
         }).catch(() => {});
         document.addEventListener('DOMContentLoaded', () => {
+            renderSiteStatus();
+            renderDailyStatus();
             loadSiteStats(); checkHealth(); loadTopPages(); initChart(); loadDailyChart(currentDays);
             document.getElementById('search-btn').addEventListener('click', searchPage);
             document.getElementById('path-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') searchPage(); });

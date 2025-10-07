@@ -1,3 +1,27 @@
+# v1.5.2 更新說明
+
+發布日期：2025-10-08
+
+## ✨ 重點
+
+- ✅ 儀表板與 Hugo 前端改為使用 `/api/stats` 的全站統計，移除 `url=/` 參數造成的首頁 UV 偏低問題，確保數據一致。
+- ✅ `/api/stats` 現在回傳 `timestamp` 欄位，前端可以顯示最後更新的 UTC 時間。
+- ✅ 儀表板加入「更新於 (UTC)」與趨勢圖刷新提示，並統一顯示全站數據的最新時間。
+- ✅ Dashboard API 請求新增 `?t=<timestamp>` 參數，避免 Cloudflare 邊緣快取回傳過期的總數。
+
+## 🛠️ 修復詳情
+
+- `loadSiteStats()` 改用全站統計並在成功載入時記錄 API 時戳，與 Hugo 頁面顯示資料完全同步。
+- Daily chart 成功載入後會保存 API 回傳時間，失敗時顯示錯誤提示並保持 UTC 標籤一致。
+- 新增 `formatUtcTimestamp()` 工具，統一格式化 ISO 時間為 `YYYY-MM-DD HH:mm:ss UTC`，中英文皆可讀。
+
+## 📚 文件調整
+
+- README 更新：補充全站統計與 UTC 刷新說明，提醒使用者 timeline 與儀表板數據現已一致。
+- Timeline 頁面備註新增 UTC 時間說明，方便讀者理解儀表板的時間軸。
+
+---
+
 # v1.5.1 更新說明
 
 發布日期：2025-10-07

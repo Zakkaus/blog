@@ -68,7 +68,7 @@ Learn more: [Potato's Profile](/about/#potato)
 
 Started recording tech notes, life sharing, and guinea pig daily life since September 2025. Built with Hugo + Cloudflare Pages deployment, with a self-hosted statistics system tracking visitor data.
 
-For the full analytics breakdown, head over to [stats.zakk.au](https://stats.zakk.au/).
+For the full analytics breakdown, head over to [stats.zakk.au](https://stats.zakk.au/)—all charts there refresh on UTC time.
 {{< /timelineItem >}}
 {{< /timeline >}}
 

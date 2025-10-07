@@ -208,6 +208,7 @@
     if (path) {
       url.searchParams.set("url", path);
     }
+    url.searchParams.set("t", Date.now().toString());
     return fetchWithTimeout(url.toString());
   }
 

@@ -68,7 +68,7 @@ seo:
 
 從 2025 年 9 月開始記錄技術筆記、生活分享和天竺鼠日常。採用 Hugo + Cloudflare Pages 部署，並自建統計系統追蹤訪問數據。
 
-想看更完整的流量圖表與路由細節，歡迎造訪 [Cloudflare 統計儀表板](https://stats.zakk.au/)。
+想看更完整的流量圖表與路由細節，歡迎造訪 [Cloudflare 統計儀表板](https://stats.zakk.au/)，所有圖表資料以 UTC 時間更新。
 {{< /timelineItem >}}
 {{< /timeline >}}
 

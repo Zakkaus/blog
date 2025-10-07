@@ -57,7 +57,7 @@
 [[main]]
   name = "統計監控"
   parent = "more"
-  url = "https://stats.zakk.au/"
+  url = "/zh-tw/stats/"
   weight = 45
 
 

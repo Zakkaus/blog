@@ -84,11 +84,11 @@
     
     if (!pvEl && !uvEl) return;
     
-    fetchStats("/")
+    fetchStats()
       .then((json) => {
         if (!json || !json.success) return;
-        const pv = json.page?.pv || 0;
-        const uv = json.page?.uv || 0;
+        const pv = (json.site?.pv ?? json.page?.pv ?? 0);
+        const uv = (json.site?.uv ?? json.page?.uv ?? 0);
         
         if (pvEl) {
           pvEl.classList.remove("animate-pulse");
@@ -205,7 +205,9 @@
 
   function fetchStats(path) {
     const url = new URL("/api/stats", API_BASE);
-    url.searchParams.set("url", path);
+    if (path) {
+      url.searchParams.set("url", path);
+    }
     return fetchWithTimeout(url.toString());
   }
 

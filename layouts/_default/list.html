@@ -26,21 +26,65 @@
     <div class="mt-1 mb-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
       {{ partial "article-meta/list.html" (dict "context" . "scope" "single") }}
     </div>
-    {{ $translations := .AllTranslations }}
-    {{ with .File }}
-      {{ $path := .Path }}
-      {{ range $translations }}
-        {{ $lang := print "."  .Lang  ".md" }}
+    {{ $oidPath := "" }}
+    {{ $rel := "" }}
+    {{ with .RelPermalink }}
+      {{ $rel = printf "%s" . }}
+    {{ end }}
+    {{ if ne $rel "" }}
+      {{ if not (strings.HasSuffix $rel "/") }}
+        {{ $rel = printf "%s/" $rel }}
+      {{ end }}
+      {{ $clean := strings.TrimLeft "/" $rel }}
+      {{ if or (eq $clean "") (eq $clean "/") }}
+        {{ $oidPath = "/" }}
+      {{ else }}
+        {{ $oidPath = $clean }}
+      {{ end }}
+    {{ end }}
+
+    {{ if and (eq $oidPath "") .File }}
+      {{ $dir := printf "%s" .File.Dir }}
+      {{ if ne $dir "" }}
+        {{ if strings.HasSuffix $dir "/" }}
+          {{ $oidPath = $dir }}
+        {{ else }}
+          {{ $oidPath = printf "%s/" $dir }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+
+    {{ if and (eq $oidPath "") .Path }}
+      {{ $path := printf "%s" .Path }}
+      {{ $clean := strings.TrimLeft "/" $path }}
+      {{ if eq $clean "" }}
+        {{ $oidPath = "/" }}
+      {{ else }}
+        {{ $oidPath = printf "%s/" $clean }}
+      {{ end }}
+    {{ end }}
+
+    {{ if and (eq $oidPath "") .File }}
+      {{ $path := .File.Path }}
+      {{ range .AllTranslations }}
+        {{ $lang := print "." .Lang ".md" }}
         {{ $path = replace $path $lang ".md" }}
       {{ end }}
+      {{ if not (strings.HasSuffix $path "/") }}
+        {{ $path = printf "%s/" $path }}
+      {{ end }}
+      {{ $oidPath = strings.TrimLeft "/" $path }}
+    {{ end }}
+
+    {{ if ne $oidPath "" }}
       {{ $jsPage := resources.Get "js/page.js" }}
       {{ $jsPage = $jsPage | resources.Minify | resources.Fingerprint (site.Params.fingerprintAlgorithm | default "sha512") }}
       <script
         type="text/javascript"
         src="{{ $jsPage.RelPermalink }}"
         integrity="{{ $jsPage.Data.Integrity }}"
-        data-oid="views_{{ $path }}"
-        data-oid-likes="likes_{{ $path }}"></script>
+        data-oid="views_{{ $oidPath }}"
+        data-oid-likes="likes_{{ $oidPath }}"></script>
     {{ end }}
   </header>
 

@@ -23,7 +23,7 @@ dashboardURL: "https://stats.zakk.au"
 
 ## 🔥 熱門頁面 Top 10
 
-{{< statsTop title="🔥 熱門頁面 Top 10" ctaLabel="在 stats.zakk.au 查看更多" ctaUrl="https://stats.zakk.au/" >}}
+{{< statsTop title="🔥 熱門頁面 Top 10" ctaLabel="在 stats.zakk.au 查看更多" ctaUrl="https://stats.zakk.au/" emptyText="目前沒有數據" errorText="暫時無法載入熱門頁面" >}}
 
 {{< statsPageScripts >}}
 

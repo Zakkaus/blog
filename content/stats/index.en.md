@@ -23,7 +23,7 @@ This page shows the real-time analytics that power zakk.au, refreshed by Cloudfl
 
 ## 🔥 Top pages (Top 10)
 
-{{< statsTop title="🔥 Top Pages (Top 10)" ctaLabel="Open full dashboard" ctaUrl="https://stats.zakk.au/" >}}
+{{< statsTop title="🔥 Top Pages (Top 10)" ctaLabel="Open full dashboard" ctaUrl="https://stats.zakk.au/" emptyText="No data yet." errorText="Unable to load top pages." >}}
 
 {{< statsPageScripts >}}
 

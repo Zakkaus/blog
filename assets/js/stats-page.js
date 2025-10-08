@@ -7,10 +7,6 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
   day: "numeric",
 });
 
-function safeText(value, fallback = "—") {
-  return value ?? fallback;
-}
-
 async function fetchJSON(url) {
   const response = await fetch(url, { credentials: "omit" });
   if (!response.ok) {
@@ -239,7 +235,9 @@ async function updateTop() {
   const limit = Number(topEl.dataset.limit ?? 10);
   const list = topEl.querySelector("[data-field='list']");
   if (!list) return;
-  list.innerHTML = "<li class=\"text-sm text-muted\">…</li>";
+  const emptyText = topEl.dataset.emptyText ?? "No data yet.";
+  const errorText = topEl.dataset.errorText ?? "Unable to load top pages.";
+  list.innerHTML = `<li class="text-sm text-muted">${emptyText}</li>`;
   try {
     let items = [];
     try {
@@ -253,7 +251,7 @@ async function updateTop() {
       items = stats.top ?? stats.popular ?? [];
     }
     if (!Array.isArray(items) || !items.length) {
-      list.innerHTML = "<li class=\"text-sm text-muted\">No data yet.</li>";
+      list.innerHTML = `<li class="text-sm text-muted">${emptyText}</li>`;
       return;
     }
     list.innerHTML = "";
@@ -262,7 +260,7 @@ async function updateTop() {
     });
   } catch (error) {
     console.error("Failed to render top pages", error);
-    list.innerHTML = "<li class=\"text-sm text-muted\">Unable to load top pages.</li>";
+    list.innerHTML = `<li class="text-sm text-muted">${errorText}</li>`;
   }
 }
 

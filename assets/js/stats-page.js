@@ -7,10 +7,24 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
   day: "numeric",
 });
 
-async function fetchJSON(url) {
-  const response = await fetch(url, {
+function toURL(input) {
+  if (input instanceof URL) {
+    return new URL(input.toString());
+  }
+  try {
+    return new URL(String(input));
+  } catch (error) {
+    return new URL(String(input), window.location.origin);
+  }
+}
+
+async function fetchJSON(input) {
+  const resource = toURL(input);
+  resource.searchParams.set("t", Date.now().toString());
+  const response = await fetch(resource.toString(), {
     credentials: "omit",
     headers: { Accept: "application/json" },
+    cache: "no-store",
   });
   if (!response.ok) {
     throw new Error(`Request failed: ${response.status}`);
@@ -45,10 +59,21 @@ function getStatusText(element, key, fallback) {
   return map[key] ?? fallback;
 }
 
+function normalizeStatusKey(value) {
+  if (typeof value !== "string") return "error";
+  const key = value.toLowerCase();
+  if (["ok", "okay", "success", "pass", "up"].includes(key)) return "ok";
+  if (["healthy", "good", "online"].includes(key)) return "healthy";
+  if (["warn", "warning", "degraded", "maintenance", "partial"].includes(key)) return "warn";
+  if (["error", "fail", "failed", "down", "offline", "critical", "fatal"].includes(key)) return "error";
+  return key;
+}
+
 function formatStatus(status, element) {
   if (!status) return getStatusText(element, "error", "⚠️ Error");
-  const key = status.toLowerCase();
-  return getStatusText(element, key, status) ?? status;
+  const key = normalizeStatusKey(status);
+  const fallback = typeof status === "string" ? status : String(status);
+  return getStatusText(element, key, fallback) ?? fallback;
 }
 
 async function updateSummary() {
@@ -101,9 +126,12 @@ async function updateHealth() {
   const versionEl = health.querySelector("[data-field='version']");
   if (statusEl) statusEl.textContent = "…";
   if (versionEl) versionEl.textContent = "…";
+  health.dataset.state = "loading";
   try {
     const data = await fetchJSON(`${base}/health`);
     const status = data.status ?? data.state ?? "error";
+    const normalized = normalizeStatusKey(status);
+    health.dataset.state = normalized;
     if (statusEl) statusEl.textContent = formatStatus(status, health);
     const version = data.version ?? data.meta?.version ?? data.worker?.version ?? "—";
     if (versionEl) versionEl.textContent = version;
@@ -112,6 +140,8 @@ async function updateHealth() {
     try {
       const data = await fetchJSON(`${base}/api/stats`);
       const status = data.status ?? data.state ?? "error";
+      const normalized = normalizeStatusKey(status);
+      health.dataset.state = normalized;
       if (statusEl) statusEl.textContent = formatStatus(status, health);
       const version = data.version ?? data.meta?.version ?? data.worker?.version ?? "—";
       if (versionEl) versionEl.textContent = version;
@@ -119,6 +149,7 @@ async function updateHealth() {
       console.error("Failed to resolve stats health", err);
       if (statusEl) statusEl.textContent = getStatusText(health, "error", "⚠️ Error");
       if (versionEl) versionEl.textContent = "—";
+      health.dataset.state = "error";
     }
   }
 }
@@ -384,7 +415,7 @@ async function updateTop() {
   if (!list) return;
   const emptyText = topEl.dataset.emptyText ?? "No data yet.";
   const errorText = topEl.dataset.errorText ?? "Unable to load top pages.";
-  list.innerHTML = `<li class="stats-top-empty">${emptyText}</li>`;
+  list.innerHTML = `<li class="stats-top__empty">${emptyText}</li>`;
   try {
     let items = [];
     try {
@@ -398,7 +429,7 @@ async function updateTop() {
       items = stats.top ?? stats.popular ?? stats.results ?? [];
     }
     if (!Array.isArray(items) || !items.length) {
-  list.innerHTML = `<li class="stats-top-empty">${emptyText}</li>`;
+      list.innerHTML = `<li class="stats-top__empty">${emptyText}</li>`;
       return;
     }
     list.innerHTML = "";
@@ -412,7 +443,7 @@ async function updateTop() {
     });
   } catch (error) {
     console.error("Failed to render top pages", error);
-    list.innerHTML = `<li class="stats-top-empty">${errorText}</li>`;
+    list.innerHTML = `<li class="stats-top__empty">${errorText}</li>`;
   }
 }
 

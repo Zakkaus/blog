@@ -6,7 +6,7 @@
   <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
     <h3 class="text-xl font-semibold">{{ .Get "title" }}</h3>
     {{ if and $ctaLabel $ctaUrl }}
-      <a class="text-sm font-medium text-primary transition hover:text-primary-600" href="{{ $ctaUrl }}" target="_blank" rel="noopener">{{ $ctaLabel }}</a>
+  <a class="text-sm font-medium text-primary transition hover:underline" href="{{ $ctaUrl }}" target="_blank" rel="noopener">{{ $ctaLabel }}</a>
     {{ end }}
   </div>
   <ol class="mt-4 space-y-3" data-field="list">

@@ -234,8 +234,8 @@ async function updateTrend() {
       return;
     }
     hideMessage();
-    const span = Math.max(1, Math.min(range, allPoints.length));
-    const slice = allPoints.slice(-span);
+    const span = Math.max(1, Number.isFinite(range) ? range : 30);
+    const slice = allPoints.slice(Math.max(allPoints.length - span, 0));
     if (chartInstance) {
       chartInstance.destroy();
     }
@@ -257,8 +257,6 @@ async function updateTrend() {
     allPoints.sort((a, b) => new Date(a.date) - new Date(b.date));
     if (!allPoints.length) {
       showMessage(emptyText);
-    } else {
-      render(30);
     }
     const rangeButtons = trend.querySelectorAll(".stats-range-button");
     const setActive = (active) => {
@@ -280,6 +278,7 @@ async function updateTrend() {
     if (defaultButton) {
       setActive(defaultButton);
     }
+    render(30);
   } catch (error) {
     console.error("Failed to render trend", error);
     showMessage(errorText);

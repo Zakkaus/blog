@@ -143,6 +143,18 @@
 .stats-panel__heading {
 	font-size: clamp(1.35rem, 2.8vw, 1.75rem);
 	font-weight: 700;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.65rem;
+}
+
+.stats-panel__heading::before {
+	content: "";
+	width: 12px;
+	height: 12px;
+	border-radius: 6px;
+	background: var(--stats-primary);
+	opacity: 0.6;
 }
 
 .stats-panel__description {

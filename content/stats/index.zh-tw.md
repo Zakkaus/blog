@@ -15,7 +15,7 @@ dashboardURL: "https://stats.zakk.au"
 
 ## API 與系統狀態
 
-{{< statsHealth title="API 當前狀態" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="API 當前狀態" statusPlaceholder="檢查中…" versionLabel="版本" >}}
+{{< statsHealth title="API 當前狀態" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="API 當前狀態" statusPlaceholder="檢查中…" versionLabel="版本" okText="✅ 正常" healthyText="✅ 正常" errorText="⚠️ 異常" >}}
 
 ## 📈 每日訪問趨勢
 

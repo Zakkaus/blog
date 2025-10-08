@@ -274,22 +274,6 @@
   background: linear-gradient(135deg, rgba(30, 41, 59, 0.92) 0%, rgba(30, 41, 59, 0.7) 100%);
 }
 
-.stats-health__status::after {
-  content: "";
-  position: absolute;
-  inset: auto -20% -60% auto;
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(circle at center, rgba(var(--color-primary-500, 99, 102, 241), 0.3), rgba(255, 255, 255, 0));
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.dark .stats-health__status::after {
-  opacity: 0.35;
-  background: radial-gradient(circle at center, rgba(var(--color-primary-300, 165, 180, 252), 0.22), rgba(15, 23, 42, 0));
-}
-
 .stats-health__label {
   font-size: 0.75rem;
   font-weight: 700;
@@ -496,6 +480,7 @@
   font-weight: 600;
   font-size: 0.95rem;
   padding: 1.5rem;
+  pointer-events: none;
 }
 
 .stats-empty.is-visible {

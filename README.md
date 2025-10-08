@@ -40,11 +40,12 @@ hugo --gc --minify
 - 若調整主題，請記得在 `themes/blowfish` 子模組內提交或拉取最新版本。
 
 ## Analytics Integration · 統計整合
-- 前端腳本：`assets/js/cloudflare-stats.js` 會在頁面載入時調用 `https://stats.zakk.au` Worker。  
+- **Worker 原始碼**：位於 `cloudflare-stats-worker/` 子資料夾，提供完整 API 與獨立儀表板網站。
+- **前端腳本**：`assets/js/cloudflare-stats.js` 會在頁面載入時調用 `https://stats.zakk.au` Worker API。  
   可在 `API_BASE` 改成自己的 Worker 網域。
-- 佔位符：Blowfish 產生 `views_` span；腳本會填入 PV 並維持圖示對齊。
-- 全站統計：`/api/stats` 省略 `url` 時回傳全站 PV/UV，現已同時供 timeline 與儀表板使用，並附上 UTC 時戳避免數據不一致。
-- Dashboard：`https://stats.zakk.au/` 顯示即時 PV/UV、熱門頁面與每日趨勢，卡片與圖表會標示最新「更新於 (UTC)」並在載入或錯誤時顯示狀態提示。
+- **佔位符整合**：Blowfish 模板產生 `views_` span，腳本會即時填入 PV/UV 並維持圖示對齊。
+- **全站統計**：`/api/stats`（無 `url` 參數）回傳全站 PV/UV，同時供 timeline 與儀表板使用，並附上 UTC 時戳。
+- **獨立儀表板**：**[stats.zakk.au](https://stats.zakk.au/)** 顯示即時 PV/UV、熱門頁面與每日趨勢，支援深淺色主題與繁中/英文切換。卡片與圖表會標示最新「更新於 (UTC)」並在載入或錯誤時顯示狀態提示。
 
 ## SEO
 - `static/robots.txt` 提供標準 `User-agent` / `Allow` / `Sitemap` 指令，已移除 Search Console 無法解析的自訂標頭。

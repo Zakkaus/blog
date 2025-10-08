@@ -23,14 +23,15 @@ seo:
   description: "解析 stats.zakk.au 背后的 Cloudflare Stats Worker，包括部署流程、脚本、仪表板与 Hugo 整合细节。"
 ---
 {{< lead >}}
-Cloudflare Stats Worker 是我在 zakk.au 部署的开源数据统计方案：一个 Worker 就能同时提供 API、仪表板以及 Hugo Blowfish 的整合，让 PV / UV 实时刷新又不泄露访客隐私。本指南把架构、部署、调优一次讲透，照着步骤就能复刻 `stats.zakk.au` 的完整体验。{{< /lead >}}
+Cloudflare Stats Worker 是我在 zakk.au 部署的开源数据统计方案：一个 Worker 就能同时提供 API 与独立仪表板网站，让 PV / UV 实时刷新又不泄露访客隐私。本指南把架构、部署、调优一次讲透，照着步骤就能复刻 [stats.zakk.au](https://stats.zakk.au/) 的完整体验。{{< /lead >}}
 
 ## 为什么选择 Cloudflare Stats Worker
 
 - **零 Cookie、零第三方追踪**：数据全部留在你的 Cloudflare KV / D1 里，自行掌控保存策略。
-- **一次部署、全套功能**：同一个 Worker 就提供 `/api/*` 接口和仪表板页面。
+- **一次部署、全套功能**：同一个 Worker 就提供 `/api/*` 接口和独立仪表板网站。
 - **多语言 slug 统一**：`/zh-cn/posts/foo/` 与 `/posts/foo/` 会归并为同一个计数键。
 - **免费额度够用**：对个人博客而言，Cloudflare 免费配额完全足够。
+- **Hugo 整合简单**：客户端脚本与 partial 示例让文章页实时显示 PV/UV。
 
 ### 免费额度与升级选项
 
@@ -72,12 +73,13 @@ graph LR
 
 ## 仪表板亮点
 
+想先体验效果？直接访问 **[stats.zakk.au](https://stats.zakk.au/)** 看看实际运作！
+
 - **今日 PV / UV 卡片**：一眼看到实时增长。
 - **热门文章排行**：追踪哪些内容正在发酵。
 - **每日趋势图**：预设显示 7 / 30 天，原生支持深浅色模式。
-- **全屏模式**：手机和平板浏览同样舒适。
-
-想先体验？欢迎到 [统计监控页面](/zh-cn/stats/) 或其它语言版本先行预览。
+- **玻璃拟态设计**：清爽 UI，支持主题切换与中英文即时切换。
+- **独立部署**：通过自定义域名（如 `stats.example.com`）直接访问，无需嵌入。
 
 ## 部署前准备
 
@@ -201,17 +203,31 @@ hugo server -D
 
 若想压测，可用 `hey` 或 `autocannon` 打 `/api/count`，观察 KV 延迟表现。
 
-## 步骤 7：建立统计仪表板页面
+## 步骤 7：访问仪表板
 
-本站利用 Hugo 主题模板与短码嵌入仪表板：
+部署完成后，直接访问你的仪表板域名即可：
+
+```
+https://stats.example.com/
+```
+
+你会看到与 [stats.zakk.au](https://stats.zakk.au/) 相同的界面：
+
+- 实时今日/全站 PV・UV 卡片
+- API 健康状态指示灯
+- 7/14/30 天趋势图表
+- 热门页面 Top 10 排行
+- 深浅色主题与中英文切换
+
+**可选：嵌入博客页面**
+
+如果你想把仪表板嵌入博客（如本站的 `/stats/` 页面），可使用 iframe 或项目提供的 Hugo 短码：
 
 ```markdown
 {{< statsDashboard url="https://stats.example.com" heightClass="h-[1200px]" >}}
 ```
 
-- 短码位于 `layouts/shortcodes/statsDashboard.html`，自带圆角、阴影与暗色模式样式。
-- 配合 `content/stats/index.*.md` 即可生成 `/stats/` 页面，同时保留 Blowfish 的单篇排版。
-- 若要完全自定义 UI，可以把 `dashboard/` 资源改写成 Hugo partial 或独立 SPA。
+短码位于 `layouts/shortcodes/statsDashboard.html`，可保持与 Blowfish 主题一致的样式。
 
 ## 常见问题
 
@@ -242,4 +258,10 @@ hugo server -D
 
 ---
 
-这份部署指南即是 zakk.au 的数据骨干—如果你在实作中遇到问题，欢迎邮件或到 Matrix 聊天室联系我。
+这份部署指南即是 [stats.zakk.au](https://stats.zakk.au/) 的数据骨干—完成部署后，你将拥有：
+
+✅ 独立仪表板网站（如 `stats.example.com`）  
+✅ 完整的统计 API（`/api/count`、`/api/stats`、`/api/top` 等）  
+✅ Hugo 文章页实时 PV/UV 显示  
+
+如果在实作中遇到问题，欢迎在 [GitHub Issues](https://github.com/Zakkaus/cloudflare-stats-worker/issues) 联系我，我会持续更新脚本与文档。

@@ -1,6 +1,38 @@
 ---
 title: "Cloudflare Stats Worker Deployment & Integration Guide"
-slug: "cloudflare-stats-worker-deploy"
+slug:## Dashboard highlights
+
+Want to see it in action first? Check out **[stats.zakk.au](https://stats.zakk.au/)** for a live demo!
+
+- **Today'## Step 7: Access your dashboard
+
+Once deployed, visit your dashboard domain directly:
+
+```
+https://stats.example.com/
+```
+
+You'll see the same interface as [stats.zakk.au](https://stats.zakk.au/):
+
+- Real-time today/site PV・UV cards
+- API health status indicator
+- 7/14/30-day trend charts
+- Top 10 pages ranking
+- Dark/light theme toggle and locale switcher (EN ⇄ zh-TW)
+
+**Optional: Embed in your blog**
+
+If you want to embed the dashboard in a blog page (like this site's `/stats/` page), use an iframe or the provided Hugo shortcode:
+
+```markdown
+{{< statsDashboard url="https://stats.example.com" heightClass="h-[1200px]" >}}
+```
+
+The shortcode lives at `layouts/shortcodes/statsDashboard.html` and maintains Blowfish theme consistency.ards**: glance at real-time growth as soon as the page loads.
+- **Top articles ranking**: track which posts are trending across social channels.
+- **Daily trend charts**: seven and thirty-day ranges with light/dark mode out of the box.
+- **Glassmorphism design**: clean UI with theme toggle and instant locale switching (EN ⇄ zh-TW).
+- **Standalone deployment**: access via custom domain (e.g., `stats.example.com`) without embedding.lare-stats-worker-deploy"
 translationKey: "cloudflare-stats-deploy"
 date: 2025-10-08
 draft: false
@@ -23,14 +55,15 @@ seo:
   description: "Learn how the Cloudflare Stats Worker powers stats.zakk.au, including architecture, scripts, dashboard, and Hugo integration details."
 ---
 {{< lead >}}
-Cloudflare Stats Worker is the open analytics stack running on zakk.au: a single Worker delivers the API, dashboard, and Hugo Blowfish integration so page views and visitors refresh instantly without leaking user data. This guide combines the architecture, deployment steps, and optimisation tips so you can replicate the experience of `stats.zakk.au` from scratch.{{< /lead >}}
+Cloudflare Stats Worker is the open analytics stack powering zakk.au: a single Worker delivers both the API and a standalone dashboard, so page views and visitors refresh instantly without leaking user data. This guide walks through the architecture, deployment steps, and Hugo integration so you can replicate [stats.zakk.au](https://stats.zakk.au/) from scratch.{{< /lead >}}
 
 ## Why choose Cloudflare Stats Worker
 
 - **Zero cookies, zero third-party trackers**: all data lives in Cloudflare KV (and optionally D1) under your account.
-- **One Worker, full experience**: the Worker exposes `/api/*` endpoints and serves the dashboard UI in one deployment.
+- **One Worker, full stack**: the Worker exposes `/api/*` endpoints and hosts a complete dashboard website.
 - **Locale-aware slug normalisation**: `/zh-tw/posts/foo/` and `/posts/foo/` map to a unified counter key.
 - **Free to run**: the Worker, KV, and dashboard comfortably sit inside Cloudflare's free tier for personal sites.
+- **Hugo integration ready**: client script and partial examples make real-time PV/UV display effortless.
 
 ### Pricing and free-tier allowances
 
@@ -242,4 +275,10 @@ Yes—store JSON payloads in KV, add D1 tables, or forward events to external BI
 
 ---
 
-This deployment guide powers the analytics on zakk.au—feel free to reach out via email or Matrix if you run into extra questions.
+This deployment guide powers [stats.zakk.au](https://stats.zakk.au/)—after following these steps, you'll have:
+
+✅ Standalone dashboard website (e.g., `stats.example.com`)  
+✅ Full statistics API (`/api/count`, `/api/stats`, `/api/top`, etc.)  
+✅ Real-time PV/UV display on Hugo article pages  
+
+Questions or issues? Open an issue on [GitHub](https://github.com/Zakkaus/cloudflare-stats-worker/issues) and I'll keep the scripts and docs updated.

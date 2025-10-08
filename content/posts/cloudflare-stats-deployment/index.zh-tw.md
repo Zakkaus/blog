@@ -1,5 +1,14 @@
 ---
-title: "Cloudflare Stats Worker 統計系統部署與整合全指南"
+title: "Cloudflare St{{< lead >}}
+想要即時掌握 PV / UV 卻不想塞進 Google Analytics？Cloudflare Stats Worker 把 API 與儀表板打包在同一個 Worker，只要幾分鐘就能擁有和 [stats.zakk.au](https://stats.zakk.au/) 一樣的統計系統。本文整理我實際部署的流程、踩雷與維運做法，照著做就能快速上線。{{< /lead >}}
+
+## 為什麼選擇 Cloudflare Stats Worker
+
+- **隱私優先**：無 Cookie、IP 以 SHA-256 雜湊後截斷，資料完全掌握在自己手中。
+- **單一 Worker 全搞定**：部署一次即可同時拿到 `/api/*` 端點與獨立儀表板網站。
+- **多語言友善**：`normalizePath()` 自動把 `/zh-tw/posts/foo/`、`/posts/foo/` 視為同一頁，不會發生語系分裂。
+- **零元起跳**：Cloudflare 免費額度足以支撐個人部落格，爆紅時再考慮升級即可。
+- **Hugo Blowfish 整合簡單**：前端腳本與 partial 範例讓文章頁即時顯示 PV/UV。 統計系統部署與整合全指南"
 slug: "cloudflare-stats-worker-deploy"
 translationKey: "cloudflare-stats-deploy"
 date: 2025-10-08
@@ -61,11 +70,13 @@ graph LR
 
 ## 儀表板亮點
 
+想先體驗效果？直接造訪 **[stats.zakk.au](https://stats.zakk.au/)** 看看實際運作！
+
 - 玻璃擬態設計、深淺色主題開關、繁中/英文立即切換。
 - 今日 / 全站 PV・UV、API 健康狀態、更新時間（UTC）。
 - 7 / 14 / 30 天趨勢圖，空資料時顯示零狀態不會爆錯。
 - 熱門頁面 Top 10、搜尋任意路徑、快速跳文章頁。
-- 可透過 iframe 或 Hugo 短碼嵌入既有頁面，維持體驗一致。
+- 部署後即可透過自訂網域（如 `stats.example.com`）直接訪問。
 
 ## 部署前準備
 
@@ -173,17 +184,31 @@ hugo server -D
 - 在瀏覽器的 Network 面板確認 `/api/count`、`/api/batch` 正常回傳。
 - 想壓力測試可用 `npx autocannon` 擊打 `/api/count`，並透過 `wrangler tail` 觀察速率限制行為。
 
-## 步驟 7：建立統計儀表板頁面
+## 步驟 7：訪問儀表板
 
-我在 Hugo 中建立一個 `/stats/` 專頁並嵌入短碼：
+部署完成後，直接訪問你的儀表板網域即可：
+
+```
+https://stats.example.com/
+```
+
+你會看到與 [stats.zakk.au](https://stats.zakk.au/) 相同的介面：
+
+- 今日 / 全站 PV・UV 即時卡片
+- API 健康狀態指示燈
+- 7 / 14 / 30 天趨勢圖表
+- 熱門頁面 Top 10 排行
+- 深淺色主題與繁中/英文切換
+
+**選配：嵌入博客頁面**
+
+如果你想把儀表板嵌入博客（如本站的 `/stats/` 頁面），可使用 iframe 或專案提供的 Hugo 短碼：
 
 ```markdown
 {{< statsDashboard url="https://stats.example.com" heightClass="md:h-[1200px]" >}}
 ```
 
-- 短碼實作位於 `layouts/shortcodes/statsDashboard.html`，自帶深色模式與圓角樣式。
-- 可在 `content/stats/index.zh-tw.md` 等檔案呼叫，維持 Blowfish 的文章排版。
-- 若要全自訂 UI，可以把 `dashboard/` 改寫成 Hugo partial 或獨立 SPA。
+短碼位於 `layouts/shortcodes/statsDashboard.html`，可保持與 Blowfish 主題一致的樣式。
 
 ---
 
@@ -203,4 +228,12 @@ Cloudflare Stats Worker 自控可控、面向全球（包含中國）無問題�
 
 ---
 
-上面這套流程就是我把 stats.zakk.au 搬上線的全部細節。若你也完成部署，歡迎在 Matrix 或社群分享成果；遇到問題也可以在 GitHub issues 找我，我會持續更新腳本與維運筆記。祝你玩得愉快！
+---
+
+上面這套流程就是我把 [stats.zakk.au](https://stats.zakk.au/) 搬上線的全部細節。完成部署後，你會擁有：
+
+✅ 獨立儀表板網站（如 `stats.example.com`）  
+✅ 完整的統計 API（`/api/count`、`/api/stats`、`/api/top` 等）  
+✅ Hugo 文章頁即時 PV/UV 顯示  
+
+若遇到問題歡迎在 [GitHub Issues](https://github.com/Zakkaus/cloudflare-stats-worker/issues) 找我，我會持續更新腳本與維運筆記。祝你玩得愉快！

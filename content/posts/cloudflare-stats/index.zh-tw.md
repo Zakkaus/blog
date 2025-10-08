@@ -1,10 +1,9 @@
----
-title: "Cloudflare Stats Worker 統計系統完全指南"
+title: "Cloudflare Stats Worker 統計系統概覽"
 slug: "cloudflare-stats-worker-guide"
 translationKey: "cloudflare-stats-guide"
-date: 2025-10-08T00:00:00+00:00
-lastmod: 2025-10-08T00:00:00+00:00
-description: "一步步帶你部署 Cloudflare Stats Worker、配置 Hugo Blowfish 主題、擴充儀表板，並排除常見問題。"
+date: 2025-10-08
+draft: false
+description: "帶你快速認識 Cloudflare Stats Worker 的特色、架構與儀表板介面，並說明本站如何整合。"
 authors:
   - "Zakk"
 categories:
@@ -16,138 +15,68 @@ tags:
   - "Blowfish"
   - "Workers"
 seo:
-  title: "Cloudflare Stats Worker 統計系統部署配置全攻略"
-  description: "完整介紹如何部署 Cloudflare Stats Worker、設定自訂網域與 Hugo Blowfish 主題整合，並快速打造與 stats.zakk.au 相同的儀表板。"
----
-
+  title: "Cloudflare Stats Worker 統計系統介紹"
+  description: "了解 Cloudflare Stats Worker 如何提供即時、隱私友善的 PV / UV 統計與儀表板，以及在 Hugo Blowfish 主題上的整合方式。"
 {{< lead >}}
-想要擁有即時、隱私友善又不用錢的流量統計？這篇文章帶你把 Cloudflare Stats Worker 部署到自己的網域，並在 Hugo Blowfish 主題上顯示與 `stats.zakk.au` 相同的儀表板。{{< /lead >}}
+Cloudflare Stats Worker 是我在 zakk.au 上使用的開源統計方案：既有 API、儀表板，也能無縫整合 Hugo Blowfish 主題，提供即時又隱私友善的 PV / UV 數據。本文快速總覽它的特色與本站的實際應用。{{< /lead >}}
 
-## 為什麼選擇 Cloudflare Stats Worker
+## 為什麼改用自架統計
 
-- **零第三方 Cookie**：利用 Workers + KV +（可選）D1，所有資料自己掌控。
-- **極速佈署**：單一 Worker 同時提供 API 與儀表板，一鍵腳本 5 分鐘完成。
-- **多語系友善**：內建路徑正規化，`/`、`/zh-tw/`、`/posts/foo/` 都會自動合併。
-- **Hugo Blowfish 已整合**：本部落格的 `views_` / `likes_` 佔位符與 JS 腳本都經過優化。
+- **零 Cookie、零追蹤腳本**：所有資料留在 Cloudflare KV / D1，自行掌控 retain policy。
+- **單一 Worker 搭配儀表板**：部署後立刻擁有 `/api/*` 端點與一個開箱即用的 dashboard。
+- **多語系友善**：內建 URL 正規化，會把 `/zh-tw/posts/foo/`、`/posts/foo/` 視為同一頁面。
+- **成本 = 0**：免費額度對個人部落格綽綽有餘，超量再考慮升級。
 
-## 整體架構一眼看懂
+## 架構與資料流
 
 ```mermaid
-graph LR
-  A[訪客瀏覽文章] -->|GET /api/count| B[Cloudflare Worker]
-  B -->|寫入/讀取| C[(KV: page:slug:pv/uv)]
-  B -->|選配| D[(D1: page_stats)]
-  E[Hugo 前端 cloudflare-stats.js] -->|GET /api/batch| B
-  F[儀表板頁面 stats.zakk.au] -->|GET /api/stats /api/daily| B
+
+  Browser[訪客瀏覽網站] -->|fetch /api/count| Worker[Stats Worker]
+  Browser -->|fetch /api/batch| Worker
+  Worker -->|寫入/讀取| KV[(Cloudflare KV)]
+  Worker -->|可選| D1[(Cloudflare D1)]
+  Dashboard[stats.zakk.au 儀表板] -->|fetch /api/stats /api/daily| Worker
 ```
 
-## 部署流程總覽
+- 前端腳本集中於 `assets/js/cloudflare-stats.js`，會自動找出列表與文章頁的 PV / Like 佔位符。
+- Worker 端會以 `page:/posts/foo/:pv`、`uv` 作為鍵值儲存。
+- 儀表板頁面則是同一個 Worker 服務的靜態前端，無需額外托管。
 
-1. **Fork or Clone** [`cloudflare-stats-worker`](https://github.com/Zakkaus/cloudflare-stats-worker)。
-2. **執行安裝腳本**：`./scripts/install.sh` 會自動建立 KV、上傳 Worker、設定自訂域名。
-3. **確認健康檢查**：開啟 `https://stats.yourdomain.com/health` 應該看到 `{ "status": "ok" }`。
-4. **驗證 API**：
-   ```bash
-   curl "https://stats.yourdomain.com/api/count?url=/" | jq
-   curl "https://stats.yourdomain.com/api/stats" | jq
-   ```
-5. **啟用儀表板**：直接瀏覽 `https://stats.yourdomain.com/`，應會看到與 `stats.zakk.au` 相同的 UI。
+## 儀表板亮點
 
-> 💡 **小技巧**：`scripts/verify.sh https://stats.yourdomain.com` 可以一次測試 `count`、`stats`、`top`、`daily` 端點是否正常。
+- **今日 PV / UV 卡片**：進站就能看到即時趨勢。
+- **Top Articles**：自動列出最熱門內容，方便追蹤轉載效果。
+- **Daily Timeline**：7/30 天圖表一目瞭然，支援深色模式。
+- **全螢幕模式**：手機也能舒服瀏覽，不怕縮放。
 
-## Hugo Blowfish 整合步驟
+你可以直接到 [統計監控頁面](/zh-tw/stats/) 試玩，該頁面就是將儀表板 `<iframe>` 嵌入主題的範例。
 
-### 1. 更新前端資源
+## 與 Hugo Blowfish 的最佳化
 
-本站把統計腳本放在 `assets/js/cloudflare-stats.js`。若你還沒引入，建議直接複製整份檔案，或使用 NPM 包：
+- **覆寫模板**：我在 `layouts/_default/single.html`、`list.html` 以及 `layouts/partials/meta/views.html`、`likes.html` 內統一 slug 產生方式，確保多語系/多層路徑都能對到 KV。
+- **延遲載入腳本**：透過 `extend-head.html` 引入指紋化後的 `cloudflare-stats.js`，並透過 `data-api` 指向 Worker。
+- **容錯 UI**：統計數字更新前會有骨架動畫，失敗時保留 `—`，視覺不會跳動。
 
-```bash
-npm install cloudflare-stats-worker-client
-```
+## 想自己操作？
 
-接著在 `layouts/partials/extend-head.html`（或任何 head 擴充）加入：
+部署流程、指令與常見問題我都整理在另一篇長文：
 
-```go-html-template
-{{ $stats := resources.Get "js/cloudflare-stats.js" | resources.Minify | resources.Fingerprint }}
-<script defer src="{{ $stats.RelPermalink }}" data-api="https://stats.yourdomain.com"></script>
-```
+- [Cloudflare Stats Worker 部署與整合教學](/zh-tw/posts/cloudflare-stats-worker-deploy/)
 
-內建的 `cloudflare-stats.js` 會：
+那篇會從 `./scripts/install.sh` 開始講，到覆寫模板、健康檢查、排錯都有覆蓋。
 
-- 找出所有 `span[id^="views_"]`、`span[id^="likes_"]` 佔位符。
-- 正規化路徑，例如 `/zh-tw/posts/foo/` → `/posts/foo/`。
-- 自動呼叫 `/api/count`（當前頁）與 `/api/batch`（其他列表卡片）。
-- 顯示「載入中」骨架，失敗時退回 `—`。
+## 常見問題
 
+### 為什麼不用 Google Analytics？
+我希望可控、無 Cookie、且能在中國訪問，自己托管的 Worker 更能自由調整資料結構。
+
+### 儀表板會影響頁面速度嗎？
+統計頁採 `<iframe>` 分離載入，不會阻塞主站；文章頁的統計腳本也以 `defer` 載入，並採批次 API 減少請求數量。
+
+### 可以擴充資料模型嗎？
+可以，把 Worker 的儲存格式改為 JSON 即可，再搭配 D1 進行匯總或導出外部 BI。
+
+---
+
+未來我會持續優化統計模組：包含今天 UV widget、每日自動備份，以及更多報表。歡迎追蹤改版，或在 Matrix 聊天室與我討論你的實作需求！
 ### 2. 調整模板 ID（若必要）
-
-Blowfish 最新版已經用正規化邏輯輸出 `views_/likes_` ID。若你使用舊版，可參考以下片段加入 `_default/single.html` 與 `_default/list.html`：
-
-```go-html-template
-{{ $oidPath := "" }}
-{{ with .RelPermalink }}
-  {{ $rel := printf "%s" . }}
-  {{ if not (strings.HasSuffix $rel "/") }}
-    {{ $rel = printf "%s/" $rel }}
-  {{ end }}
-  {{ $clean := strings.TrimLeft "/" $rel }}
-  {{ if or (eq $clean "") (eq $clean "/") }}
-    {{ $oidPath = "/" }}
-  {{ else }}
-    {{ $oidPath = $clean }}
-  {{ end }}
-{{ end }}
-...
-<span id="views_{{ $oidPath }}" class="animate-pulse ...">loading</span>
-```
-
-> ✅ **本站做法**：新增三個覆寫檔案於 `layouts/_default/single.html`、`layouts/_default/list.html`、`layouts/partials/meta/{views,likes}.html`，避免直接修改子模組。
-
-### 3. 驗證本機組建
-
-```bash
-hugo --gc --minify
-npm run lint    # 若你有設定前端 lint
-```
-
-建議在瀏覽器開啟任意文章頁，打開 DevTools：
-
-- Network→`api/count?url=/posts/foo/` 應為 200。
-- Console 不應有 `[stats] count error` 警告。
-- DOM 中 `span#views_posts/foo/` 內容會被換成千分位數字。
-
-## 在本站內嵌儀表板
-
-想直接在主題裡顯示儀表板？我們新增了一個 `stats` 頁面與 `stats-dashboard` 版面，透過 `<iframe>` 引用 `https://stats.zakk.au`：
-
-- 頁面路徑：`/zh-tw/stats/`
-- 版面檔：`layouts/stats/stats-dashboard.html`
-- 支援全螢幕切換與深色模式（繼承儀表板內建功能）。
-
-若你也想自訂版面，可以直接複製 `cloudflare-stats-worker/dashboard/index.html` 的 HTML + CSS + JS 到自己的 Hugo 資產，或是跟本站一樣以 `<iframe>` 方式嵌入已部署好的 Worker。
-
-## 常見 FAQ
-
-### Q1. 統計數字沒有同步？
-- 先確認 Worker 的 `/health` 是否正常。
-- 看看 KV 是否有 `page:/posts/foo/:pv`、`uv` 鍵值。
-- 確保前端 `data-api` 屬性指向 HTTPS 主機。
-
-### Q2. 想只顯示 PV、不遞增 UV？
-請求 `/api/count` 時可以加 `action=pv` 或 `action=none` 參數；或改用 `/api/stats` 只讀資料。
-
-### Q3. 想排除機器人流量？
-- Worker 會依 `CF-Connecting-IP` + User Agent 做 UV 去重。
-- 仍可依需求增加 UA 黑名單或導入 Turnstile 驗證。
-
-### Q4. 可以把資料丟到外部 BI？
-- KV 適合做即時顯示。
-- 若要長期分析，建議開啟 D1，同步至 `page_stats` 表，再導出。
-
-## 下一步
-
-1. 將統計專案的 GitHub Workflow 設為每日備份 KV / D1。
-2. 將儀表板加進主選單，方便快速查看今日 PV / UV。
-3. 訂閱 Repository Release，掌握 Stats Worker 新功能（如 Top 10、Trend）。
-
-如果你也完成了佈署，歡迎寫信或在 Matix 聊天室分享連結，讓更多人看到自架統計的威力！

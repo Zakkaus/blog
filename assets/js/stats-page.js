@@ -8,7 +8,10 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 });
 
 async function fetchJSON(url) {
-  const response = await fetch(url, { credentials: "omit" });
+  const response = await fetch(url, {
+    credentials: "omit",
+    headers: { Accept: "application/json" },
+  });
   if (!response.ok) {
     throw new Error(`Request failed: ${response.status}`);
   }
@@ -54,13 +57,36 @@ async function updateSummary() {
   const base = resolveBase(summary);
   if (!base) return;
   try {
-    const data = await fetchJSON(`${base}/api/stats`);
-    const totals = data.totals ?? data.total ?? {};
-    const today = data.today ?? data.daily?.at?.(-1) ?? {};
-    setField(summary, "totalViews", formatNumber(totals.views ?? totals.pageviews ?? totals.pv));
-    setField(summary, "totalVisitors", formatNumber(totals.visitors ?? totals.uv));
-    setField(summary, "todayViews", formatNumber(today.views ?? today.pageviews ?? today.pv));
-    setField(summary, "todayVisitors", formatNumber(today.visitors ?? today.uv));
+    const [statsData, dailyData] = await Promise.all([
+      fetchJSON(`${base}/api/stats`),
+      fetchJSON(`${base}/api/daily`),
+    ]);
+
+    const totalsSource =
+      statsData.totals ??
+      statsData.total ??
+      statsData.site ??
+      statsData.summary ??
+      {};
+
+    const totalsViews = Number(
+      totalsSource.views ?? totalsSource.pageviews ?? totalsSource.pv ?? 0,
+    );
+    const totalsVisitors = Number(totalsSource.visitors ?? totalsSource.uv ?? 0);
+
+    const dailyRaw = Array.isArray(dailyData)
+      ? dailyData
+      : dailyData.results ?? dailyData.daily ?? [];
+    const lastEntry = dailyRaw.length ? dailyRaw[dailyRaw.length - 1] : {};
+    const todayViews = Number(
+      lastEntry.views ?? lastEntry.pageviews ?? lastEntry.pv ?? 0,
+    );
+    const todayVisitors = Number(lastEntry.visitors ?? lastEntry.uv ?? 0);
+
+    setField(summary, "totalViews", formatNumber(totalsViews));
+    setField(summary, "totalVisitors", formatNumber(totalsVisitors));
+    setField(summary, "todayViews", formatNumber(todayViews));
+    setField(summary, "todayVisitors", formatNumber(todayVisitors));
   } catch (error) {
     console.warn("Failed to update summary", error);
   }
@@ -77,21 +103,21 @@ async function updateHealth() {
   if (versionEl) versionEl.textContent = "…";
   try {
     const data = await fetchJSON(`${base}/health`);
-  const status = data.status ?? data.state ?? "error";
-  if (statusEl) statusEl.textContent = formatStatus(status, health);
+    const status = data.status ?? data.state ?? "error";
+    if (statusEl) statusEl.textContent = formatStatus(status, health);
     const version = data.version ?? data.meta?.version ?? data.worker?.version ?? "—";
     if (versionEl) versionEl.textContent = version;
   } catch (error) {
     console.warn("Health endpoint fallback", error);
     try {
       const data = await fetchJSON(`${base}/api/stats`);
-  const status = data.status ?? data.state ?? "error";
-  if (statusEl) statusEl.textContent = formatStatus(status, health);
+      const status = data.status ?? data.state ?? "error";
+      if (statusEl) statusEl.textContent = formatStatus(status, health);
       const version = data.version ?? data.meta?.version ?? data.worker?.version ?? "—";
       if (versionEl) versionEl.textContent = version;
     } catch (err) {
       console.error("Failed to resolve stats health", err);
-  if (statusEl) statusEl.textContent = getStatusText(health, "error", "⚠️ Error");
+      if (statusEl) statusEl.textContent = getStatusText(health, "error", "⚠️ Error");
       if (versionEl) versionEl.textContent = "—";
     }
   }
@@ -163,10 +189,42 @@ async function updateTrend() {
   let allPoints = [];
   const canvas = trend.querySelector("canvas[data-field='chart']");
   if (!canvas) return;
+  const emptyEl = trend.querySelector("[data-field='empty']");
+  const emptyText = trend.dataset.emptyText ?? "No data yet.";
+  const errorText = trend.dataset.errorText ?? "Unable to load chart.";
+
+  if (emptyEl) {
+    emptyEl.style.display = "none";
+  }
+
+  const hideMessage = () => {
+    if (emptyEl) {
+      emptyEl.textContent = "";
+      emptyEl.style.display = "none";
+    }
+    canvas.style.opacity = "1";
+  };
+
+  const showMessage = (message) => {
+    if (chartInstance) {
+      chartInstance.destroy();
+      chartInstance = null;
+    }
+    if (emptyEl) {
+      emptyEl.textContent = message;
+      emptyEl.style.display = "flex";
+    }
+    canvas.style.opacity = "0.35";
+  };
 
   const render = (range) => {
-    if (!allPoints.length) return;
-    const slice = allPoints.slice(-range);
+    if (!allPoints.length) {
+      showMessage(emptyText);
+      return;
+    }
+    hideMessage();
+    const span = Math.max(1, Math.min(range, allPoints.length));
+    const slice = allPoints.slice(-span);
     if (chartInstance) {
       chartInstance.destroy();
     }
@@ -175,7 +233,9 @@ async function updateTrend() {
 
   try {
     const daily = await fetchJSON(`${base}/api/daily`);
-    const points = Array.isArray(daily) ? daily : daily.daily ?? [];
+    const points = Array.isArray(daily)
+      ? daily
+      : daily.results ?? daily.daily ?? [];
     allPoints = points
       .map((point) => ({
         date: point.date ?? point.day ?? point.d,
@@ -184,7 +244,11 @@ async function updateTrend() {
       }))
       .filter((point) => point.date);
     allPoints.sort((a, b) => new Date(a.date) - new Date(b.date));
-    render(30);
+    if (!allPoints.length) {
+      showMessage(emptyText);
+    } else {
+      render(30);
+    }
     trend.querySelectorAll(".stats-range-button").forEach((button) => {
       button.addEventListener("click", () => {
         trend
@@ -199,31 +263,89 @@ async function updateTrend() {
     if (defaultButton) defaultButton.classList.add("bg-primary", "text-white");
   } catch (error) {
     console.error("Failed to render trend", error);
+    showMessage(errorText);
   }
 }
 
-function createTopEntry(item, index) {
-  const views = numberFormatter.format(item.views ?? item.pageviews ?? item.pv ?? 0);
-  const url = item.url ?? item.link ?? item.path ?? "#";
-  const title = item.title ?? item.name ?? url;
+function createTopEntry(item, index, maxViews) {
+  const viewsValue = Number(item.views ?? item.pageviews ?? item.pv ?? 0);
+  const visitorsValue = Number(item.visitors ?? item.uv ?? 0);
+  const rawPath = item.url ?? item.link ?? item.path ?? "/";
+
+  let href = rawPath;
+  try {
+    href = new URL(rawPath, window.location.origin).href;
+  } catch (error) {
+    // Leave href as-is when URL construction fails (e.g., mailto:)
+  }
+
+  let displayPath = rawPath;
+  try {
+    const urlObj = new URL(href);
+    displayPath = urlObj.pathname || "/";
+  } catch (error) {
+    displayPath = rawPath;
+  }
+
+  const title = item.title ?? item.name ?? decodeURIComponent(displayPath);
   const li = document.createElement("li");
-  li.className = "flex items-baseline justify-between gap-4 rounded-lg border border-neutral-200/60 px-4 py-3 text-sm transition hover:border-primary hover:text-primary dark:border-neutral-800/60";
+  li.className = "group relative overflow-hidden rounded-2xl border border-neutral-200/60 bg-surface px-5 py-4 text-sm shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-primary hover:shadow-lg dark:border-neutral-800/60 dark:bg-neutral-900/60";
+
+  const header = document.createElement("div");
+  header.className = "flex items-start justify-between gap-4";
+
   const left = document.createElement("div");
-  left.className = "flex items-baseline gap-3";
+  left.className = "flex flex-col gap-1";
+
+  const heading = document.createElement("div");
+  heading.className = "flex items-baseline gap-3";
+
   const rank = document.createElement("span");
-  rank.className = "text-xs font-semibold uppercase tracking-wide text-muted";
+  rank.className = "flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200/60 text-xs font-semibold uppercase tracking-wide text-muted dark:border-neutral-700";
   rank.textContent = String(index + 1).padStart(2, "0");
+
   const link = document.createElement("a");
-  link.href = url;
-  link.className = "font-medium";
+  link.href = href;
+  link.className = "max-w-xs truncate font-semibold text-primary transition hover:underline sm:max-w-md";
   link.textContent = title;
   link.target = "_blank";
   link.rel = "noopener";
-  left.append(rank, link);
-  const right = document.createElement("span");
-  right.className = "text-xs font-semibold uppercase tracking-wide text-muted";
-  right.textContent = views;
-  li.append(left, right);
+
+  heading.append(rank, link);
+
+  const subtitle = document.createElement("span");
+  subtitle.className = "text-xs text-muted";
+  subtitle.textContent = decodeURI(displayPath);
+
+  left.append(heading, subtitle);
+
+  const metrics = document.createElement("div");
+  metrics.className = "flex flex-wrap items-center gap-2 text-xs";
+
+  const pvBadge = document.createElement("span");
+  pvBadge.className = "inline-flex items-center gap-1 rounded-full border border-primary px-2 py-0.5 font-semibold text-primary";
+  pvBadge.innerHTML = `<span>PV</span><span>${numberFormatter.format(viewsValue)}</span>`;
+
+  const uvBadge = document.createElement("span");
+  uvBadge.className = "inline-flex items-center gap-1 rounded-full border border-neutral-200 px-2 py-0.5 font-medium text-muted dark:border-neutral-700";
+  uvBadge.innerHTML = `<span>UV</span><span>${numberFormatter.format(visitorsValue)}</span>`;
+
+  metrics.append(pvBadge, uvBadge);
+
+  header.append(left, metrics);
+
+  const bar = document.createElement("div");
+  bar.className = "mt-4 w-full overflow-hidden rounded-full bg-neutral-200 dark:bg-neutral-800";
+  bar.style.height = "6px";
+
+  const fill = document.createElement("div");
+  fill.className = "h-full rounded-full bg-primary transition-all duration-500";
+  const ratio = maxViews > 0 ? Math.max((viewsValue / maxViews) * 100, 6) : 0;
+  fill.style.width = `${Math.min(ratio, 100)}%`;
+
+  bar.appendChild(fill);
+
+  li.append(header, bar);
   return li;
 }
 
@@ -244,19 +366,24 @@ async function updateTop() {
       const url = new URL(`${base}/api/top`);
       url.searchParams.set("limit", limit);
       const data = await fetchJSON(url.toString());
-      items = data.items ?? data.top ?? data ?? [];
+      items = data.items ?? data.results ?? data.top ?? data ?? [];
     } catch (error) {
       console.warn("Top endpoint fallback", error);
       const stats = await fetchJSON(`${base}/api/stats`);
-      items = stats.top ?? stats.popular ?? [];
+      items = stats.top ?? stats.popular ?? stats.results ?? [];
     }
     if (!Array.isArray(items) || !items.length) {
       list.innerHTML = `<li class="text-sm text-muted">${emptyText}</li>`;
       return;
     }
     list.innerHTML = "";
-    items.slice(0, limit).forEach((item, index) => {
-      list.appendChild(createTopEntry(item, index));
+    const visible = items.slice(0, limit);
+    const maxViews = visible.reduce(
+      (acc, item) => Math.max(acc, Number(item.views ?? item.pageviews ?? item.pv ?? 0)),
+      0,
+    );
+    visible.forEach((item, index) => {
+      list.appendChild(createTopEntry(item, index, maxViews));
     });
   } catch (error) {
     console.error("Failed to render top pages", error);

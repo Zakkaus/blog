@@ -1,4 +1,7 @@
-<section class="rounded-xl border border-neutral-200/60 bg-surface px-6 py-6 shadow-sm transition dark:border-neutral-800/60" data-stats-trend data-api="{{ with .Get "api" }}{{ . }}{{ else }}{{ .Page.Params.dashboardURL }}{{ end }}">
+{{ $api := .Get "api" | default .Page.Params.dashboardURL }}
+{{ $empty := .Get "emptyText" | default "No data yet." }}
+{{ $error := .Get "errorText" | default "Unable to load chart." }}
+<section class="relative overflow-hidden rounded-2xl border border-neutral-200/60 bg-surface p-6 shadow-sm transition duration-300 hover:shadow-lg dark:border-neutral-800/60 dark:bg-neutral-900/60" data-stats-trend data-api="{{ $api }}" data-empty-text="{{ $empty }}" data-error-text="{{ $error }}">
   <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
     <h3 class="text-xl font-semibold">{{ .Get "title" }}</h3>
     {{ with .Get "description" }}<p class="text-sm text-muted">{{ . }}</p>{{ end }}
@@ -8,7 +11,8 @@
     <button type="button" class="stats-range-button rounded-full border border-neutral-200 px-3 py-1 text-sm font-medium text-muted transition hover:border-primary hover:text-primary dark:border-neutral-700" data-range="30">30</button>
     <button type="button" class="stats-range-button rounded-full border border-neutral-200 px-3 py-1 text-sm font-medium text-muted transition hover:border-primary hover:text-primary dark:border-neutral-700" data-range="90">90</button>
   </div>
-  <div class="mt-6">
+  <div class="mt-6 relative" data-field="chart-wrapper" style="min-height:280px;">
+    <div class="pointer-events-none absolute inset-0 flex items-center justify-center text-sm text-muted" data-field="empty"></div>
     <canvas height="320" data-field="chart"></canvas>
   </div>
 </section>

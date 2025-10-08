@@ -11,7 +11,16 @@ This page shows the real-time analytics that power zakk.au, refreshed by Cloudfl
 
 ## Site overview
 
-{{< statsSummary totalViews="Total Views" totalVisitors="Total Visitors" todayViews="Today’s Views" todayVisitors="Today’s Visitors" >}}
+{{< statsSummary
+	totalViews="Total Views"
+	totalVisitors="Total Visitors"
+	todayViews="Today’s Views"
+	todayVisitors="Today’s Visitors"
+	totalViewsHint="All-time page views across every locale."
+	totalVisitorsHint="Unique visitors (UV) across the entire site."
+	todayViewsHint="Page views collected since 00:00 local time."
+	todayVisitorsHint="Unique visitors recorded today."
+>}}
 
 ## API status
 
@@ -19,7 +28,13 @@ This page shows the real-time analytics that power zakk.au, refreshed by Cloudfl
 
 ## 📈 Daily traffic trend
 
-{{< statsTrend title="📈 Daily Traffic Trend" description="Switch between 7 / 30 / 90 day windows to explore PV and UV history." rangeLabel="Trend range" >}}
+{{< statsTrend
+	title="📈 Daily Traffic Trend"
+	description="Switch between 7 / 30 / 90 day windows to explore PV and UV history."
+	rangeLabel="Trend range"
+	emptyText="No data yet."
+	errorText="Unable to load chart."
+>}}
 
 ## 🔥 Top pages (Top 10)
 

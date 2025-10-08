@@ -11,7 +11,16 @@ dashboardURL: "https://stats.zakk.au"
 
 ## 全站總覽
 
-{{< statsSummary totalViews="全站總瀏覽量" totalVisitors="全站訪客數" todayViews="今日瀏覽量" todayVisitors="今日訪客數" >}}
+{{< statsSummary
+	totalViews="全站總瀏覽量"
+	totalVisitors="全站訪客數"
+	todayViews="今日瀏覽量"
+	todayVisitors="今日訪客數"
+	totalViewsHint="含所有語系與路徑的累積 PV"
+	totalVisitorsHint="依 UV 去重的全站訪客數"
+	todayViewsHint="今日 00:00 起累積的 PV"
+	todayVisitorsHint="今日內的獨立訪客"
+>}}
 
 ## API 與系統狀態
 
@@ -19,7 +28,13 @@ dashboardURL: "https://stats.zakk.au"
 
 ## 📈 每日訪問趨勢
 
-{{< statsTrend title="📈 每日訪問趨勢" description="最近 7 / 30 / 90 天的 PV / UV 變化，點擊範圍即可切換。" rangeLabel="統計範圍" >}}
+{{< statsTrend
+	title="📈 每日訪問趨勢"
+	description="最近 7 / 30 / 90 天的 PV / UV 變化，點擊範圍即可切換。"
+	rangeLabel="統計範圍"
+	emptyText="暫無數據"
+	errorText="無法載入趨勢圖"
+>}}
 
 ## 🔥 熱門頁面 Top 10
 

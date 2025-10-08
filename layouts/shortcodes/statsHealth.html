@@ -2,20 +2,23 @@
 {{ $ok := .Get "okText" | default "✅ 正常" }}
 {{ $healthy := .Get "healthyText" | default $ok }}
 {{ $error := .Get "errorText" | default "⚠️ 異常" }}
-<section class="rounded-xl border border-neutral-200/60 bg-surface px-6 py-6 shadow-sm transition dark:border-neutral-800/60" data-stats-health data-api="{{ $api }}" data-text-ok="{{ $ok }}" data-text-healthy="{{ $healthy }}" data-text-error="{{ $error }}">
-  <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-    <div>
+<section class="relative overflow-hidden rounded-2xl border border-neutral-200/60 bg-surface p-6 shadow-sm transition duration-300 hover:shadow-lg dark:border-neutral-800/60 dark:bg-neutral-900/60" data-stats-health data-api="{{ $api }}" data-text-ok="{{ $ok }}" data-text-healthy="{{ $healthy }}" data-text-error="{{ $error }}">
+  <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+    <div class="max-w-xl space-y-3">
       <p class="text-sm font-semibold uppercase tracking-wide text-primary">{{ .Get "title" }}</p>
-      <p class="mt-2 text-base text-muted">{{ .Get "powered" }}</p>
+      <p class="text-base text-muted">{{ .Get "powered" }}</p>
+      {{ with .Get "note" }}
+        <p class="text-sm text-muted">{{ . }}</p>
+      {{ end }}
     </div>
     <div class="grid gap-4 sm:grid-cols-2">
-      <div>
+      <div class="rounded-xl border border-neutral-200/60 bg-surface px-4 py-3 dark:border-neutral-800/60 dark:bg-neutral-900">
         <p class="text-xs font-medium uppercase tracking-wide text-muted">{{ .Get "statusLabel" }}</p>
-        <p class="mt-1 flex items-center gap-2 text-lg font-semibold" data-field="status">{{ .Get "statusPlaceholder" }}</p>
+        <span class="mt-2 inline-flex items-center gap-2 rounded-full border border-primary px-3 py-1 text-sm font-semibold text-primary" data-field="status">{{ .Get "statusPlaceholder" }}</span>
       </div>
-      <div>
+      <div class="rounded-xl border border-neutral-200/60 bg-surface px-4 py-3 dark:border-neutral-800/60 dark:bg-neutral-900">
         <p class="text-xs font-medium uppercase tracking-wide text-muted">{{ .Get "versionLabel" }}</p>
-        <p class="mt-1 text-lg font-semibold" data-field="version">—</p>
+        <span class="mt-2 text-lg font-semibold" data-field="version">—</span>
       </div>
     </div>
   </div>

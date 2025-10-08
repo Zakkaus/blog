@@ -1,19 +1,18 @@
 {{ $api := .Get "api" | default .Page.Params.dashboardURL }}
 {{ $cards := slice
-  (dict "label" (.Get "totalViews") "field" "totalViews" "icon" (.Get "totalViewsIcon") "hint" (.Get "totalViewsHint"))
-  (dict "label" (.Get "totalVisitors") "field" "totalVisitors" "icon" (.Get "totalVisitorsIcon") "hint" (.Get "totalVisitorsHint"))
-  (dict "label" (.Get "todayViews") "field" "todayViews" "icon" (.Get "todayViewsIcon") "hint" (.Get "todayViewsHint"))
-  (dict "label" (.Get "todayVisitors") "field" "todayVisitors" "icon" (.Get "todayVisitorsIcon") "hint" (.Get "todayVisitorsHint"))
+  (dict "label" (.Get "totalViews") "field" "totalViews" "hint" (.Get "totalViewsHint"))
+  (dict "label" (.Get "totalVisitors") "field" "totalVisitors" "hint" (.Get "totalVisitorsHint"))
+  (dict "label" (.Get "todayViews") "field" "todayViews" "hint" (.Get "todayViewsHint"))
+  (dict "label" (.Get "todayVisitors") "field" "todayVisitors" "hint" (.Get "todayVisitorsHint"))
 }}
-<section class="stats-panel stats-panel--summary" data-stats-summary data-api="{{ $api }}">
+<section class="stats-section" data-stats-summary data-api="{{ $api }}">
   <div class="stats-summary-grid">
     {{ range $cards }}
-      <article class="stats-summary-card">
-        {{ with .icon }}<span class="stats-summary-card__icon" aria-hidden="true">{{ . }}</span>{{ end }}
-        <span class="stats-summary-card__label">{{ .label }}</span>
-        <span class="stats-summary-card__value" data-field="{{ .field }}">—</span>
+      <article class="stats-card">
+        <span class="stats-card__label">{{ .label }}</span>
+        <span class="stats-card__value" data-field="{{ .field }}">—</span>
         {{ with .hint }}
-          <span class="stats-summary-card__hint">{{ . }}</span>
+          <span class="stats-card__hint">{{ . }}</span>
         {{ end }}
       </article>
     {{ end }}

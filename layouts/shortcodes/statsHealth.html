@@ -2,23 +2,22 @@
 {{ $ok := .Get "okText" | default "✅ 正常" }}
 {{ $healthy := .Get "healthyText" | default $ok }}
 {{ $error := .Get "errorText" | default "⚠️ 異常" }}
-<section class="stats-panel stats-panel--health" data-stats-health data-api="{{ $api }}" data-text-ok="{{ $ok }}" data-text-healthy="{{ $healthy }}" data-text-error="{{ $error }}">
+<section class="stats-section" data-stats-health data-api="{{ $api }}" data-text-ok="{{ $ok }}" data-text-healthy="{{ $healthy }}" data-text-error="{{ $error }}">
   <div class="stats-health-grid">
     <div class="stats-health-copy">
-      <span class="stats-section-kicker">{{ .Get "title" }}</span>
-      <p class="stats-body">{{ .Get "powered" }}</p>
+      <p>{{ .Get "powered" }}</p>
       {{ with .Get "note" }}
-        <p class="stats-section-note">{{ . }}</p>
+        <p>{{ . }}</p>
       {{ end }}
     </div>
-    <div class="stats-health-cards">
-      <div class="stats-health-card">
-        <span class="stats-health-card__label">{{ .Get "statusLabel" }}</span>
-        <span class="stats-health-pill" data-field="status">{{ .Get "statusPlaceholder" }}</span>
+    <div class="stats-pill-group">
+      <div class="stats-pill-card">
+        <span class="stats-pill-card__label">{{ .Get "statusLabel" }}</span>
+        <span class="stats-pill" data-field="status">{{ .Get "statusPlaceholder" }}</span>
       </div>
-      <div class="stats-health-card">
-        <span class="stats-health-card__label">{{ .Get "versionLabel" }}</span>
-        <span class="stats-health-version" data-field="version">—</span>
+      <div class="stats-pill-card">
+        <span class="stats-pill-card__label">{{ .Get "versionLabel" }}</span>
+        <span class="stats-pill stats-pill--value" data-field="version">—</span>
       </div>
     </div>
   </div>

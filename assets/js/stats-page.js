@@ -190,99 +190,109 @@ async function updateTrend() {
   if (!trend) return;
   const base = resolveBase(trend);
   if (!base) return;
-  let chartInstance = null;
-  let allPoints = [];
   const canvas = trend.querySelector("canvas[data-field='chart']");
   if (!canvas) return;
   const emptyEl = trend.querySelector("[data-field='empty']");
   const emptyText = trend.dataset.emptyText ?? "No data yet.";
   const errorText = trend.dataset.errorText ?? "Unable to load chart.";
+  const loadingText = trend.dataset.loadingText ?? "Loading…";
+  const defaultRange = Number(trend.dataset.defaultRange ?? 30);
+  const rangeButtons = trend.querySelectorAll(".stats-range__button");
 
-  if (emptyEl) {
-    emptyEl.textContent = "";
-    emptyEl.classList.remove("is-visible");
-  }
+  let chartInstance = null;
+  let activeRange = defaultRange;
+  let requestToken = 0;
+  const cache = new Map();
 
   const dimChart = (shouldDim) => {
-    if (!canvas) return;
     canvas.classList.toggle("is-dimmed", Boolean(shouldDim));
   };
 
-  const hideMessage = () => {
+  const setOverlay = (message, { dim = true, clearChart = false } = {}) => {
     if (emptyEl) {
-      emptyEl.textContent = "";
-      emptyEl.classList.remove("is-visible");
+      emptyEl.textContent = message ?? "";
+      emptyEl.classList.toggle("is-visible", Boolean(message));
     }
-    dimChart(false);
-  };
-
-  const showMessage = (message) => {
-    if (chartInstance) {
+    dimChart(dim && Boolean(message));
+    if (clearChart && chartInstance) {
       chartInstance.destroy();
       chartInstance = null;
     }
-    if (emptyEl) {
-      emptyEl.textContent = message;
-      emptyEl.classList.add("is-visible");
-    }
-    dimChart(true);
   };
 
-  const render = (range) => {
-    if (!allPoints.length) {
-      showMessage(emptyText);
-      return;
-    }
-    hideMessage();
-    const span = Math.max(1, Number.isFinite(range) ? range : 30);
-    const slice = allPoints.slice(Math.max(allPoints.length - span, 0));
-    if (chartInstance) {
-      chartInstance.destroy();
-    }
-    chartInstance = buildChart(canvas.getContext("2d"), slice);
-  };
+  const hideOverlay = () => setOverlay("", { dim: false });
 
-  try {
-    const daily = await fetchJSON(`${base}/api/daily`);
-    const points = Array.isArray(daily)
+  const loadPoints = async (range) => {
+    if (cache.has(range)) return cache.get(range);
+    const url = new URL(`${base}/api/daily`);
+    if (Number.isFinite(range)) {
+      url.searchParams.set("range", String(range));
+    }
+    const daily = await fetchJSON(url.toString());
+    const results = Array.isArray(daily)
       ? daily
       : daily.results ?? daily.daily ?? [];
-    allPoints = points
+    const points = results
       .map((point) => ({
         date: point.date ?? point.day ?? point.d,
         views: Number(point.views ?? point.pageviews ?? point.pv ?? 0),
         visitors: Number(point.visitors ?? point.uv ?? 0),
       }))
       .filter((point) => point.date);
-    allPoints.sort((a, b) => new Date(a.date) - new Date(b.date));
-    if (!allPoints.length) {
-      showMessage(emptyText);
-    }
-    const rangeButtons = trend.querySelectorAll(".stats-range-button");
-    const setActive = (active) => {
-      rangeButtons.forEach((btn) => btn.classList.remove("is-active"));
-      if (active) {
-        active.classList.add("is-active");
+    points.sort((a, b) => new Date(a.date) - new Date(b.date));
+    cache.set(range, points);
+    return points;
+  };
+
+  const render = async (range) => {
+    activeRange = range;
+    requestToken += 1;
+    const token = requestToken;
+    setOverlay(loadingText, { dim: true, clearChart: false });
+    try {
+      const points = await loadPoints(range);
+      if (token !== requestToken) return;
+      if (!points.length) {
+        setOverlay(emptyText, { dim: true, clearChart: true });
+        return;
       }
-    };
-
-    rangeButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const range = Number(button.dataset.range ?? 30);
-        setActive(button);
-        render(range);
-      });
-    });
-
-    const defaultButton = trend.querySelector('[data-range="30"]');
-    if (defaultButton) {
-      setActive(defaultButton);
+      hideOverlay();
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+      chartInstance = buildChart(canvas.getContext("2d"), points);
+    } catch (error) {
+      if (token !== requestToken) return;
+      console.error("Failed to render trend", error);
+      setOverlay(errorText, { dim: true, clearChart: true });
     }
-    render(30);
-  } catch (error) {
-    console.error("Failed to render trend", error);
-    showMessage(errorText);
+  };
+
+  const setActiveButton = (activeButton) => {
+    rangeButtons.forEach((button) => button.classList.remove("is-active"));
+    if (activeButton) {
+      activeButton.classList.add("is-active");
+    }
+  };
+
+  rangeButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const range = Number(button.dataset.range ?? defaultRange);
+      setActiveButton(button);
+      render(range);
+    });
+  });
+
+  const defaultButton = Array.from(rangeButtons).find(
+    (button) => Number(button.dataset.range) === defaultRange,
+  );
+  if (defaultButton) {
+    setActiveButton(defaultButton);
+  } else if (rangeButtons.length) {
+    setActiveButton(rangeButtons[0]);
   }
+
+  await render(defaultRange);
 }
 
 function createTopEntry(item, index, maxViews) {
@@ -307,24 +317,21 @@ function createTopEntry(item, index, maxViews) {
 
   const title = item.title ?? item.name ?? decodeURIComponent(displayPath);
   const li = document.createElement("li");
-  li.className = "stats-top-item";
-
-  const row = document.createElement("div");
-  row.className = "stats-top-item__row";
+  li.className = "stats-top__item";
 
   const titleBlock = document.createElement("div");
-  titleBlock.className = "stats-top-item__title";
+  titleBlock.className = "stats-top__title";
 
   const heading = document.createElement("div");
-  heading.className = "stats-top-item__heading";
+  heading.className = "stats-top__heading";
 
   const rank = document.createElement("span");
-  rank.className = "stats-top-item__rank";
+  rank.className = "stats-top__rank";
   rank.textContent = String(index + 1).padStart(2, "0");
 
   const link = document.createElement("a");
   link.href = href;
-  link.className = "stats-top-item__link";
+  link.className = "stats-top__link";
   link.textContent = title;
   link.target = "_blank";
   link.rel = "noopener";
@@ -332,37 +339,38 @@ function createTopEntry(item, index, maxViews) {
   heading.append(rank, link);
 
   const subtitle = document.createElement("span");
-  subtitle.className = "stats-top-item__path";
+  subtitle.className = "stats-top__path";
   subtitle.textContent = decodeURI(displayPath);
 
   titleBlock.append(heading, subtitle);
 
   const metrics = document.createElement("div");
-  metrics.className = "stats-top-item__metrics";
+  metrics.className = "stats-top__metrics";
 
-  const pvBadge = document.createElement("span");
-  pvBadge.className = "stats-badge stats-badge--primary";
-  pvBadge.innerHTML = `<span>PV</span><span>${numberFormatter.format(viewsValue)}</span>`;
+  const pvChip = document.createElement("span");
+  pvChip.className = "stats-chip stats-chip--highlight";
+  pvChip.innerHTML = `<span>PV</span><span>${numberFormatter.format(viewsValue)}</span>`;
 
-  const uvBadge = document.createElement("span");
-  uvBadge.className = "stats-badge";
-  uvBadge.innerHTML = `<span>UV</span><span>${numberFormatter.format(visitorsValue)}</span>`;
+  const uvChip = document.createElement("span");
+  uvChip.className = "stats-chip";
+  uvChip.innerHTML = `<span>UV</span><span>${numberFormatter.format(visitorsValue)}</span>`;
 
-  metrics.append(pvBadge, uvBadge);
+  metrics.append(pvChip, uvChip);
 
-  row.append(titleBlock, metrics);
+  const container = document.createElement("div");
+  container.append(titleBlock, metrics);
 
-  const bar = document.createElement("div");
-  bar.className = "stats-top-item__progress";
+  const progress = document.createElement("div");
+  progress.className = "stats-progress";
 
   const fill = document.createElement("div");
-  fill.className = "stats-top-item__fill";
-  const ratio = maxViews > 0 ? Math.max((viewsValue / maxViews) * 100, 6) : 0;
+  fill.className = "stats-progress__fill";
+  const ratio = maxViews > 0 ? Math.max((viewsValue / maxViews) * 100, 5) : 0;
   fill.style.width = `${Math.min(ratio, 100)}%`;
 
-  bar.appendChild(fill);
+  progress.appendChild(fill);
 
-  li.append(row, bar);
+  li.append(container, progress);
   return li;
 }
 

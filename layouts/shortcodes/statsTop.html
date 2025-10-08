@@ -4,14 +4,16 @@
 {{ $ctaUrl := .Get "ctaUrl" }}
 {{ $empty := .Get "emptyText" | default "No data yet." }}
 {{ $error := .Get "errorText" | default "Unable to load top pages." }}
-<section class="stats-panel stats-panel--top" data-stats-top data-api="{{ $api }}" data-limit="{{ $limit }}" data-empty-text="{{ $empty }}" data-error-text="{{ $error }}">
-  <div class="stats-top-header">
-    <h3 class="stats-panel__heading">{{ .Get "title" }}</h3>
+<section class="stats-section" data-stats-top data-api="{{ $api }}" data-limit="{{ $limit }}" data-empty-text="{{ $empty }}" data-error-text="{{ $error }}">
+  <div class="stats-section__header">
+    <h3 class="stats-heading">{{ .Get "title" }}</h3>
     {{ if and $ctaLabel $ctaUrl }}
-      <a class="stats-top-cta" href="{{ $ctaUrl }}" target="_blank" rel="noopener">{{ $ctaLabel }}</a>
+      <a class="stats-top__cta" href="{{ $ctaUrl }}" target="_blank" rel="noopener">{{ $ctaLabel }}</a>
     {{ end }}
   </div>
-  <ol class="stats-top-list" data-field="list">
-    <li class="stats-top-empty">{{ $empty }}</li>
-  </ol>
+  <div class="stats-top">
+    <ol class="stats-top__list" data-field="list">
+      <li class="stats-top__empty">{{ $empty }}</li>
+    </ol>
+  </div>
 </section>

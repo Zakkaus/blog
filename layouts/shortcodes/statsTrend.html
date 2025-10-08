@@ -11,8 +11,8 @@
     <button type="button" class="stats-range-button rounded-full border border-neutral-200 px-3 py-1 text-sm font-medium text-muted transition hover:border-primary hover:text-primary dark:border-neutral-700" data-range="30">30</button>
     <button type="button" class="stats-range-button rounded-full border border-neutral-200 px-3 py-1 text-sm font-medium text-muted transition hover:border-primary hover:text-primary dark:border-neutral-700" data-range="90">90</button>
   </div>
-  <div class="mt-6 relative" data-field="chart-wrapper" style="min-height:280px;">
-    <div class="pointer-events-none absolute inset-0 flex items-center justify-center text-sm text-muted" data-field="empty"></div>
-    <canvas height="320" data-field="chart"></canvas>
+  <div class="relative mt-6" data-field="chart-wrapper" style="min-height:280px;">
+    <div class="pointer-events-none absolute inset-0 hidden items-center justify-center text-sm text-muted" data-field="empty"></div>
+    <canvas class="block h-72 w-full" data-field="chart"></canvas>
   </div>
 </section>

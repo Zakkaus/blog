@@ -124,6 +124,11 @@ async function updateHealth() {
 }
 
 function buildChart(ctx, points) {
+  if (!ctx) return null;
+  if (typeof window.Chart === "undefined") {
+    console.error("Chart.js not available");
+    return null;
+  }
   const labels = points.map((item) => dateFormatter.format(new Date(item.date ?? item.day)));
   const views = points.map((item) => item.views ?? item.pageviews ?? item.pv ?? 0);
   const visitors = points.map((item) => item.visitors ?? item.uv ?? 0);
@@ -194,13 +199,14 @@ async function updateTrend() {
   const errorText = trend.dataset.errorText ?? "Unable to load chart.";
 
   if (emptyEl) {
-    emptyEl.style.display = "none";
+    emptyEl.classList.add("hidden");
   }
 
   const hideMessage = () => {
     if (emptyEl) {
       emptyEl.textContent = "";
-      emptyEl.style.display = "none";
+      emptyEl.classList.remove("flex");
+      emptyEl.classList.add("hidden");
     }
     canvas.style.opacity = "1";
   };
@@ -212,7 +218,8 @@ async function updateTrend() {
     }
     if (emptyEl) {
       emptyEl.textContent = message;
-      emptyEl.style.display = "flex";
+      emptyEl.classList.remove("hidden");
+      emptyEl.classList.add("flex");
     }
     canvas.style.opacity = "0.35";
   };

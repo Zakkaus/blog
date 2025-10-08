@@ -9,7 +9,7 @@ dashboardURL: "https://stats.zakk.au"
 {{< lead >}}
 此页展示 zakk.au 的实时统计数据，全部由 Cloudflare Stats Worker 透过 Cloudflare Workers、KV 与 D1 生成，无需第三方 Cookie。{{< /lead >}}
 
-## ✨ 全站概况
+## 全站概况
 
 {{< statsSummary
 	totalViews="全站总浏览量"
@@ -22,23 +22,23 @@ dashboardURL: "https://stats.zakk.au"
 	todayVisitorsHint="当天内的独立访客"
 >}}
 
-## 🛡️ API 状态
+## API 状态
 
-{{< statsHealth title="API 当前状态" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="当前状态" statusPlaceholder="检测中…" versionLabel="版本" okText="✅ 正常" healthyText="✅ 正常" errorText="⚠️ 异常" >}}
+{{< statsHealth title="API 当前状态" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="当前状态" statusPlaceholder="检测中…" versionLabel="版本" okText="正常" healthyText="正常" errorText="异常" >}}
 
-## 📈 每日访问趋势
+## 每日访问趋势
 
 {{< statsTrend
-	title="📈 每日访问趋势"
+	title="每日访问趋势"
 	description="切换 7 / 30 / 90 天区间，检视 PV 与 UV 的变化。"
 	rangeLabel="统计区间"
 	emptyText="暂无数据"
 	errorText="无法加载趋势图"
 >}}
 
-## 🔥 热门页面 Top 10
+## 热门页面 Top 10
 
-{{< statsTop title="🔥 热门页面 Top 10" ctaLabel="前往 stats.zakk.au 查看更多" ctaUrl="https://stats.zakk.au/" emptyText="暂无数据" errorText="暂时无法加载热门页面" >}}
+{{< statsTop title="热门页面 Top 10" ctaLabel="前往 stats.zakk.au 查看更多" ctaUrl="https://stats.zakk.au/" emptyText="暂无数据" errorText="暂时无法加载热门页面" >}}
 
 {{< statsPageScripts >}}
 

@@ -8,10 +8,7 @@
   <div class="stats-top-header">
     <h3 class="stats-panel__heading">{{ .Get "title" }}</h3>
     {{ if and $ctaLabel $ctaUrl }}
-      <a class="stats-top-cta" href="{{ $ctaUrl }}" target="_blank" rel="noopener">
-        <span>{{ $ctaLabel }}</span>
-        <span aria-hidden="true">↗</span>
-      </a>
+      <a class="stats-top-cta" href="{{ $ctaUrl }}" target="_blank" rel="noopener">{{ $ctaLabel }}</a>
     {{ end }}
   </div>
   <ol class="stats-top-list" data-field="list">

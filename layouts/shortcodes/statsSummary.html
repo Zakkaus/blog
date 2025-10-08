@@ -1,15 +1,15 @@
 {{ $api := .Get "api" | default .Page.Params.dashboardURL }}
 {{ $cards := slice
-  (dict "label" (.Get "totalViews") "field" "totalViews" "icon" ((.Get "totalViewsIcon") | default "🌐") "hint" (.Get "totalViewsHint"))
-  (dict "label" (.Get "totalVisitors") "field" "totalVisitors" "icon" ((.Get "totalVisitorsIcon") | default "👥") "hint" (.Get "totalVisitorsHint"))
-  (dict "label" (.Get "todayViews") "field" "todayViews" "icon" ((.Get "todayViewsIcon") | default "📈") "hint" (.Get "todayViewsHint"))
-  (dict "label" (.Get "todayVisitors") "field" "todayVisitors" "icon" ((.Get "todayVisitorsIcon") | default "🧑‍🤝‍🧑") "hint" (.Get "todayVisitorsHint"))
+  (dict "label" (.Get "totalViews") "field" "totalViews" "icon" (.Get "totalViewsIcon") "hint" (.Get "totalViewsHint"))
+  (dict "label" (.Get "totalVisitors") "field" "totalVisitors" "icon" (.Get "totalVisitorsIcon") "hint" (.Get "totalVisitorsHint"))
+  (dict "label" (.Get "todayViews") "field" "todayViews" "icon" (.Get "todayViewsIcon") "hint" (.Get "todayViewsHint"))
+  (dict "label" (.Get "todayVisitors") "field" "todayVisitors" "icon" (.Get "todayVisitorsIcon") "hint" (.Get "todayVisitorsHint"))
 }}
 <section class="stats-panel stats-panel--summary" data-stats-summary data-api="{{ $api }}">
   <div class="stats-summary-grid">
     {{ range $cards }}
       <article class="stats-summary-card">
-        <span class="stats-summary-card__icon" aria-hidden="true">{{ .icon }}</span>
+        {{ with .icon }}<span class="stats-summary-card__icon" aria-hidden="true">{{ . }}</span>{{ end }}
         <span class="stats-summary-card__label">{{ .label }}</span>
         <span class="stats-summary-card__value" data-field="{{ .field }}">—</span>
         {{ with .hint }}

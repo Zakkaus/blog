@@ -9,7 +9,7 @@ dashboardURL: "https://stats.zakk.au"
 {{< lead >}}
 這裡即時呈現 zakk.au 的全站流量：所有數據都由 Cloudflare Stats Worker 驅動，透過 Cloudflare Workers、KV 與 D1 無 Cookie 計算並更新。{{< /lead >}}
 
-## ✨ 全站總覽
+## 全站總覽
 
 {{< statsSummary
 	totalViews="全站總瀏覽量"
@@ -22,23 +22,23 @@ dashboardURL: "https://stats.zakk.au"
 	todayVisitorsHint="今日內的獨立訪客"
 >}}
 
-## 🛡️ API 與系統狀態
+## API 與系統狀態
 
-{{< statsHealth title="API 當前狀態" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="API 當前狀態" statusPlaceholder="檢查中…" versionLabel="版本" okText="✅ 正常" healthyText="✅ 正常" errorText="⚠️ 異常" >}}
+{{< statsHealth title="API 當前狀態" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="API 當前狀態" statusPlaceholder="檢查中…" versionLabel="版本" okText="正常" healthyText="正常" errorText="異常" >}}
 
-## 📈 每日訪問趨勢
+## 每日訪問趨勢
 
 {{< statsTrend
-	title="📈 每日訪問趨勢"
+	title="每日訪問趨勢"
 	description="最近 7 / 30 / 90 天的 PV / UV 變化，點擊範圍即可切換。"
 	rangeLabel="統計範圍"
 	emptyText="暫無數據"
 	errorText="無法載入趨勢圖"
 >}}
 
-## 🔥 熱門頁面 Top 10
+## 熱門頁面 Top 10
 
-{{< statsTop title="🔥 熱門頁面 Top 10" ctaLabel="在 stats.zakk.au 查看更多" ctaUrl="https://stats.zakk.au/" emptyText="目前沒有數據" errorText="暫時無法載入熱門頁面" >}}
+{{< statsTop title="熱門頁面 Top 10" ctaLabel="在 stats.zakk.au 查看更多" ctaUrl="https://stats.zakk.au/" emptyText="目前沒有數據" errorText="暫時無法載入熱門頁面" >}}
 
 {{< statsPageScripts >}}
 

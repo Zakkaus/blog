@@ -9,7 +9,7 @@ dashboardURL: "https://stats.zakk.au"
 {{< lead >}}
 This page shows the real-time analytics that power zakk.au, refreshed by Cloudflare Stats Worker with zero third-party cookies.{{< /lead >}}
 
-## ✨ Site overview
+## Site overview
 
 {{< statsSummary
 	totalViews="Total Views"
@@ -22,23 +22,23 @@ This page shows the real-time analytics that power zakk.au, refreshed by Cloudfl
 	todayVisitorsHint="Unique visitors recorded today."
 >}}
 
-## 🛡️ API status
+## API status
 
-{{< statsHealth title="API Status" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="Current State" statusPlaceholder="Checking…" versionLabel="Version" okText="✅ Normal" healthyText="✅ Normal" errorText="⚠️ Issue" >}}
+{{< statsHealth title="API Status" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="Current State" statusPlaceholder="Checking…" versionLabel="Version" okText="Normal" healthyText="Normal" errorText="Issue" >}}
 
-## 📈 Daily traffic trend
+## Daily traffic trend
 
 {{< statsTrend
-	title="📈 Daily Traffic Trend"
+	title="Daily Traffic Trend"
 	description="Switch between 7 / 30 / 90 day windows to explore PV and UV history."
 	rangeLabel="Trend range"
 	emptyText="No data yet."
 	errorText="Unable to load chart."
 >}}
 
-## 🔥 Top pages (Top 10)
+## Top pages (Top 10)
 
-{{< statsTop title="🔥 Top Pages (Top 10)" ctaLabel="Open full dashboard" ctaUrl="https://stats.zakk.au/" emptyText="No data yet." errorText="Unable to load top pages." >}}
+{{< statsTop title="Top Pages (Top 10)" ctaLabel="Open full dashboard" ctaUrl="https://stats.zakk.au/" emptyText="No data yet." errorText="Unable to load top pages." >}}
 
 {{< statsPageScripts >}}
 

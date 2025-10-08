@@ -405,7 +405,7 @@ async function updateTop() {
     });
   } catch (error) {
     console.error("Failed to render top pages", error);
-  list.innerHTML = `<li class="stats-top-empty">${errorText}</li>`;
+    list.innerHTML = `<li class="stats-top-empty">${errorText}</li>`;
   }
 }
 

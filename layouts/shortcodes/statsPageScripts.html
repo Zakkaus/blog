@@ -1,5 +1,5 @@
 {{ $chart := "https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" }}
 <link rel="preload" href="{{ $chart }}" as="script" crossorigin>
-<script src="{{ $chart }}" integrity="sha384-DUqf4H8YZ7N9xF6G4w1h5Mzqxo2SyGekKy1MF1jwINqKzD9zUd2nv9esZmgJy8WY" crossorigin="anonymous" defer></script>
+<script src="{{ $chart }}" integrity="sha384-Sse/HDqcypGpyTDpvZOJNnG0TT3feGQUkF9H+mnRvic+LjR+K1NhTt8f51KIQ3v3" crossorigin="anonymous" defer></script>
 {{ $stats := resources.Get "js/stats-page.js" | js.Build | resources.Minify | resources.Fingerprint }}
 <script src="{{ $stats.RelPermalink }}" defer></script>

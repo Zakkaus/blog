@@ -24,68 +24,56 @@ seo:
 ---
 
 {{< lead >}}
-Cloudflare Stats Worker 是我在 zakk.au 使用的開源統計方案：同時提供 API、儀表板與 Hugo Blowfish 整合，讓 PV / UV 更新即時又不犧牲隱私。這篇文章把架構、部署與優化全部整理在一起，照著做就能打造出和 `stats.zakk.au` 一樣的體驗。{{< /lead >}}
+想要即時掌握 PV / UV 卻不想塞進 Google Analytics？Cloudflare Stats Worker 把 API、儀表板與 Hugo Blowfish 整合打包在同一個 Worker，只要幾分鐘就能擁有和 `stats.zakk.au` 一樣的統計頁面。本文整理我實際部署的流程、踩雷與維運做法，照著做就能快速上線。{{< /lead >}}
 
 ## 為什麼選擇 Cloudflare Stats Worker
 
-- **零 Cookie、零追蹤腳本**：資料留在 Cloudflare KV / D1，自行掌控保存策略。
-- **單一 Worker 搭配儀表板**：部署後即擁有 `/api/*` 端點與 dashboard UI。
-- **多語系友善**：URL 正規化會把 `/zh-tw/posts/foo/`、`/posts/foo/` 視為同一頁。
-- **成本為零**：免費額度對個人博客綽綽有餘，超量再視情況升級。
+- **隱私優先**：無 Cookie、IP 以 SHA-256 雜湊後截斷，資料完全掌握在自己手中。
+- **單一 Worker 全搞定**：部署一次即可同時拿到 `/api/*` 端點與儀表板頁面。
+- **多語言友善**：`normalizePath()` 自動把 `/zh-tw/posts/foo/`、`/posts/foo/` 視為同一頁，不會發生語系分裂。
+- **零元起跳**：Cloudflare 免費額度足以支撐個人部落格，爆紅時再考慮升級即可。
+- **Hugo Blowfish 即插即用**：內建前端腳本與 partial 範例，免寫自訂 CSS。
 
-### 免費額度與升級選項
+## 免費額度與升級選項
 
-**Cloudflare Workers 免費方案**
+| 項目 | 免費方案 | 升級建議 |
+|------|----------|-----------|
+| **Cloudflare Workers** | 每日 100,000 次請求、10ms CPU | 日流量破 10 萬或 CPU 受限時升級 Workers Paid（$5/月）。|
+| **Cloudflare KV** | 1GB 儲存、每日 100k 讀取 / 1k 寫入 | 文章極多或想保留完整訪問紀錄時再升級，超額後依操作次數計費。|
+| **Cloudflare D1** | 每月 5M 查詢、1GB 儲存 | 熱門排行、大量歷史日誌需求時升級 D1 Paid，否則免費層足夠。|
 
-- 每日 100,000 次請求與 10ms CPU 限額，對一般 Hugo 網站足夠應付 PV / UV 更新。
-- 每秒允許多個併發請求，爆紅時只要加上 Cache TTL 即可撐起高峰。
-
-**Cloudflare KV 免費方案**
-
-- 1 GB 儲存空間足以保存多語系頁面與每日統計。
-- 每日 100,000 次讀取、1,000 次寫入 / 刪除 / 列表操作；多數部落格每篇文章僅需一次讀寫即可。
-
-**升級到 Workers Paid（每月 5 美元）**
-
-- 10,000,000 次讀取操作、1,000,000 次寫入、1,000,000 次刪除、1,000,000 次列表操作。
-- 內含 1 GB KV 儲存（額外空間以 $0.50/GB 計費），超量後按使用量加收。
-- 若儀表板流量激增或需要更頻繁的批次寫入，啟用此方案可避免觸發限流。
-
-**Cloudflare D1（選用）**
-
-- 免費層提供 5M 次查詢與 1 GB 儲存，足夠記錄每日彙總。
-- 進階報表或時間序列分析可再考慮升級至 D1 Paid。
+> 如果你只想要即時 PV/UV，D1 是選配。儀表板依然能顯示總覽資料，但沒有 Top 10 與趨勢圖。
 
 ## 架構與資料流
 
 ```mermaid
 graph LR
-  Browser[訪客瀏覽網站] -->|fetch /api/count| Worker[Stats Worker]
-  Browser -->|fetch /api/batch| Worker
+  User[訪客] -->|/api/count| Worker
+  User -->|/api/batch| Worker
+  Dashboard[stats 子網域儀表板] -->|/api/stats /api/daily /api/top| Worker
   Worker -->|寫入/讀取| KV[(Cloudflare KV)]
   Worker -->|可選| D1[(Cloudflare D1)]
-  Dashboard[stats.zakk.au 儀表板] -->|fetch /api/stats /api/daily| Worker
 ```
 
-- 前端腳本集中於 `assets/js/cloudflare-stats.js`，會自動抓出列表與文章頁的 PV / Like 佔位符。
-- Worker 端以 `page:/posts/foo/:pv`、`:uv` 作為鍵值儲存，確保語系一致。
-- 儀表板為同一個 Worker 提供的靜態頁面，不需要另架 Hosting。
+- Worker 端以 `page:/posts/foo/:pv`、`:uv` 命名儲存，語系或結尾 `/index` 皆會被正規化。
+- 儀表板靜態檔案與 API 同站部署，省去額外 Hosting。
+- `/api/top` 若偵測 D1 為空，會自動從 KV 回填，確保儀表板不中斷。
 
 ## 儀表板亮點
 
-- **今日 PV / UV 卡片**：進站即可掌握即時成長。
-- **熱門文章排行榜**：追蹤哪些內容在社群發酵。
-- **每日趨勢圖**：預設顯示 7/30 天，支援深色模式。
-- **全螢幕檢視**：手機 / 平板使用者也能舒適觀看。
-
-接下來進入部署流程，如果你想先看成果可以到 [統計監控頁面](/zh-tw/stats/) 試玩。
+- 玻璃擬態設計、深淺色主題開關、繁中/英文立即切換。
+- 今日 / 全站 PV・UV、API 健康狀態、更新時間（UTC）。
+- 7 / 14 / 30 天趨勢圖，空資料時顯示零狀態不會爆錯。
+- 熱門頁面 Top 10、搜尋任意路徑、快速跳文章頁。
+- 可透過 iframe 或 Hugo 短碼嵌入既有頁面，維持體驗一致。
 
 ## 部署前準備
 
-- 已註冊 Cloudflare 帳號並啟用帳單（免費額度足夠）。
-- 你的主網域託管在 Cloudflare 上，方便設定子網域路由。
-- 環境安裝 Git、Node.js 18+、Wrangler CLI（`npm install -g wrangler`）。
-- 若要跑驗證腳本，建議 macOS / Linux，或 WSL2。
+- Cloudflare 帳號與 `wrangler` CLI（`npm install -g wrangler`）。
+- Node.js 18 以上版本、Git、macOS/Linux/WSL shell 環境。
+- 若要綁定 `stats.example.com`，請先在 Cloudflare 啟用該網域代理。
+
+---
 
 ## 步驟 1：取得專案原始碼
 
@@ -94,153 +82,125 @@ git clone https://github.com/Zakkaus/cloudflare-stats-worker.git
 cd cloudflare-stats-worker
 ```
 
-專案主要目錄：
+目錄導覽：
 
-- `src/`：Cloudflare Worker 程式碼。
-- `dashboard/`：儀表板靜態網頁，會隨 Worker 一起部署。
-- `scripts/`：自動化腳本，本文都會使用。
+- `src/index.js`：Worker 路由、快取失效、D1 同步邏輯。
+- `dashboard/`：儀表板 HTML/CSS/JS，部署時隨 Worker 一起上線。
+- `scripts/`：部署、驗證、清理等自動化腳本。
+- `schema.sql`：D1 的 `page_stats`、`site_daily_stats` 表定義。
 
 ## 步驟 2：執行安裝腳本
 
 ```bash
-./scripts/install.sh
+chmod +x scripts/deploy.sh
+./scripts/deploy.sh --domain stats.example.com
 ```
 
-腳本會依序：
+腳本會：
 
-1. 檢查 Wrangler 是否登入。
-2. 建立 KV Namespace 並寫入 `wrangler.toml`。
-3. 上傳 Worker 並綁定 `stats.example.com` Route。
-4. 啟動 Health Check 確認回傳 `{"status":"ok"}`。
+1. 確認 Wrangler 已登入（必要時提醒 `wrangler login`）。
+2. 建立 KV 命名空間並寫入 `wrangler.toml`。
+3. 偵測 D1 ID 後自動套用 `schema.sql`（選配）。
+4. 部署 Worker 並輸出儀表板 / API URL。
 
-過程中如果想使用不同子網域，可加上 `--domain stats.zakk.au` 這類參數，詳細請執行 `./scripts/install.sh --help` 查看。
+偏好手動部署？可依序執行：
+
+```bash
+wrangler kv namespace create PAGE_STATS
+wrangler kv namespace create PAGE_STATS --preview
+wrangler d1 create cloudflare-stats-top             # 若需 Top 10 / 趨勢圖
+wrangler d1 execute cloudflare-stats-top --file=schema.sql --remote
+wrangler deploy
+```
 
 ## 步驟 3：驗證 API
 
-先透過健康檢查確認 Worker 可用：
-
 ```bash
 curl https://stats.example.com/health
-# {"status":"ok"}
-```
-
-常用端點：
-
-```bash
 curl "https://stats.example.com/api/count?url=/" | jq
 curl "https://stats.example.com/api/stats" | jq
-curl "https://stats.example.com/api/daily" | jq
+curl "https://stats.example.com/api/top?limit=5" | jq
 ```
 
-也可以使用專案提供的驗證腳本：
+也可用專案提供的驗證腳本一次跑完：
 
 ```bash
 ./scripts/verify.sh https://stats.example.com
 ```
 
-這會一次測所有端點並顯示成功/失敗。
+腳本會檢查所有端點與快取 header，確保部署完整。
 
 ## 步驟 4：匯入 Hugo 前端腳本
 
-在 Hugo 專案將 `cloudflare-stats-worker/client/cloudflare-stats.js` 複製到 `assets/js/cloudflare-stats.js`（或自訂路徑）。
+1. 將 `client/cloudflare-stats.js` 複製到你的 Hugo 專案，例如 `assets/js/cloudflare-stats.js`。
+2. 在 `layouts/partials/extend-head.html` 加入：
+   ```go-html-template
+   {{ $stats := resources.Get "js/cloudflare-stats.js" | resources.Minify | resources.Fingerprint }}
+   <script defer src="{{ $stats.RelPermalink }}"
+           data-api="https://stats.example.com"
+           data-site="https://zakk.au"></script>
+   ```
+3. 重新編譯 Hugo，檢查文章頁下方的 PV 佔位符是否載入動畫。
 
-接著於 `layouts/partials/extend-head.html` 加入：
-
-```go-html-template
-{{ $stats := resources.Get "js/cloudflare-stats.js" | resources.Minify | resources.Fingerprint }}
-<script defer src="{{ $stats.RelPermalink }}" data-api="https://stats.example.com"></script>
-```
-
-這段腳本會：
-
-- 尋找所有 `span[id^="views_"]`、`span[id^="likes_"]`。
-- 對 URL 正規化，例如 `/zh-tw/posts/foo/` → `/posts/foo/`。
-- 請求 `/api/count`、`/api/batch` 並更新 DOM。
-- 失敗時顯示 `—`，避免破版。
+前端腳本會掃描 `span[id^="views_"]`、`likes_`，自動正規化路徑並呼叫 `/api/count` 或 `/api/batch` 更新數字。
 
 ## 步驟 5：覆寫 Blowfish 模板
 
-為確保所有語系都使用一致 slug，我額外建立了四個覆寫檔案：
+為了讓多語系共用同一鍵值，我覆寫了下列檔案：
 
 - `layouts/_default/list.html`
 - `layouts/_default/single.html`
 - `layouts/partials/meta/views.html`
 - `layouts/partials/meta/likes.html`
 
-範例片段：
+核心邏輯是產出一致的 ID：
 
 ```go-html-template
-{{ $oidPath := "" }}
-{{ with .RelPermalink }}
-  {{ $rel := printf "%s" . }}
-  {{ if not (strings.HasSuffix $rel "/") }}
-    {{ $rel = printf "%s/" $rel }}
-  {{ end }}
-  {{ $clean := strings.TrimLeft "/" $rel }}
-  {{ if or (eq $clean "") (eq $clean "/") }}
-    {{ $oidPath = "/" }}
-  {{ else }}
-    {{ $oidPath = $clean }}
-  {{ end }}
-{{ end }}
-<span id="views_{{ $oidPath }}" class="animate-pulse text-sm text-muted">…</span>
+{{- $slug := partial "stats/normalize-path" . -}}
+<span id="views_{{ $slug }}" class="views-counter animate-pulse">—</span>
 ```
 
-這樣就能把 `/zh-tw/posts/foo/`、`/posts/foo/`、`/posts/foo/index.html` 全部合併成單一鍵值。
+`partial "stats/normalize-path"` 會移除語言前綴、結尾 `index`，確保 `/zh-tw/posts/foo/` 與 `/posts/foo/` 寫到同一個鍵。
 
 ## 步驟 6：本地測試
 
 ```bash
+wrangler dev
+# 另開終端
 hugo server -D
 ```
 
-在文章頁開啟瀏覽器 Network 面板，確認：
-
-- `/api/count?url=/posts/foo/` 200；
-- `/api/batch` 回傳所有卡片的 PV；
-- Console 不再出現 `count error` 警告。
-
-如果要壓測，可用 `hey` 或 `autocannon` 打 `/api/count`，觀察 R2/KV 的延遲。
+- 在瀏覽器的 Network 面板確認 `/api/count`、`/api/batch` 正常回傳。
+- 想壓力測試可用 `npx autocannon` 擊打 `/api/count`，並透過 `wrangler tail` 觀察速率限制行為。
 
 ## 步驟 7：建立統計儀表板頁面
 
-本站改用 Hugo 內建模板搭配短碼嵌入儀表板：
+我在 Hugo 中建立一個 `/stats/` 專頁並嵌入短碼：
 
 ```markdown
-{{< statsDashboard url="https://stats.example.com" heightClass="h-[1200px]" >}}
+{{< statsDashboard url="https://stats.example.com" heightClass="md:h-[1200px]" >}}
 ```
 
-- 短碼位於 `layouts/shortcodes/statsDashboard.html`，自帶圓角、陰影與深色模式樣式。
-- 搭配 `content/stats/index.*.md` 即可生成 `/stats/` 頁面，維持 Blowfish 的單篇排版。
-- 想完全自訂 UI 時，可以把 `dashboard/` 資源改寫成 Hugo partial 或獨立的 SPA。
-
-## 常見問答
-
-### 為什麼不用 Google Analytics？
-自架方案可控、無 Cookie，且能在中國訪問；同時可依需求調整資料模型。
-
-### 儀表板會拖慢載入嗎？
-儀表板獨立載入 `<iframe>`，文章頁腳本也以 `defer` 加上批次 API，對首屏影響極小。
-
-### 可以擴充資料模型嗎？
-可以，將 Worker 儲存格式改為 JSON 或新增 D1 資料表，就能把數據餵給外部 BI。
-
-## 故障排查清單
-
-| 狀況 | 排查步驟 |
-| ---- | -------- |
-| `/api/count` 回傳 500 | 檢查 Wrangler 日誌：`npx wrangler tail --format=json` |
-| PV / UV 沒更新 | 確認前端 `data-api`、`data-site` 是否正確，或清除 Cloudflare Cache |
-| 想排除內部流量 | 在 Worker `src/router.ts` 增加 IP / UA 黑名單，或加上 Turnstile 驗證 |
-| 儀表板顯示空白 | 檢查 CORS 設定、iframe URL 與 CSP Header |
-
-## 後續優化方向
-
-- 把 KV Snapshot 自動備份到 R2 / GitHub。
-- 啟用 D1 將每日統計寫入資料表，方便長期分析。
-- 用 Cloudflare Queues/Scheduled Jobs 做每小時整理。
-- 把儀表板加進主選單（本篇最後有範例）。
+- 短碼實作位於 `layouts/shortcodes/statsDashboard.html`，自帶深色模式與圓角樣式。
+- 可在 `content/stats/index.zh-tw.md` 等檔案呼叫，維持 Blowfish 的文章排版。
+- 若要全自訂 UI，可以把 `dashboard/` 改寫成 Hugo partial 或獨立 SPA。
 
 ---
 
-希望這份部署筆記能讓你也在自己的 Hugo 網站上跑起 Cloudflare Stats Worker。如果遇到其他問題，歡迎寫信或在 Matrix 聊天室討論！
+## 常見問題
+
+**為什麼不用 Google Analytics？**  
+Cloudflare Stats Worker 自控可控、面向全球（包含中國）無問題，且不需要額外載入第三方腳本。
+
+**儀表板會拖慢網頁嗎？**  
+文章頁的統計腳本以 `defer` 載入並使用批次 API，對首屏影響極小；儀表板可另外以 iframe 嵌入，不影響主站載入。
+
+**可以排除內部流量嗎？**  
+可以，在 `src/index.js` 的 `enforceRateLimit` 或 `handleCount` 中加入 IP / User-Agent 判斷即可。
+
+**如何清空所有統計？**  
+先刪光 KV（`wrangler kv key list … | xargs wrangler kv key delete`），再執行 `DELETE FROM page_stats;`、`DELETE FROM site_daily_stats;`，最後確認 `/api/top` 返回空陣列。
+
+---
+
+上面這套流程就是我把 stats.zakk.au 搬上線的全部細節。若你也完成部署，歡迎在 Matrix 或社群分享成果；遇到問題也可以在 GitHub issues 找我，我會持續更新腳本與維運筆記。祝你玩得愉快！

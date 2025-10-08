@@ -44,17 +44,38 @@ authors:
 
 ## 快速部署
 
-```bash
-git clone https://github.com/Zakkaus/cloudflare-stats-worker.git
-cd cloudflare-stats-worker
-./scripts/install.sh
-```
+> 需求：Node.js ≥ 18、`wrangler` CLI ≥ 3.0
 
-脚本会自动：
-1. 验证 Wrangler 认证
-2. 建立 KV 命名空间并更新设定
-3. 部署 Worker 并绑定子域名
-4. 执行健康检查
+1. **克隆并进入项目目录**
+   ```bash
+   git clone https://github.com/Zakkaus/cloudflare-stats-worker.git
+   cd cloudflare-stats-worker
+   ```
+
+2. **安装 Wrangler 并登录**
+   ```bash
+   npm install -g wrangler
+   wrangler login
+   ```
+
+3. **创建 KV 命名空间**
+   ```bash
+   wrangler kv namespace create PAGE_STATS
+   wrangler kv namespace create PAGE_STATS --preview
+   ```
+   然后将 ID 粘贴到 `wrangler.toml` 中。
+
+4. **（可选）启用 D1 以支持趋势图与热门页面**
+   ```bash
+   wrangler d1 create cloudflare-stats-top
+   wrangler d1 execute cloudflare-stats-top --file=schema.sql --remote
+   ```
+   取消 `wrangler.toml` 中 `d1_databases` 区块的注释，并填入生成的 ID。
+
+5. **部署 🎉**
+   ```bash
+   wrangler deploy
+   ```
 
 ## 步骤 7：访问统计仪表板
 
@@ -75,17 +96,15 @@ https://stats.example.com/
 
 仪表板完全独立运作 - 无需嵌入，直接分享网址即可！
 
-## 免费方案额度
+## 免费方案与升级选项
 
-**Cloudflare Workers 免费方案**：
-- 每日 100,000 次请求
-- 每次请求 10ms CPU 时间
-- 足以应付个人博客与小型网站
+| 服务 | 免费额度 | 何时升级 |
+|------|---------|---------|
+| **Workers** | 每日 100k 请求<br>10ms CPU 时间 | 当每日流量超过 100k 或需要更大 CPU 资源时，升级到 **Workers Paid ($5/月)**。 |
+| **KV** | 1 GB 存储空间<br>每日 100k 次读取<br>每日 1k 次写入 | 当需要存储大型 JSON 或保留长期历史记录时，升级到付费方案。 |
+| **D1** | 每月 5M 次查询<br>1 GB 存储空间 | 当需要大量使用 Top 10 排行或长时间趋势查询时，升级到 D1 Paid。 |
 
-**Cloudflare KV 免费方案**：
-- 1 GB 存储空间
-- 每日 100,000 次读取
-- 每日 1,000 次写入
+> **注意**：D1 是可选的。如果你只需要实时 PV/UV 统计，KV 已足够，仪表板依然可用（仅缺少 Top 10 与趋势图）。
 
 对大多数个人网站来说，免费方案绰绰有余！
 

@@ -44,17 +44,38 @@ Check out the live demo: **[stats.zakk.au](https://stats.zakk.au/)**
 
 ## Quick Deployment
 
-```bash
-git clone https://github.com/Zakkaus/cloudflare-stats-worker.git
-cd cloudflare-stats-worker
-./scripts/install.sh
-```
+> Requirements: Node.js ≥ 18, `wrangler` CLI ≥ 3.0.
 
-The script will:
-1. Verify Wrangler authentication
-2. Create KV namespace and update configuration
-3. Deploy Worker and bind to your subdomain
-4. Run health checks
+1. **Clone and enter the repository**
+   ```bash
+   git clone https://github.com/Zakkaus/cloudflare-stats-worker.git
+   cd cloudflare-stats-worker
+   ```
+
+2. **Install Wrangler and log in**
+   ```bash
+   npm install -g wrangler
+   wrangler login
+   ```
+
+3. **Create the KV namespace**
+   ```bash
+   wrangler kv namespace create PAGE_STATS
+   wrangler kv namespace create PAGE_STATS --preview
+   ```
+   Then paste the IDs into `wrangler.toml`.
+
+4. **(Optional) Enable D1 for trends and top pages**
+   ```bash
+   wrangler d1 create cloudflare-stats-top
+   wrangler d1 execute cloudflare-stats-top --file=schema.sql --remote
+   ```
+   Uncomment the `d1_databases` section in `wrangler.toml` and set the generated IDs.
+
+5. **Deploy 🎉**
+   ```bash
+   wrangler deploy
+   ```
 
 ## Step 7: Access Your Analytics Dashboard
 
@@ -75,17 +96,15 @@ You'll see a beautiful analytics interface just like [stats.zakk.au](https://sta
 
 The dashboard is completely standalone - no embedding needed, just share the URL!
 
-## Free Tier Limits
+## Free Tier and Upgrade Options
 
-**Cloudflare Workers Free Plan**:
-- 100,000 requests/day
-- 10ms CPU time per request
-- Perfect for personal blogs and small sites
+| Service | Free Allowance | When to Upgrade |
+|---------|----------------|-----------------|
+| **Workers** | 100k requests/day<br>10ms CPU time | Upgrade to **Workers Paid ($5/mo)** when daily traffic exceeds 100k or you need larger CPU headroom. |
+| **KV** | 1 GB storage<br>100k reads/day<br>1k writes/day | Move to the paid bundle when you store large JSON payloads or retain long-tail history. |
+| **D1** | 5M queries/month<br>1 GB storage | Switch to D1 Paid for heavier Top 10 usage or long-running trend queries. |
 
-**Cloudflare KV Free Plan**:
-- 1 GB storage
-- 100,000 reads/day
-- 1,000 writes/day
+> **Note**: D1 is optional. If you only need real-time PV/UV counting, KV is sufficient and the dashboard still works (minus Top 10 and trends).
 
 For most personal websites, the free tier is more than enough!
 

@@ -1,0 +1,15 @@
+{{ $api := .Get "api" | default .Page.Params.dashboardURL }}
+{{ $limit := .Get "limit" | default 10 }}
+{{ $ctaLabel := .Get "ctaLabel" }}
+{{ $ctaUrl := .Get "ctaUrl" }}
+<section class="rounded-xl border border-neutral-200/60 bg-surface px-6 py-6 shadow-sm transition dark:border-neutral-800/60" data-stats-top data-api="{{ $api }}" data-limit="{{ $limit }}">
+  <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+    <h3 class="text-xl font-semibold">{{ .Get "title" }}</h3>
+    {{ if and $ctaLabel $ctaUrl }}
+      <a class="text-sm font-medium text-primary transition hover:text-primary-600" href="{{ $ctaUrl }}" target="_blank" rel="noopener">{{ $ctaLabel }}</a>
+    {{ end }}
+  </div>
+  <ol class="mt-4 space-y-3" data-field="list">
+    <li class="text-sm text-muted">—</li>
+  </ol>
+</section>

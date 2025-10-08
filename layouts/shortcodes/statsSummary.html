@@ -1,0 +1,18 @@
+<div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4" data-stats-summary data-api="{{ with .Get "api" }}{{ . }}{{ else }}{{ .Page.Params.dashboardURL }}{{ end }}">
+  <article class="rounded-xl border border-neutral-200/60 bg-surface px-6 py-5 shadow-sm transition dark:border-neutral-800/60">
+    <p class="text-sm font-medium text-muted">{{ .Get "totalViews" }}</p>
+    <p class="mt-2 text-3xl font-semibold" data-field="totalViews">—</p>
+  </article>
+  <article class="rounded-xl border border-neutral-200/60 bg-surface px-6 py-5 shadow-sm transition dark:border-neutral-800/60">
+    <p class="text-sm font-medium text-muted">{{ .Get "totalVisitors" }}</p>
+    <p class="mt-2 text-3xl font-semibold" data-field="totalVisitors">—</p>
+  </article>
+  <article class="rounded-xl border border-neutral-200/60 bg-surface px-6 py-5 shadow-sm transition dark:border-neutral-800/60">
+    <p class="text-sm font-medium text-muted">{{ .Get "todayViews" }}</p>
+    <p class="mt-2 text-3xl font-semibold" data-field="todayViews">—</p>
+  </article>
+  <article class="rounded-xl border border-neutral-200/60 bg-surface px-6 py-5 shadow-sm transition dark:border-neutral-800/60">
+    <p class="text-sm font-medium text-muted">{{ .Get "todayVisitors" }}</p>
+    <p class="mt-2 text-3xl font-semibold" data-field="todayVisitors">—</p>
+  </article>
+</div>

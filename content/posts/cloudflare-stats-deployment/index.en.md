@@ -32,6 +32,29 @@ Cloudflare Stats Worker is the open analytics stack running on zakk.au: a single
 - **Locale-aware slug normalisation**: `/zh-tw/posts/foo/` and `/posts/foo/` map to a unified counter key.
 - **Free to run**: the Worker, KV, and dashboard comfortably sit inside Cloudflare's free tier for personal sites.
 
+### Pricing and free-tier allowances
+
+**Cloudflare Workers Free**
+
+- 100,000 requests per day with 10ms CPU time—enough headroom for PV / UV refreshes on typical blogs.
+- Bursts are tolerated; add caching to weather social spikes without hitting limits.
+
+**Cloudflare KV Free**
+
+- 1 GB of storage suitable for multilingual slugs and daily aggregates.
+- 100,000 read operations and 1,000 write/delete/list operations per day—most pages require just a single write.
+
+**Workers Paid plan (USD $5/month)**
+
+- 10,000,000 reads, 1,000,000 writes, 1,000,000 deletes, and 1,000,000 list operations bundled in.
+- Includes 1 GB of KV storage (additional space billed at $0.50/GB).
+- Ideal when the dashboard sees heavy traffic or you batch-ingest historical data.
+
+**Cloudflare D1 (optional)**
+
+- Free tier offers 5M queries and 1 GB of storage—enough for daily rollups.
+- Upgrade to D1 paid if you expand into advanced reporting or long-term warehousing.
+
 ## Architecture and data flow
 
 ```mermaid

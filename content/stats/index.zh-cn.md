@@ -7,25 +7,27 @@ ShowToc: false
 dashboardURL: "https://stats.zakk.au"
 ---
 {{< lead >}}
-下方仪表板由 Cloudflare Stats Worker 驱动，PV / UV 全程在 Cloudflare Workers + KV 侧计算，无需第三方 Cookie。{{< /lead >}}
+此页展示 zakk.au 的实时统计数据，全部由 Cloudflare Stats Worker 透过 Cloudflare Workers、KV 与 D1 生成，无需第三方 Cookie。{{< /lead >}}
 
-## Cloudflare Stats Worker 有什么特点
+## 全站概况
 
-- 完全自托管，PV / UV 数据掌握在自己的 Cloudflare 帐号里。
-- 单个 Worker 同时提供 `/api/*` 接口与仪表板前端。
-- 自动统一多语言路径，避免 `/zh-cn/`、`/posts/` 统计被拆分。
-- Hugo Blowfish 通过短码嵌入仪表板，同时保留主题的原生排版。
+{{< statsSummary totalViews="全站总浏览量" totalVisitors="全站访客数" todayViews="今日浏览量" todayVisitors="今日访客数" >}}
 
-## 可以在这里看到什么
+## API 状态
 
-- 今日 PV / UV 卡片，以及与昨日的增减幅度。
-- 最近 7 / 30 天的热门文章排行。
-- 每日流量趋势折线图，支持深浅色模式与全屏查看。
-- 引荐来源、装置类型等补充维度，辅助判断推广成效。
+{{< statsHealth title="API 当前状态" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="当前状态" statusPlaceholder="检测中…" versionLabel="版本" >}}
+
+## 📈 每日访问趋势
+
+{{< statsTrend title="📈 每日访问趋势" description="切换 7 / 30 / 90 天区间，检视 PV 与 UV 的变化。" rangeLabel="统计区间" >}}
+
+## 🔥 热门页面 Top 10
+
+{{< statsTop title="🔥 热门页面 Top 10" ctaLabel="前往 stats.zakk.au 查看更多" ctaUrl="https://stats.zakk.au/" >}}
+
+{{< statsPageScripts >}}
 
 ## 想自己部署？
 
 - <a href="/zh-cn/posts/cloudflare-stats-worker-deploy/">Cloudflare Stats Worker 部署与整合全指南</a>
 - <a href="https://github.com/Zakkaus/cloudflare-stats-worker">GitHub 项目</a>
-
-{{< statsDashboard url="https://stats.zakk.au" heightClass="h-[1200px]" >}}

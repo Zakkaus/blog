@@ -1,0 +1,18 @@
+<section class="rounded-xl border border-neutral-200/60 bg-surface px-6 py-6 shadow-sm transition dark:border-neutral-800/60" data-stats-health data-api="{{ with .Get "api" }}{{ . }}{{ else }}{{ .Page.Params.dashboardURL }}{{ end }}">
+  <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-wide text-primary">{{ .Get "title" }}</p>
+      <p class="mt-2 text-base text-muted">{{ .Get "powered" }}</p>
+    </div>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div>
+        <p class="text-xs font-medium uppercase tracking-wide text-muted">{{ .Get "statusLabel" }}</p>
+        <p class="mt-1 flex items-center gap-2 text-lg font-semibold" data-field="status">{{ .Get "statusPlaceholder" }}</p>
+      </div>
+      <div>
+        <p class="text-xs font-medium uppercase tracking-wide text-muted">{{ .Get "versionLabel" }}</p>
+        <p class="mt-1 text-lg font-semibold" data-field="version">—</p>
+      </div>
+    </div>
+  </div>
+</section>

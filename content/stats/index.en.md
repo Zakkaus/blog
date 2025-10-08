@@ -15,7 +15,7 @@ This page shows the real-time analytics that power zakk.au, refreshed by Cloudfl
 
 ## API status
 
-{{< statsHealth title="API Status" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="Current State" statusPlaceholder="Checking…" versionLabel="Version" >}}
+{{< statsHealth title="API Status" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="Current State" statusPlaceholder="Checking…" versionLabel="Version" okText="✅ Normal" healthyText="✅ Normal" errorText="⚠️ Issue" >}}
 
 ## 📈 Daily traffic trend
 

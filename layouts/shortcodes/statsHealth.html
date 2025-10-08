@@ -1,4 +1,8 @@
-<section class="rounded-xl border border-neutral-200/60 bg-surface px-6 py-6 shadow-sm transition dark:border-neutral-800/60" data-stats-health data-api="{{ with .Get "api" }}{{ . }}{{ else }}{{ .Page.Params.dashboardURL }}{{ end }}">
+{{ $api := .Get "api" | default .Page.Params.dashboardURL }}
+{{ $ok := .Get "okText" | default "✅ 正常" }}
+{{ $healthy := .Get "healthyText" | default $ok }}
+{{ $error := .Get "errorText" | default "⚠️ 異常" }}
+<section class="rounded-xl border border-neutral-200/60 bg-surface px-6 py-6 shadow-sm transition dark:border-neutral-800/60" data-stats-health data-api="{{ $api }}" data-text-ok="{{ $ok }}" data-text-healthy="{{ $healthy }}" data-text-error="{{ $error }}">
   <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
     <div>
       <p class="text-sm font-semibold uppercase tracking-wide text-primary">{{ .Get "title" }}</p>

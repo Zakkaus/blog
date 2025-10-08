@@ -7,12 +7,6 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
   day: "numeric",
 });
 
-const STATUSES = {
-  ok: "✅ 正常",
-  healthy: "✅ 正常",
-  error: "⚠️ 異常",
-};
-
 function safeText(value, fallback = "—") {
   return value ?? fallback;
 }
@@ -41,10 +35,21 @@ function formatNumber(value) {
   return numberFormatter.format(value);
 }
 
-function formatStatus(status) {
-  if (!status) return STATUSES.error;
+function getStatusText(element, key, fallback) {
+  if (!element) return fallback;
+  const dataset = element.dataset;
+  const map = {
+    ok: dataset.textOk,
+    healthy: dataset.textHealthy || dataset.textOk,
+    error: dataset.textError,
+  };
+  return map[key] ?? fallback;
+}
+
+function formatStatus(status, element) {
+  if (!status) return getStatusText(element, "error", "⚠️ Error");
   const key = status.toLowerCase();
-  return STATUSES[key] ?? status;
+  return getStatusText(element, key, status) ?? status;
 }
 
 async function updateSummary() {
@@ -76,21 +81,21 @@ async function updateHealth() {
   if (versionEl) versionEl.textContent = "…";
   try {
     const data = await fetchJSON(`${base}/health`);
-    const status = data.status ?? data.state ?? "error";
-    if (statusEl) statusEl.textContent = formatStatus(status);
+  const status = data.status ?? data.state ?? "error";
+  if (statusEl) statusEl.textContent = formatStatus(status, health);
     const version = data.version ?? data.meta?.version ?? data.worker?.version ?? "—";
     if (versionEl) versionEl.textContent = version;
   } catch (error) {
     console.warn("Health endpoint fallback", error);
     try {
       const data = await fetchJSON(`${base}/api/stats`);
-      const status = data.status ?? data.state ?? "error";
-      if (statusEl) statusEl.textContent = formatStatus(status);
+  const status = data.status ?? data.state ?? "error";
+  if (statusEl) statusEl.textContent = formatStatus(status, health);
       const version = data.version ?? data.meta?.version ?? data.worker?.version ?? "—";
       if (versionEl) versionEl.textContent = version;
     } catch (err) {
       console.error("Failed to resolve stats health", err);
-      if (statusEl) statusEl.textContent = STATUSES.error;
+  if (statusEl) statusEl.textContent = getStatusText(health, "error", "⚠️ Error");
       if (versionEl) versionEl.textContent = "—";
     }
   }

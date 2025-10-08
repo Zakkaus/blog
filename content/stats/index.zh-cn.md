@@ -9,7 +9,7 @@ dashboardURL: "https://stats.zakk.au"
 {{< lead >}}
 此页展示 zakk.au 的实时统计数据，全部由 Cloudflare Stats Worker 透过 Cloudflare Workers、KV 与 D1 生成，无需第三方 Cookie。{{< /lead >}}
 
-## 全站概况
+## ✨ 全站概况
 
 {{< statsSummary
 	totalViews="全站总浏览量"
@@ -22,7 +22,7 @@ dashboardURL: "https://stats.zakk.au"
 	todayVisitorsHint="当天内的独立访客"
 >}}
 
-## API 状态
+## 🛡️ API 状态
 
 {{< statsHealth title="API 当前状态" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="当前状态" statusPlaceholder="检测中…" versionLabel="版本" okText="✅ 正常" healthyText="✅ 正常" errorText="⚠️ 异常" >}}
 

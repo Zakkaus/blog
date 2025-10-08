@@ -9,7 +9,7 @@ dashboardURL: "https://stats.zakk.au"
 {{< lead >}}
 This page shows the real-time analytics that power zakk.au, refreshed by Cloudflare Stats Worker with zero third-party cookies.{{< /lead >}}
 
-## Site overview
+## ✨ Site overview
 
 {{< statsSummary
 	totalViews="Total Views"
@@ -22,7 +22,7 @@ This page shows the real-time analytics that power zakk.au, refreshed by Cloudfl
 	todayVisitorsHint="Unique visitors recorded today."
 >}}
 
-## API status
+## 🛡️ API status
 
 {{< statsHealth title="API Status" powered="Powered by Cloudflare Workers · KV · D1" statusLabel="Current State" statusPlaceholder="Checking…" versionLabel="Version" okText="✅ Normal" healthyText="✅ Normal" errorText="⚠️ Issue" >}}
 

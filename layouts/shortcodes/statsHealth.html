@@ -2,23 +2,23 @@
 {{ $ok := .Get "okText" | default "✅ 正常" }}
 {{ $healthy := .Get "healthyText" | default $ok }}
 {{ $error := .Get "errorText" | default "⚠️ 異常" }}
-<section class="relative overflow-hidden rounded-2xl border border-neutral-200/60 bg-surface p-6 shadow-sm transition duration-300 hover:shadow-lg dark:border-neutral-800/60 dark:bg-neutral-900/60" data-stats-health data-api="{{ $api }}" data-text-ok="{{ $ok }}" data-text-healthy="{{ $healthy }}" data-text-error="{{ $error }}">
-  <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-    <div class="max-w-xl space-y-3">
-      <p class="text-sm font-semibold uppercase tracking-wide text-primary">{{ .Get "title" }}</p>
-      <p class="text-base text-muted">{{ .Get "powered" }}</p>
+<section class="stats-panel stats-panel--health" data-stats-health data-api="{{ $api }}" data-text-ok="{{ $ok }}" data-text-healthy="{{ $healthy }}" data-text-error="{{ $error }}">
+  <div class="stats-health-grid">
+    <div class="stats-health-copy">
+      <span class="stats-section-kicker">{{ .Get "title" }}</span>
+      <p class="stats-body">{{ .Get "powered" }}</p>
       {{ with .Get "note" }}
-        <p class="text-sm text-muted">{{ . }}</p>
+        <p class="stats-section-note">{{ . }}</p>
       {{ end }}
     </div>
-    <div class="grid gap-4 sm:grid-cols-2">
-      <div class="rounded-xl border border-neutral-200/60 bg-surface px-4 py-3 dark:border-neutral-800/60 dark:bg-neutral-900">
-        <p class="text-xs font-medium uppercase tracking-wide text-muted">{{ .Get "statusLabel" }}</p>
-        <span class="mt-2 inline-flex items-center gap-2 rounded-full border border-primary px-3 py-1 text-sm font-semibold text-primary" data-field="status">{{ .Get "statusPlaceholder" }}</span>
+    <div class="stats-health-cards">
+      <div class="stats-health-card">
+        <span class="stats-health-card__label">{{ .Get "statusLabel" }}</span>
+        <span class="stats-health-pill" data-field="status">{{ .Get "statusPlaceholder" }}</span>
       </div>
-      <div class="rounded-xl border border-neutral-200/60 bg-surface px-4 py-3 dark:border-neutral-800/60 dark:bg-neutral-900">
-        <p class="text-xs font-medium uppercase tracking-wide text-muted">{{ .Get "versionLabel" }}</p>
-        <span class="mt-2 text-lg font-semibold" data-field="version">—</span>
+      <div class="stats-health-card">
+        <span class="stats-health-card__label">{{ .Get "versionLabel" }}</span>
+        <span class="stats-health-version" data-field="version">—</span>
       </div>
     </div>
   </div>

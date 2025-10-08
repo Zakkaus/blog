@@ -199,16 +199,21 @@ async function updateTrend() {
   const errorText = trend.dataset.errorText ?? "Unable to load chart.";
 
   if (emptyEl) {
-    emptyEl.classList.add("hidden");
+    emptyEl.textContent = "";
+    emptyEl.classList.remove("is-visible");
   }
+
+  const dimChart = (shouldDim) => {
+    if (!canvas) return;
+    canvas.classList.toggle("is-dimmed", Boolean(shouldDim));
+  };
 
   const hideMessage = () => {
     if (emptyEl) {
       emptyEl.textContent = "";
-      emptyEl.classList.remove("flex");
-      emptyEl.classList.add("hidden");
+      emptyEl.classList.remove("is-visible");
     }
-    canvas.style.opacity = "1";
+    dimChart(false);
   };
 
   const showMessage = (message) => {
@@ -218,10 +223,9 @@ async function updateTrend() {
     }
     if (emptyEl) {
       emptyEl.textContent = message;
-      emptyEl.classList.remove("hidden");
-      emptyEl.classList.add("flex");
+      emptyEl.classList.add("is-visible");
     }
-    canvas.style.opacity = "0.35";
+    dimChart(true);
   };
 
   const render = (range) => {
@@ -256,18 +260,26 @@ async function updateTrend() {
     } else {
       render(30);
     }
-    trend.querySelectorAll(".stats-range-button").forEach((button) => {
+    const rangeButtons = trend.querySelectorAll(".stats-range-button");
+    const setActive = (active) => {
+      rangeButtons.forEach((btn) => btn.classList.remove("is-active"));
+      if (active) {
+        active.classList.add("is-active");
+      }
+    };
+
+    rangeButtons.forEach((button) => {
       button.addEventListener("click", () => {
-        trend
-          .querySelectorAll(".stats-range-button")
-          .forEach((btn) => btn.classList.remove("bg-primary", "text-white"));
-        button.classList.add("bg-primary", "text-white");
         const range = Number(button.dataset.range ?? 30);
+        setActive(button);
         render(range);
       });
     });
+
     const defaultButton = trend.querySelector('[data-range="30"]');
-    if (defaultButton) defaultButton.classList.add("bg-primary", "text-white");
+    if (defaultButton) {
+      setActive(defaultButton);
+    }
   } catch (error) {
     console.error("Failed to render trend", error);
     showMessage(errorText);
@@ -296,24 +308,24 @@ function createTopEntry(item, index, maxViews) {
 
   const title = item.title ?? item.name ?? decodeURIComponent(displayPath);
   const li = document.createElement("li");
-  li.className = "group relative overflow-hidden rounded-2xl border border-neutral-200/60 bg-surface px-5 py-4 text-sm shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-primary hover:shadow-lg dark:border-neutral-800/60 dark:bg-neutral-900/60";
+  li.className = "stats-top-item";
 
-  const header = document.createElement("div");
-  header.className = "flex items-start justify-between gap-4";
+  const row = document.createElement("div");
+  row.className = "stats-top-item__row";
 
-  const left = document.createElement("div");
-  left.className = "flex flex-col gap-1";
+  const titleBlock = document.createElement("div");
+  titleBlock.className = "stats-top-item__title";
 
   const heading = document.createElement("div");
-  heading.className = "flex items-baseline gap-3";
+  heading.className = "stats-top-item__heading";
 
   const rank = document.createElement("span");
-  rank.className = "flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200/60 text-xs font-semibold uppercase tracking-wide text-muted dark:border-neutral-700";
+  rank.className = "stats-top-item__rank";
   rank.textContent = String(index + 1).padStart(2, "0");
 
   const link = document.createElement("a");
   link.href = href;
-  link.className = "max-w-xs truncate font-semibold text-primary transition hover:underline sm:max-w-md";
+  link.className = "stats-top-item__link";
   link.textContent = title;
   link.target = "_blank";
   link.rel = "noopener";
@@ -321,38 +333,37 @@ function createTopEntry(item, index, maxViews) {
   heading.append(rank, link);
 
   const subtitle = document.createElement("span");
-  subtitle.className = "text-xs text-muted";
+  subtitle.className = "stats-top-item__path";
   subtitle.textContent = decodeURI(displayPath);
 
-  left.append(heading, subtitle);
+  titleBlock.append(heading, subtitle);
 
   const metrics = document.createElement("div");
-  metrics.className = "flex flex-wrap items-center gap-2 text-xs";
+  metrics.className = "stats-top-item__metrics";
 
   const pvBadge = document.createElement("span");
-  pvBadge.className = "inline-flex items-center gap-1 rounded-full border border-primary px-2 py-0.5 font-semibold text-primary";
+  pvBadge.className = "stats-badge stats-badge--primary";
   pvBadge.innerHTML = `<span>PV</span><span>${numberFormatter.format(viewsValue)}</span>`;
 
   const uvBadge = document.createElement("span");
-  uvBadge.className = "inline-flex items-center gap-1 rounded-full border border-neutral-200 px-2 py-0.5 font-medium text-muted dark:border-neutral-700";
+  uvBadge.className = "stats-badge";
   uvBadge.innerHTML = `<span>UV</span><span>${numberFormatter.format(visitorsValue)}</span>`;
 
   metrics.append(pvBadge, uvBadge);
 
-  header.append(left, metrics);
+  row.append(titleBlock, metrics);
 
   const bar = document.createElement("div");
-  bar.className = "mt-4 w-full overflow-hidden rounded-full bg-neutral-200 dark:bg-neutral-800";
-  bar.style.height = "6px";
+  bar.className = "stats-top-item__progress";
 
   const fill = document.createElement("div");
-  fill.className = "h-full rounded-full bg-primary transition-all duration-500";
+  fill.className = "stats-top-item__fill";
   const ratio = maxViews > 0 ? Math.max((viewsValue / maxViews) * 100, 6) : 0;
   fill.style.width = `${Math.min(ratio, 100)}%`;
 
   bar.appendChild(fill);
 
-  li.append(header, bar);
+  li.append(row, bar);
   return li;
 }
 
@@ -366,7 +377,7 @@ async function updateTop() {
   if (!list) return;
   const emptyText = topEl.dataset.emptyText ?? "No data yet.";
   const errorText = topEl.dataset.errorText ?? "Unable to load top pages.";
-  list.innerHTML = `<li class="text-sm text-muted">${emptyText}</li>`;
+  list.innerHTML = `<li class="stats-top-empty">${emptyText}</li>`;
   try {
     let items = [];
     try {
@@ -380,7 +391,7 @@ async function updateTop() {
       items = stats.top ?? stats.popular ?? stats.results ?? [];
     }
     if (!Array.isArray(items) || !items.length) {
-      list.innerHTML = `<li class="text-sm text-muted">${emptyText}</li>`;
+  list.innerHTML = `<li class="stats-top-empty">${emptyText}</li>`;
       return;
     }
     list.innerHTML = "";
@@ -394,7 +405,7 @@ async function updateTop() {
     });
   } catch (error) {
     console.error("Failed to render top pages", error);
-    list.innerHTML = `<li class="text-sm text-muted">${errorText}</li>`;
+  list.innerHTML = `<li class="stats-top-empty">${errorText}</li>`;
   }
 }
 

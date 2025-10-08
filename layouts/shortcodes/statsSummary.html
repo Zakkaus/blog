@@ -5,15 +5,17 @@
   (dict "label" (.Get "todayViews") "field" "todayViews" "icon" ((.Get "todayViewsIcon") | default "📈") "hint" (.Get "todayViewsHint"))
   (dict "label" (.Get "todayVisitors") "field" "todayVisitors" "icon" ((.Get "todayVisitorsIcon") | default "🧑‍🤝‍🧑") "hint" (.Get "todayVisitorsHint"))
 }}
-<div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4" data-stats-summary data-api="{{ $api }}">
-  {{ range $cards }}
-    <article class="group relative overflow-hidden rounded-2xl border border-neutral-200/60 bg-surface p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-xl dark:border-neutral-800/60 dark:bg-neutral-900/60">
-      <div class="absolute right-5 top-5 text-2xl opacity-60 transition group-hover:opacity-100">{{ .icon }}</div>
-      <p class="text-xs font-semibold uppercase tracking-wide text-muted">{{ .label }}</p>
-      <p class="mt-4 text-4xl font-semibold text-primary" data-field="{{ .field }}">—</p>
-      {{ with .hint }}
-        <p class="mt-2 text-xs text-muted">{{ . }}</p>
-      {{ end }}
-    </article>
-  {{ end }}
-</div>
+<section class="stats-panel stats-panel--summary" data-stats-summary data-api="{{ $api }}">
+  <div class="stats-summary-grid">
+    {{ range $cards }}
+      <article class="stats-summary-card">
+        <span class="stats-summary-card__icon" aria-hidden="true">{{ .icon }}</span>
+        <span class="stats-summary-card__label">{{ .label }}</span>
+        <span class="stats-summary-card__value" data-field="{{ .field }}">—</span>
+        {{ with .hint }}
+          <span class="stats-summary-card__hint">{{ . }}</span>
+        {{ end }}
+      </article>
+    {{ end }}
+  </div>
+</section>

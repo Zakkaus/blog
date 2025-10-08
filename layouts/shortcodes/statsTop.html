@@ -4,14 +4,17 @@
 {{ $ctaUrl := .Get "ctaUrl" }}
 {{ $empty := .Get "emptyText" | default "No data yet." }}
 {{ $error := .Get "errorText" | default "Unable to load top pages." }}
-<section class="relative overflow-hidden rounded-2xl border border-neutral-200/60 bg-surface p-6 shadow-sm transition duration-300 hover:shadow-lg dark:border-neutral-800/60 dark:bg-neutral-900/60" data-stats-top data-api="{{ $api }}" data-limit="{{ $limit }}" data-empty-text="{{ $empty }}" data-error-text="{{ $error }}">
-  <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-    <h3 class="text-xl font-semibold">{{ .Get "title" }}</h3>
+<section class="stats-panel stats-panel--top" data-stats-top data-api="{{ $api }}" data-limit="{{ $limit }}" data-empty-text="{{ $empty }}" data-error-text="{{ $error }}">
+  <div class="stats-top-header">
+    <h3 class="stats-panel__heading">{{ .Get "title" }}</h3>
     {{ if and $ctaLabel $ctaUrl }}
-      <a class="text-sm font-medium text-primary transition hover:underline" href="{{ $ctaUrl }}" target="_blank" rel="noopener">{{ $ctaLabel }}</a>
+      <a class="stats-top-cta" href="{{ $ctaUrl }}" target="_blank" rel="noopener">
+        <span>{{ $ctaLabel }}</span>
+        <span aria-hidden="true">↗</span>
+      </a>
     {{ end }}
   </div>
-  <ol class="mt-6 space-y-3" data-field="list">
-    <li class="text-sm text-muted">{{ $empty }}</li>
+  <ol class="stats-top-list" data-field="list">
+    <li class="stats-top-empty">{{ $empty }}</li>
   </ol>
 </section>

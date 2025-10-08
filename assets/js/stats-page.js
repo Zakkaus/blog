@@ -257,12 +257,12 @@ async function updateTrend() {
     if (cache.has(range)) return cache.get(range);
     const url = new URL(`${base}/api/daily`);
     if (Number.isFinite(range)) {
-      url.searchParams.set("range", String(range));
+      url.searchParams.set("days", String(range));
     }
     const daily = await fetchJSON(url.toString());
     const results = Array.isArray(daily)
       ? daily
-      : daily.results ?? daily.daily ?? [];
+      : daily.results ?? daily.daily ?? daily.data ?? [];
     const points = results
       .map((point) => ({
         date: point.date ?? point.day ?? point.d,

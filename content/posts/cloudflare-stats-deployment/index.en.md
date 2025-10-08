@@ -96,17 +96,43 @@ You'll see a beautiful analytics interface just like [stats.zakk.au](https://sta
 
 The dashboard is completely standalone - no embedding needed, just share the URL!
 
-## Free Tier and Upgrade Options
+## Pricing: Free Tier vs Paid Plans
 
-| Service | Free Allowance | When to Upgrade |
-|---------|----------------|-----------------|
-| **Workers** | 100k requests/day<br>10ms CPU time | Upgrade to **Workers Paid ($5/mo)** when daily traffic exceeds 100k or you need larger CPU headroom. |
-| **KV** | 1 GB storage<br>100k reads/day<br>1k writes/day | Move to the paid bundle when you store large JSON payloads or retain long-tail history. |
-| **D1** | 5M queries/month<br>1 GB storage | Switch to D1 Paid for heavier Top 10 usage or long-running trend queries. |
+### Workers
 
-> **Note**: D1 is optional. If you only need real-time PV/UV counting, KV is sufficient and the dashboard still works (minus Top 10 and trends).
+| Plan | Price | Included Requests | CPU Time | Overage Pricing |
+|------|-------|-------------------|----------|-----------------|
+| **Free** | $0 | 100k requests/day | 10ms/request | N/A (hard limit) |
+| **Paid** | **$5/month** | 10M requests/month | 50ms/request | $0.50 per additional 1M requests |
 
-For most personal websites, the free tier is more than enough!
+### KV (Key-Value Storage)
+
+| Plan | Price | Reads | Writes/Deletes/Lists | Storage | Overage Pricing |
+|------|-------|-------|---------------------|---------|-----------------|
+| **Free** | $0 | 100k/day | 1k/day each | 1 GB | N/A (hard limit) |
+| **Paid** | **Included in Workers Paid ($5/mo)** | 10M/month | 1M/month each | 1 GB | • Reads: $0.50 per 10M<br>• Writes: $5 per 1M<br>• Storage: $0.50 per GB/month |
+
+### D1 (Serverless SQL Database)
+
+| Plan | Price | Rows Read | Rows Written | Storage | Overage Pricing |
+|------|-------|-----------|--------------|---------|-----------------|
+| **Free** | $0 | 5M rows/day | 100k rows/day | 500 MB | N/A (hard limit) |
+| **Paid** | **$5/month** | 25B rows/month | 50M rows/month | 5 GB | • Reads: $0.001 per 1M rows<br>• Writes: $1 per 1M rows<br>• Storage: $0.75 per GB/month |
+
+### Pay-As-You-Go Option
+
+Even without subscribing to paid plans, you can **enable pay-as-you-go billing** to avoid hard limits:
+- Workers: $0.50 per 1M requests beyond free tier
+- KV: Individual operation pricing as listed above
+- D1: Individual operation pricing as listed above
+
+### Recommendation for This Project
+
+- **Small personal blog (< 10k visitors/day)**: Free tier is perfect ✅
+- **Medium blog (10k-50k visitors/day)**: Workers Paid ($5/mo) recommended
+- **High-traffic site (> 50k visitors/day)**: Workers Paid + pay-as-you-go for KV/D1
+
+> **Note**: D1 is optional. If you only need real-time PV/UV counting, KV alone is sufficient and the dashboard still works (minus Top 10 trends).
 
 ## API Endpoints
 

@@ -56,9 +56,81 @@
 
 [[main]]
   name = "Stats Monitor"
+
+[[main]]
+  name = "Homepage"
   parent = "more"
+  url = "https://home.zakk.au/"
+  weight = 46
+
+[[main]]
+  name = "Download Center"
+  parent = "more"
+  url = "https://cloud.zakk.au/"
+  weight = 47
+
+[[main]]
+  name = "Image Host"
+  parent = "more"
+  url = "https://img.zakk.au/"
+  weight = 48
+  parent = "more"
+
+[[main]]
+  name = "Homepage"
+  parent = "more"
+  url = "https://home.zakk.au/"
+  weight = 46
+
+[[main]]
+  name = "Download Center"
+  parent = "more"
+  url = "https://cloud.zakk.au/"
+  weight = 47
+
+[[main]]
+  name = "Image Host"
+  parent = "more"
+  url = "https://img.zakk.au/"
+  weight = 48
   url = "/en/stats/"
+
+[[main]]
+  name = "Homepage"
+  parent = "more"
+  url = "https://home.zakk.au/"
+  weight = 46
+
+[[main]]
+  name = "Download Center"
+  parent = "more"
+  url = "https://cloud.zakk.au/"
+  weight = 47
+
+[[main]]
+  name = "Image Host"
+  parent = "more"
+  url = "https://img.zakk.au/"
+  weight = 48
   weight = 45
+
+[[main]]
+  name = "Homepage"
+  parent = "more"
+  url = "https://home.zakk.au/"
+  weight = 46
+
+[[main]]
+  name = "Download Center"
+  parent = "more"
+  url = "https://cloud.zakk.au/"
+  weight = 47
+
+[[main]]
+  name = "Image Host"
+  parent = "more"
+  url = "https://img.zakk.au/"
+  weight = 48
 
 
 # -- Footer Menu --

@@ -56,9 +56,81 @@
 
 [[main]]
   name = "统计监控"
+
+[[main]]
+  name = "浏览器主页"
   parent = "more"
+  url = "https://home.zakk.au/"
+  weight = 46
+
+[[main]]
+  name = "下载站"
+  parent = "more"
+  url = "https://cloud.zakk.au/"
+  weight = 47
+
+[[main]]
+  name = "图床"
+  parent = "more"
+  url = "https://img.zakk.au/"
+  weight = 48
+  parent = "more"
+
+[[main]]
+  name = "浏览器主页"
+  parent = "more"
+  url = "https://home.zakk.au/"
+  weight = 46
+
+[[main]]
+  name = "下载站"
+  parent = "more"
+  url = "https://cloud.zakk.au/"
+  weight = 47
+
+[[main]]
+  name = "图床"
+  parent = "more"
+  url = "https://img.zakk.au/"
+  weight = 48
   url = "/zh-cn/stats/"
+
+[[main]]
+  name = "浏览器主页"
+  parent = "more"
+  url = "https://home.zakk.au/"
+  weight = 46
+
+[[main]]
+  name = "下载站"
+  parent = "more"
+  url = "https://cloud.zakk.au/"
+  weight = 47
+
+[[main]]
+  name = "图床"
+  parent = "more"
+  url = "https://img.zakk.au/"
+  weight = 48
   weight = 45
+
+[[main]]
+  name = "浏览器主页"
+  parent = "more"
+  url = "https://home.zakk.au/"
+  weight = 46
+
+[[main]]
+  name = "下载站"
+  parent = "more"
+  url = "https://cloud.zakk.au/"
+  weight = 47
+
+[[main]]
+  name = "图床"
+  parent = "more"
+  url = "https://img.zakk.au/"
+  weight = 48
 
 
 # -- Footer Menu --

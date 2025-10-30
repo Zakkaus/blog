@@ -20,39 +20,6 @@ seo:
 ---
 
 {{< lead >}}
-I'm **Zakk**, currently living in Australia. My programming skills are quite basic, but I taught myself in junior high and can build simple websites. I'm now studying Business at university. I studied art in high school, and my first bucket of gold came from gaming during my first year of high school. I've been dealing with some ongoing mental health issues, but I'm very happy living in this new country and environment. Here, I write bilingual notes on Linux, experiments, travel, investing, and interesting daily life moments with Paper and our two Teddy guinea pigs, Hash Brown and Potato.
-<p style="text-align:right;">02/10/2025</p>
-
-{{< /lead >}}
-
-### Paper and Me
-We met in [Ceylan's](https://www.youtube.com/@xilanceylan) Discord community, where casual chats turned into daily companionship. We plan to meet every few months. Paper is currently in her final year of high school in Taiwan and preparing to study at university in Australia. If you want to see her perspective, follow [@abyss_74.50](https://www.instagram.com/abyss_74.50/) on Instagram, or check our live counter on the [Timeline](/timeline/#couple).
-
-{{< alert icon="heart" >}}
-Paper and I started our 8,000 km long-distance relationship (Australia ↔ Taiwan) on **7 Aug 2025**. We're both pansexual 🩷💛🩵. We maintain our rhythm through playlists, sharing and caring about each other's lives, bedtime voice chats, and mutual physical and mental support, logging every day on the [Timeline](/timeline/#couple).
-{{< /alert >}}
-
-### Snapshot
-- 📍 Living in Australia, currently studying Business.
-- 🧠 Interests: Gentoo, Linux, design, drawing, cryptocurrency, and U.S. stocks.
-- 🎮 Daily entertainment: voice chatting with Paper, gaming, researching equipment.
-- 🐹 Household members: Paper and two Teddy guinea pigs, Hash Brown and Potato.
-
-### Guinea Pigs
-#### Hash Brown (born 24 Jun 2025) {#hash-brown}
-- Light brown Teddy girl: Full of energy, loves sprinting around the cage and moving her little house. Often flips over her nest.
-- Makes "515151" sounds to beg for food when she hears the fridge door "click."
-- Favorites: bell peppers, corn silk, pellets, and small treats.
-- More photos on [@zakk.au](https://www.instagram.com/zakk.au/). You can also see her birth counter on the [Timeline](/timeline/#hash-brown).
-
-#### Potato (born 27 Jul 2025) {#potato}
-- Dark brown Teddy girl: Loves eating and is very brave, often buries herself in oat hay to sleep.
-- Immediately goes back to munching oat hay when she wakes up, sometimes eating and napping at the same time. Occasionally likes to poop on the water bowl.
-- Favorites: bell peppers, corn silk.
-- You can see her real-time counter on the [Timeline](/timeline/#potato), and she also appears in IG stories.
-- More photos on [@zakk.au](https://www.instagram.com/zakk.au/). You can also see her birth counter on the [Timeline](/timeline/#potato).
-
-{{< lead >}}
 I’m **Zakk**, living in Australia. My programming skills are modest, but I taught myself in junior high and have been able to build simple websites. I’m currently studying Business at university and took art classes in high school. My first ‘payday’ came from gaming during my first year. Although I’ve faced ongoing mental health challenges, I’m thriving in this new country and environment. Here, I write bilingual notes on Linux, experiments, travel, investing, and the fun daily life with Paper and our two Teddy guinea pigs, Hash Brown and Potato.
 
 02/10/2025

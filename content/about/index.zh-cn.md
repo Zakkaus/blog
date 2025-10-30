@@ -54,11 +54,11 @@ seo:
 
 ### 使用的设备
 #### 台式机
-- ASUS ROG STRIX X670E-A GAMING WIFI 主板
+- ROG CROSSHAIR X870E HERO 主板
 - AMD Ryzen 9 7950X3D（16 核 / 32 线程）
 - NVIDIA GeForce RTX 4080 SUPER 显卡
 - 64 GB DDR5 6400 MHz 内存
-- Aussie Telecom 1000/50 Mbps（Opticomm）
+- 1000/400 Mbps（Opticomm）
 - GL.iNet Flint 3（GL-BE9300）路由器
 - Samsung Odyssey G9 49 吋（5120×1440，HDMI 2.1）
 - Windows 11 Pro 与 Gentoo Linux（KDE Plasma）双系统

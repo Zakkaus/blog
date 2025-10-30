@@ -86,11 +86,11 @@ Paper and I began our 8,000 km long-distance relationship (Australia ↔ Taiwan)
 
 ### Gear I Use
 #### Desktop
-- ASUS ROG STRIX X670E-A GAMING WIFI motherboard
+- ASUS ROG CROSSHAIR X870E HERO motherboard
 - AMD Ryzen 9 7950X3D (16 cores / 32 threads)
 - NVIDIA GeForce RTX 4080 SUPER graphics card
 - 64 GB DDR5 6400 MHz memory
-- Aussie Telecom 1000/50 Mbps (Opticomm)
+- 1000/400 Mbps (Opticomm)
 - GL.iNet Flint 3 (GL-BE9300) router
 - Samsung Odyssey G9 49" (5120×1440, HDMI 2.1)
 - Dual-boot: Windows 11 Pro & Gentoo Linux (KDE Plasma)

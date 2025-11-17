@@ -21,54 +21,110 @@ seo:
 ---
 
 {{< lead >}}
-Live counters for the milestones Paper and I care about most—how long we've been together, and how old Hash Brown & Potato are today.
+✨ Live counters tracking the moments that matter most—our journey together, and the adventures of Hash Brown & Potato. Every second counts! ⏰
 {{< /lead >}}
 
 {{< alert icon="clock" >}}
-Sydney time: **<span data-sydney-now>--:--:--</span>** (<span data-sydney-zone>--</span>). The timers below refresh every second.
+**🌏 Sydney Time:** <span data-sydney-now>--:--:--</span> (<span data-sydney-zone>--</span>) • All timers update every second in real-time
 {{< /alert >}}
 
-### Relationship milestones
+---
+
+## 💝 Relationship Milestones
 {{< timeline >}}
-{{< timelineItem id="couple" icon="heart" header="Paper & Zakk" badge="Since 7 Aug 2025" subheader="Australia ↔ Taiwan" md="true" >}}
-**Days together:** <span class="counter-days" data-counter-origin="2025-08-07T11:38:00+10:00" data-counter-format="days">0</span>  
-**Time elapsed:** <span class="counter-time" data-counter-origin="2025-08-07T11:38:00+10:00" data-counter-format="time">00:00:00</span>
+{{< timelineItem id="couple" icon="heart" header="Paper & Zakk" badge="Since 7 Aug 2025" subheader="🇦🇺 Australia ↔ Taiwan 🇹🇼" md="true" >}}
 
-We met through [Ceylan](https://www.youtube.com/@xilanceylan)'s community, evolving from daily chats into mutual physical and mental support that keeps our rhythm going. We're both pansexual 🩷💛🩵, sharing playlists, gaming together, caring about each other's lives, and cross-timezone bedtime voice calls. Follow Paper at [@abyss_74.50](https://www.instagram.com/abyss_74.50/) for her perspective.
+📊 **Days together:** <span class="counter-days" data-counter-origin="2025-08-07T11:38:00+10:00" data-counter-format="days">0</span> days
+⏱️ **Time elapsed:** <span class="counter-time" data-counter-origin="2025-08-07T11:38:00+10:00" data-counter-format="time">00:00:00</span>
 
-Learn more: [Our Story](/about/#relationship)
+---
+
+💫 **Our Story**
+We met through [Ceylan](https://www.youtube.com/@xilanceylan)'s vibrant community, where daily conversations blossomed into something beautiful. What started as friendly chats evolved into genuine connection—providing each other physical and mental support that keeps our rhythm synchronized across hemispheres.
+
+🌈 We're both proudly pansexual 🩷💛🩵, bonding over:
+- 🎵 Shared playlists and music discoveries
+- 🎮 Late-night gaming sessions together
+- 💬 Deep conversations about life and dreams
+- 🌙 Cross-timezone bedtime voice calls that bridge the distance
+
+Want Paper's perspective? Follow her at [@abyss_74.50](https://www.instagram.com/abyss_74.50/)!
+
+📖 [Read Our Full Story →](/about/#relationship)
 {{< /timelineItem >}}
 {{< /timeline >}}
 
-### Guinea pig birthdays
+---
+
+## 🐹 Guinea Pig Birthdays
+
 {{< timeline >}}
-{{< timelineItem id="hash-brown" icon="carrot" header="Hash Brown" badge="Born 24 Jun 2025" subheader="Teddy guinea pig" md="true" >}}
-**Days old:** <span class="counter-days" data-counter-origin="2025-06-24T00:00:00+10:00" data-counter-format="days">0</span>
+{{< timelineItem id="hash-brown" icon="carrot" header="Hash Brown 🥔" badge="Born 24 Jun 2025" subheader="🧸 Teddy Guinea Pig" md="true" >}}
 
-Light brown Teddy, full of energy, loves moving house and sprinting in the cage. Can be bribed with bell peppers, corn silk, and snacks. Will shout "515151" when the fridge door opens. More daily moments on [@zakk.au](https://www.instagram.com/zakk.au/).
+🎂 **Days old:** <span class="counter-days" data-counter-origin="2025-06-24T00:00:00+10:00" data-counter-format="days">0</span> days
 
-Learn more: [Hash Brown's Profile](/about/#hash-brown)
+---
+
+🌟 **Personality Profile**
+
+Light brown bundle of endless energy! Hash Brown is our little explorer who treats every corner like a new adventure.
+
+✨ **Special Traits:**
+- 🏃 **Speed Demon:** Loves sprinting laps around the cage at top speed
+- 🏠 **Interior Designer:** Constantly rearranging the cage furniture
+- 🔔 **Fridge Alarm:** Shouts "515151" the instant the fridge door opens!
+- 🥕 **Favorite Bribes:** Bell peppers, corn silk, and any tasty treats
+
+📸 Catch more of Hash Brown's daily shenanigans on [@zakk.au](https://www.instagram.com/zakk.au/)!
+
+📖 [Full Profile →](/about/#hash-brown)
 {{< /timelineItem >}}
 
-{{< timelineItem id="potato" icon="leaf" header="Potato" badge="Born 27 Jul 2025" subheader="Teddy guinea pig" md="true" >}}
-**Days old:** <span class="counter-days" data-counter-origin="2025-07-27T00:00:00+10:00" data-counter-format="days">0</span>
+{{< timelineItem id="potato" icon="leaf" header="Potato 🥔" badge="Born 27 Jul 2025" subheader="🧸 Teddy Guinea Pig" md="true" >}}
 
-Dark brown Teddy, brave and loves eating. Often buries herself in oat hay to sleep, wakes up and continues munching on oat hay, bell peppers, and corn silk. She frequently appears on [Instagram](https://www.instagram.com/zakk.au/).
+🎂 **Days old:** <span class="counter-days" data-counter-origin="2025-07-27T00:00:00+10:00" data-counter-format="days">0</span> days
 
-Learn more: [Potato's Profile](/about/#potato)
+---
+
+🌟 **Personality Profile**
+
+Dark brown beauty with the heart of a foodie! Potato is brave, bold, and always hungry.
+
+✨ **Special Traits:**
+- 🍴 **Professional Eater:** Life philosophy = "Eat, Sleep, Eat More"
+- 🌾 **Hay Hibernator:** Burrows into oat hay for cozy naps
+- 😋 **Menu Favorites:** Oat hay, bell peppers, corn silk (basically everything!)
+- 💪 **Fearless:** The braver one of our dynamic duo
+
+📸 Potato stars frequently on [Instagram](https://www.instagram.com/zakk.au/) - usually mid-munch!
+
+📖 [Full Profile →](/about/#potato)
 {{< /timelineItem >}}
 {{< /timeline >}}
 
-### Website Statistics
+---
+
+## 📊 Website Statistics
+
 {{< timeline >}}
-{{< timelineItem id="blog-stats" icon="chart" header="Blog Launch" badge="Since 2025-09-01" subheader="Recording & Growth" md="true" >}}
-**Days Online:** <span class="counter-days" data-counter-origin="2025-09-01T00:00:00+10:00" data-counter-format="days">0</span>  
-**Total Page Views:** <span id="site-pv" class="animate-pulse">Loading...</span>  
-**Total Unique Visitors:** <span id="site-uv" class="animate-pulse">Loading...</span>
+{{< timelineItem id="blog-stats" icon="chart" header="Blog Launch 🚀" badge="Since 2025-09-01" subheader="📈 Recording & Growing" md="true" >}}
 
-Started recording tech notes, life sharing, and guinea pig daily life since September 2025. Built with Hugo + Cloudflare Pages deployment, with a self-hosted statistics system tracking visitor data.
+⏰ **Days Online:** <span class="counter-days" data-counter-origin="2025-09-01T00:00:00+10:00" data-counter-format="days">0</span> days
+👁️ **Total Page Views:** <span id="site-pv" class="animate-pulse">Loading...</span>
+👥 **Total Unique Visitors:** <span id="site-uv" class="animate-pulse">Loading...</span>
 
-For the full analytics breakdown, head over to [stats.zakk.au](https://stats.zakk.au/)—all charts there refresh on UTC time.
+---
+
+💡 **About This Blog**
+
+Since September 2025, this space has been home to tech notes, life stories, and the adorable daily adventures of Hash Brown & Potato!
+
+🛠️ **Tech Stack:**
+- ⚡ **Hugo** - Lightning-fast static site generator
+- ☁️ **Cloudflare Pages** - Global edge deployment
+- 📊 **Self-hosted Analytics** - Privacy-focused visitor tracking
+
+📈 For detailed analytics with beautiful charts and route breakdowns, visit the [Cloudflare Stats Dashboard](https://stats.zakk.au/) (all data updates on UTC time).
 {{< /timelineItem >}}
 {{< /timeline >}}
 

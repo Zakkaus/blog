@@ -54,7 +54,7 @@ Paper and I began our 8,000 km long-distance relationship (Australia ↔ Taiwan)
 ### Gear I Use
 #### Desktop
 - ASUS ROG CROSSHAIR X870E HERO motherboard
-- AMD Ryzen 9 7950X3D (16 cores / 32 threads)
+- AMD Ryzen 9 9950X3D (16 cores / 32 threads)
 - NVIDIA GeForce RTX 4080 SUPER graphics card
 - 64 GB DDR5 6400 MHz memory
 - 1000/400 Mbps (Opticomm)

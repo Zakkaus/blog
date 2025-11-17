@@ -25,34 +25,54 @@ seo:
 
 {{< /lead >}}
 
-### 我和 Paper
-在 [錫蘭Ceylan](https://www.youtube.com/@xilanceylan) 的 Discord群組認識，從日常聊天變成每天互相陪伴的默契。現在每隔幾個月計畫見面，Paper 正在台灣念高三，準備來澳洲念大學。如果想看她的視角，可以追蹤 [@abyss_74.50](https://www.instagram.com/abyss_74.50/)，或到 [時間軸](/zh-tw/timeline/#couple) 看我們的即時計時器。
+### 💝 我和 Paper
+
+在 [錫蘭 Ceylan](https://www.youtube.com/@xilanceylan) 的 Discord 群組認識，從日常聊天變成每天互相陪伴的默契。現在每隔幾個月計畫見面，Paper 正在台灣念高三，準備來澳洲念大學。
+
+**🌐 追蹤我們的旅程：**
+- 📸 Paper 的視角：[@abyss_74.50](https://www.instagram.com/abyss_74.50/)
+- ⏰ 即時關係計時器：[時間軸](/zh-tw/timeline/#couple)
 
 {{< alert icon="heart" >}}
-我和 Paper 從 **2025 年 8 月 7 日** 開始8000KM的戀愛（澳洲 ↔ 台灣），兩個人都是泛性戀 🩷💛🩵。我們透過歌單、分享和關心彼此生活、睡前語音、互相的物理與心理幫助維持節奏，並在 [時間軸](/zh-tw/timeline/#couple) 上紀錄每一天。
+**我們的遠距故事** — 我和 Paper 從 **2025 年 8 月 7 日** 開始 8000 公里的戀愛（澳洲 ↔ 台灣）。我們都是驕傲的泛性戀 🩷💛🩵，透過精心挑選的歌單、關心彼此生活、跨時區的睡前語音、定期的實體見面，以及互相的身心支持來維持節奏，並在 [時間軸](/zh-tw/timeline/#couple) 上紀錄每一天。
 {{< /alert >}}
 
-### 摘要
-- 📍 澳洲生活，目前學習Business。
-- 🧠 興趣：Gentoo、Linux、設計、繪畫、加密貨幣與美股。
-- 🎮 日常娛樂：和 Paper 一起語音、打電動、研究設備。
-- 🐹 家裡成員：Paper 與泰迪 天竺鼠 脆薯饼 與 马铃薯。
+### 📋 快速摘要
 
-### 天竺鼠
-#### 脆薯饼（2025-06-24 出生） {#hash-brown}
-- 淺棕色 泰迪妹妹:活力滿點，最愛在籠子裡衝刺與搬移小屋。經常掀翻巢穴
-- 聽到冰箱門「卡」一聲就會用「515151」的叫聲討食。
-- 最愛：甜椒、玉米鬚、飼料和小零食
-- 更多照片在 [@zakk.au](https://www.instagram.com/zakk.au/)。在這裡還可以看到她的出生計時器 [時間軸](/zh-tw/timeline/#hash-brown) 
+- 📍 **居住地：** 澳洲，目前就讀 Business
+- 🧠 **興趣：** Gentoo、Linux、設計、繪畫、加密貨幣與美股
+- 🎮 **日常娛樂：** 和 Paper 語音、打電動、研究設備
+- 🐹 **家庭成員：** Paper 與兩隻可愛的泰迪天竺鼠：脆薯饼 和 马铃薯
 
-#### 马铃薯（2025-07-27 出生） {#potato}
-- 深棕色 泰迪妹妹:超愛吃又很勇敢，常把自己埋在燕麥草裡睡覺。
-- 醒來立刻回去啃燕麥草，偶爾邊吃邊打盹。偶爾喜歡在水盆上排泄
-- 最愛：甜椒、玉米鬚
-- [時間軸](/zh-tw/timeline/#potato) 上可以看到她的即時計數，也會出現在 IG 限動。
-- 更多照片在 [@zakk.au](https://www.instagram.com/zakk.au/)。在這裡還可以看到她的出生計時器 [時間軸](/zh-tw/timeline/#potato) 
+---
 
-### 使用的設備
+## 🐹 認識天竺鼠們
+
+#### 🥔 脆薯饼（2025-06-24 出生） {#hash-brown}
+
+**個性：** 淺棕色泰迪妹妹，活力滿點的小探險家，把每個角落都當成新冒險！
+
+**特殊才能：**
+- 🏃 熱愛在籠子裡全速衝刺和不斷搬移小屋
+- 🔔 冰箱門「卡」一聲就會用「515151」的叫聲討食
+- 🥕 **最愛零食：** 甜椒、玉米鬚、飼料和各種小零食
+
+📸 更多照片在 [@zakk.au](https://www.instagram.com/zakk.au/) | ⏰ [出生計時器在時間軸](/zh-tw/timeline/#hash-brown)
+
+#### 🥔 马铃薯（2025-07-27 出生） {#potato}
+
+**個性：** 深棕色泰迪妹妹，勇敢好奇又超級愛吃！
+
+**特殊才能：**
+- 🌾 常把自己埋在燕麥草裡睡覺，醒來繼續狂啃
+- 🍴 多工達人——偶爾邊吃邊打盹
+- 🥕 **最愛零食：** 甜椒和玉米鬚
+
+📸 經常出現在 [Instagram](https://www.instagram.com/zakk.au/) | ⏰ [即時計數在時間軸](/zh-tw/timeline/#potato)
+
+---
+
+## ⚙️ 使用的設備
 #### 桌機
 - ASUS ROG CROSSHAIR X870E HERO 主機板
 - AMD Ryzen 9 9950X3D（16 核 / 32 執行緒）
@@ -75,8 +95,11 @@ seo:
 - iPhone 15 Pro、iPhone 15 Pro Max、iPhone 14 Pro、iPhone 14 (退役和贈送家人)
 - Google Pixel 7 Pro (損壞)
 
-### 聯絡方式
-- Instagram：[ @zakk.au ](https://www.instagram.com/zakk.au/)
-- GitHub：[Zakkaus](https://github.com/Zakkaus)
-- X：[ @zakkauu ](https://x.com/zakkauu)
-- Email：[admin@zakk.au](mailto:admin@zakk.au) **常用**
+---
+
+## 📬 聯絡方式
+
+- 📸 **Instagram：** [@zakk.au](https://www.instagram.com/zakk.au/)
+- 💻 **GitHub：** [Zakkaus](https://github.com/Zakkaus)
+- 🐦 **X (Twitter)：** [@zakkauu](https://x.com/zakkauu)
+- ✉️ **Email：** [admin@zakk.au](mailto:admin@zakk.au) **（常用）**

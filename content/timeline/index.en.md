@@ -48,7 +48,7 @@ We met through [Ceylan](https://www.youtube.com/@xilanceylan)'s vibrant communit
 - Late-night gaming sessions across timezones
 - Deep conversations about life, dreams, and everything in between
 - Bedtime voice calls that make the distance feel smaller
-- Both proudly pansexual 🩷💛🩵, celebrating love in all its forms
+- Both proudly pansexual 🩷💛🩵
 
 **✈️ Bridging the Distance:**
 

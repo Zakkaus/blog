@@ -31,24 +31,6 @@
   weight = 40
 
 [[main]]
-  name = "Matrix 聊天"
-  parent = "more"
-  url = "https://chat.zakk.au/"
-  weight = 41
-
-[[main]]
-  name = "状态监控"
-  parent = "more"
-  url = "https://status.zakk.au/"
-  weight = 42
-
-[[main]]
-  name = "学生论坛"
-  parent = "more"
-  url = "https://help.zakk.au/"
-  weight = 43
-
-[[main]]
   name = "Cloudflare 错误页"
   parent = "more"
   url = "https://error.zakk.au/"
@@ -59,12 +41,6 @@
   parent = "more"
   url = "/zh-cn/stats/"
   weight = 45
-
-[[main]]
-  name = "浏览器主页"
-  parent = "more"
-  url = "https://home.zakk.au/"
-  weight = 46
 
 [[main]]
   name = "下载站"

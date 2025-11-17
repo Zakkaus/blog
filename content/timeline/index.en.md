@@ -40,15 +40,20 @@ seo:
 ---
 
 💫 **Our Story**
+
 We met through [Ceylan](https://www.youtube.com/@xilanceylan)'s vibrant community, where daily conversations blossomed into something beautiful. What started as friendly chats evolved into genuine connection—providing each other physical and mental support that keeps our rhythm synchronized across hemispheres.
 
-🌈 We're both proudly pansexual 🩷💛🩵, bonding over:
+🌈 **We're both proudly pansexual** 🩷💛🩵, bonding over:
 - 🎵 Shared playlists and music discoveries
 - 🎮 Late-night gaming sessions together
 - 💬 Deep conversations about life and dreams
 - 🌙 Cross-timezone bedtime voice calls that bridge the distance
 
-Want Paper's perspective? Follow her at [@abyss_74.50](https://www.instagram.com/abyss_74.50/)!
+✈️ **Bridging the Distance**
+
+Despite living in different countries, we make it work! We regularly plan visits to spend quality time together in person, making memories and strengthening our bond beyond the screen.
+
+💝 Want Paper's perspective? Follow her at [@abyss_74.50](https://www.instagram.com/abyss_74.50/)!
 
 📖 [Read Our Full Story →](/about/#relationship)
 {{< /timelineItem >}}

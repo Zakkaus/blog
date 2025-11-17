@@ -55,7 +55,7 @@ seo:
 ### 使用的设备
 #### 台式机
 - ASUS ROG CROSSHAIR X870E HERO 主板
-- AMD Ryzen 9 7950X3D（16 核 / 32 线程）
+- AMD Ryzen 9 9950X3D（16 核 / 32 线程）
 - NVIDIA GeForce RTX 4080 SUPER 显卡
 - 64 GB DDR5 6400 MHz 内存
 - 1000/400 Mbps（Opticomm）

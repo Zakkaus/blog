@@ -123,6 +123,17 @@ https://chadmed.au/pub/gentoo/
 
 > 💡 **Tip**: The official team is integrating Asahi support into the standard Live USB. Currently using the chadmed-maintained version.
 
+> ⚠️ **ISO Version Compatibility Warning**:
+> - **Recommended**: `install-arm64-asahi-20250603.iso` (June 2025 version, tested stable)
+> - **May fail to boot**: `install-arm64-asahi-20251022.iso` (October 2025 version) may not boot properly on some devices (e.g., M2 MacBook)
+> - **Suggestion**: If the latest version fails to boot, try using the 20250603 version
+> - Available images:
+>   ```
+>   install-arm64-asahi-20250603.iso    (stable, recommended)
+>   install-arm64-asahi-20251022.iso    (newer, potentially unstable)
+>   install-arm64-asahi-latest.iso      (points to latest version)
+>   ```
+
 ### 0.2 Create Bootable USB
 
 In macOS:
@@ -383,7 +394,21 @@ mkdir --parents /mnt/gentoo/etc/portage/repos.conf
 cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
 ```
 
-### 4.3 Enter chroot Environment
+### 4.3 Synchronize System Time (Important)
+
+Before entering chroot, you need to synchronize the system time. Otherwise, subsequent operations may fail due to SSL certificate validation, compilation timestamp issues, etc.:
+
+```bash
+chronyd -q
+date
+```
+
+> 💡 **Why is time synchronization needed?**
+> - SSL/TLS certificates require correct system time when downloading packages
+> - File timestamps during compilation affect make's dependency resolution
+> - Confirm the time is correct before continuing to avoid later issues
+
+### 4.4 Enter chroot Environment
 
 **Mount necessary filesystems**:
 ```bash
@@ -404,7 +429,7 @@ source /etc/profile
 export PS1="(chroot) ${PS1}"
 ```
 
-### 4.4 Basic System Configuration
+### 4.5 Basic System Configuration
 
 **Configure make.conf** (optimized for Apple Silicon):
 
@@ -494,6 +519,22 @@ This script automatically completes:
 - ✅ Install asahi-meta (includes kernel, firmware, m1n1, U-Boot)
 - ✅ Run `asahi-fwupdate` and `update-m1n1`
 - ✅ Update system
+
+> ⚠️ **If you encounter USE flag conflicts**:
+> The script may prompt for USE flag changes during execution. Solution:
+> ```bash
+> # When the script shows USE flag conflicts, press Ctrl+C to interrupt
+> # Then run:
+> emerge --autounmask-write <conflicting-package>
+>
+> # Update configuration files
+> etc-update
+> # In etc-update, choose appropriate option (usually -3 for auto-merge)
+>
+> # Re-run the installation script
+> cd /tmp/asahi-gentoosupport
+> ./install.sh
+> ```
 
 **After script completes, jump directly to step 5.3 (fstab configuration)!**
 
@@ -660,28 +701,79 @@ Note down this **LUKS UUID** (e.g., `a1b2c3d4-e5f6-7890-abcd-ef1234567890`).
 nano -w /etc/default/grub
 ```
 
-Add or modify the following (**replace `<LUKS-UUID>` with the UUID from previous step**):
+Add or modify the following (**replace UUIDs with your actual values**):
 ```conf
-# rd.auto automatically discovers the encrypted LUKS partition
-GRUB_CMDLINE_LINUX="rd.auto=1 rd.luks.allow-discards"
-GRUB_DEVICE_UUID="<btrfs UUID>"
+# Complete example (replace UUIDs with your actual UUIDs)
+GRUB_CMDLINE_LINUX="rd.luks.uuid=3f5a6527-7334-4363-9e2d-e0e8c7c04488 rd.luks.allow-discards root=UUID=f3db74a5-dc70-48dd-a9a3-797a0daf5f5d rootfstype=btrfs"
 ```
 
 > 📝 **Parameter Explanation**:
-> - `rd.luks.uuid=<UUID>`: Explicitly specify which LUKS partition to unlock
+> - `rd.luks.uuid=<UUID>`: LUKS encrypted partition UUID (get with `blkid /dev/nvme0n1p6`)
 > - `rd.luks.allow-discards`: Allow SSD TRIM commands through encryption layer (improves SSD performance)
+> - `root=UUID=<UUID>`: Decrypted btrfs filesystem UUID (get with `blkid /dev/mapper/gentoo-root`)
+> - `rootfstype=btrfs`: Root filesystem type (change to `ext4` if using ext4)
 
-**Step 4: Update GRUB Configuration**
+**Step 4: Install and Configure dracut**
+
+```bash
+# Install dracut (if not already installed)
+emerge --ask sys-kernel/dracut
+```
+
+**Step 5: Configure dracut for LUKS Decryption**
+
+Create dracut configuration file:
+```bash
+nano -w /etc/dracut.conf.d/luks.conf
+```
+
+Add the following content:
+```conf
+# Don't set kernel_cmdline here, GRUB will override it
+kernel_cmdline=""
+# Add necessary modules for LUKS + btrfs support
+add_dracutmodules+=" btrfs systemd crypt dm "
+# Add necessary tools
+install_items+=" /sbin/cryptsetup /bin/grep "
+# Specify filesystem (change if using a different filesystem)
+filesystems+=" btrfs "
+```
+
+> 📝 **Configuration Explanation**:
+> - `crypt` and `dm` modules provide LUKS decryption support
+> - `systemd` module for systemd boot environment
+> - `btrfs` module supports btrfs filesystem (change to `ext4` if using ext4)
+
+**Step 6: Configure /etc/crypttab (Optional but Recommended)**
+
+```bash
+nano -w /etc/crypttab
+```
+
+Add the following content (**replace UUID with your LUKS UUID**):
+```conf
+gentoo-root UUID=<LUKS-UUID> none luks,discard
+```
+
+> 💡 With this configuration, the system will automatically recognize and prompt to unlock the encrypted partition.
+
+**Step 7: Regenerate initramfs**
+
+```bash
+# Get current kernel version
+dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
+```
+
+> ⚠️ **Important**: After each kernel update, you also need to re-run this command to generate a new initramfs!
+
+**Step 8: Update GRUB Configuration**
 
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
-```
 
-> 💡 **Important Notes**:
-> - When using `virtual/dist-kernel:asahi`, initramfs **automatically** includes LUKS decryption support
-> - **No need** to manually configure dracut or run `dracut` commands
-> - **No need** to reinstall the kernel (unless you haven't installed it yet)
-> - System will automatically prompt for LUKS password during boot
+# Verify initramfs is correctly referenced
+grep initrd /boot/grub/grub.cfg
+```
 
 ---
 
@@ -740,16 +832,16 @@ nmtui
 
 ### 7.2 Install Desktop Environment (🖥️ Optional)
 
-**GNOME (✅ Recommended, Wayland native):**
-```bash
-emerge --ask gnome-base/gnome
-systemctl enable gdm
-```
-
-**KDE Plasma:**
+**KDE Plasma (✅ Recommended):**
 ```bash
 emerge --ask kde-plasma/plasma-meta
 systemctl enable sddm
+```
+
+**GNOME:**
+```bash
+emerge --ask gnome-base/gnome
+systemctl enable gdm
 ```
 
 **Xfce (Lightweight):**

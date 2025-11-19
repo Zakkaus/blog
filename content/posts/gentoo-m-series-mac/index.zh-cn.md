@@ -119,6 +119,17 @@ https://chadmed.au/pub/gentoo/
 
 > 💡 **提示**：官方正在整合 Asahi 支持到标准 Live USB。目前使用 chadmed 维护的版本。
 
+> ⚠️ **镜像版本兼容性警告**：
+> - **推荐使用**：`install-arm64-asahi-20250603.iso`（2025年6月版本，已测试稳定）
+> - **可能无法启动**：`install-arm64-asahi-20251022.iso`（2025年10月版本）在某些设备（如 M2 MacBook）上可能无法正常启动
+> - **建议**：如果 latest 版本无法启动，请尝试使用 20250603 版本
+> - 可用镜像列表：
+>   ```
+>   install-arm64-asahi-20250603.iso    (稳定，推荐)
+>   install-arm64-asahi-20251022.iso    (较新，可能不稳定)
+>   install-arm64-asahi-latest.iso      (指向最新版本)
+>   ```
+
 ### 0.2 制作启动 USB
 
 在 macOS 中：
@@ -379,7 +390,21 @@ mkdir --parents /mnt/gentoo/etc/portage/repos.conf
 cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
 ```
 
-### 4.3 进入 chroot 环境
+### 4.3 同步系统时间（重要）
+
+在进入 chroot 之前，需要先同步系统时间，否则后续操作可能因为 SSL 证书验证、编译时间戳等问题而失败：
+
+```bash
+chronyd -q
+date
+```
+
+> 💡 **为什么需要时间同步？**
+> - 下载软件包时 SSL/TLS 证书需要正确的系统时间
+> - 编译时文件的时间戳会影响 make 的依赖判断
+> - 确认时间正确后再继续操作，避免后续问题
+
+### 4.4 进入 chroot 环境
 
 **挂载必要文件系统**：
 ```bash
@@ -400,7 +425,7 @@ source /etc/profile
 export PS1="(chroot) ${PS1}"
 ```
 
-### 4.4 基本系统配置
+### 4.5 基本系统配置
 
 **设置 make.conf**（针对 Apple Silicon 优化）：
 
@@ -490,6 +515,22 @@ cd asahi-gentoosupport
 - ✅ 安装 asahi-meta（包含内核、固件、m1n1、U-Boot）
 - ✅ 执行 `asahi-fwupdate` 和 `update-m1n1`
 - ✅ 更新系统
+
+> ⚠️ **如果遇到 USE flag 冲突**：
+> 脚本执行过程中可能会提示 USE flag 需要变更。解决方法：
+> ```bash
+> # 当脚本提示 USE flag 冲突时，按 Ctrl+C 中断脚本
+> # 然后运行：
+> emerge --autounmask-write <出现冲突的软件包>
+>
+> # 更新配置文件
+> etc-update
+> # 在 etc-update 中选择合适的选项（通常选择 -3 自动合并）
+>
+> # 重新运行安装脚本
+> cd /tmp/asahi-gentoosupport
+> ./install.sh
+> ```
 
 **脚本完成后直接跳到步骤 5.3（fstab 配置）！**
 
@@ -656,28 +697,79 @@ blkid /dev/nvme0n1p5
 nano -w /etc/default/grub
 ```
 
-加入或修改以下内容（**将 `<LUKS-UUID>` 替换为上一步获取的 UUID**）：
+加入或修改以下内容（**替换 UUID 为实际值**）：
 ```conf
-# rd.auto automatically discovers the encrypted LUKS partition
-GRUB_CMDLINE_LINUX="rd.auto=1 rd.luks.allow-discards"
-GRUB_DEVICE_UUID="<btrfs UUID>"
+# 完整示例（替换 UUID 为你的实际 UUID）
+GRUB_CMDLINE_LINUX="rd.luks.uuid=3f5a6527-7334-4363-9e2d-e0e8c7c04488 rd.luks.allow-discards root=UUID=f3db74a5-dc70-48dd-a9a3-797a0daf5f5d rootfstype=btrfs"
 ```
 
 > 📝 **参数说明**：
-> - `rd.luks.uuid=<UUID>`：明确指定要解锁的 LUKS 分区
+> - `rd.luks.uuid=<UUID>`：LUKS 加密分区的 UUID（使用 `blkid /dev/nvme0n1p6` 获取）
 > - `rd.luks.allow-discards`：允许 SSD TRIM 命令穿透加密层（提升 SSD 性能）
+> - `root=UUID=<UUID>`：解密后的 btrfs 文件系统 UUID（使用 `blkid /dev/mapper/gentoo-root` 获取）
+> - `rootfstype=btrfs`：根文件系统类型（如果使用 ext4 改为 `ext4`）
 
-**步骤 4：更新 GRUB 配置**
+**步骤 4：安装并配置 dracut**
+
+```bash
+# 安装 dracut（如果还没安装）
+emerge --ask sys-kernel/dracut
+```
+
+**步骤 5：配置 dracut for LUKS 解密**
+
+创建 dracut 配置文件：
+```bash
+nano -w /etc/dracut.conf.d/luks.conf
+```
+
+加入以下内容：
+```conf
+# 不要在这里设置 kernel_cmdline，GRUB 会覆盖它
+kernel_cmdline=""
+# 添加必要的模块支持 LUKS + btrfs
+add_dracutmodules+=" btrfs systemd crypt dm "
+# 添加必要的工具
+install_items+=" /sbin/cryptsetup /bin/grep "
+# 指定文件系统（如果使用其他文件系统请修改）
+filesystems+=" btrfs "
+```
+
+> 📝 **配置说明**：
+> - `crypt` 和 `dm` 模块提供 LUKS 解密支持
+> - `systemd` 模块用于 systemd 启动环境
+> - `btrfs` 模块支持 btrfs 文件系统（如果使用 ext4 改为 `ext4`）
+
+**步骤 6：配置 /etc/crypttab（可选但推荐）**
+
+```bash
+nano -w /etc/crypttab
+```
+
+加入以下内容（**替换 UUID 为你的 LUKS UUID**）：
+```conf
+gentoo-root UUID=<LUKS-UUID> none luks,discard
+```
+
+> 💡 这样配置后，系统会自动识别并提示解锁加密分区。
+
+**步骤 7：重新生成 initramfs**
+
+```bash
+# 获取当前内核版本
+dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
+```
+
+> ⚠️ **重要**：每次更新内核后，也需要重新执行此命令生成新的 initramfs！
+
+**步骤 8：更新 GRUB 配置**
 
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
-```
 
-> 💡 **重要说明**：
-> - 使用 `virtual/dist-kernel:asahi` 时，initramfs 会**自动**包含 LUKS 解密支持
-> - **不需要**手动配置 dracut 或执行 `dracut` 命令
-> - **不需要**重新安装内核（除非你还没安装过）
-> - 系统会在启动时自动提示输入 LUKS 密码
+# 验证 initramfs 被正确引用
+grep initrd /boot/grub/grub.cfg
+```
 
 ---
 
@@ -760,10 +852,10 @@ Available profile symlink targets:
 **选择合适的 profile**：
 
 ```bash
-# GNOME 桌面（推荐）
+# GNOME 桌面
 eselect profile set 5    # desktop/gnome/systemd
 
-# KDE Plasma 桌面
+# KDE Plasma 桌面（推荐）
 eselect profile set 7    # desktop/plasma/systemd
 
 # 通用桌面环境（Xfce 等）
@@ -836,22 +928,7 @@ emerge -avuDN @world
 
 #### 步骤 3：安装桌面环境
 
-**选项 A：GNOME（✅ 推荐，Wayland 原生支持）**
-
-```bash
-# 安装完整 GNOME 桌面
-emerge --ask gnome-base/gnome gnome-extra/gnome-tweaks
-
-# 启用显示管理器
-systemctl enable gdm
-
-# 安装常用应用（可选）
-emerge --ask gnome-extra/gnome-system-monitor \
-             gnome-extra/gnome-calculator \
-             www-client/firefox
-```
-
-**选项 B：KDE Plasma**
+**选项 A：KDE Plasma（✅ 推荐）**
 
 ```bash
 # 安装 KDE Plasma 桌面
@@ -863,6 +940,21 @@ systemctl enable sddm
 # 安装常用应用（可选）
 emerge --ask kde-apps/konsole \
              kde-apps/okular \
+             www-client/firefox
+```
+
+**选项 B：GNOME**
+
+```bash
+# 安装完整 GNOME 桌面
+emerge --ask gnome-base/gnome gnome-extra/gnome-tweaks
+
+# 启用显示管理器
+systemctl enable gdm
+
+# 安装常用应用（可选）
+emerge --ask gnome-extra/gnome-system-monitor \
+             gnome-extra/gnome-calculator \
              www-client/firefox
 ```
 

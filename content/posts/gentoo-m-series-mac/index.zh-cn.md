@@ -658,7 +658,9 @@ nano -w /etc/default/grub
 
 加入或修改以下内容（**将 `<LUKS-UUID>` 替换为上一步获取的 UUID**）：
 ```conf
-GRUB_CMDLINE_LINUX="rd.luks.uuid=<LUKS-UUID> rd.luks.allow-discards"
+# rd.auto automatically discovers the encrypted LUKS partition
+GRUB_CMDLINE_LINUX="rd.auto=1 rd.luks.allow-discards"
+GRUB_DEVICE_UUID="<btrfs UUID>"
 ```
 
 > 📝 **参数说明**：

@@ -440,19 +440,36 @@ nano -w /etc/portage/make.conf
 
 Add or modify the following content:
 ```conf
+# vim: set language=bash;
+CHOST="aarch64-unknown-linux-gnu"
+
 # Apple Silicon optimized compilation parameters
 COMMON_FLAGS="-march=armv8.5-a+fp16+simd+crypto+i8mm -mtune=native -O2 -pipe"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"
 FFLAGS="${COMMON_FLAGS}"
-MAKEOPTS="-j8"  # Adjust based on your core count (M1 Pro/Max can use -j10 or higher)
+RUSTFLAGS="-C target-cpu=native"
+
+# Keep build output in English (retain when reporting errors)
 LC_MESSAGES=C
 
-# Asahi-specific settings
-VIDEO_CARDS="asahi"
-EMERGE_DEFAULT_OPTS="--jobs 3"
+# Adjust based on hardware (e.g., M2 Max has more cores)
+MAKEOPTS="-j4"
+
+# Gentoo mirror (R2 mirror recommended, fast)
 GENTOO_MIRRORS="https://gentoo.rgst.io/gentoo"
+
+# Emerge default options (compile up to 3 packages simultaneously)
+EMERGE_DEFAULT_OPTS="--jobs 3"
+
+# Asahi GPU driver
+VIDEO_CARDS="asahi"
+
+# Localization support (optional)
+L10N="zh-CN zh-TW zh en"
+
+# Keep newline at end! Important!
 ```
 
 **Sync Portage**:
@@ -503,7 +520,17 @@ passwd root
 
 ### 5.1 Method A: Automated Installation (✅ Recommended)
 
-**Use asahi-gentoosupport script** (officially provided):
+**Step 1: Install git**
+
+```bash
+# Initial Portage tree sync
+emerge --sync
+
+# Install git (required to download script)
+emerge --ask dev-vcs/git
+```
+
+**Step 2: Use asahi-gentoosupport script** (officially provided):
 
 ```bash
 cd /tmp
@@ -542,15 +569,44 @@ This script automatically completes:
 
 ### 5.2 Method B: Manual Installation (Advanced Users)
 
-**Step 1: Enable Asahi overlay**
+**Step 1: Install git and Configure Asahi overlay**
 
 ```bash
-emerge --sync 
-emerge --ask --verbose --oneshot portage 
-emerge --ask app-eselect/eselect-repository
-eselect repository enable asahi
-emaint sync -r asahi
+# Initial Portage tree sync
+emerge --sync
+
+# Install git (for git sync method)
+emerge --ask dev-vcs/git
+
+# Remove old Portage database and switch to git sync
+rm -rf /var/db/repos/gentoo
+sudo tee /etc/portage/repos.conf/gentoo.conf << 'EOF'
+[DEFAULT]
+main-repo = gentoo
+
+[gentoo]
+location = /var/db/repos/gentoo
+sync-type = git
+sync-uri = https://github.com/gentoo-mirror/gentoo.git
+auto-sync = yes
+sync-depth = 1
+EOF
+
+# Configure Asahi overlay to use git sync
+sudo tee /etc/portage/repos.conf/asahi.conf << 'EOF'
+[asahi]
+location = /var/db/repos/asahi
+sync-type = git
+sync-uri = https://github.com/chadmed/asahi-overlay.git
+auto-sync = yes
+EOF
+
+# Sync all repositories
+emerge --sync
 ```
+
+> 💡 **Mirror notes**:
+> - GitHub mirror (as configured above) is usually fast enough
 
 **Step 2: Configure package.mask (⚠️ Important!)**
 
@@ -954,15 +1010,6 @@ dmesg | grep -i firmware
 
 # Ensure asahi-meta is installed
 emerge --ask sys-apps/asahi-meta
-```
-
-### Issue: No Audio
-
-**Cause**: PipeWire not started.
-
-**Solutions**:
-```bash
-systemctl --user restart pipewire pipewire-pulse
 ```
 
 ---

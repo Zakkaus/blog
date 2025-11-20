@@ -436,19 +436,36 @@ nano -w /etc/portage/make.conf
 
 加入或修改以下内容：
 ```conf
+# vim: set language=bash;
+CHOST="aarch64-unknown-linux-gnu"
+
 # Apple Silicon 优化编译参数
 COMMON_FLAGS="-march=armv8.5-a+fp16+simd+crypto+i8mm -mtune=native -O2 -pipe"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"
 FFLAGS="${COMMON_FLAGS}"
-MAKEOPTS="-j8"  # 依你的核心数调整（M1 Pro/Max 可用 -j10 或更高）
+RUSTFLAGS="-C target-cpu=native"
+
+# 保持构建输出为英文（报告错误时请保留此设置）
 LC_MESSAGES=C
 
-# Asahi 专用设置
-VIDEO_CARDS="asahi"
-EMERGE_DEFAULT_OPTS="--jobs 3"
+# 根据硬件调整（例如 M2 Max 有更多核心）
+MAKEOPTS="-j4"
+
+# Gentoo 镜像源（推荐使用 R2 镜像，速度较快）
 GENTOO_MIRRORS="https://gentoo.rgst.io/gentoo"
+
+# Emerge 默认选项（最多同时编译 3 个包）
+EMERGE_DEFAULT_OPTS="--jobs 3"
+
+# Asahi GPU 驱动
+VIDEO_CARDS="asahi"
+
+# 中文本地化支持（可选）
+L10N="zh-CN zh-TW zh en"
+
+# 文件末尾保留换行符！重要！
 ```
 
 **同步 Portage**：
@@ -499,7 +516,17 @@ passwd root
 
 ### 5.1 方法 A：自动化安装（✅ 推荐）
 
-**使用 asahi-gentoosupport 脚本**（官方提供）：
+**步骤 1：安装 git**
+
+```bash
+# 首次同步 Portage 树
+emerge --sync
+
+# 安装 git（下载脚本需要）
+emerge --ask dev-vcs/git
+```
+
+**步骤 2：使用 asahi-gentoosupport 脚本**（官方提供）：
 
 ```bash
 cd /tmp
@@ -538,15 +565,44 @@ cd asahi-gentoosupport
 
 ### 5.2 方法 B：手动安装（进阶用户）
 
-**步骤 1：启用 Asahi overlay**
+**步骤 1：安装 git 并配置 Asahi overlay**
 
 ```bash
-emerge --sync 
-emerge --ask --verbose --oneshot portage 
-emerge --ask app-eselect/eselect-repository
-eselect repository enable asahi
-emaint sync -r asahi
+# 首次同步 Portage 树
+emerge --sync
+
+# 安装 git（用于 git 同步方式）
+emerge --ask dev-vcs/git
+
+# 删除旧的 Portage 数据库并切换到 git 同步
+rm -rf /var/db/repos/gentoo
+sudo tee /etc/portage/repos.conf/gentoo.conf << 'EOF'
+[DEFAULT]
+main-repo = gentoo
+
+[gentoo]
+location = /var/db/repos/gentoo
+sync-type = git
+sync-uri = https://mirrors.bfsu.edu.cn/git/gentoo-portage.git
+auto-sync = yes
+sync-depth = 1
+EOF
+
+# 配置 Asahi overlay 使用 git 同步
+sudo tee /etc/portage/repos.conf/asahi.conf << 'EOF'
+[asahi]
+location = /var/db/repos/asahi
+sync-type = git
+sync-uri = https://github.com/chadmed/asahi-overlay.git
+auto-sync = yes
+EOF
+
+# 同步所有仓库
+emerge --sync
 ```
+
+> 💡 **镜像源说明**：
+> - **简体中文用户推荐**：可以将上面的 `sync-uri` 改为北外源 `https://mirrors.bfsu.edu.cn/git/gentoo-portage.git` 以获得更快的同步速度
 
 **步骤 2：配置 package.mask（⚠️ 重要！）**
 
@@ -1120,15 +1176,6 @@ dmesg | grep -i firmware
 
 # 确保安装了 asahi-meta
 emerge --ask sys-apps/asahi-meta
-```
-
-### 问题：音频无声音
-
-**原因**：PipeWire 未启动。
-
-**解决方法**：
-```bash
-systemctl --user restart pipewire pipewire-pulse
 ```
 
 ---

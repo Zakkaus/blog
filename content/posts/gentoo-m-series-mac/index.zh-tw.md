@@ -40,7 +40,7 @@ seo:
 - ✅ 清楚標記可選與必選步驟
 - ✅ 簡化版適合所有人（包含加密選項）
 
-已驗證至 2025 年 10 月。
+已驗證至 2025 年 11 月 20 日。
 {{< /lead >}}
 
 > **目標平台**：Apple Silicon Mac（M1/M2/M3/M4）ARM64 架構。本指南使用 Asahi Linux 引導程式進行初始設置，然後轉換為完整的 Gentoo 環境。
@@ -1258,6 +1258,8 @@ update-m1n1  # 切換後必須執行！
 🎉 **祝你在 Apple Silicon 上享受 Gentoo！**
 
 這份指南基於官方 [Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide) 並簡化流程，標記了可選步驟，讓更多人能輕鬆嘗試。
+
+> 📅 **最後驗證時間**：2025年11月20日 UTC 5:57:11
 
 **記住三個關鍵點**：
 1. ✅ 使用官方 Gentoo Asahi Live USB（無需 Fedora 中轉）

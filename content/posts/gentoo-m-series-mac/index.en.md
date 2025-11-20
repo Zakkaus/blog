@@ -44,7 +44,7 @@ This guide will walk you through installing native ARM64 Gentoo Linux on Apple S
 - ✅ Clearly marks optional and required steps
 - ✅ Simplified version suitable for everyone (includes encryption options)
 
-Verified as of October 2025.
+Verified as of November 20, 2025.
 {{< /lead >}}
 
 > **Target Platform**: Apple Silicon Mac (M1/M2/M3/M4) ARM64 architecture. This guide uses the Asahi Linux bootloader for initial setup, then transitions to a complete Gentoo environment.
@@ -1092,6 +1092,8 @@ update-m1n1  # Must run after switching!
 🎉 **Enjoy Gentoo on Apple Silicon!**
 
 This guide is based on the official [Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide) and simplifies the process, marking optional steps to make it easier for more people to try.
+
+> 📅 **Last Verified**: November 20, 2025 UTC 5:57:11
 
 **Remember three key points**:
 1. ✅ Use official Gentoo Asahi Live USB (no Fedora intermediate required)

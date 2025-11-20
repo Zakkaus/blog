@@ -1002,6 +1002,15 @@ eselect fontconfig enable 10-sub-pixel-rgb.conf
 eselect fontconfig enable 11-lcdfilter-default.conf
 ```
 
+**中文輸入法配置**：
+
+```bash
+# 安裝 Fcitx5 中文輸入法
+emerge --ask app-i18n/fcitx-chinese-addons
+```
+
+> ⚠️ **注意**：`app-i18n/fcitx-rime` 在當前版本實測無法正常使用，建議使用 `app-i18n/fcitx-chinese-addons` 作為替代方案。
+
 > 💡 **提示**：
 > - 首次安裝桌面環境預計需要 **2-4 小時**（取決於 CPU 效能）
 > - 建議使用 `--jobs 3` 或更少，避免記憶體不足
@@ -1009,12 +1018,15 @@ eselect fontconfig enable 11-lcdfilter-default.conf
 
 ### 7.3 音訊配置（🎵 可選）
 
-Asahi 音訊透過 PipeWire 提供。**systemd 系統自動配置**，無需額外設定。
+Asahi 音訊透過 PipeWire 提供。安裝並啟用相關服務：
 
-驗證音訊：
 ```bash
-emerge --ask media-sound/pavucontrol
-systemctl --user status pipewire
+# 安裝 Asahi 音訊支援
+emerge --ask media-libs/asahi-audio
+
+# 啟用 PipeWire 服務
+systemctl --user enable --now pipewire-pulse.service
+systemctl --user enable --now wireplumber.service
 ```
 ---
 

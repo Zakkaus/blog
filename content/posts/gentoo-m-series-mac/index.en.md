@@ -852,12 +852,15 @@ systemctl enable lightdm
 
 ### 7.3 Audio Configuration (🎵 Optional)
 
-Asahi audio is provided through PipeWire. **systemd systems auto-configure**, no additional setup needed.
+Asahi audio is provided through PipeWire. Install and enable the required services:
 
-Verify audio:
 ```bash
-emerge --ask media-sound/pavucontrol
-systemctl --user status pipewire
+# Install Asahi audio support
+emerge --ask media-libs/asahi-audio
+
+# Enable PipeWire services
+systemctl --user enable --now pipewire-pulse.service
+systemctl --user enable --now wireplumber.service
 ```
 ---
 

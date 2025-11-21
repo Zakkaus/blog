@@ -47,6 +47,8 @@ This guide will walk you through installing native ARM64 Gentoo Linux on Apple S
 Verified as of November 20, 2025.
 {{< /lead >}}
 
+![Gentoo on Apple Silicon Mac](gentoo-asahi-mac.webp)
+
 > **Target Platform**: Apple Silicon Mac (M1/M2/M3/M4) ARM64 architecture. This guide uses the Asahi Linux bootloader for initial setup, then transitions to a complete Gentoo environment.
 
 ---

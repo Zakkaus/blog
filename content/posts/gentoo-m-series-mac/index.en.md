@@ -114,25 +114,21 @@ The entire process will create a dual-boot environment on your Mac: macOS + Gent
 
 Download the latest version:
 ```bash
-# Method 1: Download from official temporary site (before official release)
+# Method 1: Download from author's site
 https://chadmed.au/pub/gentoo/
 
-# Method 2: (After official release)
-# Visit https://www.gentoo.org/downloads/ and download ARM64 Asahi version
 ```
 
 > 💡 **Tip**: The official team is integrating Asahi support into the standard Live USB. Currently using the chadmed-maintained version.
 
-> ⚠️ **ISO Version Compatibility Warning**:
-> - **Recommended**: `install-arm64-asahi-20250603.iso` (June 2025 version, tested stable)
-> - **May fail to boot**: `install-arm64-asahi-20251022.iso` (October 2025 version) may not boot properly on some devices (e.g., M2 MacBook)
-> - **Suggestion**: If the latest version fails to boot, try using the 20250603 version
-> - Available images:
->   ```
->   install-arm64-asahi-20250603.iso    (stable, recommended)
->   install-arm64-asahi-20251022.iso    (newer, potentially unstable)
->   install-arm64-asahi-latest.iso      (points to latest version)
->   ```
+> ⚠️ **ISO Version Compatibility Information (Updated: November 21, 2025)**:
+> - **Community Build**: Built by [Zakkaus](https://github.com/zakkaus) based on [gentoo-asahi-releng](https://github.com/chadmed/gentoo-asahi-releng), successfully tested on M2 MacBook
+>   - Download link: [Google Drive](https://drive.google.com/drive/folders/1ZYGkc8uXqRFJ4jeaSbm5odeNb2qvh6CS)
+>   - If you're interested in building your own, see [gentoo-asahi-releng](https://github.com/chadmed/gentoo-asahi-releng) project
+> - **Official versions**:
+>   - **Recommended**: `install-arm64-asahi-20250603.iso` (June 2025 version, tested stable)
+>   - **May fail to boot**: `install-arm64-asahi-20251022.iso` (October 2025 version) may not boot properly on some devices (e.g., M2 MacBook)
+>   - **Suggestion**: If the latest version fails to boot, try using the 20250603 version or the community build
 
 ### 0.2 Create Bootable USB
 

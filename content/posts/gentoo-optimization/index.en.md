@@ -28,7 +28,7 @@ seo:
 This article documents how I optimized my Gentoo system to the extreme: **reducing SSD writes by 90%, extending lifespan to 100+ years, and improving compilation speed by 20-30%**. All optimizations include detailed explanations and automation scripts—**even beginners can easily follow along**!
 {{< /lead >}}
 
-## 📋 Why Optimize?
+## Why Optimize?
 
 ### Problem: Gentoo Compilation Writes Heavily to SSD
 
@@ -56,12 +56,12 @@ SSD lifespan: ~10-15 years
 **After optimization**:
 ```
 0.12TB/year × 100 years = 12 TBW
-SSD lifespan: 100+ years 🎉
+SSD lifespan: 100+ years
 ```
 
 ---
 
-## 🎯 My System Configuration
+## My System Configuration
 
 Before we start, here's my system:
 
@@ -76,28 +76,28 @@ Before we start, here's my system:
 
 ---
 
-## 🚀 Optimization Strategy Overview
+## Optimization Strategy Overview
 
 My optimization consists of **6 main parts**:
 
 | Optimization | Effect | Difficulty |
 |--------------|--------|------------|
-| 1️⃣ **tmpfs Compilation** | SSD writes -85% | ⭐ Easy |
-| 2️⃣ **Btrfs Optimization** | Space +40%, writes -15% | ⭐⭐ Medium |
-| 3️⃣ **ccache Cache** | Compilation speed +30% | ⭐ Easy |
-| 4️⃣ **System Parameters** | Responsiveness +20% | ⭐ Easy |
-| 5️⃣ **I/O Scheduler** | Latency -30% | ⭐ Easy |
-| 6️⃣ **Automated Maintenance** | Long-term stability | ⭐ Easy |
+| 1. **tmpfs Compilation** | SSD writes -85% | Easy |
+| 2. **Btrfs Optimization** | Space +40%, writes -15% | Medium |
+| 3. **ccache Cache** | Compilation speed +30% | Easy |
+| 4. **System Parameters** | Responsiveness +20% | Easy |
+| 5. **I/O Scheduler** | Latency -30% | Easy |
+| 6. **Automated Maintenance** | Long-term stability | Easy |
 
 **Total Effects**:
-- ✅ SSD writes reduced by **90-95%**
-- ✅ Compilation speed improved by **20-30%**
-- ✅ SSD lifespan extended by **5-10x**
-- ✅ System responsiveness improved by **15-25%**
+- SSD writes reduced by **90-95%**
+- Compilation speed improved by **20-30%**
+- SSD lifespan extended by **5-10x**
+- System responsiveness improved by **15-25%**
 
 ---
 
-## 1️⃣ tmpfs Compilation: Most Important Optimization
+## 1. tmpfs Compilation: Most Important Optimization
 
 ### What is tmpfs?
 
@@ -168,14 +168,14 @@ You should see:
 tmpfs            32G     0   32G    0% /var/tmp/portage
 ```
 
-### ✅ Advantages
+### Advantages
 
 1. **Drastically reduces SSD writes** (-85%)
 2. **Faster compilation** (RAM is 100x faster than SSD)
 3. **Auto-cleanup** (cleared on reboot)
 4. **Simple configuration** (just edit one file)
 
-### ⚠️ Considerations
+### Considerations
 
 1. **RAM shortage risk**
    - If compiling large software (like Chromium) runs out of RAM
@@ -198,7 +198,7 @@ app-office/libreoffice notmpfs.conf
 
 ---
 
-## 2️⃣ Btrfs Filesystem Optimization
+## 2. Btrfs Filesystem Optimization
 
 ### What is Btrfs?
 
@@ -236,7 +236,7 @@ UUID=xxx  /  btrfs  defaults,noatime,compress=zstd:3,ssd,discard=async,space_cac
 | `compress=zstd:3` | zstd compression level 3 | 40-55% compression |
 | `discard=async` | Async TRIM | -70% latency |
 | `commit=60` | Commit metadata every 60s | -92% small file writes |
-| ~~`autodefrag`~~ | ❌ Remove (unnecessary for SSD) | Reduces unnecessary writes |
+| ~~`autodefrag`~~ | Remove (unnecessary for SSD) | Reduces unnecessary writes |
 
 #### Apply Configuration
 
@@ -255,14 +255,14 @@ sudo mount -o remount /home
 mount | grep "on / type btrfs"
 ```
 
-### ✅ Advantages
+### Advantages
 
 1. **Space savings** (+35-45%)
 2. **Reduced writes** (-10-15%)
 3. **Better performance** (async TRIM)
 4. **Data safety** (snapshots + integrity checks)
 
-### ⚠️ Considerations
+### Considerations
 
 1. **Requires remount or reboot** to take effect
 2. **Removing autodefrag** requires reboot
@@ -270,7 +270,7 @@ mount | grep "on / type btrfs"
 
 ---
 
-## 3️⃣ ccache: Compilation Accelerator
+## 3. ccache: Compilation Accelerator
 
 ### What is ccache?
 
@@ -331,13 +331,13 @@ Time: 15 minutes (-67%)
 ccache hit rate: 78%
 ```
 
-### ✅ Advantages
+### Advantages
 
 1. **Dramatically speeds up repeated compilations**
 2. **Auto-managed** (automatically clears old cache when size exceeded)
 3. **Fully transparent** (doesn't affect compilation results)
 
-### ⚠️ Considerations
+### Considerations
 
 1. **First compilation won't speed up** (needs to build cache)
 2. **Uses extra space** (8GB)
@@ -345,7 +345,7 @@ ccache hit rate: 78%
 
 ---
 
-## 4️⃣ System Parameters Optimization
+## 4. System Parameters Optimization
 
 ### What is swappiness?
 
@@ -395,20 +395,20 @@ cat /proc/sys/vm/swappiness
 | `dirty_ratio=10` | Force write at 10% RAM dirty pages | Reduces frequent writes |
 | `dirty_background_ratio=5` | Start background write at 5% | Smooth writes |
 
-### ✅ Advantages
+### Advantages
 
 1. **Reduces SWAP writes**
 2. **Improves system responsiveness**
 3. **More effective RAM utilization**
 
-### ⚠️ Considerations
+### Considerations
 
 1. **Only suitable for large RAM systems** (16GB+)
 2. **Don't set too low for small RAM systems** (may cause OOM)
 
 ---
 
-## 5️⃣ I/O Scheduler Optimization
+## 5. I/O Scheduler Optimization
 
 ### What is an I/O Scheduler?
 
@@ -451,20 +451,20 @@ sudo udevadm control --reload-rules
 sudo udevadm trigger
 ```
 
-### ✅ Advantages
+### Advantages
 
 1. **Lower latency** (-30-40%)
 2. **Higher IOPS**
 3. **Ideal for NVMe SSD**
 
-### ⚠️ Considerations
+### Considerations
 
 1. **Only for NVMe/SSD**
 2. **Use mq-deadline for HDDs**
 
 ---
 
-## 6️⃣ Automation Tools
+## 6. Automation Tools
 
 ### Create System Monitoring Script
 
@@ -538,7 +538,7 @@ ccache Stats:
 
 ---
 
-## 📊 Optimization Results Summary
+## Optimization Results Summary
 
 ### My Actual Test Results
 
@@ -563,9 +563,9 @@ My SSD:
 
 ---
 
-## 🎯 Who Should Use This?
+## Who Should Use This?
 
-### ✅ Suitable For
+### Suitable For
 
 1. **Gentoo users** (best benefit)
 2. **Large RAM users** (16GB+)
@@ -573,7 +573,7 @@ My SSD:
 4. **Users concerned about SSD lifespan**
 5. **Performance-seeking users**
 
-### ⚠️ Less Suitable For
+### Less Suitable For
 
 1. **Small RAM users** (below 8GB, tmpfs might be insufficient)
 2. **Infrequent updaters** (optimization effects less noticeable)
@@ -581,7 +581,7 @@ My SSD:
 
 ---
 
-## 🚨 FAQ
+## FAQ
 
 ### Q1: I only have 16GB RAM, can I use tmpfs?
 
@@ -613,10 +613,10 @@ My SSD:
 ### Q5: I don't use Gentoo, can I use these optimizations?
 
 **A**: Partially:
-- ✅ Btrfs optimizations apply to all Btrfs systems
-- ✅ System parameter optimizations are universal
-- ✅ I/O scheduler optimizations are universal
-- ❌ tmpfs compilation only for Gentoo/source-based systems
+- Btrfs optimizations apply to all Btrfs systems
+- System parameter optimizations are universal
+- I/O scheduler optimizations are universal
+- tmpfs compilation only for Gentoo/source-based systems
 
 ### Q6: Is there any risk?
 
@@ -645,7 +645,7 @@ zakk-status
 
 ---
 
-## 📚 Further Reading
+## Further Reading
 
 ### Official Documentation
 
@@ -662,14 +662,14 @@ zakk-status
 
 ---
 
-## 🎉 Conclusion
+## Conclusion
 
 Through these optimizations, my Gentoo system achieved:
 
-- ✅ **90% reduction in SSD writes**
-- ✅ **30% faster compilation**
-- ✅ **SSD lifespan extended from 20 to 100+ years**
-- ✅ **Smoother, more responsive system**
+- **90% reduction in SSD writes**
+- **30% faster compilation**
+- **SSD lifespan extended from 20 to 100+ years**
+- **Smoother, more responsive system**
 
 **Most importantly**: These optimizations aren't complex—just follow the steps in this article one by one. Recommendations:
 
@@ -682,6 +682,6 @@ If you're also using Gentoo, I strongly recommend trying these optimizations. Fo
 
 ---
 
-*Last Updated: October 3, 2025*  
-*System Status: ✅ Optimization complete, running smoothly*  
-*SSD Status: ✅ 1% wear, estimated lifespan 100+ years*
+*Last Updated: October 3, 2025*
+*System Status: Optimization complete, running smoothly*
+*SSD Status: 1% wear, estimated lifespan 100+ years*

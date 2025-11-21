@@ -39,10 +39,10 @@ This guide will walk you through installing native ARM64 Gentoo Linux on Apple S
 **Important Update**: Thanks to the excellent work of the Asahi Linux project team (especially [chadmed](https://wiki.gentoo.org/index.php?title=User:Chadmed&action=edit&redlink=1)), there is now an [official Gentoo Asahi installation guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide), and the installation process has been significantly simplified.
 
 **This guide features**:
-- ✅ Based on the latest official process (2025.10)
-- ✅ Uses official Gentoo Asahi Live USB (no Fedora intermediate required)
-- ✅ Clearly marks optional and required steps
-- ✅ Simplified version suitable for everyone (includes encryption options)
+- Based on the latest official process (2025.10)
+- Uses official Gentoo Asahi Live USB (no Fedora intermediate required)
+- Clearly marks optional and required steps
+- Simplified version suitable for everyone (includes encryption options)
 
 Verified as of November 20, 2025.
 {{< /lead >}}
@@ -63,10 +63,10 @@ Verified as of November 20, 2025.
 7. Reboot to complete installation
 
 **Optional Steps**:
-- 🔐 LUKS encryption (recommended but not required)
-- 🎨 Custom kernel configuration (default dist-kernel works)
-- 🎵 Audio setup (PipeWire, as needed)
-- 🖥️ Desktop environment selection
+- LUKS encryption (recommended but not required)
+- Custom kernel configuration (default dist-kernel works)
+- Audio setup (PipeWire, as needed)
+- Desktop environment selection
 
 The entire process will create a dual-boot environment on your Mac: macOS + Gentoo Linux ARM64.
 
@@ -85,20 +85,20 @@ The entire process will create a dual-boot environment on your Mac: macOS + Gent
 
 ### Important Warnings
 
-⚠️ **This guide involves advanced operations**:
+**This guide involves advanced operations**:
 - Will modify your partition table
 - Requires coexistence with macOS
 - Involves encrypted disk operations
 - Apple Silicon support for Linux is still under active development
 
-✅ **Known working features**:
+**Known working features**:
 - CPU, memory, storage devices
 - Wi-Fi (via Asahi Linux firmware)
 - Keyboard, trackpad, battery management
 - Display output (built-in screen and external monitors)
 - USB-C / Thunderbolt
 
-⚠️ **Known limitations**:
+**Known limitations**:
 - Touch ID unavailable
 - macOS virtualization features limited
 - Some new hardware features may not be fully supported
@@ -119,9 +119,9 @@ https://chadmed.au/pub/gentoo/
 
 ```
 
-> 💡 **Tip**: The official team is integrating Asahi support into the standard Live USB. Currently using the chadmed-maintained version.
+> **Tip**: The official team is integrating Asahi support into the standard Live USB. Currently using the chadmed-maintained version.
 
-> ⚠️ **ISO Version Compatibility Information (Updated: November 21, 2025)**:
+> **ISO Version Compatibility Information (Updated: November 21, 2025)**:
 > - **Community Build**: Built by [Zakkaus](https://github.com/zakkaus) based on [gentoo-asahi-releng](https://github.com/chadmed/gentoo-asahi-releng), successfully tested on M2 MacBook
 >   - Download link: [Google Drive](https://drive.google.com/drive/folders/1ZYGkc8uXqRFJ4jeaSbm5odeNb2qvh6CS)
 >   - If you're interested in building your own, see [gentoo-asahi-releng](https://github.com/chadmed/gentoo-asahi-releng) project
@@ -160,7 +160,7 @@ In macOS Terminal, execute:
 curl https://alx.sh | sh
 ```
 
-> ⚠️ **Security Note**: It's recommended to visit <https://alx.sh> first to review the script content before executing.
+> **Security Note**: It's recommended to visit <https://alx.sh> first to review the script content before executing.
 
 ### 1.2 Follow Installer Steps
 
@@ -171,14 +171,14 @@ The installer will guide you through:
 2. **Select partition space**: Decide how much space to allocate for Linux (at least 80 GB recommended)
    - Can use percentage (e.g., `50%`) or absolute size (e.g., `120GB`)
    
-   > 💡 **Tip**: Keep the macOS partition for future firmware updates.
+   > **Tip**: Keep the macOS partition for future firmware updates.
 
 3. **Select operating system**: Choose **UEFI environment only (m1n1 + U-Boot + ESP)**
    ```
    » OS: <Select UEFI only option>
    ```
    
-   > ✅ **Official recommendation**: UEFI only is sufficient, no need to install a complete distribution.
+   > **Official recommendation**: UEFI only is sufficient, no need to install a complete distribution.
 
 4. **Set name**: Enter `Gentoo` as the operating system name
    ```
@@ -200,7 +200,7 @@ The installer will guide you through:
    - Enter macOS user password (FileVault user)
 6. Follow on-screen instructions to complete setup
 
-> ⚠️ **Troubleshooting**: If you encounter boot loops or are asked to reinstall macOS, press and hold the power button to fully shut down, then start over from step 1. You can boot into macOS, run `curl https://alx.sh | sh` and select the `p` option to retry.
+> **Troubleshooting**: If you encounter boot loops or are asked to reinstall macOS, press and hold the power button to fully shut down, then start over from step 1. You can boot into macOS, run `curl https://alx.sh | sh` and select the `p` option to retry.
 
 ---
 
@@ -215,7 +215,7 @@ The installer will guide you through:
    - Wait 2 seconds for automatic boot sequence
    - If there are multiple systems, you may need to interrupt and manually select
 
-> 💡 **Tip**: If you need to manually specify USB boot, execute at the U-Boot prompt:
+> **Tip**: If you need to manually specify USB boot, execute at the U-Boot prompt:
 > ```
 > setenv boot_targets "usb"
 > setenv bootmeths "efi"
@@ -237,7 +237,7 @@ Follow the interactive prompts to configure network. Check when complete:
 ping -c 3 www.gentoo.org
 ```
 
-> 💡 **Tip**: Apple Silicon Wi-Fi is included in the kernel and should work normally. If unstable, try connecting to a 2.4 GHz network.
+> **Tip**: Apple Silicon Wi-Fi is included in the kernel and should work normally. If unstable, try connecting to a 2.4 GHz network.
 
 **(Optional) SSH remote access**:
 ```bash
@@ -252,7 +252,7 @@ ip a | grep inet          # Get IP address
 
 ### 3.1 Identify Disks and Partitions
 
-> ⚠️ **Important Warning**: **Do not modify existing APFS containers, EFI partitions, or Recovery partitions!** Only operate in the space reserved by the Asahi installer.
+> **Important Warning**: **Do not modify existing APFS containers, EFI partitions, or Recovery partitions!** Only operate in the space reserved by the Asahi installer.
 
 Check partition structure:
 ```bash
@@ -285,7 +285,7 @@ livecd ~ # blkid --label "EFI - GENTO"
 ```
 
 
-> 💡 **Recommendation**: Use `cfdisk` for partitioning, it understands Apple partition types and will protect system partitions.
+> **Recommendation**: Use `cfdisk` for partitioning, it understands Apple partition types and will protect system partitions.
 
 ### 3.2 Create Root Partition
 
@@ -335,7 +335,7 @@ mkfs.btrfs /dev/nvme0n1p6
 mount /dev/nvme0n1p6 /mnt/gentoo
 ```
 
-**Method B: Encrypted Partition (🔐 Optional, Recommended)**
+**Method B: Encrypted Partition (Optional, Recommended)**
 
 ```bash
 # Create LUKS2 encrypted partition
@@ -353,7 +353,7 @@ mkfs.btrfs --label root /dev/mapper/gentoo-root
 mount /dev/mapper/gentoo-root /mnt/gentoo
 ```
 
-> 💡 **Why these parameters?**
+> **Why these parameters?**
 > - `argon2id`: Resistant to ASIC/GPU brute-force attacks
 > - `aes-xts`: M1 has AES instruction set, hardware acceleration
 > - `luks2`: Better security tools
@@ -369,7 +369,7 @@ mount /dev/nvme0n1p4 /mnt/gentoo/boot
 
 ## 4. Stage3 and chroot {#step-4-stage3}
 
-> 💡 **From here, follow the [AMD64 Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64)** until the kernel installation chapter.
+> **From here, follow the [AMD64 Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64)** until the kernel installation chapter.
 
 ### 4.1 Download and Extract Stage3
 
@@ -399,7 +399,7 @@ chronyd -q
 date
 ```
 
-> 💡 **Why is time synchronization needed?**
+> **Why is time synchronization needed?**
 > - SSL/TLS certificates require correct system time when downloading packages
 > - File timestamps during compilation affect make's dependency resolution
 > - Confirm the time is correct before continuing to avoid later issues
@@ -512,9 +512,9 @@ passwd root
 
 ## 5. Install Asahi Support Packages (Core Step) {#step-5-asahi}
 
-> 🚀 **Official simplified process**: This chapter replaces the Handbook's "Installing the Kernel" chapter.
+> **Official simplified process**: This chapter replaces the Handbook's "Installing the Kernel" chapter.
 
-### 5.1 Method A: Automated Installation (✅ Recommended)
+### 5.1 Method A: Automated Installation (Recommended)
 
 **Step 1: Install git**
 
@@ -536,14 +536,14 @@ cd asahi-gentoosupport
 ```
 
 This script automatically completes:
-- ✅ Enable Asahi overlay
-- ✅ Install GRUB bootloader
-- ✅ Set VIDEO_CARDS="asahi"
-- ✅ Install asahi-meta (includes kernel, firmware, m1n1, U-Boot)
-- ✅ Run `asahi-fwupdate` and `update-m1n1`
-- ✅ Update system
+- Enable Asahi overlay
+- Install GRUB bootloader
+- Set VIDEO_CARDS="asahi"
+- Install asahi-meta (includes kernel, firmware, m1n1, U-Boot)
+- Run `asahi-fwupdate` and `update-m1n1`
+- Update system
 
-> ⚠️ **If you encounter USE flag conflicts**:
+> **If you encounter USE flag conflicts**:
 > The script may prompt for USE flag changes during execution. Solution:
 > ```bash
 > # When the script shows USE flag conflicts, press Ctrl+C to interrupt
@@ -601,10 +601,10 @@ EOF
 emerge --sync
 ```
 
-> 💡 **Mirror notes**:
+> **Mirror notes**:
 > - GitHub mirror (as configured above) is usually fast enough
 
-**Step 2: Configure package.mask (⚠️ Important!)**
+**Step 2: Configure package.mask (Important!)**
 
 Prevent Gentoo's official dist-kernel from overriding Asahi version:
 
@@ -630,7 +630,7 @@ EOF
 # VIDEO_CARDS setting
 echo 'VIDEO_CARDS="asahi"' >> /etc/portage/make.conf
 
-# GRUB platform setting (⚠️ Required!)
+# GRUB platform setting (Required!)
 echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
 ```
 
@@ -641,7 +641,7 @@ mkdir -p /etc/portage/package.license
 echo 'sys-kernel/linux-firmware linux-fw-redistributable no-source-code' > /etc/portage/package.license/firmware
 ```
 
-**Step 5: Install rust-bin (⚠️ Must install first!)**
+**Step 5: Install rust-bin (Must install first!)**
 
 ```bash
 emerge -q1 dev-lang/rust-bin
@@ -654,7 +654,7 @@ emerge -q1 dev-lang/rust-bin
 emerge -q sys-apps/asahi-meta virtual/dist-kernel:asahi sys-kernel/linux-firmware
 ```
 
-> 💡 If `etc-update` shows config file conflicts, select `-3` for auto-merge.
+> If `etc-update` shows config file conflicts, select `-3` for auto-merge.
 
 Package descriptions:
 - `rust-bin`: Required for compiling Asahi kernel components (must install first)
@@ -669,7 +669,7 @@ asahi-fwupdate
 update-m1n1
 ```
 
-> ⚠️ **Important**: Must run `update-m1n1` after every kernel, U-Boot, or m1n1 update!
+> **Important**: Must run `update-m1n1` after every kernel, U-Boot, or m1n1 update!
 
 **Step 8: Install and configure GRUB**
 
@@ -677,14 +677,14 @@ update-m1n1
 # Install GRUB
 emerge -q grub:2
 
-# Install GRUB to ESP (⚠️ Note: --removable flag is crucial!)
+# Install GRUB to ESP (Note: --removable flag is crucial!)
 grub-install --boot-directory=/boot/ --efi-directory=/boot/ --removable
 
 # Generate GRUB configuration
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-> ⚠️ **Key Points**:
+> **Key Points**:
 > - The `--removable` flag is essential for ensuring the system can boot from ESP
 > - Both `--boot-directory` and `--efi-directory` must point to `/boot/`
 > - Must set `GRUB_PLATFORMS="efi-64"` in make.conf
@@ -719,9 +719,9 @@ UUID=<your-root-uuid>  /      ext4   defaults  0 1
 UUID=<your-boot-uuid>  /boot  vfat   defaults  0 2
 ```
 
-### 5.4 Configure Encryption Support (🔐 Encrypted Users Only)
+### 5.4 Configure Encryption Support (Encrypted Users Only)
 
-> ⚠️ **Note**: Only follow this step if you chose encrypted partitions in Step 3.2.
+> **Note**: Only follow this step if you chose encrypted partitions in Step 3.2.
 
 **Step 1: Enable systemd cryptsetup Support**
 
@@ -759,7 +759,7 @@ Add or modify the following (**replace UUIDs with your actual values**):
 GRUB_CMDLINE_LINUX="rd.luks.uuid=3f5a6527-7334-4363-9e2d-e0e8c7c04488 rd.luks.allow-discards root=UUID=f3db74a5-dc70-48dd-a9a3-797a0daf5f5d rootfstype=btrfs"
 ```
 
-> 📝 **Parameter Explanation**:
+> **Parameter Explanation**:
 > - `rd.luks.uuid=<UUID>`: LUKS encrypted partition UUID (get with `blkid /dev/nvme0n1p6`)
 > - `rd.luks.allow-discards`: Allow SSD TRIM commands through encryption layer (improves SSD performance)
 > - `root=UUID=<UUID>`: Decrypted btrfs filesystem UUID (get with `blkid /dev/mapper/gentoo-root`)
@@ -791,7 +791,7 @@ install_items+=" /sbin/cryptsetup /bin/grep "
 filesystems+=" btrfs "
 ```
 
-> 📝 **Configuration Explanation**:
+> **Configuration Explanation**:
 > - `crypt` and `dm` modules provide LUKS decryption support
 > - `systemd` module for systemd boot environment
 > - `btrfs` module supports btrfs filesystem (change to `ext4` if using ext4)
@@ -807,7 +807,7 @@ Add the following content (**replace UUID with your LUKS UUID**):
 gentoo-root UUID=<LUKS-UUID> none luks,discard
 ```
 
-> 💡 With this configuration, the system will automatically recognize and prompt to unlock the encrypted partition.
+> With this configuration, the system will automatically recognize and prompt to unlock the encrypted partition.
 
 **Step 7: Regenerate initramfs**
 
@@ -816,7 +816,7 @@ gentoo-root UUID=<LUKS-UUID> none luks,discard
 dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
 ```
 
-> ⚠️ **Important**: After each kernel update, you also need to re-run this command to generate a new initramfs!
+> **Important**: After each kernel update, you also need to re-run this command to generate a new initramfs!
 
 **Step 8: Update GRUB Configuration**
 
@@ -866,7 +866,7 @@ reboot
 3. (If encrypted) Enter LUKS password
 4. System should successfully boot to login prompt
 
-> 🎉 **Congratulations! Basic system installation complete!**
+> **Congratulations! Basic system installation complete!**
 
 ---
 
@@ -882,9 +882,9 @@ nmcli device wifi connect <SSID> password <password>
 nmtui
 ```
 
-### 7.2 Install Desktop Environment (🖥️ Optional)
+### 7.2 Install Desktop Environment (Optional)
 
-**KDE Plasma (✅ Recommended):**
+**KDE Plasma (Recommended):**
 ```bash
 emerge --ask kde-plasma/plasma-meta
 systemctl enable sddm
@@ -902,7 +902,7 @@ emerge --ask xfce-base/xfce4-meta x11-misc/lightdm
 systemctl enable lightdm
 ```
 
-### 7.3 Audio Configuration (🎵 Optional)
+### 7.3 Audio Configuration (Optional)
 
 Asahi audio is provided through PipeWire. Install and enable the required services:
 
@@ -938,7 +938,7 @@ dispatch-conf
 
 ### 8.2 Must-do After Kernel Updates
 
-> ⚠️ **Extremely important**: Must run after every kernel update!
+> **Extremely important**: Must run after every kernel update!
 
 ```bash
 # Update m1n1 Stage 2 (includes devicetree)
@@ -950,7 +950,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 **Why?** m1n1 Stage 2 contains devicetree blobs that the kernel needs to identify hardware. Not updating may cause boot failure or missing functionality.
 
-> 💡 **Automation**: `sys-apps/asahi-scripts` provides installkernel hooks to automatically execute these steps.
+> **Automation**: `sys-apps/asahi-scripts` provides installkernel hooks to automatically execute these steps.
 
 ### 8.3 Firmware Updates
 
@@ -978,7 +978,7 @@ macOS system updates include firmware updates. **Keep macOS partition** to get l
 2. Select `p` option to retry Recovery process
 3. Ensure `update-m1n1` was run in chroot
 
-### Issue: 🔐 Cannot Unlock Encrypted Partition
+### Issue: Cannot Unlock Encrypted Partition
 
 **Cause**: dracut configuration error or wrong UUID.
 
@@ -1010,7 +1010,7 @@ emerge --ask sys-apps/asahi-meta
 
 ---
 
-## 10. Advanced Tips (🎨 Optional) {#advanced}
+## 10. Advanced Tips (Optional) {#advanced}
 
 ### 10.1 Notch Configuration
 
@@ -1041,7 +1041,7 @@ update-m1n1  # Must!
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-> ⚠️ **Remember to keep a working kernel as backup**!
+> **Remember to keep a working kernel as backup**!
 
 ### 10.3 Multi-Kernel Switching
 
@@ -1059,7 +1059,7 @@ update-m1n1  # Must run after switching!
 
 ### Official Documentation
 
-- **[Gentoo Wiki: Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)** ⭐ Latest official guide
+- **[Gentoo Wiki: Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)** Latest official guide
 - [Asahi Linux Official Site](https://asahilinux.org/)
 - [Asahi Linux Feature Support](https://asahilinux.org/docs/platform/feature-support/overview/)
 - [Gentoo AMD64 Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64) (same process)
@@ -1085,15 +1085,15 @@ update-m1n1  # Must run after switching!
 
 ## Conclusion
 
-🎉 **Enjoy Gentoo on Apple Silicon!**
+**Enjoy Gentoo on Apple Silicon!**
 
 This guide is based on the official [Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide) and simplifies the process, marking optional steps to make it easier for more people to try.
 
-> 📅 **Last Verified**: November 20, 2025 UTC 5:57:11
+> **Last Verified**: November 20, 2025 UTC 5:57:11
 
 **Remember three key points**:
-1. ✅ Use official Gentoo Asahi Live USB (no Fedora intermediate required)
-2. ✅ asahi-gentoosupport script can automate most of the process
-3. ✅ Must run `update-m1n1` after every kernel update
+1. Use official Gentoo Asahi Live USB (no Fedora intermediate required)
+2. asahi-gentoosupport script can automate most of the process
+3. Must run `update-m1n1` after every kernel update
 
 Feel free to ask questions in the community!

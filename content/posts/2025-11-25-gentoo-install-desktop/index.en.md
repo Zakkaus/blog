@@ -83,8 +83,8 @@ VIDEO_CARDS="nvidia"        # NVIDIA
 INPUT_DEVICES="libinput"
 
 # Localization Settings
-L10N="en zh zh-CN zh-TW"
-LINGUAS="en zh_CN zh_TW"
+L10N="en en-US"
+LINGUAS="en en_US"
 
 # Desktop Environment Support
 USE="${USE} wayland X pipewire pulseaudio alsa"
@@ -285,17 +285,12 @@ If you need a lightweight desktop, consider Xfce or LXQt:
 
 > **Reference**: [Localization/Guide](https://wiki.gentoo.org/wiki/Localization/Guide), [Fonts](https://wiki.gentoo.org/wiki/Fonts)
 
-To display Chinese correctly, we need to install Chinese fonts.
+For better unicode support, you might want to install some fonts.
 
 ```bash
-# Install Noto CJK (Source Han) fonts
-emerge --ask media-fonts/noto-cjk
-
-# Install Emoji fonts
+# Install Noto fonts
+emerge --ask media-fonts/noto
 emerge --ask media-fonts/noto-emoji
-
-# (Optional) WenQuanYi Micro Hei
-emerge --ask media-fonts/wqy-microhei
 ```
 
 Refresh font cache:
@@ -303,33 +298,34 @@ Refresh font cache:
 fc-cache -fv
 ```
 
-### 12.7 Input Method Configuration (Fcitx5 & Rime) [Optional]
+### 12.7 Input Method Configuration (CJK Support) [Optional]
 
-> **Reference**: [Fcitx5](https://wiki.gentoo.org/wiki/Fcitx5)
+> **Reference**: [Fcitx5](https://wiki.gentoo.org/wiki/Fcitx5) or [IBus](https://wiki.gentoo.org/wiki/IBus)
 
-Rime is a powerful input method engine supporting Luna Pinyin (Simplified/Traditional), Zhuyin, Terra Pinyin, etc.
+If you need to input Chinese, Japanese, or Korean (CJK) characters, Fcitx5 or IBus are the standard choices.
 
-To get the best experience under Wayland, we need to configure environment variables.
+**Option A: Fcitx5 (Recommended for KDE/Wayland)**
 
-**Option A: Fcitx5 + Rime (KDE/General Recommended)**
+Fcitx5 is a modern input method framework with excellent Wayland support.
 
-Suitable for KDE Plasma, Hyprland, etc.
-
-1. **Install**
+1. **Install Core Components**
    ```bash
-   emerge --ask app-i18n/fcitx app-i18n/fcitx-rime app-i18n/fcitx-configtool
+   emerge --ask app-i18n/fcitx app-i18n/fcitx-configtool
    ```
 
-2. **Configure Environment Variables (Wayland)**
+2. **Install Language Engines**
+   Choose engines based on your language needs:
 
+   - **Chinese (Rime)**: `emerge --ask app-i18n/fcitx-rime`
+   - **Chinese (Pinyin)**: `emerge --ask app-i18n/fcitx-libpinyin`
+   - **Japanese (Mozc)**: `emerge --ask app-i18n/fcitx-mozc`
+   - **Korean (Hangul)**: `emerge --ask app-i18n/fcitx-hangul`
+
+3. **Configure Environment Variables (Wayland)**
    > **Reference**: [Using Fcitx 5 on Wayland](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland)
 
    Edit `/etc/environment`:
    ```bash
-   vim /etc/environment
-   ```
-   Write:
-   ```conf
    # Force XWayland apps to use Fcitx5
    XMODIFIERS=@im=fcitx
    
@@ -337,30 +333,29 @@ Suitable for KDE Plasma, Hyprland, etc.
    GTK_IM_MODULE=fcitx
    QT_IM_MODULE=fcitx
    ```
-   > **KDE User Tip**: In KDE Plasma 5.27+, it is recommended to select Fcitx 5 directly in "System Settings" -> "Keyboard" -> "Virtual Keyboard", without manually setting the above environment variables (except `XMODIFIERS`).
+   > **KDE User Tip**: In KDE Plasma 5.27+, go to "System Settings" -> "Keyboard" -> "Virtual Keyboard" and select Fcitx 5.
 
-3. **Start**
-   - KDE/GNOME usually starts automatically.
-   - Hyprland/Sway needs `exec-once = fcitx5 -d` in config file.
+4. **Start**
+   - **KDE/GNOME**: Usually starts automatically.
+   - **Hyprland**: Add `exec-once = fcitx5 -d` to `~/.config/hypr/hyprland.conf`.
 
-**Option B: IBus + Rime (GNOME Recommended)**
+**Option B: IBus (Recommended for GNOME)**
 
-> **Reference**: [IBus](https://wiki.gentoo.org/wiki/IBus)
+GNOME integrates best with IBus.
 
-GNOME integrates best with IBus, recommended to use it.
-
-1. **Install**
+1. **Install Core Components**
    ```bash
-   emerge --ask app-i18n/ibus-rime
+   emerge --ask app-i18n/ibus
    ```
 
-2. **Enable**
-   Go to GNOME Settings -> Keyboard -> Add Input Source -> Select "Chinese (Rime)".
+2. **Install Language Engines**
+   - **Chinese (Rime)**: `emerge --ask app-i18n/ibus-rime`
+   - **Japanese (Anthy)**: `emerge --ask app-i18n/ibus-anthy`
+   - **Japanese (Mozc)**: `emerge --ask app-i18n/ibus-mozc`
+   - **Korean (Hangul)**: `emerge --ask app-i18n/ibus-hangul`
 
-**Rime Configuration Tips**
-- Switch Schema: Press `F4`.
-- **Supported Schemas**: Luna Pinyin (Simplified/Traditional), Zhuyin, Terra Pinyin, etc.
-- User Config Directory: `~/.local/share/fcitx5/rime` (Fcitx5) or `~/.config/ibus/rime` (IBus).
+3. **Enable**
+   Go to **GNOME Settings** -> **Keyboard** -> **Add Input Source** -> Select your language (e.g., "Japanese (Anthy)" or "Chinese (Rime)").
 
 ### 12.8 Secure Boot [Optional]
 
@@ -394,7 +389,7 @@ If you need to enable Secure Boot, Gentoo recommends using `sbctl` to simplify c
 
 ---
 
-### 12.9 Portage Git Sync & Overlay [Optional]
+### 12.9 Portage Git Sync [Optional]
 
 > **Why this step?**
 > Default rsync sync is slower. Using Git sync is not only faster but also easier to manage.
@@ -421,48 +416,17 @@ sync-uri = https://github.com/gentoo-mirror/gentoo.git
 sync-depth = 1          # Only fetch latest commit, reduce size
 ```
 
-**3. Add Gentoo-zh Overlay**
-   Create `gentoo-zh.conf` in `/etc/portage/repos.conf/` directory:
-   ```ini
-   [gentoo-zh]
-   location = /var/db/repos/gentoo-zh
-   sync-type = git
-   sync-uri = https://github.com/gentoo-zh/gentoo-zh.git
-   auto-sync = yes
-   ```
-
-   > **Important Note (Updated: 2025-10-07)**
-   >
-   > According to Gentoo official announcement, Gentoo has stopped providing cache mirror support for third-party repositories. From 2025-10-30, all third-party repositories (including gentoo-zh) mirror configurations will be removed from the official repository list.
-   >
-   > **What does this mean?**
-   > - Tools like `eselect repository` and `layman` still work.
-   > - Official will no longer provide cache mirrors, changing to sync directly from upstream (GitHub).
-   > - Official repositories (`::gentoo`, `::guru`, `::kde`, `::science`) are unaffected and can still use mirrors.
-   >
-   > **If you previously added gentoo-zh overlay, please update sync URI**:
-   > ```bash
-   > # View installed repositories
-   > eselect repository list -i
-   >
-   > # Remove old config
-   > eselect repository remove gentoo-zh
-   >
-   > # Re-enable (will automatically use correct upstream source)
-   > eselect repository enable gentoo-zh
-   > ```
-
-**4. Execute Sync**
+**3. Execute Sync**
 ```bash
 emerge --sync
 ```
 
-**5. Software Installation Demo**
+**4. Software Installation Demo**
 
-For example installing `flclash-bin`:
+For example installing `firefox-bin`:
 
 ```bash
-emerge -pv flclash-bin
+emerge -pv firefox-bin
 ```
 
 Output example:
@@ -473,16 +437,14 @@ Calculating dependencies
     ... done!
 Dependency resolution took 0.45 s (backtrack: 0/20).
 
-[ebuild  N     ] dev-libs/keybinder-0.3.2-r300:3::gentoo  USE="introspection" 371 KiB
-[ebuild  N     ] x11-apps/xmessage-1.0.7::gentoo  126 KiB
-[ebuild  N     ] net-proxy/flclash-bin-0.8.90::gentoo-zh  39,565 KiB
+[ebuild  N     ] www-client/firefox-bin-132.0.2::gentoo  USE="wayland -wifi" 168,123 KiB
 
-Total: 3 packages (3 new), Size of downloads: 40,061 KiB
+Total: 1 packages (1 new), Size of downloads: 168,123 KiB
 ```
 
 Confirm correct, then execute install:
 ```bash
-emerge --ask flclash-bin
+emerge --ask firefox-bin
 ```
 
 ---
@@ -526,12 +488,12 @@ If you need to use Flatpak or wish to manage Flatpak apps in Software Center:
 >
 > ```bash
 > # Search apps
-> flatpak search qq
-> flatpak search wechat
+> flatpak search spotify
+> flatpak search discord
 >
-> # Install QQ and WeChat
-> flatpak install com.qq.QQ
-> flatpak install com.tencent.WeChat
+> # Install Spotify and Discord
+> flatpak install com.spotify.Client
+> flatpak install com.discordapp.Discord
 > ```
 
 ---

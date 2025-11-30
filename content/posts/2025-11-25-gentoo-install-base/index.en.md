@@ -54,7 +54,6 @@ authors:
 > **This is not a simple spoon-fed tutorial, but a guiding learning resource**—the first step in using Gentoo is learning to read the Wiki and solve problems yourself, and making good use of Google or even AI tools to find answers. When encountering problems or needing in-depth understanding, please be sure to consult the official handbook and the reference links provided in this article.
 >
 > If you encounter questions or find issues during reading, you are welcome to raise them through the following channels:
-> - **Gentoo Chinese Community**: [Telegram Group](https://t.me/gentoo_zh) | [Telegram Channel](https://t.me/gentoocn) | [GitHub](https://github.com/Gentoo-zh)
 > - **Official Community**: [Gentoo Forums](https://forums.gentoo.org/) | IRC: #gentoo @ Libera.Chat
 >
 > **Highly recommended to follow the official handbook**:
@@ -198,7 +197,7 @@ wget https://distfiles.gentoo.org/releases/amd64/autobuilds/20251123T153051Z/ins
 > - Root Password: `live`
 >
 > **System Support**:
-> - Supports Chinese display and Chinese input method (fcitx5), flclash etc.
+> - Supports modern hardware and comes with necessary tools.
 
 Verify Signature (Optional):
 ```bash
@@ -717,8 +716,8 @@ MAKEOPTS="-j8"
 
 # Language Settings
 LC_MESSAGES=C
-L10N="en en-US zh zh-CN zh-TW"
-LINGUAS="en en_US zh zh_CN zh_TW"
+L10N="en en-US"
+LINGUAS="en en_US"
 
 # Mirror (Global)
 GENTOO_MIRRORS="https://distfiles.gentoo.org/"
@@ -753,9 +752,9 @@ FFLAGS="${COMMON_FLAGS}"    # Fortran 77 program compilation options
 LC_MESSAGES=C
 
 # L10N: Localization support (Affects docs, translations, etc.)
-L10N="en en-US zh zh-CN zh-TW"
+L10N="en en-US"
 # LINGUAS: Legacy localization variable (Some software still needs it)
-LINGUAS="en en_US zh zh_CN zh_TW"
+LINGUAS="en en_US"
 
 # ========== Parallel Compilation Settings ==========
 # Number after -j = CPU thread count (e.g., 32 core CPU use -j32)

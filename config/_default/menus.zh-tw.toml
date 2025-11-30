@@ -43,6 +43,12 @@
   weight = 45
 
 [[main]]
+  name = "Gentoo 中文社區"
+  parent = "more"
+  url = "https://www.gentoo.org.cn/"
+  weight = 46
+
+[[main]]
   name = "下載站"
   parent = "more"
   url = "https://cloud.zakk.au/"

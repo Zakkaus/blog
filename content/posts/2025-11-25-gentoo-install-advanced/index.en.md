@@ -94,15 +94,15 @@ USE="${USE} -doc -test"
 | **Desktop** | `wayland`, `X`, `gtk`, `qt6` | Desktop protocols and toolkits |
 | **Audio** | `pipewire`, `pulseaudio`, `alsa` | Audio system |
 | **Video** | `ffmpeg`, `x264`, `vpx` | Video codecs |
-| **I18n** | `cjk`, `nls`, `icu` | Chinese support |
+| **I18n** | `nls`, `icu` | Localization support |
 | **Disable** | `-doc`, `-test`, `-examples` | Disable unnecessary features |
 
 
 #### 4. Language Configuration
 
 ```bash
-L10N="en zh zh-CN zh-TW"
-LINGUAS="en zh_CN zh_TW"
+L10N="en en-US"
+LINGUAS="en en_US"
 ```
 
 #### 5. Hardware Configuration
@@ -148,7 +148,7 @@ MAKEOPTS="-j4 -l4"  # Adjust according to CPU
 USE="systemd wayland pipewire -doc -test"
 
 
-L10N="en zh zh-CN"
+L10N="en en-US"
 VIDEO_CARDS="intel"  # Or nvidia/amdgpu
 
 FEATURES="parallel-fetch candy"

@@ -111,7 +111,7 @@ https://chadmed.au/pub/gentoo/
 
 > **Image Version Compatibility Info (Updated: 2025-11-21)**:
 > - **Community Build**: Image built by [Zakkaus](https://github.com/zakkaus) based on [gentoo-asahi-releng](https://github.com/chadmed/gentoo-asahi-releng)
->   - **Features**: systemd + KDE Plasma desktop, pre-installed Chinese support and Fcitx5 input method, Audio and Wi-Fi, flclash, firefox-bin out of the box
+>   - **Features**: systemd + KDE Plasma desktop, Audio and Wi-Fi, firefox-bin out of the box
 >   - **Download Link**: [Google Drive](https://drive.google.com/drive/folders/1ZYGkc8uXqRFJ4jeaSbm5odeNb2qvh6CS)
 >   - **Applicable Scenario**: Recommended for beginners, successfully tested on M2 MacBook
 >   - If interested in building yourself, refer to [gentoo-asahi-releng](https://github.com/chadmed/gentoo-asahi-releng) project
@@ -456,7 +456,7 @@ EMERGE_DEFAULT_OPTS="--jobs 3"
 VIDEO_CARDS="asahi"
 
 # Localization Support (Optional)
-L10N="en en-US zh-CN zh-TW zh"
+L10N="en en-US"
 
 # Keep newline at end of file! Important!
 ```
@@ -477,7 +477,7 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 # Edit locale.gen, uncomment needed locales
 nano -w /etc/locale.gen
 # Uncomment: en_US.UTF-8 UTF-8
-# Uncomment: zh_TW.UTF-8 UTF-8 (If Chinese needed)
+# Uncomment: en_US.UTF-8 UTF-8
 
 # Generate locales
 locale-gen

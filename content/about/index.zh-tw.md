@@ -94,7 +94,7 @@ Paper 與兩隻可愛的泰迪天竺鼠：脆薯饼 和 马铃薯
 
 **個性：** 活力滿點的小探險家，把每個角落都當成新冒險！
 
-<div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 0.5rem;">
+<div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0, 0, 0, 0.05); border-radius: 0.5rem;">
 
 **✨ 特殊才能**
 - 🏃 熱愛在籠子裡全速衝刺和不斷搬移小屋
@@ -117,7 +117,7 @@ Paper 與兩隻可愛的泰迪天竺鼠：脆薯饼 和 马铃薯
 
 **個性：** 勇敢好奇又超級愛吃！
 
-<div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 0.5rem;">
+<div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0, 0, 0, 0.05); border-radius: 0.5rem;">
 
 **✨ 特殊才能**
 - 🌾 常把自己埋在燕麥草裡睡覺，醒來繼續狂啃

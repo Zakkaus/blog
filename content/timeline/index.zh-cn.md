@@ -48,14 +48,14 @@ _所有计时器即时更新_
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
 
-<div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 0.5rem;">
+<div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.05); border-radius: 0.5rem;">
 
 **在一起天数**  
 <span class="counter-days" data-counter-origin="2025-08-07T11:38:00+10:00" data-counter-format="days" style="font-size: 2rem; font-weight: 700; color: rgb(219, 39, 119);">0</span> 天
 
 </div>
 
-<div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 0.5rem;">
+<div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.05); border-radius: 0.5rem;">
 
 **经过时间**  
 <span class="counter-time" data-counter-origin="2025-08-07T11:38:00+10:00" data-counter-format="time" style="font-size: 1.5rem; font-weight: 600; color: rgb(219, 39, 119);">00:00:00</span>
@@ -196,21 +196,21 @@ _所有计时器即时更新_
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
 
-<div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 0.5rem;">
+<div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.05); border-radius: 0.5rem;">
 
 **运行天数**  
 <span class="counter-days" data-counter-origin="2025-09-01T00:00:00+10:00" data-counter-format="days" style="font-size: 2rem; font-weight: 700; color: rgb(79, 70, 229);">0</span> 天
 
 </div>
 
-<div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 0.5rem;">
+<div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.05); border-radius: 0.5rem;">
 
 **总浏览量**  
 <span id="site-pv" class="animate-pulse" style="font-size: 1.5rem; font-weight: 600; color: rgb(79, 70, 229);">加载中...</span>
 
 </div>
 
-<div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 0.5rem;">
+<div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.05); border-radius: 0.5rem;">
 
 **总访客数**  
 <span id="site-uv" class="animate-pulse" style="font-size: 1.5rem; font-weight: 600; color: rgb(79, 70, 229);">加载中...</span>

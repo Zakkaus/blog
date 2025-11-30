@@ -94,7 +94,7 @@ Paper and two adorable Teddy guinea pigs: Hash Brown & Potato
 
 **Personality:** Light-brown Teddy bundle of endless energy who treats every corner as a new adventure!
 
-<div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 0.5rem;">
+<div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0, 0, 0, 0.05); border-radius: 0.5rem;">
 
 **✨ Special Traits**
 - 🏃 Loves racing laps and constantly rearranging her hideouts
@@ -117,7 +117,7 @@ Paper and two adorable Teddy guinea pigs: Hash Brown & Potato
 
 **Personality:** Dark-brown Teddy with brave curiosity and an insatiable appetite!
 
-<div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 0.5rem;">
+<div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0, 0, 0, 0.05); border-radius: 0.5rem;">
 
 **✨ Special Traits**
 - 🌾 Often naps buried deep in oat hay, waking up to munch more

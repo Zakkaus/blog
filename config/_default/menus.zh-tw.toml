@@ -49,12 +49,6 @@
   weight = 46
 
 [[main]]
-  name = "下載站"
-  parent = "more"
-  url = "https://cloud.zakk.au/"
-  weight = 47
-
-[[main]]
   name = "圖床"
   parent = "more"
   url = "https://img.zakk.au/"

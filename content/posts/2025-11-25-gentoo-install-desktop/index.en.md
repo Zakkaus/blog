@@ -288,9 +288,13 @@ If you need a lightweight desktop, consider Xfce or LXQt:
 For better unicode support, you might want to install some fonts.
 
 ```bash
-# Install Noto fonts
+# Install Noto fonts (Base)
 emerge --ask media-fonts/noto
 emerge --ask media-fonts/noto-emoji
+
+# Install Noto CJK (Chinese/Japanese/Korean)
+# Highly recommended for broad language support
+emerge --ask media-fonts/noto-cjk
 ```
 
 Refresh font cache:

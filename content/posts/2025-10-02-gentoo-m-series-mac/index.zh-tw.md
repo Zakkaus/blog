@@ -1,38 +1,25 @@
 ---
-slug: gentoo-m-series-mac-arm64
 title: "在 Apple Silicon Mac 上安裝 Gentoo Linux（M1/M2/M3/M4 完整教學）"
-date: 2025-10-02
-tags: ["Gentoo","Linux","Apple Silicon","ARM64","Asahi Linux","安裝教學"]
-categories: ["Linux 筆記"]
-draft: false
-description: "從零開始在 Apple Silicon Mac（M1/M2/M3/M4）上安裝 Gentoo Linux：包含 Asahi 引導、LUKS 加密、內核編譯等完整步驟。支援所有 M 系列晶片。"
-ShowToc: false
-TocOpen: false
-translationKey: "gentoo-m-series-mac-arm64"
-authors:
-   - "Zakk"
-seo:
-   description: "詳細教學如何在 Apple Silicon Mac（M1/M2/M3/M4）上安裝 Gentoo Linux ARM64。涵蓋 Asahi Linux 引導程式設定、LUKS 全盤加密、Stage3 安裝、內核編譯、桌面環境配置，以及與 macOS 雙系統共存設定。"
-   keywords:
-      - "Gentoo 安裝"
-      - "Apple Silicon"
-      - "M1 Mac"
-      - "M2 Mac"
-      - "M3 Mac"
-      - "M4 Mac"
-      - "Asahi Linux"
-      - "ARM64"
-      - "LUKS 加密"
-      - "macOS 雙系統"
-      - "Zakk 部落格"
+slug: gentoo-m-series-mac-arm64
+aliases:
+  - /zh-tw/posts/gentoo-m-series-mac/
+translationKey: gentoo-m-series-mac-arm64
+categories: ["tutorial"]
+authors: ["zakkaus"]
+article:
+  showHero: true
+  heroStyle: background
+featureImage: feature-gentoo-chan.webp
+featureImageAlt: "Gentoo Chan"
 ---
 
-![Gentoo on Apple Silicon](gentoo-asahi-mac.webp)
+![Gentoo on Apple Silicon Mac](gentoo-asahi-mac.webp)
 
-{{< lead >}}
+**簡介**
+
 本指南將引導你在 Apple Silicon Mac（M1/M2/M3/M4）上安裝原生 ARM64 Gentoo Linux。
 
-**重要更新**：Asahi Linux 專案團隊（尤其是 [chadmed](https://wiki.gentoo.org/index.php?title=User:Chadmed&action=edit&redlink=1)）的卓越工作使得現在有了[官方 Gentoo Asahi 安裝指南](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)，安裝流程已大幅簡化。
+**重要更新**：Asahi Linux 專案團隊（尤其是 [chadmed](https://github.com/chadmed/gentoo-asahi-releng)）的卓越工作使得現在有了[官方 Gentoo Asahi 安裝指南](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)，安裝流程已大幅簡化。
 
 **本指南特色**：
 - 基於官方最新流程（2025.10）
@@ -41,7 +28,7 @@ seo:
 - 簡化版適合所有人（包含加密選項）
 
 已驗證至 2025 年 11 月 20 日。
-{{< /lead >}}
+
 
 > **目標平台**：Apple Silicon Mac（M1/M2/M3/M4）ARM64 架構。本指南使用 Asahi Linux 引導程式進行初始設置，然後轉換為完整的 Gentoo 環境。
 
@@ -118,8 +105,10 @@ https://chadmed.au/pub/gentoo/
 > **提示**：官方正在整合 Asahi 支援到標準 Live USB。目前使用 chadmed 維護的版本。
 
 > **映像版本相容性資訊（更新日期：2025年11月21日）**：
-> - **社群構建版本**：由 [Zakkaus](https://github.com/zakkaus) 基於 [gentoo-asahi-releng](https://github.com/chadmed/gentoo-asahi-releng) 構建的映像，已成功在 M2 MacBook 上測試
->   - 下載連結：[Google Drive](https://drive.google.com/drive/folders/1ZYGkc8uXqRFJ4jeaSbm5odeNb2qvh6CS)
+> - **社群構建版本**：由 [Zakkaus](https://github.com/zakkaus) 基於 [gentoo-asahi-releng](https://github.com/chadmed/gentoo-asahi-releng) 構建的映像
+>   - **特色**：systemd + KDE Plasma 桌面環境，預裝中文支援和 Fcitx5 輸入法，音訊和 Wi-Fi,flclash,firefox-bin 開箱即用
+>   - **下載連結**：[Google Drive](https://drive.google.com/drive/folders/1ZYGkc8uXqRFJ4jeaSbm5odeNb2qvh6CS)
+>   - **適用場景**：推薦新手使用，已成功在 M2 MacBook 上測試
 >   - 若有興趣自行構建，可參考 [gentoo-asahi-releng](https://github.com/chadmed/gentoo-asahi-releng) 專案
 > - **官方版本**：
 >   - **推薦使用**：`install-arm64-asahi-20250603.iso`（2025年6月版本，已測試穩定）
@@ -245,8 +234,6 @@ ip a | grep inet          # 取得 IP 位址
 ---
 
 ## 3. 分割與檔案系統設置 {#step-3-partition}
-
-### 3.1 識別磁碟與分割
 
 > **重要警告**：**不要修改現有的 APFS 容器、EFI 分割或 Recovery 分割！** 只能在 Asahi 安裝程式預留的空間中操作。
 
@@ -388,17 +375,20 @@ cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos
 
 ### 4.3 同步系統時間（重要）
 
-在進入 chroot 之前，需要先同步系統時間，否則後續操作可能因為 SSL 憑證驗證、編譯時間戳記等問題而失敗：
+在進入 chroot 前，確保系統時間正確（避免編譯和 SSL 憑證問題）：
 
 ```bash
+# 同步時間
 chronyd -q
+
+# 驗證時間是否正確
 date
 ```
 
-> **為什麼需要時間同步？**
-> - 下載軟體包時 SSL/TLS 憑證需要正確的系統時間
-> - 編譯時檔案的時間戳記會影響 make 的相依性判斷
-> - 確認時間正確後再繼續操作，避免後續問題
+> **為什麼需要同步時間？**
+> - 編譯套件時需要正確的時間戳記
+> - SSL/TLS 憑證驗證依賴準確的系統時間
+> - 如果時間不正確，可能導致 emerge 失敗或憑證錯誤
 
 ### 4.4 進入 chroot 環境
 
@@ -599,6 +589,7 @@ emerge --sync
 
 > **鏡像源說明**：
 > - 使用 GitHub 鏡像（如上）通常已經足夠快速
+> - 更多鏡像源選項參考：[鏡像列表](/mirrorlist/)
 
 **步驟 2：配置 package.mask（重要！）**
 
@@ -928,56 +919,6 @@ eselect profile set 3    # desktop (不含特定桌面)
 emerge -avuDN @world
 ```
 
-**可能遇到的問題與解決方案**：
-
-**問題 1：USE flag 衝突**
-
-如果看到類似錯誤：
-```
-The following USE changes are necessary to proceed:
- >=some-package-1.2.3 USE="foo -bar"
-```
-
-**解決方法**：
-```bash
-# 自動寫入配置（推薦）
-emerge --ask --autounmask-write gnome-base/gnome
-dispatch-conf    # 按 'u' 接受變更
-
-# 或手動編輯
-nano -w /etc/portage/package.use/gnome
-```
-
-**問題 2：套件遮罩（package.mask）衝突**
-
-如果看到：
-```
-The following keyword changes are necessary to proceed:
- =some-package-1.2.3 ~arm64
-```
-
-**解決方法**：
-```bash
-# 自動處理
-emerge --ask --autounmask-write gnome-base/gnome
-dispatch-conf
-
-# 或手動添加
-echo "=some-package-1.2.3 ~arm64" >> /etc/portage/package.accept_keywords/gnome
-```
-
-**問題 3：循環依賴（Circular Dependencies）**
-
-**解決方法**：
-```bash
-# 使用 --backtrack 增加回溯深度
-emerge -avuDN --backtrack=50 @world
-
-# 或分批安裝
-emerge -av1 問題套件A
-emerge -avuDN @world
-```
-
 #### 步驟 3：安裝桌面環境
 
 **選項 A：KDE Plasma（推薦）**
@@ -1225,7 +1166,10 @@ update-m1n1  # 切換後必須執行！
 
 ### 官方文件
 
-- **[Gentoo Wiki: Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)** 官方最新指南
+**參考資料**：[Gentoo Wiki - Apple Silicon](https://wiki.gentoo.org/wiki/Apple_Silicon)
+
+> **圖片來源**: [Pixiv](https://www.pixiv.net/artworks/115453639)
+- **[Gentoo Wiki: Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)** ⭐ 官方最新指南
 - [Asahi Linux Official Site](https://asahilinux.org/)
 - [Asahi Linux Feature Support](https://asahilinux.org/docs/platform/feature-support/overview/)
 - [Gentoo AMD64 Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64)（流程相同）
@@ -1237,6 +1181,12 @@ update-m1n1  # 切換後必須執行！
 
 ### 社群支援
 
+**Gentoo 中文社群**：
+- Telegram 群組：[@gentoo_zh](https://t.me/gentoo_zh)
+- Telegram 頻道：[@gentoocn](https://t.me/gentoocn)
+- [GitHub](https://github.com/gentoo-zh)
+
+**官方社群**：
 - [Gentoo Forums](https://forums.gentoo.org/)
 - IRC: `#gentoo` 和 `#asahi` @ [Libera.Chat](https://libera.chat/)
 - [User:Jared/Gentoo On An M1 Mac](https://wiki.gentoo.org/wiki/User:Jared/Gentoo_On_An_M1_Mac)
@@ -1254,8 +1204,6 @@ update-m1n1  # 切換後必須執行！
 **祝你在 Apple Silicon 上享受 Gentoo！**
 
 這份指南基於官方 [Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide) 並簡化流程，標記了可選步驟，讓更多人能輕鬆嘗試。
-
-> **最後驗證時間**：2025年11月20日 UTC 5:57:11
 
 **記住三個關鍵點**：
 1. 使用官方 Gentoo Asahi Live USB（無需 Fedora 中轉）

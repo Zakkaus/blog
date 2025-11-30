@@ -1,38 +1,26 @@
 ---
-slug: gentoo-m-series-mac-arm64
 title: "在 Apple Silicon Mac 上安装 Gentoo Linux（M1/M2/M3/M4 完整教程）"
+slug: gentoo-m-series-mac-arm64
+aliases:
+  - /zh-cn/posts/gentoo-m-series-mac/
+translationKey: gentoo-m-series-mac-arm64
 date: 2025-10-02
-tags: ["Gentoo","Linux","Apple Silicon","ARM64","Asahi Linux","安装教程"]
-categories: ["Linux 笔记"]
-draft: false
-description: "从零开始在 Apple Silicon Mac（M1/M2/M3/M4）上安装 Gentoo Linux：包含 Asahi 引导、LUKS 加密、内核编译等完整步骤。支持所有 M 系列芯片。"
-ShowToc: false
-TocOpen: false
-translationKey: "gentoo-m-series-mac-arm64"
-authors:
-   - "Zakk"
-seo:
-   description: "详细教程如何在 Apple Silicon Mac（M1/M2/M3/M4）上安装 Gentoo Linux ARM64。涵盖 Asahi Linux 引导程序设置、LUKS 全盘加密、Stage3 安装、内核编译、桌面环境配置，以及与 macOS 双系统共存设置。"
-   keywords:
-      - "Gentoo 安装"
-      - "Apple Silicon"
-      - "M1 Mac"
-      - "M2 Mac"
-      - "M3 Mac"
-      - "M4 Mac"
-      - "Asahi Linux"
-      - "ARM64"
-      - "LUKS 加密"
-      - "macOS 双系统"
-      - "Zakk 博客"
+categories: ["tutorial"]
+authors: ["zakkaus"]
+article:
+  showHero: true
+  heroStyle: background
+featureImage: feature-gentoo-chan.webp
+featureImageAlt: "Gentoo Chan"
 ---
 
-![Gentoo on Apple Silicon](gentoo-asahi-mac.webp)
+![Gentoo on Apple Silicon Mac](gentoo-asahi-mac.webp)
 
-{{< lead >}}
+**简介**
+
 本指南将引导你在 Apple Silicon Mac（M1/M2/M3/M4）上安装原生 ARM64 Gentoo Linux。
 
-**重要更新**：Asahi Linux 项目团队（尤其是 [chadmed](https://wiki.gentoo.org/index.php?title=User:Chadmed&action=edit&redlink=1)）的卓越工作使得现在有了[官方 Gentoo Asahi 安装指南](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)，安装流程已大幅简化。
+**重要更新**：Asahi Linux 项目团队（尤其是 [chadmed](https://github.com/chadmed/gentoo-asahi-releng)）的卓越工作使得现在有了[官方 Gentoo Asahi 安装指南](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)，安装流程已大幅简化。
 
 **本指南特色**：
 - 基于官方最新流程（2025.10）
@@ -40,8 +28,8 @@ seo:
 - 清楚标记可选与必选步骤
 - 简化版适合所有人（包含加密选项）
 
-已验证至 2025 年 11 月 20 日。
-{{< /lead >}}
+已验证至 2025 年 11 月 20日。
+
 
 > **目标平台**：Apple Silicon Mac（M1/M2/M3/M4）ARM64 架构。本指南使用 Asahi Linux 引导程序进行初始设置，然后转换为完整的 Gentoo 环境。
 
@@ -118,8 +106,10 @@ https://chadmed.au/pub/gentoo/
 > **提示**：官方正在整合 Asahi 支持到标准 Live USB。目前使用 chadmed 维护的版本。
 
 > **镜像版本兼容性信息（更新日期：2025年11月21日）**：
-> - **社区构建版本**：由 [Zakkaus](https://github.com/zakkaus) 基于 [gentoo-asahi-releng](https://github.com/chadmed/gentoo-asahi-releng) 构建的镜像，已成功在 M2 MacBook 上测试
->   - 下载链接：[Google Drive](https://drive.google.com/drive/folders/1ZYGkc8uXqRFJ4jeaSbm5odeNb2qvh6CS)
+> - **社区构建版本**：由 [Zakkaus](https://github.com/zakkaus) 基于 [gentoo-asahi-releng](https://github.com/chadmed/gentoo-asahi-releng) 构建的镜像
+>   - **特色**：systemd + KDE Plasma 桌面环境，预装中文支持和 Fcitx5 输入法，音频和 Wi-Fi,flclash,firefox-bin等开箱即用
+>   - **下载链接**：[Google Drive](https://drive.google.com/drive/folders/1ZYGkc8uXqRFJ4jeaSbm5odeNb2qvh6CS)
+>   - **适用场景**：推荐新手使用，已成功在 M2 MacBook 上测试
 >   - 若有兴趣自行构建，可参考 [gentoo-asahi-releng](https://github.com/chadmed/gentoo-asahi-releng) 项目
 > - **官方版本**：
 >   - **推荐使用**：`install-arm64-asahi-20250603.iso`（2025年6月版本，已测试稳定）
@@ -375,6 +365,7 @@ cd /mnt/gentoo
 # 下载最新 ARM64 Desktop systemd Stage3
 wget https://distfiles.gentoo.org/releases/arm64/autobuilds/current-stage3-arm64-desktop-systemd/stage3-arm64-desktop-systemd-*.tar.xz
 
+
 # 展开（保持属性）
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 ```
@@ -388,17 +379,20 @@ cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos
 
 ### 4.3 同步系统时间（重要）
 
-在进入 chroot 之前，需要先同步系统时间，否则后续操作可能因为 SSL 证书验证、编译时间戳等问题而失败：
+在进入 chroot 前，确保系统时间正确（避免编译和 SSL 证书问题）：
 
 ```bash
+# 同步时间
 chronyd -q
+
+# 验证时间是否正确
 date
 ```
 
-> **为什么需要时间同步？**
-> - 下载软件包时 SSL/TLS 证书需要正确的系统时间
-> - 编译时文件的时间戳会影响 make 的依赖判断
-> - 确认时间正确后再继续操作，避免后续问题
+> **为什么需要同步时间？**
+> - 编译软件包时需要正确的时间戳
+> - SSL/TLS 证书验证依赖准确的系统时间
+> - 如果时间不正确，可能导致 emerge 失败或证书错误
 
 ### 4.4 进入 chroot 环境
 
@@ -599,6 +593,7 @@ emerge --sync
 
 > **镜像源说明**：
 > - **简体中文用户推荐**：可以将上面的 `sync-uri` 改为北外源 `https://mirrors.bfsu.edu.cn/git/gentoo-portage.git` 以获得更快的同步速度
+> - 更多镜像源选项参考：[镜像列表](/mirrorlist/)
 
 **步骤 2：配置 package.mask（重要！）**
 
@@ -928,56 +923,6 @@ eselect profile set 3    # desktop (不含特定桌面)
 emerge -avuDN @world
 ```
 
-**可能遇到的问题与解决方案**：
-
-**问题 1：USE flag 冲突**
-
-如果看到类似错误：
-```
-The following USE changes are necessary to proceed:
- >=some-package-1.2.3 USE="foo -bar"
-```
-
-**解决方法**：
-```bash
-# 自动写入配置（推荐）
-emerge --ask --autounmask-write gnome-base/gnome
-dispatch-conf    # 按 'u' 接受变更
-
-# 或手动编辑
-nano -w /etc/portage/package.use/gnome
-```
-
-**问题 2：软件包屏蔽（package.mask）冲突**
-
-如果看到：
-```
-The following keyword changes are necessary to proceed:
- =some-package-1.2.3 ~arm64
-```
-
-**解决方法**：
-```bash
-# 自动处理
-emerge --ask --autounmask-write gnome-base/gnome
-dispatch-conf
-
-# 或手动添加
-echo "=some-package-1.2.3 ~arm64" >> /etc/portage/package.accept_keywords/gnome
-```
-
-**问题 3：循环依赖（Circular Dependencies）**
-
-**解决方法**：
-```bash
-# 使用 --backtrack 增加回溯深度
-emerge -avuDN --backtrack=50 @world
-
-# 或分批安装
-emerge -av1 问题软件包A
-emerge -avuDN @world
-```
-
 #### 步骤 3：安装桌面环境
 
 **选项 A：KDE Plasma（推荐）**
@@ -1225,7 +1170,10 @@ update-m1n1  # 切换后必须执行！
 
 ### 官方文档
 
-- **[Gentoo Wiki: Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)** 官方最新指南
+**参考资料**：[Gentoo Wiki - Apple Silicon](https://wiki.gentoo.org/wiki/Apple_Silicon)
+
+> **图片来源**: [Pixiv](https://www.pixiv.net/artworks/115453639)
+- **[Gentoo Wiki: Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)** ⭐ 官方最新指南
 - [Asahi Linux Official Site](https://asahilinux.org/)
 - [Asahi Linux Feature Support](https://asahilinux.org/docs/platform/feature-support/overview/)
 - [Gentoo AMD64 Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64)（流程相同）
@@ -1235,8 +1183,14 @@ update-m1n1  # 切换后必须执行！
 - [asahi-gentoosupport](https://github.com/chadmed/asahi-gentoosupport) - 自动化安装脚本
 - [Gentoo Asahi Releng](https://github.com/chadmed/gentoo-asahi-releng) - Live USB 构建工具
 
-### 社群支持
+### 社区支持
 
+**Gentoo 中文社区**：
+- Telegram 群组：[@gentoo_zh](https://t.me/gentoo_zh)
+- Telegram 频道：[@gentoocn](https://t.me/gentoocn)
+- [GitHub](https://github.com/gentoo-zh)
+
+**官方社区**：
 - [Gentoo Forums](https://forums.gentoo.org/)
 - IRC: `#gentoo` 和 `#asahi` @ [Libera.Chat](https://libera.chat/)
 - [User:Jared/Gentoo On An M1 Mac](https://wiki.gentoo.org/wiki/User:Jared/Gentoo_On_An_M1_Mac)
@@ -1255,11 +1209,9 @@ update-m1n1  # 切换后必须执行！
 
 这份指南基于官方 [Project:Asahi/Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide) 并简化流程，标记了可选步骤，让更多人能轻松尝试。
 
-> **最后验证时间**：2025年11月20日 UTC 5:57:11
-
 **记住三个关键点**：
 1. 使用官方 Gentoo Asahi Live USB（无需 Fedora 中转）
 2. asahi-gentoosupport 脚本可自动化大部分流程
 3. 每次内核更新后必须执行 `update-m1n1`
 
-有任何问题欢迎到社群提问！
+有任何问题欢迎到社区提问！

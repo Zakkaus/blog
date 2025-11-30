@@ -103,3 +103,5 @@ We met in Ceylan's [Discord community](https://www.youtube.com/@xilanceylan) thr
 - 💻 **GitHub:** [Zakkaus](https://github.com/Zakkaus)
 - 🐦 **X (Twitter):** [@zakkauu](https://x.com/zakkauu)
 - ✉️ **Email:** [admin@zakk.au](mailto:admin@zakk.au) **(Primary)**
+
+> **Homepage Background Credit**: [X (Twitter)](https://x.com/matchach/status/1965335649177010402)

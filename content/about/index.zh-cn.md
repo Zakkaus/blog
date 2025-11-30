@@ -103,3 +103,5 @@ seo:
 - 💻 **GitHub：** [Zakkaus](https://github.com/Zakkaus)
 - 🐦 **X (Twitter)：** [@zakkauu](https://x.com/zakkauu)
 - ✉️ **Email：** [admin@zakk.au](mailto:admin@zakk.au) **（常用）**
+
+> **主页背景来源**: [X (Twitter)](https://x.com/matchach/status/1965335649177010402)

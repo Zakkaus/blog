@@ -4,7 +4,7 @@ slug: gentoo-m-series-mac-arm64
 aliases:
   - /posts/gentoo-m-series-mac/
 translationKey: gentoo-m-series-mac-arm64
-date: 2025-10-02
+date: 2025-11-30
 categories: ["tutorial"]
 authors: ["zakkaus"]
 article:

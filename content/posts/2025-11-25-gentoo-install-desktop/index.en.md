@@ -2,7 +2,7 @@
 title: "Gentoo Linux Installation Guide (Desktop Configuration)"
 slug: /posts/gentoo-install-desktop/
 translationKey: gentoo-install-desktop
-date: 2025-11-25
+date: 2025-11-30
 summary: "Gentoo Linux desktop environment configuration tutorial, covering graphics drivers, KDE/GNOME/Hyprland, input methods, fonts, etc."
 description: "2025 Latest Gentoo Linux Installation Guide (Desktop Configuration), covering graphics drivers, KDE/GNOME/Hyprland, input methods, fonts, etc."
 article:

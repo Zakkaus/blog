@@ -4,7 +4,7 @@ slug: gentoo-install
 aliases:
   - /posts/gentoo-install/
 translationKey: gentoo-install
-date: 2025-11-25
+date: 2025-11-30
 summary: "Gentoo Linux base system installation tutorial, covering partitioning, Stage3, kernel compilation, bootloader configuration, etc. Also features LUKS full disk encryption tutorial."
 description: "2025 Latest Gentoo Linux Installation Guide (Base), detailing UEFI installation process, kernel compilation, etc. Suitable for Linux advanced users and Gentoo beginners. Also features LUKS full disk encryption tutorial."
 article:

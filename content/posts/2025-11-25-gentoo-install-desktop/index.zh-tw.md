@@ -2,7 +2,7 @@
 title: "Gentoo Linux 安裝指南 (桌面配置篇)"
 slug: /zh-tw/posts/gentoo-install-desktop/
 translationKey: gentoo-install-desktop
-date: 2025-11-25
+date: 2025-11-30
 summary: "Gentoo Linux 桌面環境配置教學，涵蓋顯示卡驅動、KDE/GNOME/Hyprland、輸入法、字體等。"
 description: "2025 年最新 Gentoo Linux 安裝指南 (桌面配置篇)，涵蓋顯示卡驅動、KDE/GNOME/Hyprland、輸入法、字體等。"
 article:

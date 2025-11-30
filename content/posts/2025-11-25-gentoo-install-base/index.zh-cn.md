@@ -4,7 +4,7 @@ slug: gentoo-install
 aliases:
   - /zh-cn/posts/gentoo-install/
 translationKey: gentoo-install
-date: 2025-11-25
+date: 2025-11-30
 summary: "Gentoo Linux 基础系统安装教程，涵盖分区、Stage3、内核编译、引导程序配置等。也突出有 LUKS 全盘加密教学。"
 description: "2025 年最新 Gentoo Linux 安装指南 (基础篇)，详细讲解 UEFI 安装流程、内核编译等。适合 Linux 进阶用户和 Gentoo 新手。也突出有 LUKS 全盘加密教学。"
 article:

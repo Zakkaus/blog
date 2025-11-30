@@ -4,7 +4,7 @@ slug: /zh-tw/posts/gentoo-install-advanced/
 aliases:
   - /zh-tw/posts/gentoo-optimization/
 translationKey: gentoo-install-advanced
-date: 2025-11-25
+date: 2025-11-30
 summary: "Gentoo Linux 進階優化教學，涵蓋 make.conf 優化、LTO、系統維護等。"
 description: "2025 年最新 Gentoo Linux 安裝指南 (進階優化篇)，涵蓋 make.conf 優化、LTO、系統維護等。"
 article:

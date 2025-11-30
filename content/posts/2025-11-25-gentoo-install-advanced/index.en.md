@@ -4,7 +4,7 @@ slug: gentoo-install-advanced
 aliases:
   - /posts/gentoo-optimization/
 translationKey: gentoo-install-advanced
-date: 2025-11-25
+date: 2025-11-30
 summary: "Gentoo Linux advanced optimization tutorial, covering make.conf optimization, LTO, Tmpfs, system maintenance, etc."
 description: "2025 Latest Gentoo Linux Installation Guide (Advanced Optimization), covering make.conf optimization, LTO, Tmpfs, system maintenance, etc."
 article:

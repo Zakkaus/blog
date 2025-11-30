@@ -4,7 +4,7 @@ slug: gentoo-install
 aliases:
   - /zh-tw/posts/gentoo-install/
 translationKey: gentoo-install
-date: 2025-11-25
+date: 2025-11-30
 summary: "Gentoo Linux 基礎系統安裝教學，涵蓋分割區、Stage3、核心編譯、引導程式配置等。也突出有 LUKS 全碟加密教學。"
 description: "2025 年最新 Gentoo Linux 安裝指南 (基礎篇)，詳細講解 UEFI 安裝流程、核心編譯等。適合 Linux 進階使用者和 Gentoo 新手。也突出有 LUKS 全碟加密教學。"
 article:
@@ -60,7 +60,6 @@ authors:
 > **非常建議以官方手冊為準**：
 > - [Gentoo Handbook: AMD64](https://wiki.gentoo.org/wiki/Handbook:AMD64)
 > - [Gentoo Handbook: AMD64 (簡體中文)](https://wiki.gentoo.org/wiki/Handbook:AMD64/zh-cn)
-
 > 本文為新遷移內容，如有不足之處敬請見諒。
 >
 > ---

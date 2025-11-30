@@ -18,6 +18,11 @@ buildFuture = false
 
 enableEmoji = true
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      typographer = false
+
 googleAnalytics = ""
 
 [pagination]

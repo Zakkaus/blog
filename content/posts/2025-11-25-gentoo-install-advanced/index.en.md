@@ -5,8 +5,8 @@ aliases:
   - /posts/gentoo-optimization/
 translationKey: gentoo-install-advanced
 date: 2025-11-30
-summary: "Gentoo Linux advanced optimization tutorial, covering make.conf optimization, LTO, Tmpfs, system maintenance, etc."
-description: "2025 Latest Gentoo Linux Installation Guide (Advanced Optimization), covering make.conf optimization, LTO, Tmpfs, system maintenance, etc."
+summary: "Gentoo Linux advanced optimization tutorial, covering make.conf optimization, LTO, system maintenance, etc."
+description: "2025 Latest Gentoo Linux Installation Guide (Advanced Optimization), covering make.conf optimization, LTO, system maintenance, etc."
 article:
   showHero: true
   heroStyle: background
@@ -30,24 +30,30 @@ authors:
   - zakkaus
 ---
 
-> **Special Note**
-> 
-> This article is Part 3 of the **Gentoo Linux Installation Guide**: **Advanced Optimization**.
-> 
-> **Series Navigation**:
-> 1. [Base Installation](/posts/gentoo-install/): Installing Gentoo base system from scratch
-> 2. [Desktop Configuration](/posts/gentoo-install-desktop/): Graphics drivers, desktop environments, input methods, etc.
-> 3. **Advanced Optimization (This Article)**: make.conf optimization, LTO, system maintenance
->
-> **Previous Step**: [Desktop Configuration](/posts/gentoo-install-desktop/)
+<div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
 
-> **Image Credit**: [Pixiv](https://www.pixiv.net/artworks/115453639)
+### Special Note
+
+This article is the third part of the **Gentoo Linux Installation Guide** series: **Advanced Optimization**.
+
+**Series Navigation**:
+1. [Base Installation](/posts/gentoo-install/): Install Gentoo base system from scratch
+2. [Desktop Configuration](/posts/gentoo-install-desktop/): Graphics drivers, Desktop Environments, Input methods, etc.
+3. [Advanced Optimization](/posts/gentoo-install-advanced/): make.conf optimization, LTO, System maintenance
+
+**Previous Step**: [Desktop Configuration](/posts/gentoo-install-desktop/)
+
+</div>
 
 ## 13. make.conf Advanced Configuration Guide
 
-> **Reference**: [make.conf](https://wiki.gentoo.org/wiki//etc/portage/make.conf)
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
 
-`/etc/portage/make.conf` is Gentoo's global configuration file, controlling compiler, optimization parameters, USE flags, etc.
+**Reference**: [make.conf](https://wiki.gentoo.org/wiki//etc/portage/make.conf)
+
+</div>
+
+`/etc/portage/make.conf` is Gentoo's global configuration file, controlling compiler, optimization flags, USE flags, etc.
 
 #### 1. Compiler Configuration
 
@@ -68,14 +74,14 @@ FFLAGS="${COMMON_FLAGS}"    # Fortran 77
 #### 2. Parallel Compilation Configuration
 
 ```bash
-MAKEOPTS="-j<Cores> -l<LoadLimit>"
-EMERGE_DEFAULT_OPTS="--jobs=<ParallelPackages> --load-average=<Load>"
+MAKEOPTS="-j<core_count> -l<load_limit>"
+EMERGE_DEFAULT_OPTS="--jobs=<parallel_package_count> --load-average=<load>"
 ```
 
 **Recommended Values**:
-- **4 Cores / 8 Threads**: `MAKEOPTS="-j8 -l8"`, `EMERGE_DEFAULT_OPTS="--jobs=2"`
-- **8 Cores / 16 Threads**: `MAKEOPTS="-j16 -l16"`, `EMERGE_DEFAULT_OPTS="--jobs=4"`
-- **16 Cores / 32 Threads**: `MAKEOPTS="-j32 -l32"`, `EMERGE_DEFAULT_OPTS="--jobs=6"`
+- **4 Cores/8 Threads**: `MAKEOPTS="-j8 -l8"`, `EMERGE_DEFAULT_OPTS="--jobs=2"`
+- **8 Cores/16 Threads**: `MAKEOPTS="-j16 -l16"`, `EMERGE_DEFAULT_OPTS="--jobs=4"`
+- **16 Cores/32 Threads**: `MAKEOPTS="-j32 -l32"`, `EMERGE_DEFAULT_OPTS="--jobs=6"`
 
 #### 3. USE Flags Configuration
 
@@ -94,7 +100,7 @@ USE="${USE} -doc -test"
 | **Desktop** | `wayland`, `X`, `gtk`, `qt6` | Desktop protocols and toolkits |
 | **Audio** | `pipewire`, `pulseaudio`, `alsa` | Audio system |
 | **Video** | `ffmpeg`, `x264`, `vpx` | Video codecs |
-| **I18n** | `nls`, `icu` | Localization support |
+| **Internationalization** | `cjk`, `nls`, `icu` | Chinese support |
 | **Disable** | `-doc`, `-test`, `-examples` | Disable unnecessary features |
 
 
@@ -120,7 +126,11 @@ INPUT_DEVICES="libinput"
 CPU_FLAGS_X86="<cpuid2cpuflags output>"
 ```
 
-> See: [5.3 CPU Instruction Set Optimization (CPU_FLAGS_X86)](/posts/gentoo-install/#step-5-portage)
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+
+**See also**: [5.3 CPU Instruction Set Optimization (CPU_FLAGS_X86)](/posts/gentoo-install/#step-5-portage)
+
+</div>
 
 #### 6. Portage Features
 
@@ -132,11 +142,11 @@ FEATURES="parallel-fetch parallel-install candy ccache"
 - `parallel-fetch`: Parallel download
 - `parallel-install`: Parallel install
 - `candy`: Beautify output
-- `ccache`: Compilation cache (Requires `dev-build/ccache`)
+- `ccache`: Compilation cache (Need to install `dev-build/ccache`)
 
 #### 7. Complete Configuration Example
 
-**Newcomer Recommended Config**:
+**Beginner Recommended Config**:
 ```bash
 # /etc/portage/make.conf
 COMMON_FLAGS="-march=native -O2 -pipe"
@@ -155,58 +165,70 @@ FEATURES="parallel-fetch candy"
 ACCEPT_LICENSE="*"
 ```
 
-### 13.1 Daily Maintenance: How to be a Qualified Sysadmin
+### 13.1 Daily Maintenance: How to be a Qualified System Administrator
 
-> **Reference**: [Upgrading Gentoo](https://wiki.gentoo.org/wiki/Upgrading_Gentoo) and [Gentoo Cheat Sheet](https://wiki.gentoo.org/wiki/Gentoo_Cheat_Sheet)
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+
+**Reference**: [Upgrading Gentoo](https://wiki.gentoo.org/wiki/Upgrading_Gentoo) · [Gentoo Cheat Sheet](https://wiki.gentoo.org/wiki/Gentoo_Cheat_Sheet)
+
+</div>
 
 Gentoo is a rolling release distribution, maintaining the system is an important part of the user experience.
 
 **1. Keep System Updated**
-Recommended to update system every one to two weeks to avoid accumulating too many updates causing dependency conflicts.
+Recommended to update system once every one or two weeks, to avoid accumulating too many updates causing dependency conflicts.
 ```bash
 emerge --sync              # Sync software repository
 emerge -avuDN @world       # Update all software
 ```
 
-**2. Check Official News (Important)**
-Before updating or when encountering issues, be sure to check if there are official news pushes.
+**2. Follow Official News (Important)**
+Before updating or encountering problems, be sure to check if there are official news pushes.
 ```bash
 eselect news list          # List news
 eselect news read          # Read news
 ```
 
-**3. Handle Config File Updates**
-After software updates, configuration files might also update. **Do not ignore** `etc-update` or `dispatch-conf` prompts.
+**3. Handle Configuration File Updates**
+After software updates, configuration files may also update. **Do not ignore** `etc-update` or `dispatch-conf` prompts.
 ```bash
-dispatch-conf              # Interactive config merge (Recommended)
+dispatch-conf              # Interactive merge config files (Recommended)
 # Or
 etc-update
 ```
 
-**4. Clean Unused Dependencies**
-> **Reference**: [Remove orphaned packages](https://wiki.gentoo.org/wiki/Knowledge_Base:Remove_orphaned_packages)
+**4. Clean Up Unused Dependencies**
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+
+**Reference**: [Remove orphaned packages](https://wiki.gentoo.org/wiki/Knowledge_Base:Remove_orphaned_packages)
+
+</div>
 
 ```bash
 emerge --ask --depclean    # Remove orphaned dependencies no longer needed
 ```
 
-**5. Regularly Clean Source Packages**
+**5. Regularly Clean Up Source Packages**
 ```bash
 emerge --ask app-portage/gentoolkit # Install toolkit
-eclean-dist                         # Clean old downloaded source packages
+eclean-dist                         # Clean up downloaded old source packages
 ```
 
 **6. Automatically Handle USE Changes**
-> **Reference**: [Autounmask-write](https://wiki.gentoo.org/wiki/Knowledge_Base:Autounmask-write) and [Dispatch-conf](https://wiki.gentoo.org/wiki/Dispatch-conf)
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
 
-When install or update prompts "The following USE changes are necessary":
-1.  **Let Portage auto-write config**: `emerge --ask --autounmask-write <package>`
-2.  **Confirm and update config**: `dispatch-conf` (Press u to confirm, q to exit)
-3.  **Try operation again**: `emerge --ask <package>`
+**Reference**: [Autounmask-write](https://wiki.gentoo.org/wiki/Knowledge_Base:Autounmask-write) · [Dispatch-conf](https://wiki.gentoo.org/wiki/Dispatch-conf)
+
+</div>
+
+When installing or updating software prompts "The following USE changes are necessary":
+1.  **Let Portage automatically write config**: `emerge --ask --autounmask-write <package_name>`
+2.  **Confirm and update config**: `dispatch-conf` (Press u to confirm, q to quit)
+3.  **Try operation again**: `emerge --ask <package_name>`
 
 **7. Handle Software Conflicts (Blocked Packages)**
 If encountering "Error: The above package list contains packages which cannot be installed at the same time...":
-- **Solution**: According to prompt, manually uninstall conflicting software (`emerge --deselect <package>` then `emerge --depclean`).
+- **Solution**: Follow prompts, manually uninstall conflicting software (`emerge --deselect <package_name>` then `emerge --depclean`).
 
 **8. Security Check (GLSA)**
 Gentoo publishes Security Announcements (GLSA) to notify users of potential security vulnerabilities.
@@ -220,56 +242,64 @@ Regularly check system logs and service status to ensure system health.
 - **OpenRC**:
     ```bash
     rc-status      # View service status
-    tail -f /var/log/messages # View system log (Need syslog-ng etc.)
+    tail -f /var/log/messages # View system logs (Need to install syslog-ng etc.)
     ```
 - **Systemd (Journalctl Common Commands)**:
-    | Command | Effect |
+    | Command | Function |
     | ---- | ---- |
     | `systemctl --failed` | View failed services |
     | `journalctl -b` | View logs of this boot |
     | `journalctl -b -1` | View logs of last boot |
-    | `journalctl -f` | Follow latest logs (Like tail -f) |
+    | `journalctl -f` | Follow latest logs in real-time (Like tail -f) |
     | `journalctl -p err` | Show only Error level logs |
-    | `journalctl -u <service>` | View logs of specific service |
-    | `journalctl --since "1 hour ago"` | View logs of last 1 hour |
+    | `journalctl -u <service_name>` | View logs of specific service |
+    | `journalctl --since "1 hour ago"` | View logs from last 1 hour |
     | `journalctl --disk-usage` | View disk usage of logs |
-    | `journalctl --vacuum-time=2weeks` | Clean logs older than 2 weeks |
+    | `journalctl --vacuum-time=2weeks` | Clean up logs older than 2 weeks |
 
 ### 13.2 Portage Tips and Directory Structure
 
-> **Reference**: [Portage](https://wiki.gentoo.org/wiki/Portage) and [/etc/portage](https://wiki.gentoo.org/wiki//etc/portage)
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+
+**Reference**: [Portage](https://wiki.gentoo.org/wiki/Portage) · [/etc/portage](https://wiki.gentoo.org/wiki//etc/portage)
+
+</div>
 
 **1. Core Directory Structure (`/etc/portage/`)**
-Gentoo configuration is very flexible, recommended to use **directories** instead of single files to manage config:
+Gentoo's configuration is very flexible, recommended to use **directories** instead of single files to manage configuration:
 
 | File/Directory | Usage |
 | --------- | ---- |
-| `make.conf` | Global compilation parameters (CFLAGS, MAKEOPTS, USE, GENTOO_MIRRORS) |
-| `package.use/` | USE flag config for specific software |
-| `package.accept_keywords/` | Allow installing testing version (keyword) software |
-| `package.mask/` | Mask specific version software |
-| `package.unmask/` | Unmask specific version software |
-| `package.license/` | Accept specific software licenses |
-| `package.env/` | Environment variables for specific software (e.g., use different compiler flags) |
+| `make.conf` | Global compilation flags (CFLAGS, MAKEOPTS, USE, GENTOO_MIRRORS) |
+| `package.use/` | USE flag configuration for specific software |
+| `package.accept_keywords/` | Allow installing testing (keyword) software |
+| `package.mask/` | Mask specific versions of software |
+| `package.unmask/` | Unmask specific versions of software |
+| `package.license/` | Accept licenses for specific software |
+| `package.env/` | Environment variables for specific software (e.g. use different compiler flags) |
 
 **2. Common Emerge Command Cheat Sheet**
-> Full manual please run `man emerge`
+> For full manual run `man emerge`
 
-| Parameter (Abbr) | Effect | Example |
+| Parameter (Abbr.) | Function | Example |
 | ----------- | ---- | ---- |
-| `--ask` (`-a`) | Ask confirmation before execution | `emerge -a vim` |
+| `--ask` (`-a`) | Ask for confirmation before execution | `emerge -a vim` |
 | `--verbose` (`-v`) | Show detailed info (USE flags etc.) | `emerge -av vim` |
-| `--oneshot` (`-1`) | Install but don't add to World file | `emerge -1 rust` |
-| `--update` (`-u`) | Update package | `emerge -u vim` |
-| `--deep` (`-D`) | Deep dependency calculation | `emerge -uD @world` |
+| `--oneshot` (`-1`) | Install but don't add to World file (Not as system dependency) | `emerge -1 rust` |
+| `--update` (`-u`) | Update software packages | `emerge -u vim` |
+| `--deep` (`-D`) | Deep dependency calculation (Update dependencies of dependencies) | `emerge -uD @world` |
 | `--newuse` (`-N`) | Recompile when USE flags change | `emerge -uDN @world` |
-| `--depclean` (`-c`) | Clean unused orphaned dependencies | `emerge -c` |
+| `--depclean` (`-c`) | Clean up orphaned dependencies no longer needed | `emerge -c` |
 | `--deselect` | Remove from World file (Don't uninstall) | `emerge --deselect vim` |
-| `--search` (`-s`) | Search package (Recommend eix) | `emerge -s vim` |
-| `--info` | Show Portage environment info (Debug) | `emerge --info` |
+| `--search` (`-s`) | Search software packages (Recommended to use eix) | `emerge -s vim` |
+| `--info` | Show Portage environment info (For debugging) | `emerge --info` |
 
-**3. Fast Package Search (Eix)**
-> **Reference**: [Eix](https://wiki.gentoo.org/wiki/Eix)
+**3. Quick Package Search (Eix)**
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+
+**Reference**: [Eix](https://wiki.gentoo.org/wiki/Eix)
+
+</div>
 > `emerge --search` is slow, recommended to use `eix` for millisecond-level search.
 
 1.  **Install and Update Index**:
@@ -280,8 +310,8 @@ Gentoo configuration is very flexible, recommended to use **directories** instea
 2.  **Search Software**:
     ```bash
     eix <keyword>        # Search all software
-    eix -I <keyword>     # Search installed software only
-    eix -R <keyword>     # Search remote Overlay (Need eix-remote config)
+    eix -I <keyword>     # Search only installed software
+    eix -R <keyword>     # Search remote Overlay (Need to configure eix-remote)
     ```
 
 ---
@@ -292,16 +322,26 @@ To improve subsequent compilation speed, recommended to configure tmpfs and ccac
 
 ### 14.1 Configure tmpfs (In-memory Compilation)
 
-> **Reference**: [Tmpfs](https://wiki.gentoo.org/wiki/Tmpfs)
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
 
-Mount compilation temp directory to memory, reducing SSD wear and speeding up compilation.
+**Reference**: [Tmpfs](https://wiki.gentoo.org/wiki/Tmpfs)
+
+</div>
+
+Mount compilation temporary directory to memory, reducing SSD wear and speeding up compilation.
 
 <details>
-<summary><b>Tmpfs Configuration Guide (Click to Expand)</b></summary>
+<summary><b>Tmpfs Configuration Guide (Click to expand)</b></summary>
 
-> **Note**: `size` should not exceed your physical memory size (recommended half of memory), otherwise system might become unstable.
+<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
 
-Edit `/etc/fstab`, add following line (size recommended half of memory, e.g., 16G):
+**Note**
+
+`size` should not exceed your physical memory size (Recommended to set to half of memory), otherwise may cause system instability.
+
+</div>
+
+Edit `/etc/fstab`, add the following line (size recommended to be half of memory, e.g. 16G):
 ```fstab
 tmpfs   /var/tmp/portage   tmpfs   size=16G,uid=portage,gid=portage,mode=775,noatime   0 0
 ```
@@ -313,7 +353,11 @@ mount /var/tmp/portage
 
 ### 14.2 Configure ccache (Compilation Cache)
 
-> **Reference**: [Ccache](https://wiki.gentoo.org/wiki/Ccache)
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+
+**Reference**: [Ccache](https://wiki.gentoo.org/wiki/Ccache)
+
+</div>
 
 Cache compilation intermediates, speeding up recompilation.
 ```bash
@@ -323,12 +367,12 @@ ccache -M 20G  # Set cache size to 20GB
 
 ### 14.3 Handle Large Software Compilation (Avoid tmpfs full)
 
-Large software like Firefox, LibreOffice might exhaust tmpfs space during compilation. We can configure Portage to let these specific software use hard disk for compilation.
+Large software like Firefox, LibreOffice may exhaust tmpfs space during compilation. We can configure Portage to let these specific software use hard disk for compilation.
 
 <details>
-<summary><b>Notmpfs Configuration Guide (Click to Expand)</b></summary>
+<summary><b>Notmpfs Configuration Guide (Click to expand)</b></summary>
 
-1. Create config directory:
+1. Create config directories:
    ```bash
    mkdir -p /etc/portage/env
    mkdir -p /var/tmp/notmpfs
@@ -340,7 +384,7 @@ Large software like Firefox, LibreOffice might exhaust tmpfs space during compil
    ```
 
 3. Apply config to specific software:
-   Edit `/etc/portage/package.env` (Create file if it's a directory):
+   Edit `/etc/portage/package.env` (Create file if it is a directory):
    ```bash
    vim /etc/portage/package.env
    ```
@@ -350,49 +394,70 @@ Large software like Firefox, LibreOffice might exhaust tmpfs space during compil
    app-office/libreoffice notmpfs.conf
    dev-qt/qtwebengine notmpfs.conf
    ```
+
 </details>
 
 ### 14.4 LTO and Clang Optimization
 
-Detailed configuration please refer to **Section 15 Advanced Compilation Optimization**.
+For detailed configuration please refer to **Section 15 Advanced Compilation Optimization**.
 
 ---
 
 ## 15. LTO and Clang Compilation Optimization (Optional)
 
-> **Risk Warning**: LTO will significantly increase compilation time and memory consumption, and may cause some software compilation failures. **Strongly not recommended to enable globally**, only recommended for specific software (like browsers).
+<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
+
+**Risk Warning**
+
+LTO will significantly increase compilation time and memory consumption, and may cause some software compilation failures. **Strongly NOT recommended to enable globally**, only recommended to enable for specific software (like browsers).
+
+</div>
 
 ### 15.1 Link Time Optimization (LTO)
-> **Reference**: [LTO](https://wiki.gentoo.org/wiki/LTO)
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
 
-LTO (Link Time Optimization) defers optimization to linking stage, bringing performance improvement and size reduction.
+**Reference**: [LTO](https://wiki.gentoo.org/wiki/LTO)
 
-<details>
-<summary><b>LTO Pros & Cons Detailed Analysis (Click to Expand)</b></summary>
+</div>
+
+LTO (Link Time Optimization) defers optimization to the linking stage, bringing performance improvements and size reduction.
+
+<details style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1rem; border-radius: 0.75rem; margin: 1rem 0; border: 1px solid rgba(59, 130, 246, 0.2);">
+<summary style="cursor: pointer; font-weight: bold; color: #1d4ed8;">LTO Pros and Cons Detailed Analysis (Click to expand)</summary>
+
+<div style="margin-top: 1rem;">
 
 **Pros**:
-- Performance improvement (Usually double digits)
-- Binary size reduction
-- Startup time improvement
+*   Performance improvement (Usually double digits)
+*   Binary size reduction
+*   Startup time improvement
 
 **Cons**:
-- Compilation time increases 2-3 times
-- Huge memory consumption
-- Stability risks
-- Troubleshooting difficulties
+*   Compilation time increases 2-3 times
+*   Huge memory consumption
+*   Stability risk
+*   Troubleshooting difficulty
+
+</div>
 
 </details>
 
-> **Newcomer Tip**: If your system is 4-core CPU with 4GB RAM, time spent on compilation might far exceed performance gain from optimization. Please weigh pros and cons based on hardware config.
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
 
-**1. Enable via USE Flag (Most Recommended)**
+**Beginner Tip**
+
+If your system is 4-core CPU with 4GB memory, then time spent on compilation may far exceed performance improvement brought by optimization. Please weigh pros and cons according to hardware configuration.
+
+</div>
+
+**1. Enable using USE flags (Most Recommended)**
 
 For large software like Firefox and Chromium, official ebuilds usually provide tested `lto` and `pgo` USE flags:
 
 Enable in `/etc/portage/package.use/browser`:
 ```text
 www-client/firefox lto pgo
-www-client/chromium lto pgo  # Note: PGO might not work under Wayland environment
+www-client/chromium lto pgo  # Note: PGO may not be usable in Wayland environment
 ```
 
 **USE="lto" Flag Explanation**: Some packages need special fixes to support LTO, can enable `lto` USE flag globally or for specific packages:
@@ -417,12 +482,18 @@ app-editors/vim lto.conf
 
 **3. Enable LTO Globally (GCC System)**
 
-> **Warning**: Global LTO will cause massive package compilation failures, requiring frequent maintenance of exclusion list, **not recommended for beginners**.
+<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
+
+**Warning**
+
+Global LTO will cause massive package compilation failures, requiring frequent maintenance of exclusion lists, **NOT recommended for beginners to try**.
+
+</div>
 
 Edit `/etc/portage/make.conf`:
 ```bash
-# These warnings indicate runtime issues LTO might cause, promote to error
-# -Werror=odr: One Definition Rule violation (Multiple definition of same symbol)
+# These warnings indicate runtime issues potentially caused by LTO, promote them to errors
+# -Werror=odr: One Definition Rule violation (Multiple definitions of same symbol)
 # -Werror=lto-type-mismatch: LTO type mismatch
 # -Werror=strict-aliasing: Strict aliasing violation
 WARNING_FLAGS="-Werror=odr -Werror=lto-type-mismatch -Werror=strict-aliasing"
@@ -444,13 +515,25 @@ USE="lto"  # Enable USE flag for LTO support
 
 **4. Enable LTO Globally (LLVM/Clang System - Recommend ThinLTO)**
 
-> **Default Recommendation**: If using Clang, strongly recommend using ThinLTO (`-flto=thin`) instead of Full LTO (`-flto`). ThinLTO is faster, uses less memory, supports parallelization.
+<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
 
-> **Warning**: If `clang-common` does not enable `default-lld` USE flag, must add `-fuse-ld=lld` to `LDFLAGS`.
+**Default Recommendation**
+
+If using Clang, strongly recommend using ThinLTO (`-flto=thin`) instead of Full LTO (`-flto`). ThinLTO is faster, uses less memory, and supports parallelization.
+
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
+
+**Warning**
+
+If `clang-common` does not have `default-lld` USE flag enabled, MUST add `-fuse-ld=lld` in `LDFLAGS`.
+
+</div>
 
 Edit `/etc/portage/make.conf`:
 ```bash
-# Clang has not fully implemented these diagnostics yet, but keep flags for future use
+# Clang currently does not fully implement these diagnostics, but keep these flags for future use
 # -Werror=odr: One Definition Rule violation detection (Clang partially supports)
 # -Werror=strict-aliasing: Strict aliasing violation detection (Clang developing)
 WARNING_FLAGS="-Werror=odr -Werror=strict-aliasing"
@@ -458,7 +541,7 @@ WARNING_FLAGS="-Werror=odr -Werror=strict-aliasing"
 # -O2: Optimization level 2 (Balance performance and stability)
 # -pipe: Use pipes to speed up compilation
 # -march=native: Optimize for current CPU
-# -flto=thin: Enable ThinLTO (Recommended, fast and parallel)
+# -flto=thin: Enable ThinLTO (Recommended, fast and parallelizable)
 COMMON_FLAGS="-O2 -pipe -march=native -flto=thin ${WARNING_FLAGS}"
 CFLAGS="${COMMON_FLAGS}"          # C compiler flags
 CXXFLAGS="${COMMON_FLAGS}"        # C++ compiler flags
@@ -469,20 +552,26 @@ LDFLAGS="${COMMON_FLAGS} ${LDFLAGS}"  # Linker flags
 USE="lto"  # Enable USE flag for LTO support
 ```
 
-**ThinLTO vs Full LTO (Recommended for Newcomers)**:
+**ThinLTO vs Full LTO (Recommended for beginners to read)**:
 
 | Type | Flag | Pros | Cons | Recommended Scenario |
 |------|------|------|------|----------|
-| **ThinLTO** | `-flto=thin` | • Fast<br>• Low memory usage<br>• Supports parallelization<br>• Compilation speed up 2-3x | • Only Clang/LLVM supports | **Default Recommended** (Clang Users) |
+| **ThinLTO** | `-flto=thin` | • Fast<br>• Low memory usage<br>• Supports parallelization<br>• Compilation speedup 2-3x | • Only Clang/LLVM supports | **Default Recommendation** (Clang Users) |
 | Full LTO | `-flto` | • Deeper optimization<br>• Both GCC and Clang support | • Slow<br>• High memory usage<br>• Serial processing | GCC Users or need extreme optimization |
 
-> **Newcomer Tip**: If you use Clang, please be sure to use `-flto=thin`. This is current best practice, significantly reducing compilation time while ensuring performance.
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**Beginner Tip**
+
+If you use Clang, please be sure to use `-flto=thin`. This is currently the best practice, significantly reducing compilation time while ensuring performance.
+
+</div>
 
 **5. Rust LTO Configuration**
 
 **On LLVM System**:
 ```bash
-# Add to /etc/portage/make.conf
+# Add in /etc/portage/make.conf
 RUSTFLAGS="${RUSTFLAGS} -Clinker-plugin-lto"
 ```
 
@@ -520,7 +609,7 @@ dev-lang/rust llvm-lto.conf
 For special configuration of specific packages (like disabling LTO or low memory mode), use `package.env` for fine-grained control.
 
 <details>
-<summary><b>Config 1: Packages with LTO Disabled (no-lto) - Click to Expand</b></summary>
+<summary><b>Config 1: Package List Disabling LTO (no-lto) - Click to expand</b></summary>
 
 Some packages are known to be incompatible with LTO. Recommended to create `/etc/portage/env/nolto.conf`:
 
@@ -538,7 +627,7 @@ Create `/etc/portage/package.env/no-lto` file (Containing known issue packages):
 
 ```bash
 # Packages known to have compatibility issues with LTO
-# Still compile with Clang, but disable LTO
+# Still compile using Clang, but disable LTO
 
 app-misc/jq no-lto.conf
 app-shells/zsh no-lto.conf
@@ -578,13 +667,13 @@ x11-wm/mutter no-lto.conf
 </details>
 
 <details>
-<summary><b>Config 2: Low Memory Compilation Mode (low-memory) - Click to Expand</b></summary>
+<summary><b>Config 2: Low Memory Compilation Mode (low-memory) - Click to expand</b></summary>
 
-For large projects (like Chromium, Rust), recommended to use low memory config to prevent OOM.
+For large projects (like Chromium, Rust), recommended to use low memory configuration to prevent OOM.
 
 Create `/etc/portage/env/low-memory.conf`:
 ```bash
-# Reduce parallel tasks, e.g., change to -j2 or -j4
+# Reduce parallel task count, e.g. change to -j2 or -j4
 MAKEOPTS="-j4"
 # Optional: Remove some memory-consuming optimization flags
 COMMON_FLAGS="-O2 -pipe"
@@ -611,19 +700,34 @@ virtual/rust low-memory.conf
 ```
 </details>
 
-> **Tip**: If encountering other LTO related linking errors, please try disabling LTO for that package first. Also check Gentoo Bugzilla for related reports.](https://bugs.gentoo.org) Search if related report exists (Search "package_name lto"). If it's a new issue, welcome to submit bug report to help improve Gentoo.
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**Tip**
+
+If encountering other LTO related link errors, please try disabling LTO for that package first. You can also check [Gentoo Bugzilla](https://bugs.gentoo.org) to search if there are related reports (Search "package_name lto"). If it is a new issue, welcome to submit bug report to help improve Gentoo.
+
+</div>
 
 ### 15.2 Compile with Clang
-> **Reference**: [Clang](https://wiki.gentoo.org/wiki/Clang)
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+
+**Reference**: [Clang](https://wiki.gentoo.org/wiki/Clang)
+
+</div>
 
 **Prerequisites**: Install Clang and LLD
 ```bash
 emerge --ask llvm-core/clang llvm-core/lld
 ```
 
-> **Important Note**:
-> - Some packages (like `sys-libs/glibc`, `app-emulation/wine`) cannot compile with Clang, still need GCC.
-> - Gentoo maintains [bug #408963](https://bugs.gentoo.org/408963) to track packages failing to compile with Clang.
+<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+
+**Important Tip**
+
+- Some packages (like `sys-libs/glibc`, `app-emulation/wine`) cannot be compiled with Clang, still need GCC.
+- Gentoo maintains [bug #408963](https://bugs.gentoo.org/408963) to track packages failing to compile with Clang.
+
+</div>
 
 **1. Enable for Specific Software (Recommended)**
 
@@ -637,7 +741,7 @@ NM="llvm-nm"
 RANLIB="llvm-ranlib"
 ```
 
-Apply to specific software (e.g., `app-editors/neovim`), add in `/etc/portage/package.env`:
+Apply to specific software (e.g. `app-editors/neovim`), add in `/etc/portage/package.env`:
 ```text
 app-editors/neovim clang.conf
 ```
@@ -646,28 +750,39 @@ app-editors/neovim clang.conf
 
 **3. PGO Support (Profile Guided Optimization)**
 
-> **Note**: If PGO support is needed (e.g., `dev-lang/python[pgo]`), need to install following packages:
+<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+
+**Note**
+
+If PGO support is needed (e.g. `dev-lang/python[pgo]`), need to install following packages:
+
+</div>
 
 ```bash
 emerge --ask llvm-core/clang-runtime
 emerge --ask llvm-runtimes/compiler-rt-sanitizers
 ```
 
-Enable relevant USE flags in `/etc/portage/package.use`:
+Enable related USE flags in `/etc/portage/package.use`:
 ```text
 llvm-core/clang-runtime sanitize
 llvm-runtimes/compiler-rt-sanitizers profile orc
 ```
 
-> **Warning**:
-> - If `profile` and `orc` USE flags are not enabled, packages with `pgo` USE flag (like `dev-lang/python[pgo]`) will fail to compile.
-> - Compilation log might report error: `ld.lld: error: cannot open /usr/lib/llvm/18/bin/../../../../lib/clang/18/lib/linux/libclang_rt.profile-x86_64.a`
+<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
+
+**Warning**
+
+- If `profile` and `orc` USE flags are not enabled, packages with `pgo` USE flag (like `dev-lang/python[pgo]`) will fail to compile.
+- Compilation log may report error: `ld.lld: error: cannot open /usr/lib/llvm/18/bin/../../../../lib/clang/18/lib/linux/libclang_rt.profile-x86_64.a`
+
+</div>
 
 **4. Enable Globally (Not Recommended for Beginners)**
 
-Switching globally to Clang requires most system software support, and handling lots of compatibility issues, **only recommended for advanced users**.
+Switching to Clang globally requires most system software support, and needs to handle a large number of compatibility issues, **only recommended for advanced users to try**.
 
-To enable globally, add in `/etc/portage/make.conf`:
+If need to enable globally, add in `/etc/portage/make.conf`:
 ```bash
 CC="clang"
 CXX="clang++"
@@ -679,7 +794,7 @@ RANLIB="llvm-ranlib"
 
 **GCC Fallback Environment**
 
-For packages unable to compile with Clang, create `/etc/portage/env/gcc.conf`:
+For packages that cannot be compiled with Clang, create `/etc/portage/env/gcc.conf`:
 ```bash
 CC="gcc"
 CXX="g++"
@@ -689,7 +804,7 @@ NM="nm"
 RANLIB="ranlib"
 ```
 
-Specify GCC usage for specific software in `/etc/portage/package.env`:
+Specify GCC for specific software in `/etc/portage/package.env`:
 ```text
 sys-libs/glibc gcc.conf
 app-emulation/wine gcc.conf
@@ -701,9 +816,13 @@ app-emulation/wine gcc.conf
 
 ## 16. Kernel Compilation Advanced Guide (Optional) {#section-16-kernel-advanced}
 
-> Reference: [Kernel](https://wiki.gentoo.org/wiki/Kernel), [Kernel/Configuration](https://wiki.gentoo.org/wiki/Kernel/Configuration), [Genkernel](https://wiki.gentoo.org/wiki/Genkernel)
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1rem; border-radius: 0.5rem; border-left: 4px solid rgb(59, 130, 246); margin: 1rem 0;">
 
-This section is for advanced users wishing to deeply control kernel compilation, including using LLVM/Clang compilation, enabling LTO optimization, automated configuration, etc.
+**Reference**: [Kernel](https://wiki.gentoo.org/wiki/Kernel)、[Kernel/Configuration](https://wiki.gentoo.org/wiki/Kernel/Configuration)、[Genkernel](https://wiki.gentoo.org/wiki/Genkernel)
+
+</div>
+
+This section is for advanced users who want to deeply control kernel compilation, including using LLVM/Clang compilation, enabling LTO optimization, automated configuration, etc.
 
 ### 16.1 Preparation
 
@@ -715,7 +834,7 @@ emerge --ask sys-kernel/gentoo-sources
 # (Optional) Install Genkernel for automation
 emerge --ask sys-kernel/genkernel
 
-# (Optional) Needed for LLVM/Clang compilation
+# (Optional) Required for compiling with LLVM/Clang
 emerge --ask llvm-core/llvm \
     llvm-core/clang llvm-core/lld
 ```
@@ -726,8 +845,8 @@ Before configuring kernel, understanding your hardware is very important:
 
 **View CPU Info**:
 ```bash
-lscpu  # View CPU model, cores, architecture etc.
-cat /proc/cpuinfo | grep "model name" | head -1  # CPU Model
+lscpu  # View CPU model, core count, architecture etc.
+cat /proc/cpuinfo | grep "model name" | head -1  # CPU model
 ```
 
 **View PCI Devices (Graphics, Network, etc.)**:
@@ -750,7 +869,7 @@ lsmod | wc -l  # Module count
 
 ### 16.3 Auto Configure Kernel Based on Current Modules
 
-If you want to keep all working hardware support from current system (like LiveCD):
+If you want to keep hardware support for all currently working hardware (like LiveCD):
 
 ```bash
 cd /usr/src/linux
@@ -764,11 +883,17 @@ zcat /proc/config.gz > .config  # If current kernel supports
 make olddefconfig  # Update config using defaults
 ```
 
-> **Newcomer Tip**: `localmodconfig` is the safest method, ensuring your hardware works while removing unneeded drivers.
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
 
-### 16.4 Manually Configure Kernel Options
+**Beginner Tip**
 
-**Enter Config Interface**:
+`localmodconfig` is the safest method, it ensures your hardware works properly while removing unneeded drivers.
+
+</div>
+
+### 16.4 Manual Kernel Option Configuration
+
+**Enter Configuration Interface**:
 ```bash
 cd /usr/src/linux
 make menuconfig  # Text interface (Recommended)
@@ -812,7 +937,7 @@ make menuconfig  # Text interface (Recommended)
 
 **Common Options Reference**:
 
-| English Option | Description | Key Config |
+| English Option | Description | Key Configuration |
 | :--- | :--- | :--- |
 | **General setup** | General setup | Local hostname, Systemd/OpenRC support |
 | **Processor type and features** | Processor type and features | CPU model selection, Microcode loading |
@@ -824,11 +949,17 @@ make menuconfig  # Text interface (Recommended)
 | **Device Drivers** | Device Drivers | Graphics, Network, Sound, USB, NVMe drivers |
 | **File systems** | File systems | ext4, btrfs, vfat, ntfs support |
 | **Security options** | Security options | SELinux, AppArmor |
-| **Gentoo Linux** | Gentoo specific options | Portage dependency auto-select (Recommended) |
+| **Gentoo Linux** | Gentoo Linux | Portage dependency auto-selection (Recommended) |
 
-> **Important Suggestion**: For manual compilation, recommended to compile **critical drivers** (like filesystem, disk controller, network card) directly into kernel (Select `[*]` or `<*>` i.e., `=y`), instead of as modules (`<M>` i.e., `=m`). This avoids issues where initramfs missing modules causes boot failure.
+<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
 
-**Essential Options to Enable** (Based on your system):
+**Important Recommendation**
+
+For manual compilation, recommended to compile **critical drivers** (like filesystem, disk controller, network card) directly into kernel (Select `[*]` or `<*>` i.e. `=y`), instead of as modules (`<M>` i.e. `=m`). This avoids issues where initramfs missing modules causes boot failure.
+
+</div>
+
+**Required Options** (Depending on your system):
 
 1. **Processor Support**:
    - `General setup → Gentoo Linux support`
@@ -866,15 +997,27 @@ make menuconfig  # Text interface (Recommended)
        └─ [*] systemd support # If using systemd
    
    [*] Kernel Self Protection Project
-       Enable kernel self protection mechanisms (Improve security)
+       Enable kernel self-protection mechanisms (Improve security)
    
    [*] Print firmware information that the kernel attempts to load
-       Print firmware loading info at boot (Easier for debugging)
+       Show firmware loading info at boot (For debugging)
    ```
 
-   > **Newcomer Tip**: Enabling "Select options required by Portage features" can automatically configure most essential options, highly recommended!
+ <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
 
-> **Tip**: In menuconfig, press `/` to search options, press `?` to view help.
+**Beginner Tip**
+
+Enabling "Select options required by Portage features" can automatically configure most required options, highly recommended!
+
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**Tip**
+
+In menuconfig, press `/` to search options, press `?` to view help.
+
+</div>
 
 ### 16.5 Auto Enable Recommended Options
 
@@ -883,10 +1026,10 @@ Gentoo provides automation scripts to enable common hardware and features:
 ```bash
 cd /usr/src/linux
 
-# Use Genkernel's default config (Contains most hardware support)
+# Use Genkernel default config (Includes most hardware support)
 genkernel --kernel-config=/usr/share/genkernel/arch/x86_64/kernel-config all
 
-# Or use distro default config as base
+# Or use distribution default config as base
 make defconfig  # Kernel default config
 # Then adjust as needed
 make menuconfig
@@ -923,23 +1066,28 @@ General setup
   → Link Time Optimization (LTO) → Clang ThinLTO (NEW)      # Enable ThinLTO (Strongly Recommended)
 ```
 
-> **Important Warning**: **Strongly NOT recommended to use Full LTO** for kernel compilation!
-> - Full LTO causes extremely slow compilation (Might take hours)
-> - Consumes huge memory (Might need 16GB+ RAM)
-> - Prone to linking errors
-> - **Please be sure to use ThinLTO**, it's faster, more stable, uses less memory
+<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
+
+**Important Warning: Strongly NOT recommended to use Full LTO for kernel compilation!**
+
+*   Full LTO causes extremely slow compilation (may take hours)
+*   Consumes massive memory (may need 16GB+ RAM)
+*   Prone to link errors
+*   **Please be sure to use ThinLTO**, it is faster, more stable, uses less memory
+
+</div>
 
 ### 16.7 Kernel Compilation Option Optimization
 
 <details>
-<summary><b>Advanced Compilation Optimization (Click to Expand)</b></summary>
+<summary><b>Advanced Compilation Optimization (Click to expand)</b></summary>
 
 **Enable in `menuconfig`**:
 
 ```
 General setup
   → Compiler optimization level
-     → [*] Optimize for performance (-O2)  # Or -O3, but might be unstable
+     → [*] Optimize for performance (-O2)  # Or -O3, but may be unstable
 
   → Link Time Optimization (LTO)
      → [*] Clang ThinLTO                   # Requires LLVM=1
@@ -962,7 +1110,7 @@ General setup
 
 ### 16.8 Compile and Install Kernel
 
-**Manual Compile**:
+**Manual Compilation**:
 ```bash
 cd /usr/src/linux
 
@@ -977,7 +1125,7 @@ make LLVM=1 modules_install
 make LLVM=1 install
 ```
 
-**Using Genkernel Automation**:
+**Use Genkernel Automation**:
 ```bash
 # Basic Usage
 genkernel --install all
@@ -985,18 +1133,18 @@ genkernel --install all
 # Use LLVM/Clang
 genkernel --kernel-cc=clang --utils-cc=clang --install all
 
-# Enable LTO (Need manual .config)
+# Enable LTO (Need manual config .config)
 genkernel --kernel-make-opts="LLVM=1" --install all
 ```
 
 ### 16.9 Kernel Statistics and Analysis
 
-After compilation, use following script to view kernel statistics:
+After compilation, use the following script to view kernel statistics:
 
 ```bash
 cd /usr/src/linux
 
-echo "=== Kernel Stats ==="
+echo "=== Kernel Statistics ==="
 echo "Built-in: $(grep -c '=y$' .config)"
 echo "Modules: $(grep -c '=m$' .config)"
 echo "Total Config: $(wc -l < .config)"
@@ -1006,7 +1154,7 @@ echo "Compression: $(grep '^CONFIG_KERNEL_' .config | grep '=y' | sed 's/CONFIG_
 
 **Example Output**:
 ```
-=== Kernel Stats ===
+=== Kernel Statistics ===
 Built-in: 1723
 Modules: 201
 Total Config: 6687
@@ -1017,17 +1165,22 @@ Compression: ZSTD
 **Interpretation**:
 - **Built-in (1723)**: Number of features compiled into kernel binary
 - **Modules (201)**: Number of drivers as loadable modules
-- **Kernel Size (11M)**: Final kernel file size (Compressed with ZSTD)
+- **Kernel Size (11M)**: Final kernel file size (After ZSTD compression)
 
-> **Optimization Suggestion**:
-> - Kernel Size < 15MB: Excellent (Lean config)
-> - Kernel Size 15-30MB: Good (Standard config)
-> - Kernel Size > 30MB: Consider disabling unneeded features
+<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
+
+**Optimization Recommendation**
+
+*   Kernel Size < 15MB: Excellent (Minimal config)
+*   Kernel Size 15-30MB: Good (Standard config)
+*   Kernel Size > 30MB: Consider disabling unneeded features
+
+</div>
 
 ### 16.10 Common Troubleshooting
 
 <details>
-<summary><b>Compilation Errors and Solutions (Click to Expand)</b></summary>
+<summary><b>Compilation Errors and Solutions (Click to expand)</b></summary>
 
 **Error 1: Missing Dependency**
 ```
@@ -1044,7 +1197,7 @@ make olddefconfig
 ```
 ld.lld: error: undefined symbol
 ```
-Solution: Some modules incompatible with LTO, disable LTO or set problematic module to `=y` (instead of `=m`)
+Solution: Some modules are incompatible with LTO, disable LTO or set problematic module to `=y` (instead of `=m`)
 
 **Error 3: clang version too old**
 ```
@@ -1054,9 +1207,9 @@ Solution: Upgrade LLVM/Clang or use GCC to compile
 
 </details>
 
-### 16.11 Kernel Config Best Practices
+### 16.11 Kernel Configuration Best Practices
 
-1. **Save Config**:
+1. **Save Configuration**:
    ```bash
    # Save current config to external file
    cp .config ~/kernel-config-backup
@@ -1066,13 +1219,13 @@ Solution: Upgrade LLVM/Clang or use GCC to compile
    make olddefconfig
    ```
 
-2. **View Config Diff**:
+2. **View Config Differences**:
    ```bash
    # Compare two config files
    scripts/diffconfig .config ../old-kernel/.config
    ```
 
-3. **Minimize Config** (Only include essential features):
+3. **Minimal Configuration** (Only include required features):
    ```bash
    make tinyconfig  # Create minimal config
    make localmodconfig  # Then add current hardware support
@@ -1082,13 +1235,17 @@ Solution: Upgrade LLVM/Clang or use GCC to compile
 
 ## 17. Server and RAID Configuration (Optional) {#section-17-server-raid}
 
-> **Reference**: [Gentoo Wiki: Mdadm](https://wiki.gentoo.org/wiki/Mdadm)
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
 
-This section applies to server users needing to configure Soft RAID (mdadm).
+**Reference**: [Gentoo Wiki: Mdadm](https://wiki.gentoo.org/wiki/Mdadm)
 
-### 17.1 Kernel Configuration (Required for Manual Compile)
+</div>
 
-If you compile kernel manually, must enable following options (**Note: Must compile into kernel `<*>` i.e., `=y`, cannot be module `<M>`**):
+This section applies to server users who need to configure software RAID (mdadm).
+
+### 17.1 Kernel Configuration (Manual Compilation Required)
+
+If you manually compile kernel, MUST enable following options (**Note: MUST compile into kernel `<*>` i.e. `=y`, cannot be module `<M>`**):
 
 ```
 Device Drivers  --->
@@ -1096,7 +1253,7 @@ Device Drivers  --->
         <*> RAID support
             [*] Autodetect RAID arrays during kernel boot
 
-            # Select based on your RAID level (Must select Y):
+            # Select according to your RAID level (MUST select Y):
             <*> Linear (append) mode                   # Linear mode
             <*> RAID-0 (striping) mode                 # RAID 0
             <*> RAID-1 (mirroring) mode                # RAID 1
@@ -1104,12 +1261,12 @@ Device Drivers  --->
             <*> RAID-4/RAID-5/RAID-6 mode              # RAID 5/6
 ```
 
-### 17.2 Configure Dracut to Load RAID Modules (Required for dist-kernel)
+### 17.2 Configure Dracut to Load RAID Modules (dist-kernel Required)
 
-If you use `dist-kernel` (Distribution Kernel) or compiled RAID drivers as modules, **must** force load RAID drivers via Dracut, otherwise cannot boot.
+If you use `dist-kernel` (Distribution Kernel) or compiled RAID drivers as modules, **MUST** force load RAID drivers via Dracut, otherwise cannot boot.
 
 <details>
-<summary><b>Dracut RAID Configuration Guide (Click to Expand)</b></summary>
+<summary><b>Dracut RAID Configuration Guide (Click to expand)</b></summary>
 
 **1. Enable mdraid support**
 Create `/etc/dracut.conf.d/mdraid.conf`:
@@ -1134,7 +1291,7 @@ You need to find RAID array UUID and add to kernel parameters.
 Create `/etc/dracut.conf.d/mdraid-cmdline.conf`:
 ```bash
 # Kernel command line parameters for RAID arrays
-# Please replace with your actual RAID UUID (Check via mdadm --detail --scan)
+# Please replace with your actual RAID UUID (View via mdadm --detail --scan)
 kernel_cmdline="rd.md.uuid=68b53b0a:c6bd2ca0:caed4380:1cd75aeb rd.md.uuid=c8f92d69:59d61271:e8ffa815:063390ed"
 ```
 
@@ -1143,7 +1300,13 @@ kernel_cmdline="rd.md.uuid=68b53b0a:c6bd2ca0:caed4380:1cd75aeb rd.md.uuid=c8f92d
 dracut --force
 ```
 
-> **Tip**: After config, be sure to check if `/boot/initramfs-*.img` contains RAID modules:
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**Tip**
+
+After configuration, be sure to check if `/boot/initramfs-*.img` contains RAID modules:
+
+</div>
 > `lsinitrd /boot/initramfs-*.img | grep raid`
 
 </details>
@@ -1152,11 +1315,19 @@ dracut --force
 
 ## References {#reference}
 
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
+
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem;">
+
 ### Official Documentation
 
 - **[Gentoo Handbook: AMD64](https://wiki.gentoo.org/wiki/Handbook:AMD64)** Official Latest Guide
 - [Gentoo Wiki](https://wiki.gentoo.org/)
 - [Portage Documentation](https://wiki.gentoo.org/wiki/Portage)
+
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.05)); padding: 1.5rem; border-radius: 0.75rem;">
 
 ### Community Support
 
@@ -1169,8 +1340,16 @@ dracut --force
 - [Gentoo Forums](https://forums.gentoo.org/)
 - IRC: `#gentoo` @ [Libera.Chat](https://libera.chat/)
 
+</div>
+
+</div>
+
 ## Conclusion
 
-**Wish you enjoy freedom and flexibility on Gentoo!**
+<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; text-align: center;">
 
-This guide is based on official [Handbook:AMD64](https://wiki.gentoo.org/wiki/Handbook:AMD64) and simplified the process, marking optional steps, allowing more people to try easily.
+### Wish you enjoy freedom and flexibility on Gentoo!
+
+This guide is based on official [Handbook:AMD64](https://wiki.gentoo.org/wiki/Handbook:AMD64) and simplified the process, marking optional steps, to let more people try easily.
+
+</div>

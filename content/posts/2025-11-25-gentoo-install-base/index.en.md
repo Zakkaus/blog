@@ -797,24 +797,82 @@ export PS1="(chroot) ${PS1}"    # Modify prompt to distinguish environment
 </div>
 
 <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
-Partition number (1,2, default 2): 2
-Partition type or alias (type L to list all): 19
-Changed type of partition 'Linux filesystem' to 'Linux swap'.
+
+**Why is this step needed?**
+
+Portage is Gentoo's package management system and its core feature. Initializing Portage and configuring `make.conf` is like setting a "build blueprint" for your new system, determining how software is compiled, which features to use, and where to download from.
+
+</div>
+
+### 5.1 Sync Portage Tree
+
+```bash
+emerge-webrsync   # Get latest Portage snapshot (faster than rsync)
+emerge --sync     # Sync Portage tree (get latest ebuilds)
+emerge --ask app-editors/vim # Install Vim editor (recommended)
+eselect editor list          # List available editors
+eselect editor set vi        # Set Vim as default editor (vi is usually a symlink to vim)
 ```
-*(Note: Type 19 is Linux swap)*
 
-**5. Create Root Partition**
-
-Allocate remaining space to Root partition:
-
-```text
-Command (m for help): n
-Partition number (3-128, default 3): 3
-First sector (...): <Enter>
-Last sector (...): <Enter>
-
-Created a new partition 3 of type 'Linux filesystem' and of size 926.5 GiB.
+Set mirrors (choose one):
+```bash
+mirrorselect -i -o >> /etc/portage/make.conf
+# Or manually:
+# Using official Gentoo mirrors as example
+echo 'GENTOO_MIRRORS="https://distfiles.gentoo.org/"' >> /etc/portage/make.conf
 ```
+
+### 5.2 make.conf Example
+
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+
+**Reference**: [Gentoo Handbook: AMD64 - USE flags](https://wiki.gentoo.org/wiki/Handbook:AMD64/Working/USE) · [/etc/portage/make.conf](https://wiki.gentoo.org/wiki//etc/portage/make.conf)
+
+</div>
+
+Edit `/etc/portage/make.conf`:
+```bash
+vim /etc/portage/make.conf
+```
+
+**Lazy/Beginner Configuration (Copy & Paste)**:
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**Tip**
+
+Please adjust the `-j` parameter in `MAKEOPTS` according to your CPU core count (e.g., use `-j8` for 8-core CPU).
+
+</div>
+
+```conf
+COMMON_FLAGS="-march=native -O2 -pipe"
+CFLAGS="${COMMON_FLAGS}"
+CXXFLAGS="${COMMON_FLAGS}"
+FCFLAGS="${COMMON_FLAGS}"
+FFLAGS="${COMMON_FLAGS}"
+MAKEOPTS="-j8"
+USE="X wayland pulseaudio"
+ACCEPT_LICENSE="*"
+ACCEPT_KEYWORDS="~amd64"
+L10N="en en-US"
+VIDEO_CARDS="amdgpu radeonsi intel i965 iris nouveau nvidia"
+INPUT_DEVICES="libinput"
+GENTOO_MIRRORS="https://distfiles.gentoo.org/"
+```
+
+<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+
+**Important**
+
+This configuration does **NOT** enable LTO, ccache optimization. If you want advanced optimization, please refer to [**13. make.conf Advanced Configuration Guide**](/posts/gentoo-install-advanced/#section-13-makeconf).
+
+</div>
+
+<details>
+<summary><b>Detailed Configuration (Click to expand)</b></summary>
+
+Edit `/etc/portage/make.conf`:
+
 
 <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
 

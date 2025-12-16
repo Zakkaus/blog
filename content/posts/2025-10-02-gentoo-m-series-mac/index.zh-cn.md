@@ -1,5 +1,5 @@
 ---
-title: "在 Apple Silicon Mac 上安装 Gentoo Linux（M1/M2/M3/M4 完整教程）"
+title: "在 Apple Silicon Mac 上安装 Gentoo Linux（M1/M2 MacBook 安装教程）"
 slug: gentoo-m-series-mac-arm64
 aliases:
   - /zh-cn/posts/gentoo-m-series-mac/
@@ -20,7 +20,17 @@ featureImageAlt: "Gentoo Chan"
 
 **简介**
 
-本指南将引导你在 Apple Silicon Mac（M1/M2/M3/M4）上安装原生 ARM64 Gentoo Linux。
+本指南将引导你在 Apple Silicon Mac（**M1/M2 系列**）上安装原生 ARM64 Gentoo Linux。
+
+<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1rem; border-radius: 0.5rem; border-left: 4px solid rgb(239, 68, 68); margin: 1rem 0;">
+
+**⚠️ 重要提示：硬件兼容性**
+
+**支持的设备**：M1 和 M2 系列 MacBook（Pro、Air、Mac Mini 等）
+
+**暂不支持**：M3、M4、M5 系列芯片目前暂不支持，请等待 Asahi Linux 项目更新。
+
+</div>
 
 **重要更新**：Asahi Linux 项目团队（尤其是 [chadmed](https://github.com/chadmed/gentoo-asahi-releng)）的卓越工作使得现在有了[官方 Gentoo Asahi 安装指南](https://wiki.gentoo.org/wiki/Project:Asahi/Guide)，安装流程已大幅简化。
 
@@ -30,9 +40,9 @@ featureImageAlt: "Gentoo Chan"
 *   清楚标记可选与必选步骤
 *   简化版适合所有人（包含加密选项）
 
-已验证至 2025 年 11 月 20日。
+已验证至 2025 年 11 月 20 日。
 
-**目标平台**：Apple Silicon Mac（M1/M2/M3/M4）ARM64 架构。本指南使用 Asahi Linux 引导程序进行初始设置，然后转换为完整的 Gentoo 环境。
+**目标平台**：Apple Silicon Mac（**M1/M2 系列**）ARM64 架构。本指南使用 Asahi Linux 引导程序进行初始设置，然后转换为完整的 Gentoo 环境。
 
 </div>
 
@@ -73,7 +83,7 @@ featureImageAlt: "Gentoo Chan"
 
 ### 硬件需求
 
-*   Apple Silicon Mac（M1/M2/M3/M4 系列芯片）
+*   Apple Silicon Mac（**仅 M1/M2 系列芯片，M3/M4/M5 暂不支持**）
 *   至少 80 GB 的可用磁盘空间（建议 120 GB+）
 *   稳定的网络连接（Wi-Fi 或以太网）
 *   备份所有重要数据

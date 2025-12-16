@@ -1,5 +1,5 @@
 ---
-title: "Installing Gentoo Linux on Apple Silicon Mac (M1/M2/M3/M4 Complete Guide)"
+title: "Installing Gentoo Linux on Apple Silicon Mac (M1/M2 MacBook Installation Guide)"
 slug: gentoo-m-series-mac-arm64
 aliases:
   - /posts/gentoo-m-series-mac/
@@ -20,7 +20,17 @@ featureImageAlt: "Gentoo Chan"
 
 **Introduction**
 
-This guide will lead you through installing native ARM64 Gentoo Linux on Apple Silicon Mac (M1/M2/M3/M4).
+This guide will lead you through installing native ARM64 Gentoo Linux on Apple Silicon Mac (**M1/M2 series**).
+
+<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1rem; border-radius: 0.5rem; border-left: 4px solid rgb(239, 68, 68); margin: 1rem 0;">
+
+**⚠️ Important Note: Hardware Compatibility**
+
+**Supported Devices**: M1 and M2 series MacBook (Pro, Air, Mac Mini, etc.)
+
+**Not Yet Supported**: M3, M4, M5 series chips are currently not supported. Please wait for Asahi Linux project updates.
+
+</div>
 
 **Important Update**: Thanks to the excellent work of the Asahi Linux project team (especially [chadmed](https://github.com/chadmed/gentoo-asahi-releng)), there is now an [Official Gentoo Asahi Installation Guide](https://wiki.gentoo.org/wiki/Project:Asahi/Guide), and the installation process has been significantly simplified.
 
@@ -32,7 +42,7 @@ This guide will lead you through installing native ARM64 Gentoo Linux on Apple S
 
 Verified as of November 20, 2025.
 
-**Target Platform**: Apple Silicon Mac (M1/M2/M3/M4) ARM64 architecture. This guide uses the Asahi Linux bootloader for initial setup, then converts to a full Gentoo environment.
+**Target Platform**: Apple Silicon Mac (**M1/M2 series**) ARM64 architecture. This guide uses the Asahi Linux bootloader for initial setup, then converts to a full Gentoo environment.
 
 </div>
 
@@ -73,7 +83,7 @@ You can now use the [asahi-gentoosupport automation script](https://github.com/c
 
 ### Hardware Requirements
 
-*   Apple Silicon Mac (M1/M2/M3/M4 series chips)
+*   Apple Silicon Mac (**M1/M2 series chips only, M3/M4/M5 not yet supported**)
 *   At least 80 GB of free disk space (Recommended 120 GB+)
 *   Stable network connection (Wi-Fi or Ethernet)
 *   Backup all important data

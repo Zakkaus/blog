@@ -40,7 +40,7 @@ featureImageAlt: "Gentoo Chan"
 *   清楚标记可选与必选步骤
 *   简化版适合所有人（包含加密选项）
 
-已验证至 2025 年 11 月 20 日。
+已验证至 2025 年 11 月 20日。
 
 **目标平台**：Apple Silicon Mac（**M1/M2 系列**）ARM64 架构。本指南使用 Asahi Linux 引导程序进行初始设置，然后转换为完整的 Gentoo 环境。
 

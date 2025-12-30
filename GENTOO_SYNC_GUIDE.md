@@ -31,6 +31,7 @@ This document summarizes the synchronization workflow, language differences, and
         *   **Crucial**: Replace `/mirrorlist/` with `https://www.gentoo.org/downloads/mirrors/`.
         *   **Crucial**: Replace `/download/` with `https://www.gentoo.org/downloads/`.
 *   **Mirrors**: Retain recommendation for Chinese mirrors (USTC, TUNA, Aliyun).
+*   **LiveGUI Recommendation**: Gig-OS LiveGUI (https://iso.gig-os.org/) with Chinese support and login credentials.
 
 ### Traditional Chinese (`.zh-tw.md`)
 *   **Details**: Converted from `zh-cn` using OpenCC and custom terminology fixes.
@@ -39,6 +40,7 @@ This document summarizes the synchronization workflow, language differences, and
     *   **Terms**: `软件` -> `軟體`, `默认` -> `預設`, etc.
     *   **Mirrors**: Replaced Chinese mirrors with Taiwan/Global mirrors (NCHC, CICKU).
     *   **Links**: Same adjustments as `zh-cn`.
+*   **LiveGUI Recommendation**: Same as `zh-cn` - Gig-OS LiveGUI with Chinese support.
 
 ### English (`.en.md`)
 *   **Details**: Manually translated/adapted from `zh-tw` (to ensure latest content).
@@ -47,6 +49,25 @@ This document summarizes the synchronization workflow, language differences, and
     *   **Mirrors**: Removed specific regional mirror configs in favor of generic examples or `mirrorselect`.
     *   **Links**: Pointed to official `gentoo.org` documentation and download pages.
     *   **Downloads**: Explicitly linked to `https://www.gentoo.org/downloads/`.
+*   **LiveGUI Recommendation**: Official Gentoo LiveGUI USB Image (link to official downloads page).
+
+## Content-Specific Differences
+
+### LiveGUI USB Image Recommendations
+Different recommendations based on target audience:
+
+*   **Chinese versions** (`zh-cn`, `zh-tw`): 
+    *   Recommend Gig-OS LiveGUI (https://iso.gig-os.org/)
+    *   Include login credentials (live/live/live)
+    *   Mention Chinese language support, fcitx5, and other features
+    
+*   **English version** (`en`):
+    *   Recommend official Gentoo LiveGUI USB Image
+    *   Link to https://www.gentoo.org/downloads/
+    *   Emphasize general benefits (browser, Wi-Fi setup, multiple terminals)
+
+**Affected Articles**:
+- `2025-11-25-gentoo-install-base`
 
 ## Maintenance Workflow
 
@@ -64,6 +85,7 @@ When `gentoo-zh` updates:
     *   Diff the `zh-tw` changes.
     *   Translate updates to `en` files manually.
     *   Ensure English tone and global context.
+    *   **Important**: Apply audience-specific content (e.g., LiveGUI recommendations).
 
 ## Common Replacements
 
@@ -74,3 +96,16 @@ When `gentoo-zh` updates:
 | `https://www.gentoo.org.cn/mirrorlist/` | `https://www.gentoo.org/downloads/mirrors/` |
 
 **Note**: The blog does NOT have a local `/mirrorlist/` or `/download/` page. Always link to official Gentoo resources.
+
+## Known Issues & Fixes
+
+### Slug Consistency (2025-12-31)
+**Issue**: Article `2025-10-02-gentoo-m-series-mac` had inconsistent slugs between languages, causing view count desynchronization.
+
+*   **Problem**: 
+    - English: `slug: gentoo-m-series-mac`
+    - Chinese: `slug: gentoo-m-series-mac-arm64`
+    
+*   **Fix**: Changed English slug to `gentoo-m-series-mac-arm64` with alias for old URL.
+
+*   **Lesson**: Always ensure `slug` field matches across all language versions for proper analytics tracking and language switching.

@@ -243,15 +243,14 @@ wget https://distfiles.gentoo.org/releases/amd64/autobuilds/YYYYMMDDTHHMMSSZ/ins
 
 **Beginner Recommendation: Use LiveGUI USB Image**
 
-If you prefer using a browser directly or connecting to Wi-Fi more conveniently during installation, you can choose **LiveGUI USB Image**.
+If you prefer using a browser directly or connecting to Wi-Fi more conveniently during installation, you can choose the **official Gentoo LiveGUI USB Image**.
 
-**Recommended for beginners: Weekly built KDE desktop Live ISO**: <https://iso.gig-os.org/>
-(From Gig-OS <https://github.com/Gig-OS> project)
+This image provides a graphical desktop environment which makes it easier to:
+- Connect to Wi-Fi networks
+- Browse documentation during installation
+- Use multiple terminal windows
 
-**Live ISO Login Credentials**:
-- Account: `live`
-- Password: `live`
-- Root Password: `live`
+Check the [official Gentoo downloads page](https://www.gentoo.org/downloads/) for the latest LiveGUI images.
 
 </div>
 

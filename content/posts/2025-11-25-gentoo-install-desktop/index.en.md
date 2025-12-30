@@ -79,11 +79,23 @@ After logging in, please ensure your network connection is normal.
 
 <div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
 
-**Reference**: [make.conf](https://wiki.gentoo.org/wiki//etc/portage/make.conf)
+**Reference**: [make.conf](https://wiki.gentoo.org/wiki//etc/portage/make.conf) · [Handbook: VIDEO_CARDS](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation#VIDEO_CARDS) · [Advanced Section 13](/posts/gentoo-install-advanced/#13-makeconf-advanced-guide)
 
 </div>
 
-`/etc/portage/make.conf` is Gentoo's global configuration file. At this stage, we only need to configure graphics cards, input devices, and localization options. Detailed compilation optimization configuration will be introduced in **Section 13.0**.
+`/etc/portage/make.conf` is Gentoo's global configuration file. At this stage, we only need to configure input devices and localization options.
+
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**Important Note**
+
+Basic make.conf settings were done in [Base Installation Section 5.2](/posts/gentoo-install/#52-makeconf-example). This section only adds desktop-related settings.
+
+For details on compilation optimization, USE flags, license management etc., please check [Advanced Section 13](/posts/gentoo-install-advanced/#13-makeconf-advanced-guide).
+
+</div>
+
+#### Configure make.conf
 
 ```bash
 vim /etc/portage/make.conf
@@ -91,11 +103,6 @@ vim /etc/portage/make.conf
 
 Add or modify the following configurations:
 ```bash
-# Graphics Drivers (select based on hardware)
-VIDEO_CARDS="nvidia"        # NVIDIA
-# VIDEO_CARDS="amdgpu radeonsi" # AMD
-# VIDEO_CARDS="intel i965 iris" # Intel
-
 # Input Devices
 INPUT_DEVICES="libinput"
 
@@ -107,16 +114,68 @@ LINGUAS="en en_US"
 USE="${USE} wayland X pipewire pulseaudio alsa"
 ```
 
+#### Configure Graphics Drivers (VIDEO_CARDS)
+
+<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+
+**Recommendation**
+
+According to [Gentoo Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation#VIDEO_CARDS), it is recommended to use `package.use` instead of setting `VIDEO_CARDS` in `make.conf` for more flexible management.
+
+</div>
+
+Create package.use file and configure video cards:
+
+```bash
+mkdir -p /etc/portage/package.use
+vim /etc/portage/package.use/video-cards
+```
+
+**Choose settings based on your hardware** (Reference table below):
+
+```bash
+# NVIDIA Graphics
+# */* VIDEO_CARDS: nvidia
+
+# AMD Graphics (Sea Islands and newer)
+# */* VIDEO_CARDS: amdgpu radeonsi
+
+# Intel Graphics
+# */* VIDEO_CARDS: intel
+
+# Virtual Machine (QEMU/KVM)
+# */* VIDEO_CARDS: virgl
+```
+
+<details>
+<summary><b>Graphics Hardware Reference Table (Click to expand)</b></summary>
+
+| Platform | Discrete GPU | VIDEO_CARDS Value | Note |
+|---------|---------|---------------|------|
+| Intel x86 | None | `intel` | See [Intel Feature Support](https://wiki.gentoo.org/wiki/Intel#Feature_support) |
+| x86/ARM | NVIDIA | `nvidia` | Proprietary (Recommended) |
+| Any | NVIDIA (Except Maxwell/Pascal/Volta) | `nouveau` | Open Source (Poor Performance) |
+| Any | AMD Sea Islands & newer | `amdgpu radeonsi` | Recommended (GCN 1.2+) |
+| Any | ATI & older AMD | See [Radeon Feature Support](https://wiki.gentoo.org/wiki/Radeon#Feature_support) | Legacy |
+| Any | Intel | `intel` | Integrated |
+| Raspberry Pi | N/A | `vc4` | VideoCore IV |
+| QEMU/KVM | Any | `virgl` | Virtual GPU |
+| WSL | Any | `d3d12` | DirectX 12 |
+
+**Details**:
+- [AMDGPU](https://wiki.gentoo.org/wiki/AMDGPU)
+- [Intel](https://wiki.gentoo.org/wiki/Intel)
+- [Nouveau (Open Source)](https://wiki.gentoo.org/wiki/Nouveau)
+- [NVIDIA (Proprietary)](https://wiki.gentoo.org/wiki/NVIDIA)
+
+</details>
+
 ### 12.2 Apply Configuration and Update System [Required]
 
 Apply new USE flags:
 ```bash
 emerge --ask --newuse --deep @world
 ```
-
-
-
-
 
 ### 12.3 Graphics Drivers [Required]
 
@@ -127,8 +186,8 @@ emerge --ask --newuse --deep @world
 </div>
 
 - **NVIDIA Proprietary Driver**: `emerge --ask x11-drivers/nvidia-drivers`
-- **AMD**: Set `VIDEO_CARDS="amdgpu radeonsi"`
-- **Intel**: Set `VIDEO_CARDS="intel i965 iris"`
+- **AMD**: Enable `VIDEO_CARDS: amdgpu radeonsi` in `/etc/portage/package.use/video-cards`
+- **Intel**: Enable `VIDEO_CARDS: intel` in `/etc/portage/package.use/video-cards`
 
 **Configure VAAPI Video Acceleration**
 
@@ -214,7 +273,7 @@ GBM_BACKEND=nvidia-drm
 Create corresponding flags file:
 
 - Chrome Stable: `~/.config/chrome-flags.conf`
-- Chrome Unstable: `~/.config/chrome-dev-flags.conf`  
+- Chrome Unstable: `~/.config/chrome-dev-flags.conf`
 - Chromium: `~/.config/chromium-flags.conf`
 - Edge Beta: `~/.config/microsoft-edge-beta-flags.conf`
 - Edge Dev: `~/.config/microsoft-edge-dev-flags.conf`
@@ -261,7 +320,7 @@ emerge --ask net-wireless/bluez net-wireless/bluez-tools net-wireless/blueman
 
 **Start Service (OpenRC)**
 ```bash
-rc-update add bluetooth default 
+rc-update add bluetooth default
 /etc/init.d/bluetooth start
 ```
 
@@ -429,7 +488,7 @@ Suitable for KDE Plasma, Hyprland and other environments.
    ```conf
    # Force XWayland apps to use Fcitx5
    XMODIFIERS=@im=fcitx
-   
+
    # (Optional) For non-KDE environments or specific apps
    GTK_IM_MODULE=fcitx
    QT_IM_MODULE=fcitx
@@ -508,7 +567,7 @@ If you need to enable Secure Boot, Gentoo recommends using `sbctl` to simplify c
     ```bash
     # Automatically find and sign all known files (including kernel, systemd-boot, etc.)
     sbctl sign-all
-    
+
     # Or manually sign (e.g., GRUB)
     # sbctl sign -s /efi/EFI/Gentoo/grubx64.efi
     ```
@@ -577,7 +636,7 @@ Available Git mirror sources:
    - **Original Source**: `https://distfiles.gentoocn.org/`
    - **Chongqing University**: `https://mirror.cqu.edu.cn/gentoo-zh`
    - **Nanjing University**: `https://mirror.nju.edu.cn/gentoo-zh`
-   
+
    Usage help: https://t.me/gentoocn/56
 
 <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
@@ -623,7 +682,7 @@ Output example:
 ```text
 These are the packages that would be merged, in order:
 
-Calculating dependencies  
+Calculating dependencies
     ... done!
 Dependency resolution took 0.45 s (backtrack: 0/20).
 

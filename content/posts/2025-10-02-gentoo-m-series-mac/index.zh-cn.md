@@ -709,7 +709,7 @@ emerge --sync
 
 **简体中文用户推荐**：可以将上面的 `sync-uri` 改为北外源 `https://mirrors.bfsu.edu.cn/git/gentoo-portage.git` 以获得更快的同步速度
 
-更多镜像源选项参考：[镜像列表](/mirrorlist/)
+更多镜像源选项参考：[Gentoo 镜像列表](https://www.gentoo.org/downloads/mirrors/)
 
 </div>
 

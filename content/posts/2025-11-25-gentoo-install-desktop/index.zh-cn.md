@@ -593,7 +593,7 @@ auto-sync = yes
 
 **可用的 Gentoo Portage Git 镜像源（择一）：**
 
-更多镜像请参考：[镜像列表页面](/mirrorlist/)
+更多镜像请参考：[Gentoo 镜像列表](https://www.gentoo.org/downloads/mirrors/)
 
 - **中国大陆**：
   - `https://mirrors.ustc.edu.cn/git/gentoo-portage.git` - 中国科学技术大学（推荐）

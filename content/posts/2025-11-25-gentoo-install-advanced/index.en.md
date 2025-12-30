@@ -2,11 +2,11 @@
 title: "Gentoo Linux Installation Guide (Advanced Optimization)"
 slug: gentoo-install-advanced
 aliases:
-  - /posts/gentoo-optimization/
+  - /posts/gentoo-install-advanced/
 translationKey: gentoo-install-advanced
 date: 2025-11-30
-summary: "Gentoo Linux advanced optimization tutorial, covering make.conf optimization, LTO, system maintenance, etc."
-description: "2025 Latest Gentoo Linux Installation Guide (Advanced Optimization), covering make.conf optimization, LTO, system maintenance, etc."
+summary: "Gentoo Linux advanced optimization tutorial, covering make.conf optimization, LTO, Tmpfs, system maintenance, etc."
+description: "2025 Latest Gentoo Linux Installation Guide (Advanced Optimization), covering make.conf optimization, LTO, Tmpfs, system maintenance, etc."
 article:
   showHero: true
   heroStyle: background
@@ -34,12 +34,12 @@ authors:
 
 ### Special Note
 
-This article is the third part of the **Gentoo Linux Installation Guide** series: **Advanced Optimization**.
+This article is Part 3 of the **Gentoo Linux Installation Guide** series: **Advanced Optimization**.
 
 **Series Navigation**:
-1. [Base Installation](/posts/gentoo-install/): Install Gentoo base system from scratch
-2. [Desktop Configuration](/posts/gentoo-install-desktop/): Graphics drivers, Desktop Environments, Input methods, etc.
-3. [Advanced Optimization](/posts/gentoo-install-advanced/): make.conf optimization, LTO, System maintenance
+1. [Base Installation](/posts/gentoo-install/): Installing Gentoo base system from scratch
+2. [Desktop Configuration](/posts/gentoo-install-desktop/): Graphics drivers, desktop environments, input methods, etc.
+3. **Advanced Optimization (This Article)**: make.conf optimization, LTO, system maintenance
 
 **Previous Step**: [Desktop Configuration](/posts/gentoo-install-desktop/)
 
@@ -49,270 +49,750 @@ This article is the third part of the **Gentoo Linux Installation Guide** series
 
 <div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
 
-**Reference**: [make.conf](https://wiki.gentoo.org/wiki//etc/portage/make.conf)
+**Official Documentation**: [make.conf - Gentoo Wiki](https://wiki.gentoo.org/wiki//etc/portage/make.conf) · [Base Part Section 5.2: make.conf Example](/posts/gentoo-install/#52-makeconf-example)
 
 </div>
 
-`/etc/portage/make.conf` is Gentoo's global configuration file, controlling compiler, optimization flags, USE flags, etc.
+`/etc/portage/make.conf` is the core configuration file of Gentoo, controlling software package compilation methods, system features, and optimization parameters. This chapter will explain the meaning and best practices of each setting item in depth.
 
-#### 1. Compiler Configuration
+---
 
-**Basic Configuration (Recommended)**
+### 13.1 Compiler Optimization Parameters
+
+These parameters determine how packages are compiled, directly affecting system performance.
+
+#### COMMON_FLAGS: General Compiler Flags
+
 ```bash
 COMMON_FLAGS="-march=native -O2 -pipe"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
-FCFLAGS="${COMMON_FLAGS}"   # Fortran
-FFLAGS="${COMMON_FLAGS}"    # Fortran 77
+FCFLAGS="${COMMON_FLAGS}"
+FFLAGS="${COMMON_FLAGS}"
 ```
 
 **Parameter Explanation**:
-- `-march=native`: Optimize for current CPU (Recommended)
-- `-O2`: Optimization level 2 (Balance performance and stability)
-- `-pipe`: Use pipes to speed up compilation
 
-#### 2. Parallel Compilation Configuration
+| Parameter | Description | Note |
+|------|------|----------|
+| `-march=native` | Optimize for current CPU architecture | Compiled programs may not run on other CPUs |
+| `-O2` | Optimization Level 2 (Recommended) | Balances performance, stability, and compilation time |
+| `-O3` | Aggressive optimization (Not recommended) | May cause some software compilation failures or runtime anomalies |
+| `-pipe` | Use pipes for data transfer | Speeds up compilation, slightly increases memory usage |
+
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**Recommended Setting**
+
+For most users, using `-march=native -O2 -pipe` is sufficient. Unless you clearly know what you are doing, do not use `-O3` or other aggressive optimization parameters.
+
+</div>
+
+#### CPU Instruction Set Optimization (CPU_FLAGS_X86)
+
+CPU instruction set flags are recommended to be automatically detected and written to `CPU_FLAGS_X86` using `app-portage/cpuid2cpuflags`.
+
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+
+**Quick Start**: Refer to [Base Part Section 5.3: CPU Instruction Set Optimization](/posts/gentoo-install/#53-configure-cpu-instruction-set-optimization)
+
+**Full Explanation (Recommended)**: Refer to [Section 13.13: CPU Instruction Set Optimization (CPU_FLAGS_X86)](#1313-cpu-instruction-set-optimization-cpu_flags_x86)
+
+</div>
+
+---
+
+### 13.2 Parallel Compilation Settings
+
+Controls the degree of parallelization in the compilation process; reasonable settings can significantly speed up package installation.
+
+#### MAKEOPTS: Parallel Compilation for Single Package
 
 ```bash
-MAKEOPTS="-j<core_count> -l<load_limit>"
-EMERGE_DEFAULT_OPTS="--jobs=<parallel_package_count> --load-average=<load>"
+MAKEOPTS="-j<threads> -l<load_limit>"
 ```
 
-**Recommended Values**:
-- **4 Cores/8 Threads**: `MAKEOPTS="-j8 -l8"`, `EMERGE_DEFAULT_OPTS="--jobs=2"`
-- **8 Cores/16 Threads**: `MAKEOPTS="-j16 -l16"`, `EMERGE_DEFAULT_OPTS="--jobs=4"`
-- **16 Cores/32 Threads**: `MAKEOPTS="-j32 -l32"`, `EMERGE_DEFAULT_OPTS="--jobs=6"`
+**Recommended Settings** (Based on CPU threads and memory capacity):
 
-#### 3. USE Flags Configuration
+| Hardware Config | MAKEOPTS | Description |
+|---------|----------|------|
+| 4 Cores 8 Threads + 16GB RAM | `-j8 -l8` | Standard setting |
+| 8 Cores 16 Threads + 32GB RAM | `-j16 -l16` | Mainstream setting |
+| 16 Cores 32 Threads + 64GB RAM | `-j32 -l32` | Advanced setting |
+| Insufficient Memory (< 8GB) | `-j<threads/2>` | Halve to avoid running out of memory |
+
+**Parameter Explanation**:
+- `-j<N>`: Number of compilation tasks running simultaneously (Recommended = CPU threads)
+- `-l<N>`: System load limit, pauses new tasks if exceeded
+
+#### EMERGE_DEFAULT_OPTS: Multi-package Parallel Compilation
 
 ```bash
-# Basic USE Example
-USE="systemd dbus policykit"
+EMERGE_DEFAULT_OPTS="--ask --verbose --jobs=<parallel_packages> --load-average=<load>"
+```
+
+**Recommended Settings**:
+
+| CPU Threads | --jobs Value | Description |
+|-----------|----------|------|
+| 4-8 Threads | 2 | Compile 2 packages simultaneously |
+| 12-16 Threads | 3-4 | Compile 3-4 packages simultaneously |
+| 24+ Threads | 4-6 | Compile 4-6 packages simultaneously |
+
+<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+
+**Notes**
+
+- `--jobs` will significantly increase memory usage; use with caution if memory is insufficient.
+- Recommended to use default single-package compilation first, and enable multi-package parallelization after stabilization.
+- Large packages like Chrome, LLVM already consume huge memory when compiling alone.
+
+</div>
+
+---
+
+### 13.3 USE Flags Management
+
+USE flags control software feature toggles, which is the core of Gentoo customization.
+
+#### Global USE Flags
+
+```bash
+USE="systemd dbus policykit networkmanager bluetooth"
 USE="${USE} wayland X gtk qt6"
-USE="${USE} pulseaudio alsa"
-USE="${USE} -doc -test"
+USE="${USE} pipewire pulseaudio alsa"
+USE="${USE} -doc -test -examples"
 ```
 
-**Common USE Flags**:
-| Category | USE Flag | Description |
-| ---- | -------- | ---- |
-| **System** | `systemd` / `openrc` | init system |
-| **Desktop** | `wayland`, `X`, `gtk`, `qt6` | Desktop protocols and toolkits |
-| **Audio** | `pipewire`, `pulseaudio`, `alsa` | Audio system |
-| **Video** | `ffmpeg`, `x264`, `vpx` | Video codecs |
-| **Internationalization** | `cjk`, `nls`, `icu` | Chinese support |
-| **Disable** | `-doc`, `-test`, `-examples` | Disable unnecessary features |
+**Category Explanation**:
 
+<details>
+<summary><b>System and Initialization (Click to expand)</b></summary>
 
-#### 4. Language Configuration
+| USE Flag | Description | Recommendation |
+|---------|------|------|
+| `systemd` | Use systemd init system | Recommended for beginners |
+| `openrc` | Use OpenRC init system | Traditional users |
+| `udev` | Modern device management | Required |
+| `dbus` | Inter-process communication (Desktop required) | Desktop required |
+| `policykit` | Permission management (Desktop required) | Desktop required |
+
+</details>
+
+<details>
+<summary><b>Desktop Environment and Display (Click to expand)</b></summary>
+
+| USE Flag | Description | Recommendation |
+|---------|------|------|
+| `wayland` | Wayland display protocol | Recommended for modern desktop |
+| `X` | X11 display protocol | Good compatibility |
+| `gtk` | GTK+ toolkit (GNOME/Xfce) | GNOME users |
+| `qt6` / `qt5` | Qt toolkit (KDE Plasma) | KDE users |
+| `kde` | KDE integration | KDE users |
+| `gnome` | GNOME integration | GNOME users |
+
+</details>
+
+<details>
+<summary><b>Multimedia and Audio (Click to expand)</b></summary>
+
+| USE Flag | Description | Recommendation |
+|---------|------|------|
+| `pipewire` | Modern audio/video server | Recommended for modern desktop |
+| `pulseaudio` | PulseAudio audio server | Traditional desktop |
+| `alsa` | ALSA audio support | Low-level required |
+| `ffmpeg` | FFmpeg codec support | Recommended |
+| `x264` / `x265` | H.264/H.265 video encoding | Video processing |
+| `vaapi` / `vdpau` | Hardware video acceleration | Recommended with GPU |
+
+</details>
+
+<details>
+<summary><b>Network and Connectivity (Click to expand)</b></summary>
+
+| USE Flag | Description | Recommendation |
+|---------|------|------|
+| `networkmanager` | Graphical network management | Recommended for desktop users |
+| `bluetooth` | Bluetooth support | Enable when needed |
+| `wifi` | Wireless network support | Laptop required |
+
+</details>
+
+<details>
+<summary><b>Internationalization and Documentation (Click to expand)</b></summary>
+
+| USE Flag | Description | Recommendation |
+|---------|------|------|
+| `cjk` | CJK fonts and input method support | Required for Chinese users |
+| `nls` | Native Language Support (Software translation) | Recommended |
+| `icu` | Unicode support | Recommended |
+| `-doc` | Disable documentation installation | Save space |
+| `-test` | Disable test suites | Speed up compilation |
+| `-examples` | Disable example files | Save space |
+
+</details>
+
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**USE Flag Strategy Suggestions**
+
+1. **Minimization Principle**: Only enable features you need, disable unwanted ones (use `-` prefix).
+2. **Category Management**: Add by category using `USE="${USE} ......"` for easier maintenance.
+3. **Single Package Override**: Put USE flags for specific packages in `/etc/portage/package.use/`.
+
+</div>
+
+---
+
+### 13.4 Language and Localization
 
 ```bash
-L10N="en en-US"
-LINGUAS="en en_US"
+# Software translation and documentation support
+L10N="en en-US zh zh-CN zh-TW"
+
+# Legacy localization variable (Some software still needs it)
+LINGUAS="en en_US zh zh_CN zh_TW"
+
+# Keep compilation output in English (Easier for searching errors)
+LC_MESSAGES=C
 ```
 
-#### 5. Hardware Configuration
+---
+
+### 13.5 License Management (ACCEPT_LICENSE)
+
+Controls which software licenses the system can install.
+
+#### Common Configuration Methods
 
 ```bash
-# Graphics Card
-VIDEO_CARDS="nvidia"        # NVIDIA
-# VIDEO_CARDS="amdgpu"      # AMD
-# VIDEO_CARDS="intel"       # Intel
+# Method 1: Accept all licenses (Recommended for beginners)
+ACCEPT_LICENSE="*"
 
-# Input Devices
-INPUT_DEVICES="libinput"
+# Method 2: Only Free Software
+ACCEPT_LICENSE="@FREE"
 
-# CPU Features (Auto detect, run: emerge --ask app-portage/cpuid2cpuflags)
-CPU_FLAGS_X86="<cpuid2cpuflags output>"
+# Method 3: Free Software + Redistributable Binaries
+ACCEPT_LICENSE="@FREE @BINARY-REDISTRIBUTABLE"
+
+# Method 4: Strict Control (Reject all, then explicitly allow)
+ACCEPT_LICENSE="-* @FREE @BINARY-REDISTRIBUTABLE"
+```
+
+#### License Group Explanation
+
+| License Group | Description |
+|---------|------|
+| `@FREE` | All Free Software (OSI/FSF approved) |
+| `@BINARY-REDISTRIBUTABLE` | Binary software permitted for redistribution |
+| `@GPL-COMPATIBLE` | GPL compatible licenses |
+
+#### Single Package License Setting (Recommended Method)
+
+```bash
+# /etc/portage/package.license/firmware
+sys-kernel/linux-firmware linux-fw-redistributable
+sys-firmware/intel-microcode intel-ucode
+
+# /etc/portage/package.license/nvidia
+x11-drivers/nvidia-drivers NVIDIA-r2
 ```
 
 <div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
 
-**See also**: [5.3 CPU Instruction Set Optimization (CPU_FLAGS_X86)](/posts/gentoo-install/#step-5-portage)
+**See also**: [Section 13.12: ACCEPT_LICENSE Software License Details](#1312-accept_license-software-license-details)
 
 </div>
 
-#### 6. Portage Features
+---
+
+### 13.6 Portage Feature Enhancement (FEATURES)
 
 ```bash
-FEATURES="parallel-fetch parallel-install candy ccache"
+FEATURES="parallel-fetch candy"
 ```
 
 **Common FEATURES**:
-- `parallel-fetch`: Parallel download
-- `parallel-install`: Parallel install
-- `candy`: Beautify output
-- `ccache`: Compilation cache (Need to install `dev-build/ccache`)
 
-#### 7. Complete Configuration Example
+| Feature | Description | Recommendation |
+|-----|------|------|
+| `parallel-fetch` | Parallel download source packages | Recommended |
+| `candy` | Beautify emerge output (Color progress bar) | Recommended |
+| `ccache` | Compilation cache (Requires `dev-build/ccache`) | Recommended for frequent recompilation |
+| `parallel-install` | Parallel install (Experimental) | Not recommended |
+| `splitdebug` | Split debug info | Use when debugging |
 
-**Beginner Recommended Config**:
+---
+
+### 13.7 Mirror Setting (GENTOO_MIRRORS)
+
+```bash
+# For more mirrors see: https://www.gentoo.org/downloads/mirrors/
+# Recommended to choose based on location (One or more, space separated)
+
+# Taiwan Mirrors (Recommended)
+GENTOO_MIRRORS="http://ftp.twaren.net/Linux/Gentoo/"
+
+# Or use other mirrors:
+# Mainland China:
+#   GENTOO_MIRRORS="https://mirrors.ustc.edu.cn/gentoo/"            # USTC
+#   GENTOO_MIRRORS="https://mirrors.tuna.tsinghua.edu.cn/gentoo/"   # Tsinghua
+#   GENTOO_MIRRORS="https://mirrors.zju.edu.cn/gentoo/"             # ZJU
+# Hong Kong:
+#   GENTOO_MIRRORS="https://hk.mirrors.cicku.me/gentoo/"            # CICKU
+# Taiwan:
+#   GENTOO_MIRRORS="http://ftp.twaren.net/Linux/Gentoo/"            # NCHC
+#   GENTOO_MIRRORS="https://tw.mirrors.cicku.me/gentoo/"            # CICKU
+# Singapore:
+#   GENTOO_MIRRORS="https://mirror.freedif.org/gentoo/"             # Freedif
+#   GENTOO_MIRRORS="https://sg.mirrors.cicku.me/gentoo/"            # CICKU
+```
+
+---
+
+### 13.8 Compilation Log Settings
+
+```bash
+# Which levels of logs to record
+PORTAGE_ELOG_CLASSES="warn error log qa"
+
+# Log saving method
+PORTAGE_ELOG_SYSTEM="save"  # Save to /var/log/portage/elog/
+```
+
+**Log Level Explanation**:
+- `warn`: Warning info (Configuration issues)
+- `error`: Error info (Compilation failure)
+- `log`: Normal log
+- `qa`: QA warning (Security issues)
+
+---
+
+### 13.9 Graphics Cards and Input Devices
+
+<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+
+**Important Note**
+
+`VIDEO_CARDS` and `INPUT_DEVICES` are **NOT recommended** to be set globally in make.conf.
+
+Recommended to use `/etc/portage/package.use/` to set for specific packages, see [Desktop Configuration Section 12.1](/posts/gentoo-install-desktop/#121-global-configuration).
+
+</div>
+
+---
+
+### 13.10 Complete Configuration Example
+
+<details>
+<summary><b>Beginner Recommended Config (Click to expand)</b></summary>
+
 ```bash
 # /etc/portage/make.conf
+# vim: set filetype=bash
+
+# ========== Compiler Optimization ==========
 COMMON_FLAGS="-march=native -O2 -pipe"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
+FCFLAGS="${COMMON_FLAGS}"
+FFLAGS="${COMMON_FLAGS}"
 
-MAKEOPTS="-j4 -l4"  # Adjust according to CPU
+# ========== Parallel Compilation ==========
+MAKEOPTS="-j8"  # Adjust according to CPU threads
 
-USE="systemd wayland pipewire -doc -test"
+# ========== USE Flags ==========
+USE="systemd dbus policykit networkmanager bluetooth"
+USE="${USE} wayland pipewire"
+USE="${USE} -doc -test"
 
+# ========== Language and Localization ==========
+L10N="en zh zh-CN"
+LINGUAS="en zh_CN"
+LC_MESSAGES=C
 
-L10N="en en-US"
-VIDEO_CARDS="intel"  # Or nvidia/amdgpu
+# ========== Mirrors ==========
+# Recommended to choose based on location (One or more, space separated):
+GENTOO_MIRRORS="http://ftp.twaren.net/Linux/Gentoo/"  # NCHC (Recommended)
+# More mirrors: https://www.gentoo.org/downloads/mirrors/
 
+# ========== Portage Config ==========
 FEATURES="parallel-fetch candy"
+EMERGE_DEFAULT_OPTS="--ask --verbose"
+
+# ========== Licenses ==========
 ACCEPT_LICENSE="*"
+
+# ========== Compilation Logs ==========
+PORTAGE_ELOG_CLASSES="warn error log"
+PORTAGE_ELOG_SYSTEM="save"
 ```
 
-### 13.1 Daily Maintenance: How to be a Qualified System Administrator
+</details>
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<details>
+<summary><b>High Performance Config (Click to expand)</b></summary>
 
-**Reference**: [Upgrading Gentoo](https://wiki.gentoo.org/wiki/Upgrading_Gentoo) · [Gentoo Cheat Sheet](https://wiki.gentoo.org/wiki/Gentoo_Cheat_Sheet)
+```bash
+# /etc/portage/make.conf
+# vim: set filetype=bash
+
+# ========== Compiler Optimization ==========
+COMMON_FLAGS="-march=native -O2 -pipe"
+CFLAGS="${COMMON_FLAGS}"
+CXXFLAGS="${COMMON_FLAGS}"
+FCFLAGS="${COMMON_FLAGS}"
+FFLAGS="${COMMON_FLAGS}"
+
+# ========== Parallel Compilation (Advanced Hardware) ==========
+MAKEOPTS="-j32 -l32"
+EMERGE_DEFAULT_OPTS="--ask --verbose --jobs=4 --load-average=32"
+
+# ========== USE Flags (Full Desktop) ==========
+USE="systemd udev dbus policykit"
+USE="${USE} networkmanager bluetooth wifi"
+USE="${USE} wayland X gtk qt6 kde"
+USE="${USE} pipewire pulseaudio alsa"
+USE="${USE} ffmpeg x264 x265 vaapi vulkan"
+USE="${USE} cjk nls icu"
+USE="${USE} -doc -test -examples"
+
+# ========== Language and Localization ==========
+L10N="en en-US zh zh-CN zh-TW"
+LINGUAS="en en_US zh zh_CN zh_TW"
+LC_MESSAGES=C
+
+# ========== Mirrors ==========
+GENTOO_MIRRORS="http://ftp.twaren.net/Linux/Gentoo/"  # NCHC (Recommended)
+
+# ========== Portage Config ==========
+FEATURES="parallel-fetch candy ccache"
+CCACHE_DIR="/var/cache/ccache"
+
+# ========== Licenses ==========
+ACCEPT_LICENSE="*"
+
+# ========== Compilation Logs ==========
+PORTAGE_ELOG_CLASSES="warn error log qa"
+PORTAGE_ELOG_SYSTEM="save"
+```
+
+</details>
+
+---
+
+### 13.11 Detailed Configuration Example (Annotated)
+
+<details>
+<summary><b>Detailed Configuration Example (Recommended to read and adjust) (Click to expand)</b></summary>
+
+```conf
+# vim: set filetype=bash  # Tell Vim to use bash syntax highlighting
+
+# ========== System Architecture (Do not modify manually) ==========
+# Default by Stage3, indicates target system architecture (Usually no need to modify)
+CHOST="x86_64-pc-linux-gnu"
+
+# ========== Compiler Optimization Parameters ==========
+# -march=native    Optimize for current CPU architecture, best performance
+#                  Note: Compiled programs may not run on other CPUs
+# -O2              Recommended optimization level (Balances performance, stability, compilation time)
+#                  Note: Avoid -O3, may cause compilation failure or runtime anomalies
+# -pipe            Use pipes instead of temp files, speeds up compilation
+COMMON_FLAGS="-march=native -O2 -pipe"
+CFLAGS="${COMMON_FLAGS}"      # C compiler options
+CXXFLAGS="${COMMON_FLAGS}"    # C++ compiler options
+FCFLAGS="${COMMON_FLAGS}"     # Fortran compiler options
+FFLAGS="${COMMON_FLAGS}"      # Fortran 77 compiler options
+
+# CPU Instruction Set Optimization (Auto generated, see Section 13.13 below)
+# Run: emerge --ask app-portage/cpuid2cpuflags && cpuid2cpuflags >> /etc/portage/make.conf
+# CPU_FLAGS_X86="aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt sse sse2 sse3 sse4_1 sse4_2 ssse3"
+
+# ========== Parallel Compilation Settings ==========
+# MAKEOPTS: Controls parallel task count for make
+#   -j<N>   Number of concurrent compilation tasks, Recommended = CPU Threads (Run nproc to check)
+#   -l<N>   System load limit, prevents system overload (Optional, usually same as -j)
+MAKEOPTS="-j8"  # Example: 8 Thread CPU
+
+# Recommendation for insufficient memory:
+#    16GB RAM + 8 Core CPU → MAKEOPTS="-j4 -l8"  (Halve parallel count)
+#    32GB RAM + 16 Core CPU → MAKEOPTS="-j16 -l16"
+
+# ========== Language and Localization Settings ==========
+# LC_MESSAGES: Keep compilation output in English, easier for searching errors and community help
+LC_MESSAGES=C
+
+# L10N: Localization support (Affects software translation, docs, spell check etc.)
+L10N="en en-US zh zh-CN zh-TW"
+
+# LINGUAS: Legacy localization variable (Some software still depends on it)
+LINGUAS="en en_US zh zh_CN zh_TW"
+
+# ========== Mirror Settings ==========
+# Taiwan Mirrors (Choose one):
+#   NCHC (Taiwan): http://ftp.twaren.net/Linux/Gentoo/
+GENTOO_MIRRORS="http://ftp.twaren.net/Linux/Gentoo/"
+
+# ========== Emerge Default Options ==========
+# --ask              Ask confirmation before run (Recommended keep, prevents misoperation)
+# --verbose          Show detailed info (USE flag changes, dependencies etc.)
+# --with-bdeps=y     Check build-time dependencies when updating (Avoid stale deps)
+# --complete-graph=y Complete dependency graph analysis (Resolve complex conflicts)
+EMERGE_DEFAULT_OPTS="--ask --verbose --with-bdeps=y --complete-graph=y"
+
+# Advanced User Optional Settings (Requires sufficient memory):
+#    --jobs=N           Parallel compile multiple packages (Recommended 2-4 if memory sufficient)
+#    --load-average=N   System load limit (Recommended same as CPU cores)
+# EMERGE_DEFAULT_OPTS="--ask --verbose --jobs=2 --load-average=8"
+
+# ========== USE Flags (Global Feature Toggles) ==========
+# Controls compilation options for all packages, affecting feature availability and dependencies
+#
+# System Base:
+#   systemd        Use systemd init system (If using OpenRC change to -systemd)
+#   udev           Modern device management (Recommended keep)
+#   dbus           Inter-process communication (Required for desktop)
+#   policykit      Permission management (Required for desktop)
+#
+# Network and Hardware:
+#   networkmanager Graphical network management (Recommended for desktop)
+#   bluetooth      Bluetooth support
+#
+# Development Tools:
+#   git            Git version control (Must-have for developers)
+#
+# Kernel Selection:
+#   dist-kernel    Use distribution default kernel (Strongly recommended for beginners)
+#                  If not using this flag, need to manually configure kernel (See Chapter 7)
+#
+USE="systemd udev dbus policykit networkmanager bluetooth git dist-kernel"
+
+# Common Optional USE Flags:
+#   Audio: pulseaudio / pipewire (Audio server, choose one)
+#   Display: wayland / X (Display protocol, required for desktop)
+#   Graphics: vulkan, opengl (Modern graphics API)
+#   Video: vaapi, vdpau (Hardware video acceleration)
+#   Print: cups (Printing system)
+#   Container: flatpak, appimage (Third-party app support)
+#   Disable: -doc, -test, -examples (Save compilation time and disk space)
+
+# ========== License Settings ==========
+# ACCEPT_LICENSE: Controls allowed software license types
+#
+# Common Settings:
+#   "*"                Accept all licenses (Recommended for beginners to avoid license blocks)
+#   "@FREE"            Only Free Software (Strict open source policy)
+#   "@BINARY-REDISTRIBUTABLE"  Software allowed for free binary redistribution
+#   "-* @FREE"         Reject all then explicitly allow (Strictest control)
+#
+# Recommended Strategy:
+#   - Beginner/Desktop: Use "*" to avoid license issues
+#   - Open Source Purist: Use "@FREE", set individual packages if closed source needed
+#   - Detailed explanation see "13.12 ACCEPT_LICENSE Details" below
+ACCEPT_LICENSE="*"
+
+# Specific package license setting (Recommended method):
+#    Create /etc/portage/package.license/ directory and add config files
+#    See "13.12 ACCEPT_LICENSE Details" below for example
+
+# ========== Portage Feature Settings (Optional) ==========
+# FEATURES: Activate advanced Portage features
+#   parallel-fetch    Parallel download source packages (Speed up update)
+#   parallel-install  Parallel install multiple packages (Experimental, maybe unstable)
+#   candy             Beautify emerge output (Color progress bar)
+#   ccache            Compilation cache (Requires dev-build/ccache, speeds up recompilation)
+#   splitdebug        Split debug info to separate files (Save space, easier debug)
+# FEATURES="parallel-fetch candy"
+
+# ========== Compilation Log Settings (Recommended Enable) ==========
+# PORTAGE_ELOG_CLASSES: Log levels to record
+#   info     General info (Success messages etc.)
+#   warn     Warning info (Configuration issues, deprecated operations)
+#   error    Error info (Compilation failures, dependency issues)
+#   log      Normal log (All output)
+#   qa       QA warning (ebuild issues, security warnings)
+PORTAGE_ELOG_CLASSES="warn error log qa"
+
+# PORTAGE_ELOG_SYSTEM: Log output method
+#   save          Save to /var/log/portage/elog/ (Recommended, for later review)
+#   echo          Display in terminal after compilation
+#   mail          Send via email (Requires mail system config)
+#   syslog        Send to system log
+#   custom        Custom handling script
+PORTAGE_ELOG_SYSTEM="save"
+
+# Note: File must end with empty line (POSIX standard requirement)
+```
+
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**Configuration Notes**
+
+This is a fully annotated `make.conf` example. In actual use:
+1. **Must Adjust**: `MAKEOPTS` (According to your CPU threads), `GENTOO_MIRRORS` (Choose nearby mirror)
+2. **Recommended Adjust**: `USE` flags (According to needed desktop environment and features)
+3. **Optional Settings**: `FEATURES`, Log settings etc. (Enable as needed)
+4. **VIDEO_CARDS / INPUT_DEVICES** moved to [Desktop Configuration](/posts/gentoo-install-desktop/)
 
 </div>
 
-Gentoo is a rolling release distribution, maintaining the system is an important part of the user experience.
+</details>
 
-**1. Keep System Updated**
-Recommended to update system once every one or two weeks, to avoid accumulating too many updates causing dependency conflicts.
-```bash
-emerge --sync              # Sync software repository
-emerge -avuDN @world       # Update all software
-```
+---
 
-**2. Follow Official News (Important)**
-Before updating or encountering problems, be sure to check if there are official news pushes.
-```bash
-eselect news list          # List news
-eselect news read          # Read news
-```
+### 13.12 ACCEPT_LICENSE Software License Details
 
-**3. Handle Configuration File Updates**
-After software updates, configuration files may also update. **Do not ignore** `etc-update` or `dispatch-conf` prompts.
-```bash
-dispatch-conf              # Interactive merge config files (Recommended)
-# Or
-etc-update
-```
-
-**4. Clean Up Unused Dependencies**
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [Remove orphaned packages](https://wiki.gentoo.org/wiki/Knowledge_Base:Remove_orphaned_packages)
-
-</div>
-
-```bash
-emerge --ask --depclean    # Remove orphaned dependencies no longer needed
-```
-
-**5. Regularly Clean Up Source Packages**
-```bash
-emerge --ask app-portage/gentoolkit # Install toolkit
-eclean-dist                         # Clean up downloaded old source packages
-```
-
-**6. Automatically Handle USE Changes**
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [Autounmask-write](https://wiki.gentoo.org/wiki/Knowledge_Base:Autounmask-write) · [Dispatch-conf](https://wiki.gentoo.org/wiki/Dispatch-conf)
-
-</div>
-
-When installing or updating software prompts "The following USE changes are necessary":
-1.  **Let Portage automatically write config**: `emerge --ask --autounmask-write <package_name>`
-2.  **Confirm and update config**: `dispatch-conf` (Press u to confirm, q to quit)
-3.  **Try operation again**: `emerge --ask <package_name>`
-
-**7. Handle Software Conflicts (Blocked Packages)**
-If encountering "Error: The above package list contains packages which cannot be installed at the same time...":
-- **Solution**: Follow prompts, manually uninstall conflicting software (`emerge --deselect <package_name>` then `emerge --depclean`).
-
-**8. Security Check (GLSA)**
-Gentoo publishes Security Announcements (GLSA) to notify users of potential security vulnerabilities.
-```bash
-glsa-check -l      # List all unfixed security announcements
-glsa-check -t all  # Test all affected packages
-```
-
-**9. System Logs and Service Status**
-Regularly check system logs and service status to ensure system health.
-- **OpenRC**:
-    ```bash
-    rc-status      # View service status
-    tail -f /var/log/messages # View system logs (Need to install syslog-ng etc.)
-    ```
-- **Systemd (Journalctl Common Commands)**:
-    | Command | Function |
-    | ---- | ---- |
-    | `systemctl --failed` | View failed services |
-    | `journalctl -b` | View logs of this boot |
-    | `journalctl -b -1` | View logs of last boot |
-    | `journalctl -f` | Follow latest logs in real-time (Like tail -f) |
-    | `journalctl -p err` | Show only Error level logs |
-    | `journalctl -u <service_name>` | View logs of specific service |
-    | `journalctl --since "1 hour ago"` | View logs from last 1 hour |
-    | `journalctl --disk-usage` | View disk usage of logs |
-    | `journalctl --vacuum-time=2weeks` | Clean up logs older than 2 weeks |
-
-### 13.2 Portage Tips and Directory Structure
+<details>
+<summary><b>ACCEPT_LICENSE Software License Management (Click to expand)</b></summary>
 
 <div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
 
-**Reference**: [Portage](https://wiki.gentoo.org/wiki/Portage) · [/etc/portage](https://wiki.gentoo.org/wiki//etc/portage)
+**Reference**: [Gentoo Handbook: ACCEPT_LICENSE](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation#Optional:_Configure_the_ACCEPT_LICENSE_variable) · [GLEP 23](https://www.gentoo.org/glep/glep-0023.html) · [License Groups](https://gitweb.gentoo.org/proj/portage.git/tree/cnf/license_groups)
 
 </div>
 
-**1. Core Directory Structure (`/etc/portage/`)**
-Gentoo's configuration is very flexible, recommended to use **directories** instead of single files to manage configuration:
+#### What is ACCEPT_LICENSE?
 
-| File/Directory | Usage |
-| --------- | ---- |
-| `make.conf` | Global compilation flags (CFLAGS, MAKEOPTS, USE, GENTOO_MIRRORS) |
-| `package.use/` | USE flag configuration for specific software |
-| `package.accept_keywords/` | Allow installing testing (keyword) software |
-| `package.mask/` | Mask specific versions of software |
-| `package.unmask/` | Unmask specific versions of software |
-| `package.license/` | Accept licenses for specific software |
-| `package.env/` | Environment variables for specific software (e.g. use different compiler flags) |
+According to [GLEP 23](https://www.gentoo.org/glep/glep-0023.html), Gentoo allows system administrators to "control the license types of software they install". `ACCEPT_LICENSE` variable determines which licenses Portage allows.
 
-**2. Common Emerge Command Cheat Sheet**
-> For full manual run `man emerge`
+**Why do we need this?**
+- Gentoo repository contains thousands of packages involving hundreds of different licenses.
+- You might only want to use Free Software (OSI approved) or need to accept certain closed source licenses.
+- No need to approve each license one by one —— GLEP 23 introduced **License Groups**.
 
-| Parameter (Abbr.) | Function | Example |
-| ----------- | ---- | ---- |
-| `--ask` (`-a`) | Ask for confirmation before execution | `emerge -a vim` |
-| `--verbose` (`-v`) | Show detailed info (USE flags etc.) | `emerge -av vim` |
-| `--oneshot` (`-1`) | Install but don't add to World file (Not as system dependency) | `emerge -1 rust` |
-| `--update` (`-u`) | Update software packages | `emerge -u vim` |
-| `--deep` (`-D`) | Deep dependency calculation (Update dependencies of dependencies) | `emerge -uD @world` |
-| `--newuse` (`-N`) | Recompile when USE flags change | `emerge -uDN @world` |
-| `--depclean` (`-c`) | Clean up orphaned dependencies no longer needed | `emerge -c` |
-| `--deselect` | Remove from World file (Don't uninstall) | `emerge --deselect vim` |
-| `--search` (`-s`) | Search software packages (Recommended to use eix) | `emerge -s vim` |
-| `--info` | Show Portage environment info (For debugging) | `emerge --info` |
+#### Common License Groups
 
-**3. Quick Package Search (Eix)**
+License groups use `@` prefix to distinguish from individual licenses:
+
+| License Group | Description |
+|---------|------|
+| `@GPL-COMPATIBLE` | FSF approved GPL compatible licenses |
+| `@FSF-APPROVED` | FSF approved free software licenses |
+| `@OSI-APPROVED` | OSI approved open source licenses |
+| `@FREE` | **All Free Software and Documentation** |
+| `@BINARY-REDISTRIBUTABLE` | Licenses allowing binary redistribution (Includes `@FREE`) |
+| `@EULA` | End User License Agreements (Often strictly proprietary) |
+
+#### Check Current System Setting
+
+```bash
+portageq envvar ACCEPT_LICENSE
+```
+
+Output example (Default):
+```
+@FREE
+```
+
+This means system defaults to only allowing `@FREE` group software.
+
+#### Set ACCEPT_LICENSE
+
+Can be set in:
+
+**1. System Global Setting (`/etc/portage/make.conf`)**
+
+```conf
+# Accept all licenses (Including closed source)
+ACCEPT_LICENSE="*"
+
+# Or: Only Free Software + Redistributable Binaries
+ACCEPT_LICENSE="-* @FREE @BINARY-REDISTRIBUTABLE"
+
+# Or: Only Free Software (Default)
+ACCEPT_LICENSE="@FREE"
+```
+
+<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+
+**Recommendation**
+
+- **Beginner/Desktop**: Use `ACCEPT_LICENSE="*"` to avoid license issues.
+- **Pure Free Software User**: Use `ACCEPT_LICENSE="@FREE"`, set individual packages if needed.
+
+</div>
+
+**2. Single Package Setting (`/etc/portage/package.license`)**
+
+Some packages may require specific licenses (e.g. Firmware, Graphics Drivers):
+
+```bash
+mkdir -p /etc/portage/package.license
+```
+
+Edit `/etc/portage/package.license/kernel`:
+```conf
+# unrar tool
+app-arch/unrar unRAR
+
+# Linux Firmware (Contains non-free firmware)
+sys-kernel/linux-firmware linux-fw-redistributable
+
+# Intel Microcode
+sys-firmware/intel-microcode intel-ucode
+```
+
+#### Practical Application
+
+In our `make.conf` example, we used `ACCEPT_LICENSE="*"` (Accept all). If you want strict control:
+
+1. Change `make.conf` to `ACCEPT_LICENSE="@FREE"`
+2. When installing software, if blocked by license, Portage will prompt which license is needed.
+3. Add exception in `/etc/portage/package.license/` as needed.
+
+Example (Installing proprietary NVIDIA driver):
+```
+The following license changes are necessary to proceed:
+ x11-drivers/nvidia-drivers NVIDIA-r2
+```
+
+Solution:
+```bash
+echo "x11-drivers/nvidia-drivers NVIDIA-r2" >> /etc/portage/package.license/nvidia
+```
+
+</details>
+
+---
+
+### 13.13 CPU Instruction Set Optimization (CPU_FLAGS_X86)
+
+<details>
+<summary><b>CPU Instruction Set Optimization (CPU_FLAGS_X86) (Click to expand)</b></summary>
+
 <div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
 
-**Reference**: [Eix](https://wiki.gentoo.org/wiki/Eix)
+**See also**: [CPU_FLAGS_*](https://wiki.gentoo.org/wiki/CPU_FLAGS_*)
 
 </div>
-> `emerge --search` is slow, recommended to use `eix` for millisecond-level search.
 
-1.  **Install and Update Index**:
-    ```bash
-    emerge --ask app-portage/eix
-    eix-update # Execute after install or sync
-    ```
-2.  **Search Software**:
-    ```bash
-    eix <keyword>        # Search all software
-    eix -I <keyword>     # Search only installed software
-    eix -R <keyword>     # Search remote Overlay (Need to configure eix-remote)
-    ```
+`CPU_FLAGS_X86` is used by Gentoo to describe "which x86 instruction sets your CPU actually supports". Some packages use it to enable (or disable) corresponding optimizations like AES, AVX, SSE4.2 etc.
+
+- **Quick Setup**: Please follow [Base Part 5.3](/posts/gentoo-install/#53-configure-cpu-instruction-set-optimization).
+
+After completion, you usually see a line in `/etc/portage/make.conf`:
+```conf
+CPU_FLAGS_X86="aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt rdrand sse sse2 sse3 sse4_1 sse4_2 ssse3"
+```
+
+#### Notes
+
+1. **Avoid Duplicate Appends**: `cpuid2cpuflags >> ...` appends to end of file. Remove duplicates if ran multiple times.
+2. **Portability**: Do not copy `CPU_FLAGS_X86` across different machines. Run detection on each machine.
+3. **Architecture Specific**: Only for x86/amd64.
+   - **ARM/RISC-V**: Do NOT set `CPU_FLAGS_X86`. Refer to Wiki for corresponding flags.
+
+</details>
+
+---
+
+### 13.14 Further Reading
+
+- [Gentoo Wiki: make.conf](https://wiki.gentoo.org/wiki//etc/portage/make.conf)
+- [Gentoo Wiki: ACCEPT_LICENSE](https://wiki.gentoo.org/wiki/ACCEPT_LICENSE)
+- [Gentoo Wiki: USE flag](https://wiki.gentoo.org/wiki/USE_flag)
+- [Desktop Config 12.1: VIDEO_CARDS](/posts/gentoo-install-desktop/#121-global-configuration)
 
 ---
 
@@ -486,31 +966,23 @@ app-editors/vim lto.conf
 
 **Warning**
 
-Global LTO will cause massive package compilation failures, requiring frequent maintenance of exclusion lists, **NOT recommended for beginners to try**.
+Global LTO will cause massive package compilation failures, requiring frequent maintenance of exclusion lists, **NOT recommended for beginners**.
 
 </div>
 
 Edit `/etc/portage/make.conf`:
 ```bash
-# These warnings indicate runtime issues potentially caused by LTO, promote them to errors
-# -Werror=odr: One Definition Rule violation (Multiple definitions of same symbol)
-# -Werror=lto-type-mismatch: LTO type mismatch
-# -Werror=strict-aliasing: Strict aliasing violation
+# Warnings indicating LTO issues, promote to error
 WARNING_FLAGS="-Werror=odr -Werror=lto-type-mismatch -Werror=strict-aliasing"
 
-# -O2: Optimization level 2 (Recommended)
-# -pipe: Use pipes to speed up compilation
-# -march=native: Optimize for current CPU
-# -flto: Enable Link Time Optimization (Full LTO)
-# Note: GCC's -flto defaults to Full LTO, suitable for GCC systems
 COMMON_FLAGS="-O2 -pipe -march=native -flto ${WARNING_FLAGS}"
-CFLAGS="${COMMON_FLAGS}"          # C compiler flags
-CXXFLAGS="${COMMON_FLAGS}"        # C++ compiler flags
-FCFLAGS="${COMMON_FLAGS}"         # Fortran compiler flags
-FFLAGS="${COMMON_FLAGS}"          # Fortran 77 compiler flags
-LDFLAGS="${COMMON_FLAGS} ${LDFLAGS}"  # Linker flags
+CFLAGS="${COMMON_FLAGS}"
+CXXFLAGS="${COMMON_FLAGS}"
+FCFLAGS="${COMMON_FLAGS}"
+FFLAGS="${COMMON_FLAGS}"
+LDFLAGS="${COMMON_FLAGS} ${LDFLAGS}"
 
-USE="lto"  # Enable USE flag for LTO support
+USE="lto"
 ```
 
 **4. Enable LTO Globally (LLVM/Clang System - Recommend ThinLTO)**
@@ -533,49 +1005,34 @@ If `clang-common` does not have `default-lld` USE flag enabled, MUST add `-fuse-
 
 Edit `/etc/portage/make.conf`:
 ```bash
-# Clang currently does not fully implement these diagnostics, but keep these flags for future use
-# -Werror=odr: One Definition Rule violation detection (Clang partially supports)
-# -Werror=strict-aliasing: Strict aliasing violation detection (Clang developing)
 WARNING_FLAGS="-Werror=odr -Werror=strict-aliasing"
 
-# -O2: Optimization level 2 (Balance performance and stability)
-# -pipe: Use pipes to speed up compilation
-# -march=native: Optimize for current CPU
-# -flto=thin: Enable ThinLTO (Recommended, fast and parallelizable)
 COMMON_FLAGS="-O2 -pipe -march=native -flto=thin ${WARNING_FLAGS}"
-CFLAGS="${COMMON_FLAGS}"          # C compiler flags
-CXXFLAGS="${COMMON_FLAGS}"        # C++ compiler flags
-FCFLAGS="${COMMON_FLAGS}"         # Fortran compiler flags
-FFLAGS="${COMMON_FLAGS}"          # Fortran 77 compiler flags
-LDFLAGS="${COMMON_FLAGS} ${LDFLAGS}"  # Linker flags
+CFLAGS="${COMMON_FLAGS}"
+CXXFLAGS="${COMMON_FLAGS}"
+FCFLAGS="${COMMON_FLAGS}"
+FFLAGS="${COMMON_FLAGS}"
+LDFLAGS="${COMMON_FLAGS} ${LDFLAGS}"
 
-USE="lto"  # Enable USE flag for LTO support
+USE="lto"
 ```
 
-**ThinLTO vs Full LTO (Recommended for beginners to read)**:
+**ThinLTO vs Full LTO**:
 
-| Type | Flag | Pros | Cons | Recommended Scenario |
+| Type | Flag | Pros | Cons | Recommended |
 |------|------|------|------|----------|
-| **ThinLTO** | `-flto=thin` | • Fast<br>• Low memory usage<br>• Supports parallelization<br>• Compilation speedup 2-3x | • Only Clang/LLVM supports | **Default Recommendation** (Clang Users) |
-| Full LTO | `-flto` | • Deeper optimization<br>• Both GCC and Clang support | • Slow<br>• High memory usage<br>• Serial processing | GCC Users or need extreme optimization |
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**Beginner Tip**
-
-If you use Clang, please be sure to use `-flto=thin`. This is currently the best practice, significantly reducing compilation time while ensuring performance.
-
-</div>
+| **ThinLTO** | `-flto=thin` | Fast, Low Memory, Parallel | Only Clang/LLVM | **Default** (Clang Users) |
+| Full LTO | `-flto` | Deeper Optimization | Slow, High Memory, Serial | GCC Users / Extreme Optimization |
 
 **5. Rust LTO Configuration**
 
 **On LLVM System**:
 ```bash
-# Add in /etc/portage/make.conf
+# Add to /etc/portage/make.conf
 RUSTFLAGS="${RUSTFLAGS} -Clinker-plugin-lto"
 ```
 
-**On GCC System** (Need to use Clang to compile Rust code):
+**On GCC System** (Compile Rust with Clang):
 Create `/etc/portage/env/llvm-lto.conf`:
 ```bash
 WARNING_FLAGS="-Werror=odr -Werror=strict-aliasing"
@@ -599,123 +1056,20 @@ RANLIB="llvm-ranlib"
 USE="lto"
 ```
 
-Specify for Rust packages in `/etc/portage/package.env`:
+Specify for Rust in `/etc/portage/package.env`:
 ```text
 dev-lang/rust llvm-lto.conf
 ```
 
-### 15.3 Advanced Package Environment Configuration (package.env)
-
-For special configuration of specific packages (like disabling LTO or low memory mode), use `package.env` for fine-grained control.
-
-<details>
-<summary><b>Config 1: Package List Disabling LTO (no-lto) - Click to expand</b></summary>
-
-Some packages are known to be incompatible with LTO. Recommended to create `/etc/portage/env/nolto.conf`:
-
-```bash
-# Disable LTO and related warnings
-DISABLE_LTO="-Wno-error=odr -Wno-error=lto-type-mismatch -Wno-error=strict-aliasing -fno-lto"
-CFLAGS="${CFLAGS} ${DISABLE_LTO}"
-CXXFLAGS="${CXXFLAGS} ${DISABLE_LTO}"
-FCFLAGS="${FCFLAGS} ${DISABLE_LTO}"
-FFLAGS="${FFLAGS} ${DISABLE_LTO}"
-LDFLAGS="${LDFLAGS} ${DISABLE_LTO}"
-```
-
-Create `/etc/portage/package.env/no-lto` file (Containing known issue packages):
-
-```bash
-# Packages known to have compatibility issues with LTO
-# Still compile using Clang, but disable LTO
-
-app-misc/jq no-lto.conf
-app-shells/zsh no-lto.conf
-dev-build/ninja no-lto.conf
-dev-cpp/abseil-cpp no-lto.conf
-dev-lang/perl no-lto.conf
-dev-lang/spidermonkey no-lto.conf
-dev-lang/tcl no-lto.conf
-dev-libs/jemalloc no-lto.conf
-dev-libs/libportal no-lto.conf
-dev-python/jq no-lto.conf
-dev-qt/qtbase no-lto.conf
-dev-qt/qtdeclarative no-lto.conf
-dev-tcltk/expect no-lto.conf
-dev-util/dejagnu no-lto.conf
-gnome-base/gnome-shell no-lto.conf
-gui-libs/libadwaita no-lto.conf
-llvm-core/clang no-lto.conf
-llvm-core/llvm no-lto.conf
-media-libs/clutter no-lto.conf
-media-libs/libsdl2 no-lto.conf
-media-libs/libsdl3 no-lto.conf
-media-libs/libsdl no-lto.conf
-media-libs/webrtc-audio-processing no-lto.conf
-media-video/ffmpeg no-lto.conf
-media-video/pipewire no-lto.conf
-net-libs/libnma no-lto.conf
-net-print/cups no-lto.conf
-sys-devel/clang no-lto.conf
-sys-devel/llvm no-lto.conf
-x11-drivers/nvidia-drivers no-lto.conf
-x11-libs/cairo no-lto.conf
-dev-python/pillow no-lto.conf
-media-libs/gexiv2 no-lto.conf
-x11-wm/mutter no-lto.conf
-```
-</details>
-
-<details>
-<summary><b>Config 2: Low Memory Compilation Mode (low-memory) - Click to expand</b></summary>
-
-For large projects (like Chromium, Rust), recommended to use low memory configuration to prevent OOM.
-
-Create `/etc/portage/env/low-memory.conf`:
-```bash
-# Reduce parallel task count, e.g. change to -j2 or -j4
-MAKEOPTS="-j4"
-# Optional: Remove some memory-consuming optimization flags
-COMMON_FLAGS="-O2 -pipe"
-```
-
-Create `/etc/portage/package.env/low-memory`:
-```bash
-# Large packages prone to causing system freeze
-# Use low memory compilation settings
-
-# Browsers (Very large projects)
-www-client/chromium low-memory.conf
-mail-client/thunderbird low-memory.conf
-
-# Office Suites
-app-office/libreoffice low-memory.conf
-
-# Virtualization
-app-emulation/qemu low-memory.conf
-
-# Rust Large Projects
-dev-lang/rust low-memory.conf
-virtual/rust low-memory.conf
-```
-</details>
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**Tip**
-
-If encountering other LTO related link errors, please try disabling LTO for that package first. You can also check [Gentoo Bugzilla](https://bugs.gentoo.org) to search if there are related reports (Search "package_name lto"). If it is a new issue, welcome to submit bug report to help improve Gentoo.
-
-</div>
-
 ### 15.2 Compile with Clang
+
 <div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
 
 **Reference**: [Clang](https://wiki.gentoo.org/wiki/Clang)
 
 </div>
 
-**Prerequisites**: Install Clang and LLD
+**Prerequisite**: Install Clang and LLD
 ```bash
 emerge --ask llvm-core/clang llvm-core/lld
 ```
@@ -724,37 +1078,35 @@ emerge --ask llvm-core/clang llvm-core/lld
 
 **Important Tip**
 
-- Some packages (like `sys-libs/glibc`, `app-emulation/wine`) cannot be compiled with Clang, still need GCC.
-- Gentoo maintains [bug #408963](https://bugs.gentoo.org/408963) to track packages failing to compile with Clang.
+- Some packages (like `sys-libs/glibc`, `app-emulation/wine`) cannot compile with Clang and need GCC.
+- Gentoo maintains [bug #408963](https://bugs.gentoo.org/408963) tracking packages failing to compile with Clang.
 
 </div>
 
 **1. Enable for Specific Software (Recommended)**
 
-Create environment config file `/etc/portage/env/clang.conf`:
+Create environment config `/etc/portage/env/clang.conf`:
 ```bash
 CC="clang"
 CXX="clang++"
-CPP="clang-cpp"  # Some packages (like xorg-server) need this
+CPP="clang-cpp"  # Needed by some packages like xorg-server
 AR="llvm-ar"
 NM="llvm-nm"
 RANLIB="llvm-ranlib"
 ```
 
-Apply to specific software (e.g. `app-editors/neovim`), add in `/etc/portage/package.env`:
+Apply to specific software (e.g. `app-editors/neovim`) in `/etc/portage/package.env`:
 ```text
 app-editors/neovim clang.conf
 ```
 
-
-
-**3. PGO Support (Profile Guided Optimization)**
+**2. PGO Support (Profile Guided Optimization)**
 
 <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
 
 **Note**
 
-If PGO support is needed (e.g. `dev-lang/python[pgo]`), need to install following packages:
+If PGO support is needed (e.g. `dev-lang/python[pgo]`), install:
 
 </div>
 
@@ -763,26 +1115,17 @@ emerge --ask llvm-core/clang-runtime
 emerge --ask llvm-runtimes/compiler-rt-sanitizers
 ```
 
-Enable related USE flags in `/etc/portage/package.use`:
+Enable USE flags in `/etc/portage/package.use`:
 ```text
 llvm-core/clang-runtime sanitize
 llvm-runtimes/compiler-rt-sanitizers profile orc
 ```
 
-<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
+**3. Enable Globally (Not Recommended for Beginners)**
 
-**Warning**
+Globally switching to Clang requires solving many compatibility issues. **Recommended only for advanced users.**
 
-- If `profile` and `orc` USE flags are not enabled, packages with `pgo` USE flag (like `dev-lang/python[pgo]`) will fail to compile.
-- Compilation log may report error: `ld.lld: error: cannot open /usr/lib/llvm/18/bin/../../../../lib/clang/18/lib/linux/libclang_rt.profile-x86_64.a`
-
-</div>
-
-**4. Enable Globally (Not Recommended for Beginners)**
-
-Switching to Clang globally requires most system software support, and needs to handle a large number of compatibility issues, **only recommended for advanced users to try**.
-
-If need to enable globally, add in `/etc/portage/make.conf`:
+If enabling globally, add to `/etc/portage/make.conf`:
 ```bash
 CC="clang"
 CXX="clang++"
@@ -794,7 +1137,7 @@ RANLIB="llvm-ranlib"
 
 **GCC Fallback Environment**
 
-For packages that cannot be compiled with Clang, create `/etc/portage/env/gcc.conf`:
+For packages that fail with Clang, create `/etc/portage/env/gcc.conf`:
 ```bash
 CC="gcc"
 CXX="g++"
@@ -804,13 +1147,72 @@ NM="nm"
 RANLIB="ranlib"
 ```
 
-Specify GCC for specific software in `/etc/portage/package.env`:
+Specify GCC usage in `/etc/portage/package.env`:
 ```text
 sys-libs/glibc gcc.conf
 app-emulation/wine gcc.conf
 ```
 
+### 15.3 Advanced Package Environment Configuration (package.env)
 
+For package-specific settings (like disabling LTO or low memory mode), `package.env` offers fine-grained control.
+
+<details>
+<summary><b>Config 1: Disable LTO List (no-lto) - Click to expand</b></summary>
+
+Some packages are known to be incompatible with LTO. Create `/etc/portage/env/nolto.conf`:
+
+```bash
+# Disable LTO and related warnings
+DISABLE_LTO="-Wno-error=odr -Wno-error=lto-type-mismatch -Wno-error=strict-aliasing -fno-lto"
+CFLAGS="${CFLAGS} ${DISABLE_LTO}"
+CXXFLAGS="${CXXFLAGS} ${DISABLE_LTO}"
+FCFLAGS="${FCFLAGS} ${DISABLE_LTO}"
+FFLAGS="${FFLAGS} ${DISABLE_LTO}"
+LDFLAGS="${LDFLAGS} ${DISABLE_LTO}"
+```
+
+Create `/etc/portage/package.env/no-lto`:
+
+```bash
+# Packages incompatible with LTO
+# Still use Clang but disable LTO
+
+app-misc/jq no-lto.conf
+app-shells/zsh no-lto.conf
+dev-build/ninja no-lto.conf
+dev-cpp/abseil-cpp no-lto.conf
+# ... (Add more packages as needed)
+x11-drivers/nvidia-drivers no-lto.conf
+```
+</details>
+
+<details>
+<summary><b>Config 2: Low Memory Optimization (low-memory) - Click to expand</b></summary>
+
+Create `/etc/portage/env/low-memory.conf`:
+```bash
+# Reduce parallel tasks
+MAKEOPTS="-j4"
+COMMON_FLAGS="-O2 -pipe"
+```
+
+Create `/etc/portage/package.env/low-memory`:
+```bash
+# Browsers
+www-client/chromium low-memory.conf
+# Large projects
+dev-lang/rust low-memory.conf
+```
+</details>
+
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**Tip**
+
+If encountering LTO link errors, try disabling LTO for that package first. Check [Gentoo Bugzilla](https://bugs.gentoo.org) for existing reports.
+
+</div>
 
 ---
 
@@ -818,80 +1220,80 @@ app-emulation/wine gcc.conf
 
 <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1rem; border-radius: 0.5rem; border-left: 4px solid rgb(59, 130, 246); margin: 1rem 0;">
 
-**Reference**: [Kernel](https://wiki.gentoo.org/wiki/Kernel)、[Kernel/Configuration](https://wiki.gentoo.org/wiki/Kernel/Configuration)、[Genkernel](https://wiki.gentoo.org/wiki/Genkernel)
+**Reference**: [Kernel](https://wiki.gentoo.org/wiki/Kernel) · [Kernel/Configuration](https://wiki.gentoo.org/wiki/Kernel/Configuration) · [Genkernel](https://wiki.gentoo.org/wiki/Genkernel)
 
 </div>
 
-This section is for advanced users who want to deeply control kernel compilation, including using LLVM/Clang compilation, enabling LTO optimization, automated configuration, etc.
+This section is for advanced users who want to deeply control kernel compilation, including using LLVM/Clang compilation, enabling LTO optimization, automation configuration etc.
 
 ### 16.1 Preparation
 
 Install necessary tools:
 ```bash
-# Install kernel source and build tools
+# Install kernel sources and build tools
 emerge --ask sys-kernel/gentoo-sources
 
 # (Optional) Install Genkernel for automation
 emerge --ask sys-kernel/genkernel
 
-# (Optional) Required for compiling with LLVM/Clang
+# (Optional) Required for LLVM/Clang compilation
 emerge --ask llvm-core/llvm \
     llvm-core/clang llvm-core/lld
 ```
 
-### 16.2 View System Info (Hardware Detection)
+### 16.2 Check System Info (Hardware Detection)
 
-Before configuring kernel, understanding your hardware is very important:
+Before configuring kernel, understanding your hardware is crucial:
 
-**View CPU Info**:
+**Check CPU Info**:
 ```bash
-lscpu  # View CPU model, core count, architecture etc.
-cat /proc/cpuinfo | grep "model name" | head -1  # CPU model
+lscpu  # Check CPU model, cores, architecture
+cat /proc/cpuinfo | grep "model name" | head -1  # CPU Model
 ```
 
-**View PCI Devices (Graphics, Network, etc.)**:
+**Check PCI Devices (Graphics, Network etc.)**:
 ```bash
-lspci -k  # List all PCI devices and currently used drivers
-lspci | grep -i vga  # View Graphics Card
-lspci | grep -i network  # View Network Card
+lspci -k  # List all PCI devices and current drivers
+lspci | grep -i vga  # Graphics card
+lspci | grep -i network  # Network card
 ```
 
-**View USB Devices**:
+**Check USB Devices**:
 ```bash
 lsusb  # List all USB devices
 ```
 
-**View Loaded Kernel Modules**:
+**Check Loaded Kernel Modules**:
 ```bash
-lsmod  # List all currently loaded modules
+lsmod  # List currently loaded modules
 lsmod | wc -l  # Module count
 ```
 
 ### 16.3 Auto Configure Kernel Based on Current Modules
 
-If you want to keep hardware support for all currently working hardware (like LiveCD):
+If you want to keep all hardware support working in current system (e.g. LiveCD):
 
 ```bash
 cd /usr/src/linux
 
-# Method 1: Create minimal config based on currently loaded modules
+# Method 1: Create minimal config based on loaded modules
 make localmodconfig
-# This will only enable kernel options corresponding to currently loaded modules (Strongly Recommended!)
+# This only enables kernel options for currently loaded modules (Strongly Recommended!)
 
-# Method 2: Create based on currently running kernel config
-zcat /proc/config.gz > .config  # If current kernel supports
-make olddefconfig  # Update config using defaults
+# Method 2: Create based on running kernel config
+zcat /proc/config.gz > .config  # If current kernel supports it
+make olddefconfig  # Update config with defaults
 ```
 
 <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
 
 **Beginner Tip**
 
-`localmodconfig` is the safest method, it ensures your hardware works properly while removing unneeded drivers.
+`localmodconfig` is the safest method, ensuring all your hardware works while removing unnecessary drivers.
 
 </div>
 
-### 16.4 Manual Kernel Option Configuration
+### 16.4 Manual Kernel Configuration
 
 **Enter Configuration Interface**:
 ```bash
@@ -899,67 +1301,31 @@ cd /usr/src/linux
 make menuconfig  # Text interface (Recommended)
 ```
 
-```text
-  ┌────────────── Linux/x86 6.17.9-gentoo Kernel Configuration ──────────────┐
-  │  Arrow keys navigate the menu.  <Enter> selects submenus ---> (or empty  │  
-  │  submenus ----).  Highlighted letters are hotkeys.  Pressing <Y>         │  
-  │  includes, <N> excludes, <M> modularizes features.  Press <Esc><Esc> to  │  
-  │  exit, <?> for Help, </> for Search.  Legend: [*] built-in  [ ] excluded │  
-  │ ┌──────────────────────────────────────────────────────────────────────┐ │  
-  │ │        General setup  --->                                           │ │  
-  │ │    [*] 64-bit kernel                                                 │ │  
-  │ │        Processor type and features  --->                             │ │  
-  │ │    [ ] Mitigations for CPU vulnerabilities  ----                     │ │  
-  │ │        Power management and ACPI options  --->                       │ │  
-  │ │        Bus options (PCI etc.)  --->                                  │ │  
-  │ │        Binary Emulations  --->                                       │ │  
-  │ │    [*] Virtualization  --->                                          │ │  
-  │ │        General architecture-dependent options  --->                  │ │  
-  │ │    [*] Enable loadable module support  --->                          │ │  
-  │ │    -*- Enable the block layer  --->                                  │ │  
-  │ │        Executable file formats  --->                                 │ │  
-  │ │        Memory Management options  --->                               │ │  
-  │ │    -*- Networking support  --->                                      │ │  
-  │ │        Device Drivers  --->                                          │ │  
-  │ │        File systems  --->                                            │ │  
-  │ │        Security options  --->                                        │ │  
-  │ │    -*- Cryptographic API  --->                                       │ │  
-  │ │        Library routines  --->                                        │ │  
-  │ │        Kernel hacking  --->                                          │ │  
-  │ │        Gentoo Linux  --->                                            │ │  
-  │ │                                                                      │ │  
-  │ │                                                                      │ │  
-  │ └──────────────────────────────────────────────────────────────────────┘ │  
-  ├──────────────────────────────────────────────────────────────────────────┤  
-  │         <Select>    < Exit >    < Help >    < Save >    < Load >         │  
-  └──────────────────────────────────────────────────────────────────────────┘  
-```
-
 **Common Options Reference**:
 
-| English Option | Description | Key Configuration |
+| Option | Description | Key Settings |
 | :--- | :--- | :--- |
-| **General setup** | General setup | Local hostname, Systemd/OpenRC support |
-| **Processor type and features** | Processor type and features | CPU model selection, Microcode loading |
-| **Power management and ACPI options** | Power management and ACPI | Laptop power management, Suspend/Hibernate |
+| **General setup** | General settings | Hostname, Systemd/OpenRC support |
+| **Processor type and features** | CPU setup | CPU model, Microcode |
+| **Power management and ACPI options** | Power management | Laptop power, Suspend/Hibernate |
 | **Bus options (PCI etc.)** | Bus options | PCI support (lspci) |
-| **Virtualization** | Virtualization | KVM, VirtualBox Host/Guest support |
-| **Enable loadable module support** | Enable loadable module support | Allow using kernel modules (*.ko) |
-| **Networking support** | Networking support | TCP/IP stack, Firewall (Netfilter) |
-| **Device Drivers** | Device Drivers | Graphics, Network, Sound, USB, NVMe drivers |
-| **File systems** | File systems | ext4, btrfs, vfat, ntfs support |
-| **Security options** | Security options | SELinux, AppArmor |
-| **Gentoo Linux** | Gentoo Linux | Portage dependency auto-selection (Recommended) |
+| **Virtualization** | Virtualization | KVM, VirtualBox Host/Guest |
+| **Enable loadable module support** | Module support | Enable kernel modules (*.ko) |
+| **Networking support** | Network | TCP/IP stack, Firewall (Netfilter) |
+| **Device Drivers** | Device Drivers | GPU, NIC, Sound, USB, NVMe |
+| **File systems** | File systems | ext4, btrfs, vfat, ntfs |
+| **Security options** | Security | SELinux, AppArmor |
+| **Gentoo Linux** | Gentoo specific | Portage dependency auto selection (Recommended) |
 
 <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
 
-**Important Recommendation**
+**Important Suggestion**
 
-For manual compilation, recommended to compile **critical drivers** (like filesystem, disk controller, network card) directly into kernel (Select `[*]` or `<*>` i.e. `=y`), instead of as modules (`<M>` i.e. `=m`). This avoids issues where initramfs missing modules causes boot failure.
+For manual compilation, recommended to compile **critical drivers** (Filesystem, Disk Controller, Network Card) directly into kernel (`[*]` or `<*>` i.e. `=y`), instead of as modules (`<M>` i.e. `=m`). This avoids unbootable issues due to missing modules in initramfs.
 
 </div>
 
-**Required Options** (Depending on your system):
+**Required Options** (Depends on your system):
 
 1. **Processor Support**:
    - `General setup → Gentoo Linux support`
@@ -970,44 +1336,37 @@ For manual compilation, recommended to compile **critical drivers** (like filesy
    - `File systems → Btrfs filesystem` (If using Btrfs)
 
 3. **Device Drivers**:
-   - `Device Drivers → Network device support` (Network card driver)
-   - `Device Drivers → Graphics support` (Graphics card driver)
+   - `Device Drivers → Network device support` (NIC drivers)
+   - `Device Drivers → Graphics support` (Graphics drivers)
 
 4. **Systemd Users Required**:
    - `General setup → Control Group support`
    - `General setup → Namespaces support`
 
-5. **Gentoo Linux Specific Options** (Recommended to enable all):
-   
-   Enter `Gentoo Linux --->` menu:
-   
-   ```
+5. **Gentoo Linux Specific Options** (Recommend Enable All):
+     Enter `Gentoo Linux --->` menu:
+     ```
    [*] Gentoo Linux support
-       Enable Gentoo specific kernel feature support
-   
-   [*] Linux dynamic and persistent device naming (userspace devfs) support
-       Enable udev dynamic device management support (Required)
-   
-   [*] Select options required by Portage features
-       Automatically enable kernel options required by Portage (Strongly Recommended)
-       This automatically configures necessary filesystems and kernel features
-   
-   Support for init systems, system and service managers --->
+       Enable Gentoo specific kernel features
+     [*] Linux dynamic and persistent device naming (userspace devfs) support
+       Enable udev support (Required)
+     [*] Select options required by Portage features
+       Auto enable kernel options required by Portage (Strongly Recommended)
+       This auto configures required filesystems and features
+     Support for init systems, system and service managers --->
        ├─ [*] OpenRC support  # If using OpenRC
        └─ [*] systemd support # If using systemd
-   
-   [*] Kernel Self Protection Project
-       Enable kernel self-protection mechanisms (Improve security)
-   
-   [*] Print firmware information that the kernel attempts to load
-       Show firmware loading info at boot (For debugging)
+     [*] Kernel Self Protection Project
+       Enable kernel self protection mechanisms
+     [*] Print firmware information that the kernel attempts to load
+       Show firmware load info at boot (For debugging)
    ```
 
  <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
 
 **Beginner Tip**
 
-Enabling "Select options required by Portage features" can automatically configure most required options, highly recommended!
+Enabling "Select options required by Portage features" automatically configures most required options, highly recommended!
 
 </div>
 
@@ -1015,13 +1374,13 @@ Enabling "Select options required by Portage features" can automatically configu
 
 **Tip**
 
-In menuconfig, press `/` to search options, press `?` to view help.
+In menuconfig, press `/` to search options, press `?` for help.
 
 </div>
 
 ### 16.5 Auto Enable Recommended Options
 
-Gentoo provides automation scripts to enable common hardware and features:
+Gentoo provides scripts to auto configure common hardware and features:
 
 ```bash
 cd /usr/src/linux
@@ -1029,7 +1388,7 @@ cd /usr/src/linux
 # Use Genkernel default config (Includes most hardware support)
 genkernel --kernel-config=/usr/share/genkernel/arch/x86_64/kernel-config all
 
-# Or use distribution default config as base
+# Or use distro default as base
 make defconfig  # Kernel default config
 # Then adjust as needed
 make menuconfig
@@ -1037,7 +1396,7 @@ make menuconfig
 
 ### 16.6 Compile Kernel with LLVM/Clang
 
-Compiling kernel with LLVM/Clang can get better optimization and faster compilation speed (Supports ThinLTO).
+Using LLVM/Clang to compile kernel can get better optimization and faster build speed (Supports ThinLTO).
 
 **Method 1: Specify Compiler** (One-time):
 ```bash
@@ -1050,8 +1409,8 @@ make LLVM=1 -j$(nproc)
 make LLVM=1 LLVM_IAS=1 -j$(nproc)
 ```
 
-**Method 2: Set Environment Variables** (Permanent):
-Add in `/etc/portage/make.conf` (Only affects kernel compilation):
+**Method 2: Environment Variables** (Permanent):
+Add to `/etc/portage/make.conf` (Only affects kernel build):
 ```bash
 # Compile kernel with LLVM/Clang
 KERNEL_CC="clang"
@@ -1068,16 +1427,16 @@ General setup
 
 <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
 
-**Important Warning: Strongly NOT recommended to use Full LTO for kernel compilation!**
+**Important Warning: Strongly Do NOT use Full LTO for Kernel!**
 
-*   Full LTO causes extremely slow compilation (may take hours)
-*   Consumes massive memory (may need 16GB+ RAM)
+*   Full LTO causes extremely slow compilation (Hours)
+*   Massive memory usage (Needs 16GB+ RAM)
 *   Prone to link errors
-*   **Please be sure to use ThinLTO**, it is faster, more stable, uses less memory
+*   **Must use ThinLTO**, faster, more stable, less memory
 
 </div>
 
-### 16.7 Kernel Compilation Option Optimization
+### 16.7 Kernel Compilation Optimization
 
 <details>
 <summary><b>Advanced Compilation Optimization (Click to expand)</b></summary>
@@ -1097,18 +1456,18 @@ Kernel hacking
      → [*] Optimize harder
 ```
 
-**Kernel Compression Mode** (Affects boot speed and size):
+**Kernel Compression** (Affects boot speed and size):
 
 ```
 General setup
   → Kernel compression mode
      → [*] ZSTD  # Recommended: High compression ratio and fast decompression
-     # Other options: LZ4 (Fastest), XZ (Smallest), GZIP (Best compatibility)
+     # Others: LZ4 (Fastest), XZ (Smallest), GZIP (Best compatibility)
 ```
 
 </details>
 
-### 16.8 Compile and Install Kernel
+### 16.8 Build and Install Kernel
 
 **Manual Compilation**:
 ```bash
@@ -1127,57 +1486,57 @@ make LLVM=1 install
 
 **Use Genkernel Automation**:
 ```bash
-# Basic Usage
+# Basic usage
 genkernel --install all
 
 # Use LLVM/Clang
 genkernel --kernel-cc=clang --utils-cc=clang --install all
 
-# Enable LTO (Need manual config .config)
+# Enable LTO (Needs manual .config)
 genkernel --kernel-make-opts="LLVM=1" --install all
 ```
 
 ### 16.9 Kernel Statistics and Analysis
 
-After compilation, use the following script to view kernel statistics:
+After compilation, use script to check stats:
 
 ```bash
 cd /usr/src/linux
 
-echo "=== Kernel Statistics ==="
+echo "=== Kernel Stats ==="
 echo "Built-in: $(grep -c '=y$' .config)"
 echo "Modules: $(grep -c '=m$' .config)"
-echo "Total Config: $(wc -l < .config)"
+echo "Total Configs: $(wc -l < .config)"
 echo "Kernel Size: $(ls -lh arch/x86/boot/bzImage 2>/dev/null | awk '{print $5}')"
 echo "Compression: $(grep '^CONFIG_KERNEL_' .config | grep '=y' | sed 's/CONFIG_KERNEL_//;s/=y//')"
 ```
 
 **Example Output**:
 ```
-=== Kernel Statistics ===
+=== Kernel Stats ===
 Built-in: 1723
 Modules: 201
-Total Config: 6687
+Total Configs: 6687
 Kernel Size: 11M
 Compression: ZSTD
 ```
 
 **Interpretation**:
-- **Built-in (1723)**: Number of features compiled into kernel binary
-- **Modules (201)**: Number of drivers as loadable modules
-- **Kernel Size (11M)**: Final kernel file size (After ZSTD compression)
+- **Built-in**: Number of features compiled into kernel
+- **Modules**: Number of drivers as loadable modules
+- **Kernel Size**: Final kernel file size (After ZSTD compression)
 
 <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
 
-**Optimization Recommendation**
+**Optimization Suggestion**
 
 *   Kernel Size < 15MB: Excellent (Minimal config)
 *   Kernel Size 15-30MB: Good (Standard config)
-*   Kernel Size > 30MB: Consider disabling unneeded features
+*   Kernel Size > 30MB: Consider disabling unused features
 
 </div>
 
-### 16.10 Common Troubleshooting
+### 16.10 Troubleshooting
 
 <details>
 <summary><b>Compilation Errors and Solutions (Click to expand)</b></summary>
@@ -1193,42 +1552,41 @@ scripts/config --disable SYSTEM_REVOCATION_KEYS
 make olddefconfig
 ```
 
-**Error 2: LTO Compilation Failure**
+**Error 2: LTO Compilation Fail**
 ```
 ld.lld: error: undefined symbol
 ```
-Solution: Some modules are incompatible with LTO, disable LTO or set problematic module to `=y` (instead of `=m`)
+Solution: Some modules usually incompatible with LTO, disable LTO or set problematic module to `=y` (instead of `=m`)
 
-**Error 3: clang version too old**
+**Error 3: Clang version too old**
 ```
 error: unknown argument: '-mretpoline-external-thunk'
 ```
-Solution: Upgrade LLVM/Clang or use GCC to compile
+Solution: Upgrade LLVM/Clang or use GCC
 
 </details>
 
-### 16.11 Kernel Configuration Best Practices
+### 16.11 Kernel Config Best Practices
 
-1. **Save Configuration**:
+1. **Backup Config**:
    ```bash
-   # Save current config to external file
+   # Backup current config
    cp .config ~/kernel-config-backup
-   
-   # Restore config
+     # Restore
    cp ~/kernel-config-backup /usr/src/linux/.config
    make olddefconfig
    ```
 
-2. **View Config Differences**:
+2. **Diff Configs**:
    ```bash
-   # Compare two config files
+   # Compare two configs
    scripts/diffconfig .config ../old-kernel/.config
    ```
 
-3. **Minimal Configuration** (Only include required features):
+3. **Minimize Config** (Only essential features):
    ```bash
    make tinyconfig  # Create minimal config
-   make localmodconfig  # Then add current hardware support
+   make localmodconfig  # Add current hardware support
    ```
 
 ---
@@ -1241,11 +1599,11 @@ Solution: Upgrade LLVM/Clang or use GCC to compile
 
 </div>
 
-This section applies to server users who need to configure software RAID (mdadm).
+This section is for server users needing Soft RAID (mdadm).
 
-### 17.1 Kernel Configuration (Manual Compilation Required)
+### 17.1 Kernel Configuration (Manual Compile Required)
 
-If you manually compile kernel, MUST enable following options (**Note: MUST compile into kernel `<*>` i.e. `=y`, cannot be module `<M>`**):
+If manually compiling, MUST enable: (**Note: MUST compile into kernel `<*>` i.e. `=y`, NOT module `<M>`**)
 
 ```
 Device Drivers  --->
@@ -1253,20 +1611,20 @@ Device Drivers  --->
         <*> RAID support
             [*] Autodetect RAID arrays during kernel boot
 
-            # Select according to your RAID level (MUST select Y):
-            <*> Linear (append) mode                   # Linear mode
+            # Select based on your RAID level (Must be Y):
+            <*> Linear (append) mode                   # Linear
             <*> RAID-0 (striping) mode                 # RAID 0
             <*> RAID-1 (mirroring) mode                # RAID 1
             <*> RAID-10 (mirrored striping) mode       # RAID 10
             <*> RAID-4/RAID-5/RAID-6 mode              # RAID 5/6
 ```
 
-### 17.2 Configure Dracut to Load RAID Modules (dist-kernel Required)
+### 17.2 Configure Dracut to Load RAID Modules (Dist-kernel Required)
 
-If you use `dist-kernel` (Distribution Kernel) or compiled RAID drivers as modules, **MUST** force load RAID drivers via Dracut, otherwise cannot boot.
+If using `dist-kernel` (Distribution Kernel) or RAID drivers as modules, **MUST** force load RAID drivers via Dracut, otherwise boot will fail.
 
 <details>
-<summary><b>Dracut RAID Configuration Guide (Click to expand)</b></summary>
+<summary><b>Dracut RAID Config Guide (Click to expand)</b></summary>
 
 **1. Enable mdraid support**
 Create `/etc/dracut.conf.d/mdraid.conf`:
@@ -1286,12 +1644,12 @@ force_drivers+=" raid1 "
 install_items+=" /usr/lib/modules-load.d/ /etc/modules-load.d/ "
 ```
 
-**3. Configure Kernel Command Line Parameters (UUID)**
-You need to find RAID array UUID and add to kernel parameters.
+**3. Configure Kernel Command Line (UUID)**
+Need to find RAID UUID and add to kernel args.
 Create `/etc/dracut.conf.d/mdraid-cmdline.conf`:
 ```bash
 # Kernel command line parameters for RAID arrays
-# Please replace with your actual RAID UUID (View via mdadm --detail --scan)
+# Replace with your actual RAID UUID (Check via mdadm --detail --scan)
 kernel_cmdline="rd.md.uuid=68b53b0a:c6bd2ca0:caed4380:1cd75aeb rd.md.uuid=c8f92d69:59d61271:e8ffa815:063390ed"
 ```
 
@@ -1304,12 +1662,274 @@ dracut --force
 
 **Tip**
 
-After configuration, be sure to check if `/boot/initramfs-*.img` contains RAID modules:
+Check if `/boot/initramfs-*.img` contains RAID modules:
 
 </div>
 > `lsinitrd /boot/initramfs-*.img | grep raid`
 
 </details>
+
+---
+
+## 18. Secure Boot Configuration (Optional) {#section-18-secure-boot}
+
+<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+
+**Reference**: [Gentoo Handbook: Secure Boot](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation#Alternative:_Secure_Boot) · [Signed kernel module support](https://wiki.gentoo.org/wiki/Signed_kernel_module_support)
+
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+
+**What is Secure Boot?**
+
+Secure Boot is a UEFI firmware security feature that prevents unauthorized code execution at boot time by verifying digital signatures of bootloader and kernel.
+
+**Why configure it?**
+
+Gentoo default installation **does not support Secure Boot**. If your motherboard has Secure Boot enabled, system will not boot. This section introduces how to configure Secure Boot.
+
+</div>
+
+### 18.1 Manage using sbctl (Recommended) {#sbctl}
+
+<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**sbctl** is a Secure Boot management tool, automating key generation, signing, and enrollment.
+
+</div>
+
+**Step 1: Install sbctl**
+
+```bash
+emerge --ask app-crypt/sbctl
+```
+
+**Step 2: Check current status**
+
+```bash
+sbctl status
+```
+
+Expected (Before install):
+```
+Installed:	✘ Sbctl is not installed
+Setup Mode:	✘ Enabled
+Secure Boot:	✘ Disabled
+```
+
+<details>
+<summary><b>What if Setup Mode is Disabled?</b></summary>
+
+**Setup Mode** allows modifying Secure Boot keys. If `Disabled`:
+
+**Method 1: Clear existing keys (Recommended)**
+In BIOS/UEFI settings find:
+- **Clear Secure Boot Keys**
+- **Reset to Setup Mode**
+- **Delete All Keys**
+
+**Verify Setup Mode**
+Reboot and check again:
+```bash
+sbctl status
+```
+Confirm `Setup Mode: ✘ Enabled`.
+
+</details>
+
+**Step 3: Generate Keys (Auto)**
+
+```bash
+sbctl create-keys
+```
+
+**Step 4: Enroll Keys to UEFI**
+
+```bash
+sbctl enroll-keys -m
+```
+
+- `-m`: **Keep Microsoft Vendor Keys** (Recommended for Windows/Other OS compatibility)
+
+<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1rem 0;">
+
+**Warning**
+
+If using iGPU (Integrated Graphics) without discrete GPU option ROM requiring MS signature (rare nowadays but possible), verify compatibility. Usually `-m` is safe.
+If NO iGPU and NO Windows, you can omit `-m` for strict mode (Not recommended for beginners).
+
+</div>
+
+**Step 5: Configure Portage Auto Signing**
+
+Edit `/etc/portage/make.conf`:
+
+```bash
+# Secure Boot: Auto sign with sbctl keys
+USE="${USE} secureboot modules-sign"
+
+MODULES_SIGN_KEY="/var/lib/sbctl/keys/db/db.key"
+MODULES_SIGN_CERT="/var/lib/sbctl/keys/db/db.pem"
+SECUREBOOT_SIGN_KEY="/var/lib/sbctl/keys/db/db.key"
+SECUREBOOT_SIGN_CERT="/var/lib/sbctl/keys/db/db.pem"
+```
+
+**Step 6: Recompile Kernel**
+
+```bash
+emerge --ask sys-kernel/gentoo-kernel-bin
+```
+
+**Step 7: Sign Bootloader**
+
+Depending on your bootloader:
+
+<details>
+<summary><b>GRUB</b></summary>
+
+```bash
+sbctl sign -s /efi/EFI/gentoo/grubx64.efi
+```
+</details>
+
+<details>
+<summary><b>systemd-boot</b></summary>
+
+```bash
+sbctl sign -s /efi/EFI/systemd/systemd-bootx64.efi
+```
+</details>
+
+<details>
+<summary><b>Unified Kernel Image (UKI)</b></summary>
+
+```bash
+sbctl sign -s /efi/EFI/Linux/gentoo-*.efi
+```
+</details>
+
+**Step 8: Verify Signatures**
+
+```bash
+sbctl verify
+```
+
+**Step 9: Enable Secure Boot**
+
+1. Reboot into BIOS/UEFI
+2. Set **Secure Boot** to **Enabled**
+3. Save and Reboot
+
+**Step 10: Confirm Status**
+
+```bash
+sbctl status
+```
+Success output: `Secure Boot: ✓ Enabled`
+
+---
+
+### 18.2 Advanced: Manual OpenSSL Method (Optional)
+
+<details>
+<summary><b>Expand to view Manual Config (For Advanced/Enterprise Users)</b></summary>
+
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**Use Case**
+- Custom certificate parameters
+- Enterprise PKI integration
+- Learning internals
+
+**Skip if using sbctl.**
+
+</div>
+
+#### 18.2.1 Generate Self-Signed Cert
+
+**Step 1: Install tools**
+```bash
+emerge --ask app-crypt/sbsigntools sys-apps/kmod[openssl]
+```
+
+**Step 2: Generate Certs**
+```bash
+mkdir -p /etc/kernel/certs
+cd /etc/kernel/certs
+
+# Generate Private Key
+openssl req -new -x509 -newkey rsa:2048 -keyout MOK.key -out MOK.crt \
+  -days 36500 -nodes -subj "/CN=My Kernel Signing Key/"
+
+# Convert to DER
+openssl x509 -in MOK.crt -outform DER -out MOK.der
+
+# Permissions
+chmod 600 MOK.key
+```
+
+#### 18.2.2 Configure Kernel Module Signing
+
+**Step 1: Enable Support**
+`/etc/portage/package.use/kernel`:
+```bash
+virtual/dist-kernel modules-sign
+sys-kernel/installkernel dracut
+```
+
+**Step 2: Configure Paths**
+`/etc/portage/make.conf`:
+```bash
+MODULES_SIGN_KEY="/etc/kernel/certs/MOK.key"
+MODULES_SIGN_CERT="/etc/kernel/certs/MOK.der"
+MODULES_SIGN_HASH="sha512"
+```
+
+**Step 3: Recompile**
+```bash
+emerge --ask @module-rebuild
+emerge --ask sys-kernel/gentoo-kernel-bin
+```
+
+#### 18.2.4 Enroll MOK (Machine Owner Key)
+
+**Step 1: Install Shim**
+```bash
+emerge --ask sys-boot/shim
+```
+
+**Step 2: Copy Shim**
+```bash
+cp /usr/share/shim/shimx64.efi /efi/EFI/gentoo/
+cp /usr/share/shim/mmx64.efi /efi/EFI/gentoo/
+```
+
+**Step 3: Import Cert**
+```bash
+mokutil --import /etc/kernel/certs/MOK.der
+```
+Set temporary password.
+
+**Step 4: Create Boot Entry**
+Use `efibootmgr` to point to `shimx64.efi`.
+
+**Step 5: Reboot and Enroll**
+In MOK Manager (Blue screen after reboot):
+**Enroll MOK** → **Continue** → **Yes** → Enter password → **Reboot**.
+
+</details>
+
+---
+
+<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+
+**Secure Boot Summary**
+
+- **Beginners**: Use **sbctl** (Section 18.1)
+- **Advanced**: Use **Manual OpenSSL** (Section 18.2)
+
+</div>
 
 ---
 
@@ -1319,9 +1939,9 @@ After configuration, be sure to check if `/boot/initramfs-*.img` contains RAID m
 
 <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem;">
 
-### Official Documentation
+### Official Docs
 
-- **[Gentoo Handbook: AMD64](https://wiki.gentoo.org/wiki/Handbook:AMD64)** Official Latest Guide
+- **[Gentoo Handbook: AMD64](https://wiki.gentoo.org/wiki/Handbook:AMD64)**
 - [Gentoo Wiki](https://wiki.gentoo.org/)
 - [Portage Documentation](https://wiki.gentoo.org/wiki/Portage)
 
@@ -1332,7 +1952,7 @@ After configuration, be sure to check if `/boot/initramfs-*.img` contains RAID m
 ### Community Support
 
 **Gentoo Chinese Community**:
-- Telegram Group: [@gentoo_zh](https://t.me/gentoo_zh)
+- Telegram: [@gentoo_zh](https://t.me/gentoo_zh)
 - Telegram Channel: [@gentoocn](https://t.me/gentoocn)
 - [GitHub](https://github.com/gentoo-zh)
 
@@ -1348,8 +1968,8 @@ After configuration, be sure to check if `/boot/initramfs-*.img` contains RAID m
 
 <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; text-align: center;">
 
-### Wish you enjoy freedom and flexibility on Gentoo!
+### Enjoy Freedom and Flexibility in Gentoo!
 
-This guide is based on official [Handbook:AMD64](https://wiki.gentoo.org/wiki/Handbook:AMD64) and simplified the process, marking optional steps, to let more people try easily.
+This guide is based on official Handbook and simplifies the process, marking optional steps so more users can try it easily.
 
 </div>

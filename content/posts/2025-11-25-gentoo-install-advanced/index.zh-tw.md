@@ -327,7 +327,7 @@ FEATURES="parallel-fetch candy"
 ### 13.7 鏡像站設定 (GENTOO_MIRRORS)
 
 ```bash
-# 更多鏡像請參考：https://www.gentoo.org.cn/mirrorlist/
+# 更多鏡像請參考：https://www.gentoo.org/downloads/mirrors/
 # 建議根據地理位置選擇（任選其一或多個，空格分隔）
 
 # 臺灣鏡像（推薦）
@@ -544,7 +544,7 @@ L10N="en en-US zh zh-CN zh-TW"
 LINGUAS="en en_US zh zh_CN zh_TW"
 
 # ========== 鏡像站設定 ==========
-# 更多鏡像請參考：https://www.gentoo.org.cn/mirrorlist/
+# 更多鏡像請參考：https://www.gentoo.org/downloads/mirrors/
 # 台灣常用鏡像（任選其一）：
 #   USTC (中國科學技術大學): https://mirrors.ustc.edu.cn/gentoo/
 #   TUNA (清華大學): https://mirrors.tuna.tsinghua.edu.cn/gentoo/

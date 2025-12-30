@@ -327,7 +327,7 @@ FEATURES="parallel-fetch candy"
 ### 13.7 镜像源配置 (GENTOO_MIRRORS)
 
 ```bash
-# 更多镜像请参考：https://www.gentoo.org.cn/mirrorlist/
+# 更多镜像请参考：https://www.gentoo.org/downloads/mirrors/
 # 建议根据地理位置选择（任选其一或多个，空格分隔）
 
 # 中国大陆镜像（推荐）
@@ -544,7 +544,7 @@ L10N="en en-US zh zh-CN zh-TW"
 LINGUAS="en en_US zh zh_CN zh_TW"
 
 # ========== 镜像源设置 ==========
-# 更多镜像请参考：https://www.gentoo.org.cn/mirrorlist/
+# 更多镜像请参考：https://www.gentoo.org/downloads/mirrors/
 # 中国大陆常用镜像（任选其一）：
 #   USTC (中国科学技术大学): https://mirrors.ustc.edu.cn/gentoo/
 #   TUNA (清华大学): https://mirrors.tuna.tsinghua.edu.cn/gentoo/

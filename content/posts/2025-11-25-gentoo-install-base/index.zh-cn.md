@@ -211,7 +211,7 @@ Portage 的命令行工具。常用命令：
 
 ### 0.1 下载 Gentoo ISO
 
-根据[**下载页面**](/download/) 和 [**镜像列表**](/mirrorlist/) 提供的方式获取下载链接
+根据[**Gentoo 下载页面**](https://www.gentoo.org/downloads/) 和 [**Gentoo 镜像列表**](https://www.gentoo.org/downloads/mirrors/) 提供的方式获取下载链接
 
 <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
 
@@ -764,7 +764,7 @@ Stage3 是一个最小化的 Gentoo 基础系统环境。我们将它解压到�
 
 ### 4.2 下载与展开
 
-更多镜像请参考：[镜像列表页面](/mirrorlist/)
+更多镜像请参考：[Gentoo 镜像列表](https://www.gentoo.org/downloads/mirrors/)
 
 ```bash
 cd /mnt/gentoo
@@ -848,7 +848,7 @@ eselect editor list          # 列出可用编辑器
 eselect editor set vi        # 将 Vim 设置为默认编辑器 (vi 通常是指向 vim 的软链接)
 ```
 
-设置镜像（可在 [镜像列表页面](/mirrorlist/) 查看更多选项，择一）：
+设置镜像（可在 [Gentoo 镜像列表](https://www.gentoo.org/downloads/mirrors/) 查看更多选项，择一）：
 ```bash
 mirrorselect -i -o >> /etc/portage/make.conf
 
@@ -917,7 +917,7 @@ L10N="en en-US zh zh-CN zh-TW"
 LINGUAS="en en_US zh zh_CN zh_TW"
 
 # ========== 镜像源设置 ==========
-# 更多镜像请参考：https://www.gentoo.org.cn/mirrorlist/
+# 更多镜像请参考：https://www.gentoo.org/downloads/mirrors/
 # 建议根据地理位置选择（择一）：
 
 # 中国大陆镜像：

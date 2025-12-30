@@ -1,6 +1,6 @@
 ---
 title: "Install Gentoo Linux on Apple Silicon Mac (M1/M2 Guide)"
-slug: gentoo-m-series-mac
+slug: gentoo-m-series-mac-arm64
 aliases:
   - /posts/gentoo-m-series-mac/
 translationKey: gentoo-m-series-mac-arm64

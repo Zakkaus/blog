@@ -9,7 +9,7 @@
 ---
 
 ## Tech Stack · 技術棧
-- [Hugo](https://gohugo.io/) `v0.151.0` with the [Blowfish](https://blowfish.page/) theme (git submodule)。  
+- [Hugo](https://gohugo.io/) `v0.155.3` with the [Blowfish](https://blowfish.page/) theme (`v2.98.0` via git submodule)。  
   使用 Hugo 產生靜態頁面，Blowfish 主題透過子模組維護。
 - Asset pipeline via Hugo Pipes (SCSS/JS minify) stored under `assets/`。  
   使用 Hugo Pipes 處理 SCSS、JS 檔案。

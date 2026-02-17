@@ -1,17 +1,8 @@
 ---
 title: "Gentoo Linux 安装指南 (基础篇)"
-slug: gentoo-install
-aliases:
-  - /zh-cn/posts/gentoo-install/
-translationKey: gentoo-install
-date: 2025-11-30
+date: 2025-11-25
 summary: "Gentoo Linux 基础系统安装教程，涵盖分区、Stage3、内核编译、引导程序配置等。也突出有 LUKS 全盘加密教学。"
 description: "2025 年最新 Gentoo Linux 安装指南 (基础篇)，详细讲解 UEFI 安装流程、内核编译等。适合 Linux 进阶用户和 Gentoo 新手。也突出有 LUKS 全盘加密教学。"
-article:
-  showHero: true
-  heroStyle: background
-featureImage: feature-gentoo-chan.webp
-featureImageAlt: "Gentoo Chan"
 keywords:
   - Gentoo Linux
   - Linux 安装
@@ -33,7 +24,7 @@ authors:
   - zakkaus
 ---
 
-<div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 ### 文章特别说明
 
@@ -41,15 +32,15 @@ authors:
 
 **系列导航**：
 1. **基础安装（本文）**：从零开始安装 Gentoo 基础系统
-2. [桌面配置](/zh-cn/posts/gentoo-install-desktop/)：显卡驱动、桌面环境、输入法等
-3. [进阶优化](/zh-cn/posts/gentoo-install-advanced/)：make.conf 优化、LTO、系统维护
+2. [桌面配置](/posts/2025-11-25-gentoo-install-desktop/)：显卡驱动、桌面环境、输入法等
+3. [进阶优化](/posts/2025-11-25-gentoo-install-advanced/)：make.conf 优化、LTO、系统维护
 
 **建议阅读方式**：
 - 按需阅读：基础安装（0-11 节）→ 桌面配置（12 节）→ 进阶优化（13-17 节）
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 ### 关于本指南
 
@@ -65,7 +56,7 @@ authors:
 - [Gentoo Handbook: AMD64](https://wiki.gentoo.org/wiki/Handbook:AMD64)
 - [Gentoo Handbook: AMD64 (简体中文)](https://wiki.gentoo.org/wiki/Handbook:AMD64/zh-cn)
 
-<p style="opacity: 0.8; margin-top: 1rem;">✓ 已验证至 2025 年 11 月 25 日</p>
+<p>✓ 已验证至 2025 年 11 月 25 日</p>
 
 </div>
 
@@ -79,9 +70,9 @@ Gentoo Linux 是一个基于源码的 Linux 发行版，以其**高度可定制�
 - **编译时间**：初次安装需要较长时间（建议预留 3-6 小时）
 - **学习曲线**：需要一定的 Linux 基础知识
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
+<div>
 
-<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94);">
+<div>
 
 **适合谁？**
 - 想要深入学习 Linux 的技术爱好者
@@ -90,7 +81,7 @@ Gentoo Linux 是一个基于源码的 Linux 发行版，以其**高度可定制�
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11);">
+<div>
 
 **不适合谁？**
 - 只想快速安装使用的新手（建议先尝试 Ubuntu、Fedora 等）
@@ -140,7 +131,7 @@ Portage 的命令行工具。常用命令：
 | **安装桌面环境**（可选） | **1-3 小时** |
 | **总计** | **3-6 小时**（取决于硬件性能）|
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **提示**
 
@@ -172,7 +163,7 @@ Portage 的命令行工具。常用命令：
 
 ---
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 ### 本指南内容概览
 
@@ -181,21 +172,22 @@ Portage 的命令行工具。常用命令：
 **本文将教你**：
 - 从零开始安装 Gentoo 基础系统（分区、Stage3、内核、引导程序）
 - 配置 Portage 并优化编译参数（make.conf、USE flags、CPU flags）
-- 启用 Binary Package Host（二进制包主机，大幅缩短安装时间）
 - 安装桌面环境（KDE Plasma、GNOME、Hyprland）
 - 配置中文环境（locale、字体、Fcitx5 输入法）
-- 可选进阶配置（LUKS 全盘加密、Secure Boot 安全启动、LTO 优化、内核调优、RAID）
+- 可选进阶配置（LUKS 全盘加密、LTO 优化、内核调优、RAID）
 - 系统维护（SSD TRIM、电源管理、Flatpak、系统更新）
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
+<div>
 
 **重要提醒**
 
-**请先关闭 Secure Boot** 在开始安装之前，请务必进入 BIOS 设置，将 **Secure Boot** 暂时关闭。开启 Secure Boot 可能会导致安装介质无法启动，或者安装后的系统无法引导。你可以在系统安装完成并成功启动后，再参考本指南后面的章节重新配置并开启 Secure Boot。
+**请先关闭 Secure Boot**  
+在开始安装之前，请务必进入 BIOS 设置，将 **Secure Boot** 暂时关闭。开启 Secure Boot 可能会导致安装介质无法启动，或者安装后的系统无法引导。你可以在系统安装完成并成功启动后，再参考本指南后面的章节重新配置并开启 Secure Boot。
 
-**备份所有重要数据！** 本指南涉及磁盘分区操作，请务必在开始前备份所有重要数据！
+**备份所有重要数据！**  
+本指南涉及磁盘分区操作，请务必在开始前备份所有重要数据！
 
 </div>
 
@@ -203,7 +195,7 @@ Portage 的命令行工具。常用命令：
 
 ## 0. 准备安装媒介 {#step-0-prepare}
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - 选择安装媒介](https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Media/zh-cn)
 
@@ -211,9 +203,9 @@ Portage 的命令行工具。常用命令：
 
 ### 0.1 下载 Gentoo ISO
 
-根据[**Gentoo 下载页面**](https://www.gentoo.org/downloads/) 和 [**Gentoo 镜像列表**](https://www.gentoo.org/downloads/mirrors/) 提供的方式获取下载链接
+根据[**下载页面**](https://www.gentoo.org/downloads/) 提供的方式获取下载链接
 
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+<div>
 
 **注意**
 
@@ -221,36 +213,20 @@ Portage 的命令行工具。常用命令：
 
 </div>
 
-**下载 Minimal ISO（建议根据地理位置选择镜像站，择一）：**
-
-首先，访问镜像站找到最新版本的 ISO（选择日期最新的目录）：
-
+下载 Minimal ISO（以 BFSU 镜像站为例）：
 ```bash
-# 中国大陆镜像（推荐）：
-# 访问 https://mirrors.ustc.edu.cn/gentoo/releases/amd64/autobuilds/ 查看最新版本
-
-# 或使用其他镜像：
-# 清华大学：https://mirrors.tuna.tsinghua.edu.cn/gentoo/releases/amd64/autobuilds/
-# 香港 CICKU：https://hk.mirrors.cicku.me/gentoo/releases/amd64/autobuilds/
-# 台湾 NCHC：http://ftp.twaren.net/Linux/Gentoo/releases/amd64/autobuilds/
-# 新加坡 Freedif：https://mirror.freedif.org/gentoo/releases/amd64/autobuilds/
+wget https://mirrors.bfsu.edu.cn/gentoo/releases/amd64/autobuilds/20251123T153051Z/install-amd64-minimal-20251123T153051Z.iso
+wget https://mirrors.bfsu.edu.cn/gentoo/releases/amd64/autobuilds/20251123T153051Z/install-amd64-minimal-20251123T153051Z.iso.asc
 ```
 
-下载示例（请替换 `YYYYMMDDTHHMMSSZ` 为你找到的最新版本日期）：
-
-```bash
-# 下载 ISO 和签名文件（以中国科学技术大学镜像为例）：
-wget https://mirrors.ustc.edu.cn/gentoo/releases/amd64/autobuilds/YYYYMMDDTHHMMSSZ/install-amd64-minimal-YYYYMMDDTHHMMSSZ.iso
-wget https://mirrors.ustc.edu.cn/gentoo/releases/amd64/autobuilds/YYYYMMDDTHHMMSSZ/install-amd64-minimal-YYYYMMDDTHHMMSSZ.iso.asc
-```
-
-<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
+<div>
 
 **新手推荐：使用 LiveGUI USB Image**
 
 如果希望安装时能直接使用浏览器或更方便地连接 Wi-Fi，可以选择 **LiveGUI USB Image**。
 
-**新手入坑推荐使用每周构建的 KDE 桌面环境的 Live ISO**： <https://iso.gig-os.org/> （来自 Gig-OS <https://github.com/Gig-OS> 项目）
+**新手入坑推荐使用每周构建的 KDE 桌面环境的 Live ISO**： <https://iso.gig-os.org/>  
+（来自 Gig-OS <https://github.com/Gig-OS> 项目）
 
 **Live ISO 登录凭据**：
 - 账号：`live`
@@ -284,7 +260,7 @@ gpg --verify install-amd64-minimal-20251123T153051Z.iso.asc install-amd64-minima
 sudo dd if=install-amd64-minimal-20251123T153051Z.iso of=/dev/sdX bs=4M status=progress oflag=sync
 # if=输入文件 of=输出设备 bs=块大小 status=显示进度
 ```
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **提示**
 
@@ -298,13 +274,13 @@ sudo dd if=install-amd64-minimal-20251123T153051Z.iso of=/dev/sdX bs=4M status=p
 
 ## 1. 进入 Live 环境并连接网络 {#step-1-network}
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - 配置网络](https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Networking/zh-cn)
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 **为什么需要这一步？**
 
@@ -323,7 +299,7 @@ ping -c3 gentoo.org # 测试网络连通性
 ### 1.2 无线网络
 使用 net-setup：
 ```bash
-net-setup
+net-setup 
 ```
 
 **wpa_supplicant：**
@@ -333,7 +309,7 @@ wpa_supplicant -B -i wlp0s20f3 -c /etc/wpa_supplicant/wpa_supplicant.conf
 dhcpcd wlp0s20f3
 ```
 
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+<div>
 
 **注意**
 
@@ -354,15 +330,16 @@ ip a | grep inet            # 查看当前 IP 地址
 
 </details>
 
+
 ## 2. 规划磁盘分区 {#step-2-partition}
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - 准备磁盘](https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Disks/zh-cn)
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 **为什么需要这一步？**
 
@@ -374,9 +351,10 @@ ip a | grep inet            # 查看当前 IP 地址
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
+<div>
 
-**警告** 如果 ESP 没有使用 FAT 变体进行格式化，那么系统的 UEFI 固件将找不到引导加载程序（或 Linux 内核）并且很可能无法引导系统！
+**警告**  
+如果 ESP 没有使用 FAT 变体进行格式化，那么系统的 UEFI 固件将找不到引导加载程序（或 Linux 内核）并且很可能无法引导系统！
 
 </div>
 
@@ -427,6 +405,8 @@ cfdisk /dev/nvme0n1
  │      Filesystem: crypto_LUKS                                                                                                                    │
  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
                                    [ 删除 ]  [Resize]  [ 退出 ]  [ 类型 ]  [ 帮助 ]  [ 排序 ]  [ 写入 ]  [ 导出 ]
+
+
                                                         Quit program without writing changes
 ```
 
@@ -528,7 +508,7 @@ Last sector (...): <Enter>
 Created a new partition 3 of type 'Linux filesystem' and of size 926.5 GiB.
 ```
 
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+<div>
 
 **注意**
 
@@ -562,13 +542,13 @@ Syncing disks.
 
 ## 3. 建立文件系统并挂载 {#step-3-filesystem}
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - 准备磁盘](https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Disks/zh-cn) · [Ext4](https://wiki.gentoo.org/wiki/Ext4/zh-cn) · [XFS](https://wiki.gentoo.org/wiki/XFS/zh-cn) · [Btrfs](https://wiki.gentoo.org/wiki/Btrfs/zh-cn)
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 **为什么需要这一步？**
 
@@ -594,7 +574,7 @@ mkfs.btrfs -L gentoo /dev/nvme0n1p3
 mkfs.ext4 /dev/nvme0n1p3
 ```
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **其他文件系统**
 
@@ -650,14 +630,14 @@ lsblk
 输出示例：
 ```text
 NAME             MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINTS
-nvme0n1          259:1    0 931.5G  0 disk
+nvme0n1          259:1    0 931.5G  0 disk  
 ├─nvme0n1p1      259:7    0     1G  0 part  /mnt/gentoo/efi
 ├─nvme0n1p2      259:8    0     4G  0 part  [SWAP]
 └─nvme0n1p3      259:9    0 926.5G  0 part  /mnt/gentoo/home
                                             /mnt/gentoo
 ```
 
-<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
+<div>
 
 **Btrfs 快照建议**
 
@@ -708,10 +688,10 @@ lsblk
 输出示例：
 ```text
 NAME             MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINTS
-nvme0n1          259:1    0 931.5G  0 disk
+nvme0n1          259:1    0 931.5G  0 disk  
 ├─nvme0n1p1      259:7    0     1G  0 part  /mnt/gentoo/efi
 ├─nvme0n1p2      259:8    0     4G  0 part  [SWAP]
-└─nvme0n1p3      259:9    0 926.5G  0 part
+└─nvme0n1p3      259:9    0 926.5G  0 part  
   └─gentoo-root  253:0    0 926.5G  0 crypt /mnt/gentoo
 ```
 
@@ -719,7 +699,7 @@ nvme0n1          259:1    0 931.5G  0 disk
 
 ---
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **建议**
 
@@ -732,7 +712,7 @@ lsblk
 **输出示例**（类似如下）：
 ```text
 NAME             MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINTS
- nvme0n1          259:1    0 931.5G  0 disk
+ nvme0n1          259:1    0 931.5G  0 disk  
 ├─nvme0n1p1      259:7    0     1G  0 part  /efi
 ├─nvme0n1p2      259:8    0     4G  0 part  [SWAP]
 └─nvme0n1p3      259:9    0 926.5G  0 part  /
@@ -742,13 +722,13 @@ NAME             MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINTS
 
 ## 4. 下载 Stage3 并进入 chroot {#step-4-stage3}
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - 安装 Gentoo 安装文件](https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Stage/zh-cn) · [Stage file](https://wiki.gentoo.org/wiki/Stage_file)
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 **为什么需要这一步？**
 
@@ -764,33 +744,11 @@ Stage3 是一个最小化的 Gentoo 基础系统环境。我们将它解压到�
 
 ### 4.2 下载与展开
 
-更多镜像请参考：[Gentoo 镜像列表](https://www.gentoo.org/downloads/mirrors/)
-
 ```bash
 cd /mnt/gentoo
-
-# 使用 links 浏览器访问镜像站下载 Stage3（建议根据地理位置选择，择一）：
-
-# 中国大陆镜像（推荐）：
-links https://mirrors.ustc.edu.cn/gentoo/releases/amd64/autobuilds/
-
-# 或使用其他镜像：
-# 清华大学：
-# links https://mirrors.tuna.tsinghua.edu.cn/gentoo/releases/amd64/autobuilds/
-
-# 香港 CICKU：
-# links https://hk.mirrors.cicku.me/gentoo/releases/amd64/autobuilds/
-
-# 台湾 NCHC：
-# links http://ftp.twaren.net/Linux/Gentoo/releases/amd64/autobuilds/
-
-# 新加坡 Freedif：
-# links https://mirror.freedif.org/gentoo/releases/amd64/autobuilds/
-
-# 在 links 浏览器中：
-# 1. 选择日期最新的目录（格式：YYYYMMDDTHHMMSSZ）
-# 2. 下载 stage3-*.tar.xz 文件
-# 3. 解压 Stage3 压缩包：
+# 使用 links 浏览器访问镜像站下载 Stage3
+links https://mirrors.bfsu.edu.cn/gentoo/releases/amd64/autobuilds/20251123T153051Z/ #以 BFSU 镜像站为例
+# 解压 Stage3 压缩包
 # x:解压 p:保留权限 v:显示过程 f:指定文件 --numeric-owner:使用数字ID
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 ```
@@ -824,13 +782,13 @@ export PS1="(chroot) ${PS1}"    # 修改提示符以区分环境
 
 ## 5. 初始化 Portage 与 make.conf {#step-5-portage}
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - 安装 Gentoo 基本系统](https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base/zh-cn)
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 **为什么需要这一步？**
 
@@ -848,32 +806,17 @@ eselect editor list          # 列出可用编辑器
 eselect editor set vi        # 将 Vim 设置为默认编辑器 (vi 通常是指向 vim 的软链接)
 ```
 
-设置镜像（可在 [Gentoo 镜像列表](https://www.gentoo.org/downloads/mirrors/) 查看更多选项，择一）：
+设置镜像（择一）：
 ```bash
 mirrorselect -i -o >> /etc/portage/make.conf
-
-# 或手动选择（择一）：
-
-# 中国大陆镜像：
-echo 'GENTOO_MIRRORS="https://mirrors.ustc.edu.cn/gentoo/"' >> /etc/portage/make.conf           # 中国科学技术大学
-# echo 'GENTOO_MIRRORS="https://mirrors.tuna.tsinghua.edu.cn/gentoo/"' >> /etc/portage/make.conf # 清华大学
-# echo 'GENTOO_MIRRORS="https://mirrors.zju.edu.cn/gentoo/"' >> /etc/portage/make.conf           # 浙江大学
-
-# 香港镜像：
-# echo 'GENTOO_MIRRORS="https://hk.mirrors.cicku.me/gentoo/"' >> /etc/portage/make.conf          # CICKU
-
-# 台湾镜像：
-# echo 'GENTOO_MIRRORS="http://ftp.twaren.net/Linux/Gentoo/"' >> /etc/portage/make.conf          # NCHC
-# echo 'GENTOO_MIRRORS="https://tw.mirrors.cicku.me/gentoo/"' >> /etc/portage/make.conf          # CICKU
-
-# 新加坡镜像：
-# echo 'GENTOO_MIRRORS="https://mirror.freedif.org/gentoo/"' >> /etc/portage/make.conf           # Freedif
-# echo 'GENTOO_MIRRORS="https://sg.mirrors.cicku.me/gentoo/"' >> /etc/portage/make.conf          # CICKU
+# 或手动：
+#以 BFSU 镜像站为例
+echo 'GENTOO_MIRRORS="https://mirrors.bfsu.edu.cn/gentoo/"' >> /etc/portage/make.conf
 ```
 
-### 5.2 make.conf 范例 {#52-makeconf-范例}
+### 5.2 make.conf 范例
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - USE 标志](https://wiki.gentoo.org/wiki/Handbook:AMD64/Working/USE/zh-cn) · [/etc/portage/make.conf](https://wiki.gentoo.org/wiki//etc/portage/make.conf)
 
@@ -885,7 +828,7 @@ vim /etc/portage/make.conf
 ```
 
 **懒人/新手配置（复制粘贴）**：
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **提示**
 
@@ -917,54 +860,160 @@ L10N="en en-US zh zh-CN zh-TW"
 LINGUAS="en en_US zh zh_CN zh_TW"
 
 # ========== 镜像源设置 ==========
-# 更多镜像请参考：https://www.gentoo.org/downloads/mirrors/
-# 建议根据地理位置选择（择一）：
-
-# 中国大陆镜像：
-GENTOO_MIRRORS="https://mirrors.ustc.edu.cn/gentoo/"                    # 中国科学技术大学（推荐）
-# GENTOO_MIRRORS="https://mirrors.tuna.tsinghua.edu.cn/gentoo/"         # 清华大学
-# GENTOO_MIRRORS="https://mirrors.zju.edu.cn/gentoo/"                   # 浙江大学
-
-# 香港镜像：
-# GENTOO_MIRRORS="https://hk.mirrors.cicku.me/gentoo/"                  # CICKU
-
-# 台湾镜像：
-# GENTOO_MIRRORS="http://ftp.twaren.net/Linux/Gentoo/"                  # NCHC
-# GENTOO_MIRRORS="https://tw.mirrors.cicku.me/gentoo/"                  # CICKU
-
-# 新加坡镜像：
-# GENTOO_MIRRORS="https://mirror.freedif.org/gentoo/"                   # Freedif
-# GENTOO_MIRRORS="https://sg.mirrors.cicku.me/gentoo/"                  # CICKU
+# 国内推荐：BFSU、TUNA、USTC 等
+GENTOO_MIRRORS="https://mirrors.bfsu.edu.cn/gentoo/"
 
 # ========== USE 标志 ==========
 # systemd: 使用 systemd 作为 init（若用 OpenRC 改为 -systemd）
 # dist-kernel: 使用发行版内核，新手推荐
-# networkmanager: 网络管理工具
-# bluetooth: 蓝牙支持（若不使用蓝牙可移除）
+# 其他: dbus/policykit 桌面必需，networkmanager 网络管理
 USE="systemd udev dbus policykit networkmanager bluetooth git dist-kernel"
 
 # ========== 许可证设置 ==========
-# "*" 接受所有许可证（包括非自由软件/专有软件）
-# 警告：接受所有许可证意味着您同意安装闭源软件，如需仅使用自由软件请改为 "@FREE"
-# 详细说明见进阶篇 13.12 节
+# "*" 接受所有许可证；"@FREE" 仅接受自由软件
 ACCEPT_LICENSE="*"
 ```
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<details>
+<summary><b>详细配置范例（建议阅读并调整）（点击展开）</b></summary>
 
-**详细配置说明**
+```conf
+# vim: set filetype=bash  # 告诉 Vim 使用 bash 语法高亮
 
-如需查看包含完整注释的 `make.conf` 配置范例，请参阅 [进阶篇 13.11 节：详细配置范例](/zh-cn/posts/gentoo-install-advanced/#1311-详细配置范例完整注释版)。
+# ========== 系统架构（勿手动修改） ==========
+# 由 Stage3 预设，表示目标系统架构
+CHOST="x86_64-pc-linux-gnu"
 
-该范例包含：
-- 每个配置项的详细说明和推荐值
-- 针对不同硬件的调整建议
-- USE 标志的功能说明
-- FEATURES 和日志配置示例
+# ========== 编译优化参数 ==========
+# -march=native    针对当前 CPU 架构优化，获得最佳性能
+#                  注意：编译出的程序可能无法在其他 CPU 上运行
+# -O2              推荐的优化级别，平衡性能与稳定性
+#                  避免使用 -O3，可能导致部分软件编译失败
+# -pipe            使用管道代替临时文件传递数据，加速编译
+COMMON_FLAGS="-march=native -O2 -pipe"
+CFLAGS="${COMMON_FLAGS}"      # C 编译器选项
+CXXFLAGS="${COMMON_FLAGS}"    # C++ 编译器选项
+FCFLAGS="${COMMON_FLAGS}"     # Fortran 编译器选项
+FFLAGS="${COMMON_FLAGS}"      # Fortran 77 编译器选项
 
-</div>
+# CPU 指令集优化（运行 cpuid2cpuflags 自动生成，见下文 5.3）
+# CPU_FLAGS_X86="aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt sse sse2 ..."
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+# ========== 并行编译设置 ==========
+# MAKEOPTS: 控制 make 的并行任务数
+#   -j<N>   同时运行的编译任务数，建议 = CPU 线程数（nproc）
+#   -l<N>   系统负载限制，防止系统过载（可选）
+MAKEOPTS="-j8"  # 请根据实际 CPU 线程数调整
+
+# 内存不足时的替代配置（例如 16GB 内存 + 8 核 CPU）：
+# MAKEOPTS="-j4 -l8"  # 减少并行数，限制负载
+
+# ========== 语言与本地化设置 ==========
+# 保持构建输出为英文，便于搜索错误信息和寻求帮助
+LC_MESSAGES=C
+
+# L10N: 本地化语言支持（影响软件翻译、文档等）
+L10N="en en-US zh zh-CN zh-TW"
+
+# LINGUAS: 旧式本地化变量（部分软件仍需要）
+LINGUAS="en en_US zh zh_CN zh_TW"
+
+# ========== 镜像源设置 ==========
+# 国内常用镜像（任选其一）：
+#   BFSU:  https://mirrors.bfsu.edu.cn/gentoo/
+#   TUNA:  https://mirrors.tuna.tsinghua.edu.cn/gentoo/
+#   USTC:  https://mirrors.ustc.edu.cn/gentoo/
+#   SJTU:  https://mirrors.sjtug.sjtu.edu.cn/gentoo/
+GENTOO_MIRRORS="https://mirrors.bfsu.edu.cn/gentoo/"
+
+# ========== Emerge 默认选项 ==========
+# --ask              执行前询问确认
+# --verbose          显示详细信息（USE 标志变化等）
+# --with-bdeps=y     包含构建时依赖（更新时也检查）
+# --complete-graph=y 完整依赖图分析（避免依赖问题）
+EMERGE_DEFAULT_OPTS="--ask --verbose --with-bdeps=y --complete-graph=y"
+
+# 可选的额外选项：
+# --jobs=N           并行编译多个包（内存充足时可用）
+# --load-average=N   系统负载限制
+# EMERGE_DEFAULT_OPTS="--ask --verbose --jobs=2 --load-average=8"
+
+# ========== USE 标志（全局功能开关） ==========
+# 这些标志影响所有软件包的编译选项
+#
+# 系统基础：
+#   systemd        使用 systemd init（若用 OpenRC 改为 -systemd）
+#   udev           设备管理支持
+#   dbus           进程间通信（桌面环境必需）
+#   policykit      权限管理（桌面环境必需）
+#
+# 网络与硬件：
+#   networkmanager 网络管理器（桌面用户推荐）
+#   bluetooth      蓝牙支持
+#
+# 开发工具：
+#   git            Git 版本控制
+#
+# 内核：
+#   dist-kernel    使用发行版内核（新手推荐）
+#
+USE="systemd udev dbus policykit networkmanager bluetooth git dist-kernel"
+
+# 常用的可选 USE 标志：
+#   pulseaudio / pipewire  音频服务器
+#   wayland / X            显示服务器
+#   vulkan                 Vulkan 图形 API
+#   vaapi / vdpau          硬件视频解码
+#   cups                   打印支持
+#   flatpak                Flatpak 应用支持
+
+# ========== 许可证设置 ==========
+# "*"     接受所有许可证（包括闭源软件）
+# "@FREE" 仅接受自由软件许可证
+ACCEPT_LICENSE="*"
+
+# ========== 视频卡配置（可选） ==========
+# 根据你的显卡选择：
+#   intel      Intel 集成显卡
+#   amdgpu     AMD 显卡（GCN 1.2+）
+#   radeonsi   AMD 显卡（OpenGL）
+#   nvidia     NVIDIA 显卡（闭源驱动）
+#   nouveau    NVIDIA 显卡（开源驱动）
+# VIDEO_CARDS="intel"
+# VIDEO_CARDS="amdgpu radeonsi"
+# VIDEO_CARDS="nvidia"
+
+# ========== 输入设备配置（可选） ==========
+# libinput 是现代桌面的推荐选择
+# INPUT_DEVICES="libinput"
+
+# ========== Portage 功能配置（可选） ==========
+# 启用并行解压、拆分调试信息、测试等
+# FEATURES="parallel-fetch parallel-unpack splitdebug"
+
+# ========== 编译日志配置（推荐） ==========
+# PORTAGE_ELOG_CLASSES: 要记录的日志级别
+#   info     一般信息
+#   warn     警告信息（重要）
+#   error    错误信息（重要）
+#   log      普通日志
+#   qa       质量保证警告
+PORTAGE_ELOG_CLASSES="warn error log"
+
+# PORTAGE_ELOG_SYSTEM: 日志输出方式
+#   save          保存到 /var/log/portage/elog/（推荐）
+#   echo          编译后直接显示
+#   mail          通过邮件发送
+#   syslog        发送到系统日志
+#   custom        自定义处理
+PORTAGE_ELOG_SYSTEM="save"
+
+# 文件末尾保留换行符！
+```
+
+</details>
+
+<div>
 
 **新手提示**
 
@@ -974,27 +1023,25 @@ ACCEPT_LICENSE="*"
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<details>
+<summary><b>进阶设置：CPU 指令集优化 (CPU_FLAGS_X86)（点击展开）</b></summary>
 
-**进阶配置**
+<div>
 
-- **ACCEPT_LICENSE 许可证管理**：详见 [进阶篇 13.12 节](/zh-cn/posts/gentoo-install-advanced/#1312-accept_license-软件许可证详解)
-- **CPU 指令集优化 (CPU_FLAGS_X86)**：详见 [进阶篇 13.13 节](/zh-cn/posts/gentoo-install-advanced/#1313-cpu-指令集优化-cpu_flags_x86)
+**可参考**：[CPU_FLAGS_*](https://wiki.gentoo.org/wiki/CPU_FLAGS_*/zh-cn)
 
 </div>
-
-### 5.3 配置 CPU 指令集优化 {#53-配置-cpu-指令集优化}
 
 为了让 Portage 知道你的 CPU 支持哪些特定指令集（如 AES, AVX, SSE4.2 等），我们需要配置 `CPU_FLAGS_X86`。
 
 安装检测工具：
 ```bash
-emerge --ask app-portage/cpuid2cpuflags
+emerge --ask app-portage/cpuid2cpuflags # 安装检测工具
 ```
 
 运行检测并写入配置：
 ```bash
-cpuid2cpuflags >> /etc/portage/make.conf
+cpuid2cpuflags >> /etc/portage/make.conf # 将检测结果追加到配置文件
 ```
 
 检查 `/etc/portage/make.conf` 末尾，你应该会看到类似这样的一行：
@@ -1002,139 +1049,19 @@ cpuid2cpuflags >> /etc/portage/make.conf
 CPU_FLAGS_X86="aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt rdrand sse sse2 sse3 sse4_1 sse4_2 ssse3"
 ```
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**说明**
-
-更多关于 CPU 指令集优化的详细信息，请参阅 [进阶篇 13.13 节](/zh-cn/posts/gentoo-install-advanced/#1313-cpu-指令集优化-cpu_flags_x86)。
-
-</div>
-
----
-
-### 5.4 可选：启用 Binary Package Host（二进制包主机）
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**可参考**：[Gentoo Handbook: Binary Package Host](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation#Optional:_Adding_a_binary_package_host) · [Binary package guide](https://wiki.gentoo.org/wiki/Binary_package_guide)
-
-</div>
-
-<div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
-
-**为什么使用 Binary Package Host？**
-
-自 2023 年 12 月起，Gentoo [官方提供二进制包主机](https://www.gentoo.org/news/2023/12/29/Gentoo-binary.html)（binhost），可大幅缩短安装时间：
-- **LLVM / Clang**：从 2-3 小时缩短到 5 分钟
-- **Rust**：从 1-2 小时缩短到 3 分钟
-- **Firefox / Chromium**：从数小时缩短到 10 分钟
-
-所有二进制包均经过 **加密签章验证**，确保安全性。
-
-</div>
-
-#### 配置 Binary Package Host
-
-**步骤 1：配置仓库**
-
-创建 binhost 配置文件：
-```bash
-mkdir -p /etc/portage/binrepos.conf
-vim /etc/portage/binrepos.conf/gentoobinhost.conf
-```
-
-加入以下内容（根据你的 **Profile** 选择对应路径）：
-
-```conf
-# /etc/portage/binrepos.conf/gentoobinhost.conf
-[binhost]
-priority = 9999
-
-# 官方 binhost（推荐）：
-sync-uri = https://distfiles.gentoo.org/releases/amd64/binpackages/23.0/x86-64/
-
-# 可选：使用镜像加速下载（取消注释其中一个）
-# 中国大陆：
-# sync-uri = https://mirrors.ustc.edu.cn/gentoo/releases/amd64/binpackages/23.0/x86-64/
-# sync-uri = https://mirrors.nju.edu.cn/gentoo/releases/amd64/binpackages/23.0/x86-64/
-# sync-uri = https://mirrors.tuna.tsinghua.edu.cn/gentoo/releases/amd64/binpackages/23.0/x86-64/
-
-# 香港：
-# sync-uri = https://hk.mirrors.cicku.me/gentoo/releases/amd64/binpackages/23.0/x86-64/
-
-# 台湾：
-# sync-uri = http://ftp.twaren.net/Linux/Gentoo/releases/amd64/binpackages/23.0/x86-64/
-# sync-uri = https://tw.mirrors.cicku.me/gentoo/releases/amd64/binpackages/23.0/x86-64/
-
-# 新加坡：
-# sync-uri = https://download.nus.edu.sg/mirror/gentoo/releases/amd64/binpackages/23.0/x86-64/
-# sync-uri = https://sg.mirrors.cicku.me/gentoo/releases/amd64/binpackages/23.0/x86-64/
-```
-
-> **注意**：使用镜像时，密钥验证仍需连接官方服务器。
-
-**步骤 2：启用二进制包功能**
-
-编辑 `/etc/portage/make.conf`，加入：
-```bash
-# 启用二进制包下载与签章验证
-FEATURES="${FEATURES} getbinpkg binpkg-request-signature"
-
-# emerge 默认使用二进制包（可选，推荐新手启用）
-EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --getbinpkg"
-```
-
-**步骤 3：获取签章密钥**
-
-运行以下命令，让 Portage 设置验证所需的密钥环：
-```bash
-getuto
-```
-
-#### 验证配置
-
-测试是否正确配置：
-```bash
-emerge --pretend --getbinpkg sys-apps/portage
-```
-
-若输出包含 `[binary]` 字样，说明配置成功：
-```
-[ebuild   R    ] sys-apps/portage-3.0.61::gentoo [binary]
-```
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**使用提示**
-
-- **优先使用二进制包**：如上配置后，emerge 会自动优先使用二进制包
-- **强制从源码编译**：`emerge --usepkg=n <套件名>`
-- **仅使用二进制包**：`emerge --usepkgonly <套件名>`
-- **查看可用二进制包**：访问 [Gentoo Binhost Browser](https://distfiles.gentoo.org/releases/amd64/binpackages/)
-
-</div>
-
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1rem 0;">
-
-**注意事项**
-
-- 若你的 **USE 标志**或**编译参数**与官方预设不同，Portage 会自动回退到源码编译
-- 二进制包使用官方的**通用配置**，可能无法完全发挥你的 CPU 性能优势（`-march=native` 的特定优化）
-- 建议**初次安装时使用 binhost**，系统稳定后根据需要调整 USE 标志并重新编译关键套件
-
-</div>
+</details>
 
 ---
 
 ## 6. Profile、系统设置与本地化 {#step-6-system}
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - 安装 Gentoo 基本系统](https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base/zh-cn)
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 **为什么需要这一步？**
 
@@ -1157,7 +1084,7 @@ emerge -avuDN @world          # 更新系统以匹配新 Profile (a:询问 v:详
 
 ### 6.2 时区与语言
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Wiki: Localization/Guide](https://wiki.gentoo.org/wiki/Localization/Guide/zh-cn)
 
@@ -1186,7 +1113,7 @@ echo "gentoo" > /etc/hostname
 **网络管理工具选择**：
 
 **方案 A：NetworkManager (推荐，通用)**
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[NetworkManager](https://wiki.gentoo.org/wiki/NetworkManager)
 
@@ -1201,11 +1128,11 @@ rc-update add NetworkManager default
 systemctl enable NetworkManager
 ```
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **配置提示**
 
-**图形界面**：运行 `nm-connection-editor`
+**图形界面**：运行 `nm-connection-editor`  
 **命令行**：使用 `nmtui` (图形化向导) 或 `nmcli`
 
 </div>
@@ -1229,7 +1156,7 @@ emerge --ask --newuse net-misc/networkmanager
 如果你不想使用 NetworkManager，可以选择以下轻量级方案：
 
 1. **有线网络 (dhcpcd)**
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[dhcpcd](https://wiki.gentoo.org/wiki/Dhcpcd)
 
@@ -1244,7 +1171,7 @@ emerge --ask --newuse net-misc/networkmanager
    ```
 
 2. **无线网络 (iwd)**
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[iwd](https://wiki.gentoo.org/wiki/Iwd)
 
@@ -1257,7 +1184,8 @@ emerge --ask --newuse net-misc/networkmanager
    # systemd:
    systemctl enable iwd
    ```
-  > **提示**：iwd 是一个现代、轻量级的无线守护进程。
+   
+> **提示**：iwd 是一个现代、轻量级的无线守护进程。
 
 </details>
 
@@ -1267,7 +1195,7 @@ emerge --ask --newuse net-misc/networkmanager
 使用 init 系统自带的网络管理功能，适合服务器或极简环境。
 
 **OpenRC 网卡服务**：
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[OpenRC](https://wiki.gentoo.org/wiki/OpenRC) · [OpenRC: Network Management](https://wiki.gentoo.org/wiki/OpenRC#Network_management)
 
@@ -1277,7 +1205,7 @@ emerge --ask --newuse net-misc/networkmanager
 vim /etc/conf.d/net
 ```
 
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+<div>
 
 **注意**
 
@@ -1298,7 +1226,7 @@ rc-update add net.enp5s0 default                # 设置开机自启
 ---
 
 **Systemd 原生网卡服务**：
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[systemd-networkd](https://wiki.gentoo.org/wiki/Systemd/systemd-networkd) · [systemd-resolved](https://wiki.gentoo.org/wiki/Systemd/systemd-resolved) · [Systemd](https://wiki.gentoo.org/wiki/Systemd) · [Systemd: Network](https://wiki.gentoo.org/wiki/Systemd#Network)
 
@@ -1313,15 +1241,17 @@ systemctl enable systemd-resolved
 
 </details>
 
+
+
 ### 6.4 配置 fstab
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - fstab](https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/System/zh-cn) · [Gentoo Wiki: /etc/fstab](https://wiki.gentoo.org/wiki//etc/fstab/zh-cn)
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 **为什么需要这一步？**
 
@@ -1342,7 +1272,7 @@ systemctl enable systemd-resolved
 <details>
 <summary><b>点击展开查看详细步骤</b></summary>
 
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+<div>
 
 **安装 genfstab**
 
@@ -1356,7 +1286,7 @@ systemctl enable systemd-resolved
 <details>
 <summary><b>genfstab 参数说明</b></summary>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(59, 130, 246); margin: 1.5rem 0;">
+<div>
 
 | 参数 | 说明 | 推荐度 |
 |------|------|--------|
@@ -1423,7 +1353,7 @@ genfstab -U /mnt/gentoo >> /mnt/gentoo/etc/fstab
 
 </details>
 
-<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
+<div>
 
 **genfstab 兼容性说明**
 
@@ -1476,7 +1406,7 @@ UUID=7fb33b5d-4cff-47ff-ab12-7b461b5d6e13  none         swap   sw               
 UUID=8c08f447-c79c-4fda-8c08-f447c79ce690  /            xfs    defaults,noatime  0      1
 ```
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(59, 130, 246); margin: 1.5rem 0;">
+<div>
 
 **fstab 字段说明**
 
@@ -1527,7 +1457,7 @@ UUID=7fb33b5d-4cff-47ff-ab12-7b461b5d6e13  none    swap   sw                    
 UUID=7E91-5869                             /efi    vfat   defaults,noatime,fmask=0022,dmask=0022                                        0 2
 ```
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(59, 130, 246); margin: 1.5rem 0;">
+<div>
 
 **Btrfs 常用挂载选项**
 
@@ -1541,7 +1471,7 @@ UUID=7E91-5869                             /efi    vfat   defaults,noatime,fmask
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+<div>
 
 **注意**
 
@@ -1555,7 +1485,7 @@ UUID=7E91-5869                             /efi    vfat   defaults,noatime,fmask
 <details>
 <summary><b>LUKS 加密分区配置</b></summary>
 
-<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
+<div>
 
 **关键点**
 
@@ -1606,19 +1536,18 @@ UUID=7fb33b5d-4cff-47ff-ab12-7b461b5d6e13  none    swap   sw                    
 UUID=7E91-5869                             /efi    vfat   defaults,noatime,fmask=0022,dmask=0022                                        0 2
 ```
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(59, 130, 246); margin: 1.5rem 0;">
+<div>
 
 **常见问题**
 
-**Q: 为什么不能用 LUKS 容器的 UUID？**
+**Q: 为什么不能用 LUKS 容器的 UUID？**  
 A: LUKS 容器是加密的原始数据，系统无法读取其中的文件系统。必须先解密，解密后的 `/dev/mapper/xxx` 才有可识别的文件系统和 UUID。
 
-**Q: `discard=async` 在 LUKS 上安全吗？**
+**Q: `discard=async` 在 LUKS 上安全吗？**  
 A: LUKS2 + `discard` 是安全的。若极度在意安全性，可移除此选项（会降低 SSD 性能）。
 
 </div>
 
-</details>
 
 </details>
 
@@ -1626,13 +1555,13 @@ A: LUKS2 + `discard` 是安全的。若极度在意安全性，可移除此选�
 
 ## 7. 内核与固件 {#step-7-kernel}
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - 配置 Linux 内核](https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Kernel/zh-cn)
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 **为什么需要这一步？**
 
@@ -1651,7 +1580,7 @@ emerge --ask sys-kernel/gentoo-kernel-bin
 <details>
 <summary><b>进阶设置：手动编译内核 (Gentoo 核心体验)（点击展开）</b></summary>
 
-<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
+<div>
 
 **新手提示**
 
@@ -1669,11 +1598,11 @@ genkernel --install all  # 自动编译并安装内核、模块和 initramfs
 # all: 完整构建 (内核 + 模块 + initramfs)
 ```
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **进阶内容**
 
-如果你想深入了解内核配置、使用 LLVM/Clang 编译内核、启用 LTO 优化等高级选项，请参考 **[Section 16.0 内核编译进阶指南](/zh-cn/posts/gentoo-install-advanced/#section-16-kernel-advanced)**。
+如果你想深入了解内核配置、使用 LLVM/Clang 编译内核、启用 LTO 优化等高级选项，请参考 **[Section 16.0 内核编译进阶指南](/posts/2025-11-25-gentoo-install-advanced/#section-16-kernel-advanced)**。
 
 </div>
 
@@ -1690,7 +1619,7 @@ emerge --ask sys-kernel/linux-firmware
 emerge --ask sys-firmware/intel-microcode  # Intel CPU
 ```
 
-<div style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0; border-left: 3px solid rgb(251, 191, 36);">
+<div>
 
 **关于 package.license 的说明**
 
@@ -1706,13 +1635,13 @@ emerge --ask sys-firmware/intel-microcode  # Intel CPU
 
 ## 8. 基础工具 {#step-8-base-packages}
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - 安装必要的系统工具](https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Tools/zh-cn)
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 **为什么需要这一步？**
 
@@ -1727,7 +1656,7 @@ Stage3 只有最基础的命令。我们需要补充系统日志、网络管理�
 
 **1. 系统日志**
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Syslog-ng](https://wiki.gentoo.org/wiki/Syslog-ng)
 
@@ -1747,7 +1676,7 @@ rc-update add cronie default
 
 **3. 时间同步**
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[System Time](https://wiki.gentoo.org/wiki/System_time/zh-cn) · [System Time (OpenRC)](https://wiki.gentoo.org/wiki/System_time/zh-cn#OpenRC)
 
@@ -1767,7 +1696,7 @@ systemd 已内置日志与定时任务服务，无需额外安装。
 
 **时间同步**
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[System Time](https://wiki.gentoo.org/wiki/System_time/zh-cn) · [System Time (systemd)](https://wiki.gentoo.org/wiki/System_time/zh-cn#systemd)
 
@@ -1792,13 +1721,13 @@ emerge --ask sys-fs/btrfs-progs # Btrfs
 
 ## 9. 建立用户与权限 {#step-9-users}
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - 结束安装](https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Finalizing/zh-cn)
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 **为什么需要这一步？**
 
@@ -1818,124 +1747,206 @@ echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel # 允许 wheel 组使用 sudo
 
 ---
 
+
+
+
 ## 10. 安装引导程序 {#step-10-bootloader}
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
 **可参考**：[Gentoo Handbook: AMD64 - 配置引导加载程序](https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Bootloader/zh-cn)
 
 </div>
 
-### 10.1 GRUB
+> **重要警告**：Windows 双系统用户必读：
+>
+> Windows 更新时常会扫描并强制覆盖 `/EFI/BOOT/bootx64.efi`（默认引导路径）。
+> **后果**：如使用了此默认路径，将导致 Linux 无法启动。
+> **解决方案**：
+> 1.  **使用独立文件名/目录**：不要将引导程序仅安装为 `bootx64.efi`。
+> 2.  **手动注册引导项**：使用 `efibootmgr` 将这个新文件注册到 UEFI 启动列表。
+>
+> **下文的所有教程（GRUB/systemd-boot/Limine）均已配置为使用独立路径，以规避此问题**。
+>
+> *注：Windows 更新有时还会修改 UEFI 启动顺序 (Boot Order) 将 Windows 置顶，若发生此情况，进入 BIOS 重新调整顺序即可。*
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+### 10.1 方案 A：GRUB (推荐/标准)
+
+GRUB 是功能最全、兼容性最好的引导程序，支持自动检测 Windows。
+
+<div>
 
 **可参考**：[GRUB](https://wiki.gentoo.org/wiki/GRUB/zh-cn)
 
 </div>
 
+**1. 安装与配置**
+
 ```bash
 emerge --ask sys-boot/grub:2
-mkdir -p /efi/EFI/Gentoo
-grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=Gentoo # 安装 GRUB 到 ESP
-# 安装 os-prober 以支持多系统检测
-emerge --ask sys-boot/os-prober
-
-# 启用 os-prober（用于检测 Windows 等其他操作系统）
-echo 'GRUB_DISABLE_OS_PROBER=false' >> /etc/default/grub
-
-# 生成 GRUB 配置文件
-grub-mkconfig -o /boot/grub/grub.cfg
+# 安装到 ESP (注意 --bootloader-id=Gentoo 会自动创建独立目录，避免冲突)
+grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=Gentoo
 ```
 
-<details>
-<summary><b>进阶设置：systemd-boot（仅限 UEFI）</b></summary>
+**2. 多系统配置 (Windows/Linux/其他)**
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+如果你安装了 Windows 或其他 Linux 发行版，需要启用 `os-prober` 来自动发现它们：
+
+```bash
+emerge --ask sys-boot/os-prober
+# 启用 os-prober (默认禁用以保障安全)
+echo 'GRUB_DISABLE_OS_PROBER=false' >> /etc/default/grub
+```
+
+**3. 生成配置文件**
+
+```bash
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+*（仅限多系统用户）务必检查输出中是否包含 "Found Windows Boot Manager..." 或其他系统的引导项*
+
+---
+
+### 10.2 方案 B：systemd-boot (简洁/快速)
+
+systemd-boot (前身是 Gummiboot) 非常轻量，配置简单，适合 UEFI 系统。
+
+<div>
 
 **可参考**：[systemd-boot](https://wiki.gentoo.org/wiki/Systemd/systemd-boot/zh-cn)
 
-**注意**：部分 ARM/RISC-V 设备的固件可能不支持完整的 UEFI 规范，无法使用 systemd-boot。
-
 </div>
 
-```bash
-bootctl --path=/efi install # 安装 systemd-boot
+**1. 安装**
 
-# 1. 创建 Gentoo 引导项
-vim /efi/loader/entries/gentoo.conf
-```
+*   **Systemd 用户**：
+    对于 **systemd version >= 254**，必须启用 `boot` USE 标志才能使用 `bootctl`：
 
-写入以下内容（**注意替换 UUID**）：
-```conf
-title   Gentoo Linux
-linux   /vmlinuz-6.6.62-gentoo-dist
-initrd  /initramfs-6.6.62-gentoo-dist.img
-options root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw quiet
-```
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+    ```bash
+    mkdir -p /etc/portage/package.use
+    echo "sys-apps/systemd boot" >> /etc/portage/package.use/systemd
+    emerge --ask --oneshot --verbose sys-apps/systemd
+    ```
 
-**注意**
+    然后安装引导程序：
+    ```bash
+    bootctl --path=/efi install
+    ```
 
-如果你使用了 LUKS 加密，options 行需要添加 `rd.luks.uuid=...` 等参数。
+    <details>
+    <summary><b>OpenRC 用户配置（systemd-utils）- 点击展开</b></summary>
 
-</div>
+    OpenRC 用户需要安装 `sys-apps/systemd-utils` 并启用 `boot` 和 `kernel-install` USE 标志：
 
-**2. 更新引导项**：
-每次更新内核后，需要手动更新 `gentoo.conf` 中的版本号，或者使用脚本自动化。
+    ```bash
+    mkdir -p /etc/portage/package.use
+    echo "sys-apps/systemd-utils boot kernel-install" >> /etc/portage/package.use/systemd-utils
+    emerge --ask --oneshot --verbose sys-apps/systemd-utils
+    bootctl --path=/efi install
+    ```
 
-**2. 创建 Windows 引导项 (双系统)**
+    </details>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+**2. 配置加载器**
 
-**提示**
-
-如果你创建了新的 EFI 分区，请记得将原 Windows EFI 文件 (EFI/Microsoft) 复制到新分区。
-
-</div>
-
-```bash
-vim /efi/loader/entries/windows.conf
-```
-
-写入以下内容：
-```ini
-title      Windows 11
-sort-key   windows-01
-efi        /EFI/Microsoft/Boot/bootmgfw.efi
-```
-
-# 3. 配置默认引导
-```bash
-vim /efi/loader/loader.conf
-```
-
-写入以下内容：
-
+编辑 `/efi/loader/loader.conf`：
 ```ini
 default gentoo.conf
 timeout 3
 console-mode auto
 ```
 
-</details>
+**3. 创建 Gentoo 引导项**
+
+获取根分区 UUID：`blkid -s UUID -o value /dev/nvme0n1p3` (假设这是你的根分区)
+编辑 `/efi/loader/entries/gentoo.conf`：
+
+```conf
+title   Gentoo Linux
+linux   /vmlinuz-6.6.62-gentoo-dist
+initrd  /initramfs-6.6.62-gentoo-dist.img
+options root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw quiet
+```
+*注意：版本号必须与实际文件 `/efi/vmlinuz-...` 一致。*
+
+**4. 多系统配置 (Windows)**
+
+systemd-boot 会**自动检测**位于同一 ESP 分区 (`/efi/EFI/Microsoft/Boot/bootmgfw.efi`) 的 Windows 引导管理器，通常**不需要**额外配置。
+
+如果你的 Windows 安装在**不同硬盘的 ESP**，或者自动检测失败，才需要手动创建 `/efi/loader/entries/windows.conf`：
+
+```conf
+title      Windows 11
+efi        /EFI/Microsoft/Boot/bootmgfw.efi
+```
+
+---
+
+### 10.3 方案 C：Limine (现代/美观)
+
+Limine 配置灵活，支持动态菜单。
+
+<div>
+
+**可参考**：[Limine](https://wiki.gentoo.org/wiki/Limine)
+
+</div>
+
+**1. 安装**
+
+```bash
+echo 'sys-boot/limine ~amd64' >> /etc/portage/package.accept_keywords/limine
+emerge --ask sys-boot/limine
+```
+
+**2. 部署引导文件 (关键步骤)**
+
+为了防止 Windows 覆盖，我们将 Limine 部署为 `Gentoo` 专用引导项，而不是默认的 `BOOTX64.EFI`。
+
+```bash
+mkdir -p /efi/EFI/Gentoo
+cp -v /usr/share/limine/BOOTX64.EFI /efi/EFI/Gentoo/limine.efi
+cp -v /usr/share/limine/limine-bios.sys /boot/ # (可选) 仅 BIOS 需要
+```
+
+**3. 配置 Limine**
+
+编辑 `/boot/limine.conf` (Limine 会自动在 ESP 或 /boot 寻找此文件)：
+
+```ini
+TIMEOUT: 5
+DEFAULT_ENTRY: 1
+
+: Gentoo Linux
+    PROTOCOL: linux
+    KERNEL_PATH: boot/vmlinuz-6.6.62-gentoo-dist
+    INITRD_PATH: boot/initramfs-6.6.62-gentoo-dist.img
+    CMDLINE: root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw quiet
+
+: Windows 11
+    PROTOCOL: chainload
+    PATH: /EFI/Microsoft/Boot/bootmgfw.efi
+```
+
+**4. 注册 UEFI 引导项**
+
+因为我们没有使用默认路径，必须告诉主板去哪里通过 `efibootmgr` 启动 Limine：
+
+```bash
+emerge --ask sys-boot/efibootmgr
+# 创建名为 "Gentoo Limine" 的启动项
+# -d: 磁盘设备 (如 /dev/nvme0n1)
+# -p: 分区号 (如 1)
+# -L: 标签名称
+# -l: loader 路径 (Windows 风格斜杠)
+efibootmgr --create --disk /dev/nvme0n1 --part 1 --label "Gentoo Limine" --loader '\EFI\Gentoo\limine.efi'
+```
+
+---
 
 <details>
-<summary><b>进阶设置：加密支持（仅加密用户）（点击展开）</b></summary>
+<summary><b>进阶设置：加密支持（仅加密用户）- 点击展开</b></summary>
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**可参考**：[Dm-crypt](https://wiki.gentoo.org/wiki/Dm-crypt/zh-cn)
-
-</div>
-
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
-
-**注意**
-
-如果你在步骤 3.4 中选择了加密分区，才需要执行此步骤。
-
-</div>
 
 **步骤 1：启用 systemd cryptsetup 支持**
 
@@ -1944,146 +1955,95 @@ mkdir -p /etc/portage/package.use
 echo "sys-apps/systemd cryptsetup" >> /etc/portage/package.use/fde
 
 # 重新编译 systemd 以启用 cryptsetup 支持
-emerge --ask --oneshot sys-apps/systemd
+emerge --ask --oneshot sys-apps/systemd sys-kernel/dracut
 ```
 
-**步骤 2：获取 LUKS 分区的 UUID**
+**步骤 2：生成含 crypt 模块的 initramfs**
+
+编辑 `/etc/dracut.conf.d/luks.conf`：
+
+> 注意：请根据你的根文件系统修改 `btrfs` 为 `xfs` 或 `ext4`。
+```conf
+add_dracutmodules+=" btrfs systemd crypt dm "
+```
+重新生成 initramfs：
+```bash
+dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
+```
+
+**步骤 3：获取 LUKS 分区的 UUID**
 
 ```bash
 # 获取 LUKS 加密容器的 UUID（不是里面的文件系统 UUID）
 blkid /dev/nvme0n1p3
 ```
-
-输出示例：
+**输出示例**（务必寻找 `TYPE="crypto_LUKS"` 的那一行）：
 ```text
 /dev/nvme0n1p3: UUID="a1b2c3d4-e5f6-7890-abcd-ef1234567890" TYPE="crypto_LUKS" ...
 ```
-记下这个 **LUKS UUID**（例如：`a1b2c3d4-e5f6-7890-abcd-ef1234567890`）。
+记下这个 LUKS UUID（例如：`a1b2c3d4...`）。
 
-**步骤 3：配置 GRUB 内核参数**
+**步骤 4：配置引导内核参数**
 
-```bash
-vim /etc/default/grub
-```
+*   **GRUB (`/etc/default/grub`)**：
 
-加入或修改以下内容（**替换 UUID 为实际值**）：
+    ```bash
+    # 完整示例（替换 UUID 为你的实际 UUID）
+    GRUB_CMDLINE_LINUX="rd.luks.uuid=a1b2c3d4-e5f6-7890-abcd-ef1234567890 rd.luks.allow-discards root=UUID=b4b0b4... rootfstype=btrfs"
+    ```
+    **参数说明**：
+    *   `rd.luks.uuid=<UUID>`：LUKS 加密分区的 UUID（使用 `blkid /dev/nvme0n1p3` 获取）。
+    *   `rd.luks.allow-discards`：允许 SSD TRIM 指令穿透加密层（提升 SSD 性能）。
+    *   `root=UUID=<UUID>`：解密后的根文件系统 UUID（使用 `blkid /dev/mapper/cryptroot` 获取）。
+    *   `rootfstype=btrfs`：**请根据实际情况修改**（例如 `xfs`, `ext4`）。
 
-```bash
-# 完整示例（替换 UUID 为你的实际 UUID）
-GRUB_CMDLINE_LINUX="rd.luks.uuid=<LUKS-UUID> rd.luks.allow-discards root=UUID=<ROOT-UUID> rootfstype=btrfs"
-```
+    *修改后记得运行 `grub-mkconfig -o /boot/grub/grub.cfg`*
 
-**参数说明**：
-- `rd.luks.uuid=<UUID>`：LUKS 加密分区的 UUID（使用 `blkid /dev/nvme0n1p3` 获取）
-- `rd.luks.allow-discards`：允许 SSD TRIM 指令穿透加密层（提升 SSD 性能）
-- `root=UUID=<UUID>`：解密后的 btrfs 文件系统 UUID（使用 `blkid /dev/mapper/gentoo-root` 获取）
-- `rootfstype=btrfs`：根文件系统类型（如果使用 ext4 改为 `ext4`）
+*   **systemd-boot (`gentoo.conf`)**：
 
-<details>
-<summary><b>步骤 3.1（替代方案）：配置内核参数 (systemd-boot 方案)（点击展开）</b></summary>
+    ```text
+    title      Gentoo Linux
+    version    6.6.62-gentoo
+    options    rd.luks.name=a1b2c3d4-e5f6-7890-abcd-ef1234567890=cryptroot root=/dev/mapper/cryptroot rootfstype=btrfs rd.luks.allow-discards init=/lib/systemd/systemd
+    linux      /vmlinuz-6.6.62-gentoo-dist
+    initrd     /initramfs-6.6.62-gentoo-dist.img
+    ```
+    **参数说明**：
+    *   `rd.luks.name=<LUKS-UUID>=cryptroot`：指定 LUKS 分区 UUID 并映射为 `cryptroot`。
+    *   `root=/dev/mapper/cryptroot`：指定解密后的根分区设备。
+    *   `rootfstype=btrfs`：**请根据实际情况修改**（例如 `xfs`, `ext4`）。
 
-如果你使用 systemd-boot 而不是 GRUB，请编辑 `/boot/loader/entries/` 下的配置文件（例如 `gentoo.conf`）：
+*   **Limine (`limine.conf`)**：
 
-```conf
-title      Gentoo Linux
-version    6.6.13-gentoo
-options    rd.luks.name=<LUKS-UUID>=cryptroot root=/dev/mapper/cryptroot rootfstype=btrfs rd.luks.allow-discards init=/lib/systemd/systemd
-linux      /vmlinuz-6.6.13-gentoo
-initrd     /initramfs-6.6.13-gentoo.img
-```
-
-**参数说明**：
-- `rd.luks.name=<LUKS-UUID>=cryptroot`：指定 LUKS 分区 UUID 并映射为 `cryptroot`。
-- `root=/dev/mapper/cryptroot`：指定解密后的根分区设备。
-- `rootfstype=btrfs`：指定根文件系统类型。
-
-</details>
-
-**步骤 4：安装并配置 dracut**
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**可参考**：[Dracut](https://wiki.gentoo.org/wiki/Dracut) · [Initramfs](https://wiki.gentoo.org/wiki/Initramfs)
-
-</div>
-
-```bash
-# 安装 dracut（如果还没安装）
-emerge --ask sys-kernel/dracut
-```
-
-**步骤 5：配置 dracut for LUKS 解密**
-
-创建 dracut 配置文件：
-
-```bash
-vim /etc/dracut.conf.d/luks.conf
-```
-
-加入以下内容：
-
-```conf
-# 不要在这里设置 kernel_cmdline，GRUB 会覆盖它
-kernel_cmdline=""
-# 添加必要的模块支持 LUKS + btrfs
-add_dracutmodules+=" btrfs systemd crypt dm "
-# 添加必要的工具
-install_items+=" /sbin/cryptsetup /bin/grep "
-# 指定文件系统（如果使用其他文件系统请修改）
-filesystems+=" btrfs "
-```
-
-**配置说明**：
-- `crypt` 和 `dm` 模块提供 LUKS 解密支持
-- `systemd` 模块用于 systemd 启动环境
-- `btrfs` 模块支持 btrfs 文件系统（如果使用 ext4 改为 `ext4`）
-
-### 步骤 6：配置 /etc/crypttab（可选但推荐）
-
-```bash
-vim /etc/crypttab
-```
-
-加入以下内容（**替换 UUID 为你的 LUKS UUID**）：
-```conf
-gentoo-root UUID=<LUKS-UUID> none luks,discard
-```
-这样配置后，系统会自动识别并提示解锁加密分区。
-
-### 步骤 7：重新生成 initramfs
-
-```bash
-# 重新生成 initramfs（包含 LUKS 解密模块）
-dracut --kver $(make -C /usr/src/linux -s kernelrelease) --force
-# --kver: 指定内核版本
-# $(make -C /usr/src/linux -s kernelrelease): 自动获取当前内核版本号
-# --force: 强制覆盖已存在的 initramfs 文件
-```
-
-> **重要**：每次更新内核后，也需要重新执行此命令生成新的 initramfs！
-
-### 步骤 8：更新 GRUB 配置
-
-```bash
-grub-mkconfig -o /boot/grub/grub.cfg
-
-# 验证 initramfs 被正确引用
-grep initrd /boot/grub/grub.cfg
-```
+    ```ini
+    : Gentoo Linux
+        PROTOCOL: linux
+        KERNEL_PATH: boot/vmlinuz-6.6.62-gentoo-dist
+        INITRD_PATH: boot/initramfs-6.6.62-gentoo-dist.img
+        CMDLINE: rd.luks.name=a1b2c3d4-e5f6-7890-abcd-ef1234567890=cryptroot root=/dev/mapper/cryptroot rootfstype=btrfs rd.luks.allow-discards init=/lib/systemd/systemd
+    ```
+    **参数说明**：
+    *   `rd.luks.name`: 同上，指定 LUKS 分区 UUID。
+    *   `root`: 指定解密后的根分区设备。
+    *   `rootfstype=btrfs`: **请根据实际情况修改**（例如 `xfs`, `ext4`）。
 
 </details>
 
+> *注意：如果你在步骤 3.4 中选择了加密分区，才需要执行此步骤。*
 ---
 
-## 11. 重启前检查清单与重启 {#step-11-reboot}
+### 11.1 最终检查清单
 
 1. `emerge --info` 正常执行无错误
 2. `/etc/fstab` 中的 UUID 正确（使用 `blkid` 再确认）
 3. 已设定 root 与一般用户密码
-4. 已执行 `grub-mkconfig` 或完成 `bootctl` 配置
+4. 已执行 `grub-mkconfig` 或完成 `bootctl`/Limine 配置
 5. 若使用 LUKS，确认 initramfs 含有 `cryptsetup`
 
-离开 chroot 并重启：
+### 11.2 退出 Chroot 并重启
+
+确认无误后，退出 Chroot 环境并卸载挂载点：
+
 ```bash
 exit
 umount -l /mnt/gentoo/dev{/shm,/pts,}
@@ -2094,161 +2054,10 @@ reboot
 
 ---
 
-## 12. 日常维护：如何成为合格的系统管理员
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**可参考**：[Upgrading Gentoo](https://wiki.gentoo.org/wiki/Upgrading_Gentoo/zh-cn) · [Gentoo Cheat Sheet](https://wiki.gentoo.org/wiki/Gentoo_Cheat_Sheet)
-
-</div>
-
-Gentoo 是滚动发行版，维护系统是使用体验的重要组成部分。
-
-### 12.1 日常维护清单
-
-**1. 保持系统更新**
-建议每一到两周更新一次系统，避免积压过多更新导致依赖冲突。
-```bash
-emerge --sync              # 同步软件仓库
-emerge -avuDN @world       # 更新所有软件
-```
-
-**2. 关注官方新闻 (重要)**
-在更新前或遇到问题时，务必检查是否有官方新闻推送。
-```bash
-eselect news list          # 列出新闻
-eselect news read          # 阅读新闻
-```
-
-**3. 处理配置文件更新**
-软件更新后，配置文件可能也会更新。**不要忽略** `etc-update` 或 `dispatch-conf` 的提示。
-```bash
-dispatch-conf              # 交互式合并配置文件 (推荐)
-# 或
-etc-update
-```
-
-**4. 清理无用依赖**
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**可参考**：[Remove orphaned packages](https://wiki.gentoo.org/wiki/Knowledge_Base:Remove_orphaned_packages)
-
-</div>
-
-```bash
-emerge --ask --depclean    # 移除不再需要的孤立依赖
-```
-
-**5. 定期清理源码包**
-```bash
-emerge --ask app-portage/gentoolkit # 安装工具包
-eclean-dist                         # 清理已下载的旧源码包
-```
-
-**6. 自动处理 USE 变更**
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**可参考**：[Autounmask-write](https://wiki.gentoo.org/wiki/Knowledge_Base:Autounmask-write) · [Dispatch-conf](https://wiki.gentoo.org/wiki/Dispatch-conf)
-
-</div>
-
-当安装或更新软件提示 "The following USE changes are necessary" 时：
-1.  **让 Portage 自动写入配置**：`emerge --ask --autounmask-write <包名>`
-2.  **确认并更新配置**：`dispatch-conf` (按 u 确认，q 退出)
-3.  **再次尝试操作**：`emerge --ask <包名>`
-
-**7. 处理软件冲突 (Blocked Packages)**
-如果遇到 "Error: The above package list contains packages which cannot be installed at the same time..."：
-- **解决方法**：根据提示，手动卸载冲突软件 (`emerge --deselect <包名>` 后 `emerge --depclean`)。
-
-**8. 安全检查 (GLSA)**
-Gentoo 发布安全公告 (GLSA) 来通知用户潜在的安全漏洞。
-```bash
-glsa-check -l      # 列出所有未修复的安全公告
-glsa-check -t all  # 测试所有受影响的软件包
-```
-
-**9. 系统日志与服务状态**
-定期检查系统日志和服务状态，确保系统健康运行。
-- **OpenRC**:
-    ```bash
-    rc-status      # 查看服务状态
-    tail -f /var/log/messages # 查看系统日志 (需安装 syslog-ng 等)
-    ```
-- **Systemd (Journalctl 常用指令)**:
-    | 指令 | 作用 |
-    | ---- | ---- |
-    | `systemctl --failed` | 查看启动失败的服务 |
-    | `journalctl -b` | 查看本次启动的日志 |
-    | `journalctl -b -1` | 查看上一次启动的日志 |
-    | `journalctl -f` | 即时跟随最新日志 (类似 tail -f) |
-    | `journalctl -p err` | 仅显示错误 (Error) 级别的日志 |
-    | `journalctl -u <服务名>` | 查看特定服务的日志 |
-    | `journalctl --since "1 hour ago"` | 查看最近 1 小时的日志 |
-    | `journalctl --disk-usage` | 查看日志占用的磁盘空间 |
-    | `journalctl --vacuum-time=2weeks` | 清理 2 周前的日志 |
-
-### 12.2 Portage 技巧与目录结构
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**可参考**：[Portage](https://wiki.gentoo.org/wiki/Portage/zh-cn) · [/etc/portage](https://wiki.gentoo.org/wiki//etc/portage)
-
-</div>
-
-**1. 核心目录结构 (`/etc/portage/`)**
-Gentoo 的配置非常灵活，建议使用**目录**而不是单个文件来管理配置：
-
-| 文件/目录 | 用途 |
-| --------- | ---- |
-| `make.conf` | 全局编译参数 (CFLAGS, MAKEOPTS, USE, GENTOO_MIRRORS) |
-| `package.use/` | 针对特定软件的 USE 标志配置 |
-| `package.accept_keywords/` | 允许安装测试版 (keyword) 软件 |
-| `package.mask/` | 屏蔽特定版本的软件 |
-| `package.unmask/` | 解除屏蔽特定版本的软件 |
-| `package.license/` | 接受特定软件的许可证 |
-| `package.env/` | 针对特定软件的环境变量 (如使用不同的编译器参数) |
-
-**2. 常用 Emerge 指令速查**
-> 完整手册请运行 `man emerge`
-
-| 参数 (缩写) | 作用 | 示例 |
-| ----------- | ---- | ---- |
-| `--ask` (`-a`) | 运行前询问确认 | `emerge -a vim` |
-| `--verbose` (`-v`) | 显示详细信息 (USE 标志等) | `emerge -av vim` |
-| `--oneshot` (`-1`) | 安装但不加入 World 文件 (不作为系统依赖) | `emerge -1 rust` |
-| `--update` (`-u`) | 更新软件包 | `emerge -u vim` |
-| `--deep` (`-D`) | 深度计算依赖 (更新依赖的依赖) | `emerge -uD @world` |
-| `--newuse` (`-N`) | USE 标志改变时重新编译 | `emerge -uDN @world` |
-| `--depclean` (`-c`) | 清理不再需要的孤立依赖 | `emerge -c` |
-| `--deselect` | 从 World 文件中移除 (不卸载) | `emerge --deselect vim` |
-| `--search` (`-s`) | 搜索软件包 (推荐用 eix) | `emerge -s vim` |
-| `--info` | 显示 Portage 环境信息 (调试用) | `emerge --info` |
-
-**3. 快速搜索软件包 (Eix)**
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**可参考**：[Eix](https://wiki.gentoo.org/wiki/Eix)
-
-</div>
-> `emerge --search` 速度较慢，推荐使用 `eix` 进行毫秒级搜索。
-
-1.  **安装与更新索引**：
-    ```bash
-    emerge --ask app-portage/eix
-    eix-update # 安装后或同步后运行
-    ```
-2.  **搜索软件**：
-    ```bash
-    eix <关键词>        # 搜索所有软件
-    eix -I <关键词>     # 仅搜索已安装软件
-    eix -R <关键词>     # 搜索远程 Overlay (需配置 eix-remote)
-    ```
-
----
-
-<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 **恭喜！** 你已经完成了 Gentoo 的基础安装。
 
-**下一步**：[桌面配置](/zh-cn/posts/gentoo-install-desktop/)
+**下一步**：[桌面配置](/posts/2025-11-25-gentoo-install-desktop/)
+
+</div>

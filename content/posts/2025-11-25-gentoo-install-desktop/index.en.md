@@ -1,22 +1,22 @@
 ---
 title: "Gentoo Linux Installation Guide (Desktop Configuration)"
-slug: gentoo-install-desktop
-translationKey: gentoo-install-desktop
-date: 2025-11-30
-summary: "Gentoo Linux desktop environment configuration tutorial, covering graphics drivers, KDE/GNOME/Hyprland, input methods, fonts, etc."
-description: "2025 Latest Gentoo Linux Installation Guide (Desktop Configuration), covering graphics drivers, KDE/GNOME/Hyprland, input methods, fonts, etc."
-article:
-  showHero: true
-  heroStyle: background
-featureImage: feature-gentoo-chan.webp
-featureImageAlt: "Gentoo Chan"
+date: 2025-11-25
+weight: 2
+summary: "Gentoo Linux desktop environment configuration guide, covering graphics drivers, KDE/GNOME/Hyprland, input methods, fonts, and more."
+description: "The latest 2025 Gentoo Linux installation guide (Desktop Configuration), covering graphics drivers, KDE/GNOME/Hyprland, input methods, fonts, and more."
 keywords:
   - Gentoo Linux
   - KDE Plasma
   - GNOME
   - Hyprland
-  - Input Method
+  - Input Methods
   - Fcitx5
+  - IBus
+  - Chinese Input
+  - Japanese Input
+  - Korean Input
+  - Vietnamese Input
+  - Arabic Input
   - Graphics Drivers
 tags:
   - Gentoo
@@ -29,837 +29,784 @@ authors:
   - zakkaus
 ---
 
-<div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
-### Special Note
+### Article Overview
 
-This article is Part 2 of the **Gentoo Linux Installation Guide** series: **Desktop Configuration**.
+This is Part 2 of the **Gentoo Linux Installation Guide** series: **Desktop Configuration**.
 
 **Series Navigation**:
-1. [Base Installation](/posts/gentoo-install/): Installing Gentoo base system from scratch
-2. **Desktop Configuration (This Article)**: Graphics drivers, desktop environments, input methods, etc.
-3. [Advanced Optimization](/posts/gentoo-install-advanced/): make.conf optimization, LTO, system maintenance
+1. [Basic Installation](/posts/2025-11-25-gentoo-install-base/): Installing Gentoo base system from scratch
+2. **Desktop Configuration (This Article)**: Graphics drivers, desktop environment, input methods
+3. [Advanced Optimization](/posts/2025-11-25-gentoo-install-advanced/): make.conf optimization, LTO, system maintenance
 
-**Previous Step**: [Base Installation](/posts/gentoo-install/)
-
-</div>
-
-
-## 12. Post-Reboot Configuration {#step-12-post-reboot}
-
-<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
-
-Congratulations! You have completed the Gentoo base installation and successfully entered your new system (TTY interface).
-
-The following sections are **configured on demand**. You can selectively configure and install based on your needs (server, desktop office, gaming, etc.).
+**Previous**: [Basic Installation](/posts/2025-11-25-gentoo-install-base/)
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+## 12. Post-Reboot Configuration
 
-**Important: Check Profile and Update System**
+<div>
 
-Before starting configuration, please confirm your Profile settings are correct again and ensure the system is up to date:
+Congratulations! You have completed the basic Gentoo installation and successfully entered the new system (TTY interface).
+
+The following sections are **optional configurations**. You can selectively configure and install based on your needs (server, desktop office, gaming, etc.).
+
+</div>
+
+<div>
+
+> **Important: Check Profile and Update System**
+
+> Before starting configuration, please confirm the Profile settings are correct and ensure the system is up to date:
+
 ```bash
-eselect profile list          # List all available Profiles
-eselect profile set <number>  # Set selected Profile (e.g., desktop/plasma/systemd)
+eselect profile list          # List all available profiles
+eselect profile set <number>  # Set selected profile (e.g., desktop/plasma/systemd)
 emerge -avuDN @world          # Update system
 ```
 
 </div>
 
-Now let's configure the graphical interface and multimedia functions.
+Now let's configure the graphical interface and multimedia features.
 
 ### 12.0 Network Check [Required]
-After logging in, please ensure your network connection is normal.
-- **Wired Network**: Usually connects automatically.
-- **Wireless Network**: Use `nmtui` (NetworkManager) or `iwctl` (iwd) to connect to Wi-Fi.
+
+After logging in, ensure network connectivity is working.
+- **Wired network**: Usually auto-connects.
+- **Wireless network**: Use `nmtui` (NetworkManager) or `iwctl` (iwd) to connect to Wi-Fi.
 
 ### 12.1 Global Configuration (make.conf) [Required]
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**Reference**: [make.conf](https://wiki.gentoo.org/wiki//etc/portage/make.conf) · [Handbook: VIDEO_CARDS](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation#VIDEO_CARDS) · [Advanced Section 13](/posts/gentoo-install-advanced/#13-makeconf-advanced-guide)
-
-</div>
-
-`/etc/portage/make.conf` is Gentoo's global configuration file. At this stage, we only need to configure input devices and localization options.
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**Important Note**
-
-Basic make.conf settings were done in [Base Installation Section 5.2](/posts/gentoo-install/#52-makeconf-example). This section only adds desktop-related settings.
-
-For details on compilation optimization, USE flags, license management etc., please check [Advanced Section 13](/posts/gentoo-install-advanced/#13-makeconf-advanced-guide).
+**Reference**: [make.conf](https://wiki.gentoo.org/wiki//etc/portage/make.conf)
 
 </div>
 
-#### Configure make.conf
+Edit `/etc/portage/make.conf`:
 
-```bash
-vim /etc/portage/make.conf
+```makefile
+# Add to existing settings
+# VIDEO_CARDS: amdgpu radeonsi intel i915 nvidia (choose based on your GPU)
+# INPUT_DEVICES: libinput synaptics (for touchpad)
+
+VIDEO_CARDS="amdgpu radeonsi intel i915 nvidia"
+INPUT_DEVICES="libinput synaptics"
+
+# Enable wayland support (for Wayland-based desktop environments)
+# Optional: for NVIDIA, also add: nvidia
+USE="wayland -X"
+
+# For Chinese input
+INPUT_METHODS="fcitx5"
 ```
 
-Add or modify the following configurations:
-```bash
-# Input Devices
-INPUT_DEVICES="libinput"
+> **Note**: After modifying make.conf, rebuild packages that depend on these flags:
+> ```bash
+> emerge --ask --newuse --deep @world
+> ```
 
-# Localization Settings
-L10N="en en-US"
-LINGUAS="en en_US"
+### 12.2 Install X Server or Wayland
 
-# Desktop Environment Support
-USE="${USE} wayland X pipewire pulseaudio alsa"
-```
+<div>
 
-#### Configure Graphics Drivers (VIDEO_CARDS)
-
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
-
-**Recommendation**
-
-According to [Gentoo Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation#VIDEO_CARDS), it is recommended to use `package.use` instead of setting `VIDEO_CARDS` in `make.conf` for more flexible management.
-
-</div>
-
-Create package.use file and configure video cards:
-
-```bash
-mkdir -p /etc/portage/package.use
-vim /etc/portage/package.use/video-cards
-```
-
-**Choose settings based on your hardware** (Reference table below):
-
-```bash
-# NVIDIA Graphics
-# */* VIDEO_CARDS: nvidia
-
-# AMD Graphics (Sea Islands and newer)
-# */* VIDEO_CARDS: amdgpu radeonsi
-
-# Intel Graphics
-# */* VIDEO_CARDS: intel
-
-# Virtual Machine (QEMU/KVM)
-# */* VIDEO_CARDS: virgl
-```
-
-<details>
-<summary><b>Graphics Hardware Reference Table (Click to expand)</b></summary>
-
-| Platform | Discrete GPU | VIDEO_CARDS Value | Note |
-|---------|---------|---------------|------|
-| Intel x86 | None | `intel` | See [Intel Feature Support](https://wiki.gentoo.org/wiki/Intel#Feature_support) |
-| x86/ARM | NVIDIA | `nvidia` | Proprietary (Recommended) |
-| Any | NVIDIA (Except Maxwell/Pascal/Volta) | `nouveau` | Open Source (Poor Performance) |
-| Any | AMD Sea Islands & newer | `amdgpu radeonsi` | Recommended (GCN 1.2+) |
-| Any | ATI & older AMD | See [Radeon Feature Support](https://wiki.gentoo.org/wiki/Radeon#Feature_support) | Legacy |
-| Any | Intel | `intel` | Integrated |
-| Raspberry Pi | N/A | `vc4` | VideoCore IV |
-| QEMU/KVM | Any | `virgl` | Virtual GPU |
-| WSL | Any | `d3d12` | DirectX 12 |
-
-**Details**:
-- [AMDGPU](https://wiki.gentoo.org/wiki/AMDGPU)
-- [Intel](https://wiki.gentoo.org/wiki/Intel)
-- [Nouveau (Open Source)](https://wiki.gentoo.org/wiki/Nouveau)
-- [NVIDIA (Proprietary)](https://wiki.gentoo.org/wiki/NVIDIA)
-
-</details>
-
-### 12.2 Apply Configuration and Update System [Required]
-
-Apply new USE flags:
-```bash
-emerge --ask --newuse --deep @world
-```
-
-### 12.3 Graphics Drivers [Required]
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [NVIDIA/nvidia-drivers](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers)
-
-</div>
-
-- **NVIDIA Proprietary Driver**: `emerge --ask x11-drivers/nvidia-drivers`
-- **AMD**: Enable `VIDEO_CARDS: amdgpu radeonsi` in `/etc/portage/package.use/video-cards`
-- **Intel**: Enable `VIDEO_CARDS: intel` in `/etc/portage/package.use/video-cards`
-
-**Configure VAAPI Video Acceleration**
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [VAAPI](https://wiki.gentoo.org/wiki/VAAPI) · [nvidia-vaapi-driver](https://packages.gentoo.org/packages/media-libs/nvidia-vaapi-driver)
-
-</div>
-
-1. **Globally Enable VAAPI**:
-   Add `vaapi` to `USE` in `/etc/portage/make.conf`.
-   ```bash
-   # Recompile affected packages
-   emerge --ask --changed-use --deep @world
-   ```
-
-2. **Install Drivers and Tools**:
-   ```bash
-   emerge --ask media-video/libva-utils # Install vainfo for verification
-   ```
-
-   **Special Steps for NVIDIA Users**:
-   ```bash
-   emerge --ask media-libs/nvidia-vaapi-driver
-   ```
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
-
-**Note**
-
-`nvidia-vaapi-driver` may have stability issues under Wayland (such as CUDA/OpenGL interop problems).
-For details, refer to: [NVIDIA Forums](https://forums.developer.nvidia.com/t/is-cuda-opengl-interop-supported-on-wayland/267052), [Reddit](https://www.reddit.com/r/archlinux/comments/1oeiss0/wayland_nvidia_on_arch/), [GitHub Issue](https://github.com/elFarto/nvidia-vaapi-driver/issues/387).
-
-**NVIDIA users also need to enable DRM KMS in kernel parameters**:
-Edit `/etc/default/grub`, add `nvidia_drm.modeset=1` to `GRUB_CMDLINE_LINUX_DEFAULT`.
-
-```bash
-grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-</div>
-
-   **Intel/AMD Users**:
-   Usually directly supported after installing graphics drivers.
-
-3. **Verify**:
-   Run `vainfo` to check output. Success if no errors and supported Profiles are displayed.
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**About Firefox and Hardware Acceleration**
-
-- System `ffmpeg` mainly provides **software decoding** support for formats like H.264, AAC, HEVC, MP3.
-- Firefox (especially `firefox-bin`) comes with its own FFmpeg library and **will not** automatically use system FFmpeg's NVDEC/NVENC for hardware decoding.
-- Please visit the `about:support` page to check Firefox's actual hardware acceleration status.
+**Reference**: [X Server](https://wiki.gentoo.org/wiki/X_server), [Wayland](https://wiki.gentoo.org/wiki/Wayland)
 
 </div>
 
 <details>
-<summary><b>NVIDIA Chromium Hardware Acceleration Configuration (Recommended Method) (No VAAPI needed, click to expand)</b></summary>
+<summary><b>X11 (Xorg) Installation</b></summary>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**Tip**
-
-The following configuration applies to Chromium, Chrome, Edge, Electron applications (like VSCode).
-
-</div>
-
-**Method 1: Use Flags Configuration File (Recommended)**
-
-This method doesn't require modifying `.desktop` files, and the browser can be correctly recognized as the default browser.
-
-**1. Environment Variables**
-Create `~/.config/environment.d/chromium-nvidia.conf`:
 ```bash
-# NVIDIA Environment Variables
-__GLX_VENDOR_LIBRARY_NAME=nvidia
-__VK_LAYER_NV_optimus=NVIDIA_only
-GBM_BACKEND=nvidia-drm
+# Install X server
+emerge --ask x11-base/xorg-x11
+
+# Start X (test)
+startx
 ```
-
-**2. Chromium/Chrome Flags Configuration**
-Create corresponding flags file:
-
-- Chrome Stable: `~/.config/chrome-flags.conf`
-- Chrome Unstable: `~/.config/chrome-dev-flags.conf`
-- Chromium: `~/.config/chromium-flags.conf`
-- Edge Beta: `~/.config/microsoft-edge-beta-flags.conf`
-- Edge Dev: `~/.config/microsoft-edge-dev-flags.conf`
-
-Content as follows:
-```bash
-# Vulkan Video Acceleration Configuration
-# NVIDIA + Wayland Hardware Acceleration Optimization
-
---enable-features=VulkanVideoDecoder,Vulkan,VulkanFromANGLE,DefaultANGLEVulkan
---ozone-platform=x11
---use-vulkan=native
---enable-zero-copy
---enable-gpu-rasterization
---ignore-gpu-blocklist
---enable-native-gpu-memory-buffers
-```
-
-**3. Apply Configuration**
-Re-login.
-
-> **Verify**: Visit `chrome://gpu/` or `edge://gpu/`, check if **Vulkan** shows as `Enabled`.
-
-![Chromium GPU Vulkan](chromium-gpu-vulkan.webp)
 
 </details>
 
-### 12.4 Audio and Bluetooth [Optional]
+<details>
+<summary><b>Wayland Installation</b></summary>
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+```bash
+# Wayland is usually installed as a dependency of desktop environments
+# For minimal Wayland:
+emerge --ask dev-libs/wayland
+emerge --ask gui-wm/wayfire
+```
 
-**Reference**: [PipeWire](https://wiki.gentoo.org/wiki/PipeWire) · [Bluetooth](https://wiki.gentoo.org/wiki/Bluetooth)
+</details>
+
+### 12.3 Install Graphics Drivers
+
+<div>
+
+**Reference**: [AMDGPU](https://wiki.gentoo.org/wiki/AMDGPU), [Intel](https://wiki.gentoo.org/wiki/Intel), [NVIDIA](https://wiki.gentoo.org/wiki/NVIDIA)
 
 </div>
 
+<details>
+<summary><b>AMD/ATI Graphics (AMDGPU, Radeon)</b></summary>
+
 ```bash
-# Install PipeWire audio system and WirePlumber session manager
-emerge --ask media-video/pipewire media-video/wireplumber
+# Open source drivers (recommended)
+emerge --ask x11-drivers/xf86-video-amdgpu
+emerge --ask x11-drivers/xf86-video-radeon
 
-
-# Install Bluetooth stack, tools and manager (Blueman is GUI manager)
-emerge --ask net-wireless/bluez net-wireless/bluez-tools net-wireless/blueman
+# Enable AMDVLK (optional, for some games)
+emerge --ask media-libs/amdvlk
 ```
 
-**Start Service (OpenRC)**
+</details>
+
+<details>
+<summary><b>Intel Graphics</b></summary>
+
 ```bash
+# Open source driver
+emerge --ask x11-drivers/xf86-video-intel
+
+# Note: Modern Intel GPUs (Gen8+) work better with modesetting driver
+# Consider using x11-drivers/xf86-video-modesetting instead
+```
+
+</details>
+
+<details>
+<summary><b>NVIDIA Graphics</b></summary>
+
+```bash
+# Open source driver (nouveau - not recommended for gaming)
+emerge --ask x11-drivers/xf86-video-nouveau
+
+# Proprietary driver (recommended for gaming)
+emerge --ask x11-drivers/nvidia-drivers
+
+# Load module at boot
+echo "nvidia" >> /etc/conf.d/modules
+```
+
+For more details, see [NVIDIA Driver Installation](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers).
+
+</details>
+
+### 12.4 Install Desktop Environment
+
+<div>
+
+**Reference**: [Desktop Environment](https://wiki.gentoo.org/wiki/Desktop_environment)
+
+</div>
+
+<details>
+<summary><b>KDE Plasma (Recommended)</b></summary>
+
+```bash
+# Minimal KDE
+emerge --ask kde-plasma/plasma-desktop
+
+# Full KDE
+emerge --ask kde-plasma/plasma
+
+# SDDM display manager
+emerge --ask x11-misc/sddm
+
+# Enable SDDM
+# For OpenRC
+rc-update add sddm default
+
+# For systemd
+systemctl enable sddm
+```
+
+</details>
+
+<details>
+<summary><b>GNOME</b></summary>
+
+```bash
+# Minimal GNOME
+emerge --ask gnome-base/gnome-shell
+
+# Full GNOME
+emerge --ask gnome-base/gnome
+
+# GDM display manager
+emerge --ask gnome-base/gdm
+
+# Enable GDM
+# For OpenRC
+rc-update add gdm default
+
+# For systemd
+systemctl enable gdm
+```
+
+</details>
+
+<details>
+<summary><b>Hyprland (Wayland Compositor)</b></summary>
+
+```bash
+# Install Hyprland
+emerge --ask gui-wm/hyprland
+
+# Additional utilities
+emerge --ask wayland-utils
+emerge --ask gui-apps/wlogout
+```
+
+</details>
+
+<details>
+<summary><b>i3wm / Sway</b></summary>
+
+```bash
+# i3 (X11)
+emerge --ask window-manager/i3
+
+# Sway (Wayland)
+emerge --ask gui-wm/sway
+```
+
+</details>
+
+### 12.5 Install Display Manager
+
+<div>
+
+**Reference**: [Display Manager](https://wiki.gentoo.org/wiki/Display_manager)
+
+</div>
+
+Common display managers:
+
+- **SDDM** (KDE): `emerge --ask x11-misc/sddm`
+- **GDM** (GNOME): `emerge --ask gnome-base/gdm`
+- **LightDM** (Universal): `emerge --ask x11-misc/lightdm`
+
+Enable:
+
+```bash
+# For OpenRC
+rc-update add sddm default
+
+# For systemd
+systemctl enable sddm
+```
+
+### 12.6 Install Audio
+
+<details>
+<summary><b>PulseAudio (Recommended for Beginners)</b></summary>
+
+```bash
+# Install PulseAudio
+emerge --ask media-sound/pulseaudio
+
+# Add to startup (if needed)
+# For OpenRC
+rc-update add pulseaudio default
+
+# For systemd
+systemctl enable pulseaudio
+```
+
+</details>
+
+<details>
+<summary><b>PipeWire (Modern Alternative)</b></summary>
+
+```bash
+# Install PipeWire
+emerge --ask media-video/pipewire
+
+# Install audio control
+emerge --ask media-libs/libpulse
+emerge --ask volumekey
+emerge --ask pavucontrol
+```
+
+</details>
+
+### 12.7 Install Input Methods
+
+<div>
+
+**Reference**: [Fcitx5](https://wiki.gentoo.org/wiki/Fcitx5), [IBus](https://wiki.gentoo.org/wiki/IBus), [SCIM](https://wiki.gentoo.org/wiki/SCIM)
+
+</div>
+
+Gentoo provides input methods for many languages. Choose based on your needs.
+
+<details>
+<summary><b>Chinese - Fcitx5 (Recommended)</b></summary>
+
+```bash
+# Install Fcitx5
+emerge --ask app-i18n/fcitx5
+emerge --ask app-i18n/fcitx5-chinese-addons
+
+# Install engines
+emerge --ask app-i18n/fcitx5-gtk
+emerge --ask app-i18n/fcitx5-qt
+
+# Configuration
+mkdir -p ~/.config/fcitx5
+cp /usr/share/fcitx5/profile ~/.config/fcitx5/
+```
+
+Configure input method:
+
+```bash
+vim ~/.config/fcitx5/profile
+```
+
+Add to input methods:
+- Chinese (Pinyin)
+- English (Keyboard)
+
+</details>
+
+<details>
+<summary><b>Chinese - IBus</b></summary>
+
+```bash
+# Install IBus
+emerge --ask app-i18n/ibus
+emerge --ask app-i18n/ibus-rime
+
+# For GNOME
+emerge --ask app-i18n/ibus-anthy
+```
+
+</details>
+
+<details>
+<summary><b>Japanese - IBus/mozc</b></summary>
+
+```bash
+# Install Mozc (Japanese input engine)
+emerge --ask app-i18n/mozc
+
+# For IBus integration
+emerge --ask app-i18n/ibus-mozc
+
+# Alternative: Anthy
+emerge --ask app-i18n/anthy
+```
+
+**Configuration**:
+- Add "Japanese (Mozc)" or "Anthy" to your input method list
+- For IBus: `ibus-daemon -drx`
+
+</details>
+
+<details>
+<summary><b>Korean - IBus/hangul</b></summary>
+
+```bash
+# Install Hangul (Korean input)
+emerge --ask app-i18n/ibus-hangul
+
+# Alternative: fcitx-hangul
+emerge --ask app-i18n/fcitx-hangul
+```
+
+**Configuration**:
+- Add "Korean (Hangul)" to your input method
+- For IBus: `ibus-daemon -drx`
+
+</details>
+
+<details>
+<summary><b>Vietnamese - IBus/Bamboo</b></summary>
+
+```bash
+# Install Vietnamese input (fcitx-unikey or ibus-unikey)
+emerge --ask app-i18n/fcitx-unikey
+# or
+emerge --ask app-i18n/ibus-unikey
+```
+
+**Configuration**:
+- Add "Vietnamese (Bamboo)" to your input method
+- Configure tone markers as needed
+
+</details>
+
+<details>
+<summary><b>Arabic - System Keyboard</b></summary>
+
+Arabic input is typically handled by the system keyboard layout:
+
+```bash
+# Use system Arabic keyboard layout
+# Desktop Settings → Keyboard → Input Sources → Arabic
+
+# Common Arabic keyboards:
+# - Arabic (OLPC)
+# - Arabic (azerty)
+# - Arabic (qwerty)
+# - Arabic (digits)
+```
+
+**For IBus Arabic support**:
+
+```bash
+# Install IBus
+emerge --ask app-i18n/ibus
+
+# Add Arabic keyboard via desktop settings
+```
+
+</details>
+
+<details>
+<summary><b>Other Input Methods</b></summary>
+
+**For other languages, check**:
+
+```bash
+# Search available input methods
+emerge --search ibus
+emerge --search fcitx
+emerge --search scim
+
+# Common ones:
+# - app-i18n/scim - Smart Common Input Method
+# - app-i18n/uim - Universal Input Method
+# - app-i18n/gcin - Chinese input
+# - app-i18n/thai - Thai input
+```
+
+</details>
+
+**Auto-start Input Method**:
+
+Create `~/.xprofile`:
+
+```bash
+export XMODIFIERS=@im=fcitx
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export QT4_IM_MODULE=fcitx
+
+fcitx5 &
+
+# For IBus:
+# ibus-daemon -drx
+```
+
+### 12.8 Install Fonts
+
+<div>
+
+**Reference**: [Fonts](https://wiki.gentoo.org/wiki/Fonts)
+
+</div>
+
+Gentoo provides fonts for many languages. Install based on your needs.
+
+<details>
+<summary><b>Recommended: Noto Fonts (All-in-One)</b></summary>
+
+```bash
+# Noto Sans (recommended - covers many languages)
+emerge --ask media-fonts/noto
+
+# CJK (Chinese, Japanese, Korean)
+emerge --ask media-fonts/noto-cjk
+
+# Extra variants
+emerge --ask # Emoji (included in noto)
+emerge --ask # Serif variant available in noto
+emerge --ask # Monospace included in noto
+```
+
+</details>
+
+<details>
+<summary><b>Chinese Fonts</b></summary>
+
+```bash
+# WenQuanYi (Most popular Chinese font)
+emerge --ask media-fonts/wqy-microhei        # MicroHei (sans-serif)
+emerge --ask media-fonts/wqy-zenhei           # ZenHei (sans-serif)
+
+# AR PL (Another popular Chinese font)
+emerge --ask media-fonts/arphic-uming         # Ming style
+emerge --ask media-fonts/arphic-ukai          # Kai style
+
+# Noto CJK (already included above)
+# emerge --ask media-fonts/noto-cjk
+```
+
+</details>
+
+<details>
+<summary><b>Japanese Fonts</b></summary>
+
+```bash
+# Japanese fonts
+emerge --ask media-fonts/noto-cjk            # Includes Japanese
+
+# IPA Fonts (popular)
+emerge --ask media-fonts/ipaex-fonts         # IPA Ex Gothic
+
+# M+ Fonts
+emerge --ask media-fonts/mplus-outline-fonts
+```
+
+</details>
+
+<details>
+<summary><b>Korean Fonts</b></summary>
+
+```bash
+# Korean fonts
+emerge --ask media-fonts/noto-cjk             # Includes Korean
+
+# Nanum Gothic (popular Korean font)
+emerge --ask media-fonts/nanum-gothic-coding
+emerge --ask media-fonts/nanum-gothic
+```
+
+</details>
+
+<details>
+<summary><b>Vietnamese Fonts</b></summary>
+
+```bash
+# Vietnamese fonts (covered by Noto)
+emerge --ask media-fonts/noto
+emerge --ask media-fonts/noto-cjk
+
+# DejaVu (includes Vietnamese characters)
+emerge --ask media-fonts/dejavu
+```
+
+</details>
+
+<details>
+<summary><b>Arabic Fonts</b></summary>
+
+```bash
+# Arabic fonts
+emerge --ask media-fonts/noto                 # Includes Arabic
+emerge --ask media-fonts/noto-cjk
+
+# DejaVu (includes Arabic)
+emerge --ask media-fonts/dejavu
+
+# FreeFont (includes Arabic)
+emerge --ask media-fonts/freefont
+
+# Scheherazade (popular Arabic font)
+emerge --ask media-fonts/scheherazade
+
+# Amiri (classical Arabic calligraphy)
+emerge --ask media-fonts/amiri
+```
+
+</details>
+
+<details>
+<summary><b>Indian & South Asian Fonts</b></summary>
+
+```bash
+# Indian scripts
+emerge --ask media-fonts/noto                 # Includes many Indian scripts
+
+# Lohit fonts (Indian languages)
+emerge --ask media-fonts/lohit-deva           # Hindi/Devanagari
+emerge --ask media-fonts/lohit-bengali       # Bengali
+emerge --ask media-fonts/lohit-tamil         # Tamil
+emerge --ask media-fonts/lohit-telugu       # Telugu
+emerge --ask media-fonts/lohit-kannada       # Kannada
+emerge --ask media-fonts/lohit-malayalam     # Malayalam
+emerge --ask media-fonts/lohit-gujarati      # Gujarati
+emerge --ask media-fonts/lohit-punjabi       # Punjabi/Gurmukhi
+```
+
+</details>
+
+<details>
+<summary><b>Thai Fonts</b></summary>
+
+```bash
+# Thai fonts
+emerge --ask media-fonts/noto                 # Includes Thai
+emerge --ask media-fonts/noto-cjk
+
+# TLWG Thai fonts
+emerge --ask media-fonts/tlwg-latex          # Thai LaTeX fonts
+emerge --ask media-fonts/tlwg-woothemes      # Thai WTO fonts
+```
+
+</details>
+
+<details>
+<summary><b>Hebrew Fonts</b></summary>
+
+```bash
+# Hebrew fonts
+emerge --ask media-fonts/noto                 # Includes Hebrew
+
+# DejaVu (includes Hebrew)
+emerge --ask media-fonts/dejavu
+
+# Culmus (Hebrew academic fonts)
+emerge --ask media-fonts/culmus
+```
+
+</details>
+
+<details>
+<summary><b>Cyrillic (Russian, etc.)</b></summary>
+
+```bash
+# Cyrillic support
+emerge --ask media-fonts/noto                 # Includes Cyrillic
+
+# DejaVu (includes Cyrillic)
+emerge --ask media-fonts/dejavu
+
+# Liberation (Microsoft-compatible)
+emerge --ask media-fonts/liberation-fonts
+
+# Terminus (console font)
+emerge --ask media-fonts/terminus-font
+```
+
+</details>
+
+<details>
+<summary><b>Monospace / Coding Fonts</b></summary>
+
+```bash
+# JetBrains Mono (recommended for coding)
+emerge --ask media-fonts/jetbrains-mono
+
+# Fira Code (with ligatures)
+emerge --ask media-fonts/fira
+
+# Source Code Pro
+emerge --ask media-fonts/source-code-pro
+
+# Cascadia Code
+emerge --ask media-fonts/cascadia-code
+
+# Ubuntu Mono
+emerge --ask media-fonts/ubuntu-mono
+```
+
+</details>
+
+**Font Configuration**:
+
+Configure font rendering in `/etc/fonts/local.conf`:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+    <match target="font">
+        <edit name="antialias" mode="assign"><int>1</int></edit>
+        <edit name="hinting" mode="assign"><int>1</int></edit>
+        <edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
+        <edit name="rgba" mode="assign"><const>rgb</const></edit>
+        <edit name="lcdfilter" mode="assign"><const>lcddefault</const></edit>
+    </match>
+</fontconfig>
+```
+
+Configure font rendering in `/etc/fonts/local.conf`:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+    <match target="font">
+        <edit name="antialias" mode="assign"><int>1</int></edit>
+        <edit name="hinting" mode="assign"><int>1</int></edit>
+        <edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
+        <edit name="rgba" mode="assign"><const>rgb</const></edit>
+        <edit name="lcdfilter" mode="assign"><const>lcddefault</const></edit>
+    </match>
+</fontconfig>
+```
+
+### 12.9 Install Common Software
+
+```bash
+# Browser
+emerge --ask www-client/firefox
+# or
+emerge --ask www-client/chromium
+
+# File manager
+emerge --ask kde-apps/dolphin
+# or
+emerge --ask gnome-extra/nautilus
+
+# Terminal
+emerge --ask kde-apps/konsole
+# or
+emerge --ask gnome-terminal
+# or
+emerge --ask x11-terms/kitty
+
+# Archive manager
+emerge --ask app-arch/ark
+
+# Image viewer
+emerge --ask kde-apps/gwenview
+# or
+emerge --ask media-gfx/eog
+
+# Media player
+emerge --ask media-video/vlc
+emerge --ask media-sound/audacity
+```
+
+### 12.10 Bluetooth
+
+```bash
+# Install Bluetooth stack
+emerge --ask net-wireless/bluez
+emerge --ask net-wireless/bluez-utils
+
+# Enable service
+# For OpenRC
 rc-update add bluetooth default
+
+# For systemd
+systemctl enable bluetooth
+
+# Start service
 /etc/init.d/bluetooth start
 ```
 
-**Start Service (Systemd)**
-```bash
-# Enable Bluetooth service (system level):
-sudo systemctl enable --now bluetooth
-# Enable PipeWire core and PulseAudio compatibility layer
-systemctl --user enable --now pipewire pipewire-pulse
-# Enable WirePlumber session manager
-systemctl --user enable --now wireplumber
-```
-
-### 12.5 Desktop Environments and Display Managers [Optional]
-
-#### KDE Plasma (Wayland)
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [KDE](https://wiki.gentoo.org/wiki/KDE)
-
-</div>
+### 12.11 Print and Scan
 
 ```bash
-echo "kde-plasma/plasma-meta wayland" >> /etc/portage/package.use/plasma
-emerge --ask kde-plasma/plasma-meta # Install Plasma Desktop
-emerge --ask kde-apps/kde-apps-meta # (Optional) Install full KDE Apps suite
-emerge --ask x11-misc/sddm # Install SDDM Display Manager
+# CUPS (print service)
+emerge --ask net-print/cups
+systemctl enable cups
 
-# OpenRC Configuration (SDDM has no independent init script)
-# Reference: https://wiki.gentoo.org/wiki/Display_manager#OpenRC
-emerge --ask gui-libs/display-manager-init # Install generic display manager init script
-
-# Edit /etc/conf.d/display-manager
-# Set DISPLAYMANAGER="sddm" and CHECKVT=7
-sed -i 's/^DISPLAYMANAGER=.*/DISPLAYMANAGER="sddm"/' /etc/conf.d/display-manager
-sed -i 's/^CHECKVT=.*/CHECKVT=7/' /etc/conf.d/display-manager
-
-rc-update add display-manager default
-rc-service display-manager start  # Start immediately (Optional)
-
-# Systemd Configuration
-systemctl enable sddm
-systemctl start sddm  # Start immediately (Optional)
+# SANE (scanner)
+emerge --ask media-gfx/sane-backends
 ```
 
-#### GNOME
+## What's Next?
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [GNOME](https://wiki.gentoo.org/wiki/GNOME)
-
-</div>
-
-```bash
-emerge --ask gnome-base/gnome # Install GNOME core components
-emerge --ask gnome-base/gdm # Install GDM Display Manager
-rc-update add gdm default # OpenRC
-systemctl enable gdm # Enable GDM Display Manager (systemd)
-```
-
-#### Hyprland (Wayland Dynamic Tiling Window Manager)
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [Hyprland](https://wiki.gentoo.org/wiki/Hyprland)
-
-</div>
-
-```bash
-emerge --ask gui-wm/hyprland
-```
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**Tip**
-
-Hyprland requires newer graphics driver support. Recommended to read the Wiki for detailed configuration.
-
-</div>
-
-#### Other Options
-
-If you need a lightweight desktop, consider Xfce or LXQt:
-
-- **Xfce**: `emerge --ask xfce-base/xfce4-meta` ([Wiki](https://wiki.gentoo.org/wiki/Xfce))
-- **LXQt**: `emerge --ask lxqt-base/lxqt-meta` ([Wiki](https://wiki.gentoo.org/wiki/LXQt))
-- **Budgie**: `emerge --ask gnome-extra/budgie-desktop` ([Wiki](https://wiki.gentoo.org/wiki/Budgie))
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**More Choices**
-
-For other desktop environments, please refer to [Desktop environment](https://wiki.gentoo.org/wiki/Desktop_environment).
-
-</div>
-
-### 12.6 Localization and Fonts [Optional]
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [Localization/Guide](https://wiki.gentoo.org/wiki/Localization/Guide) · [Fonts](https://wiki.gentoo.org/wiki/Fonts)
-
-</div>
-
-To display Chinese properly, we need to install Chinese fonts.
-
-```bash
-# Install Noto CJK (Source Han) fonts
-emerge --ask media-fonts/noto-cjk
-
-# Install Emoji fonts
-emerge --ask media-fonts/noto-emoji
-
-# (Optional) WenQuanYi Micro Hei
-emerge --ask media-fonts/wqy-microhei
-```
-
-Refresh font cache:
-```bash
-fc-cache -fv
-```
-
-### 12.7 Input Method Configuration (Fcitx5 & Rime) [Optional]
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [Fcitx5](https://wiki.gentoo.org/wiki/Fcitx5)
-
-</div>
-
-Rime is a powerful input method engine that supports multiple input schemes such as Hanyu Pinyin (Traditional/Simplified), Bopomofo, Terra Pinyin, etc.
-
-For the best experience under Wayland, we need to configure environment variables.
-
-**Option A: Fcitx5 + Rime (KDE/General Recommendation)**
-
-Suitable for KDE Plasma, Hyprland and other environments.
-
-1. **Install Core Components**
-   ```bash
-   emerge --ask app-i18n/fcitx app-i18n/fcitx-configtool
-   ```
-
-2. **Install Language Engines**
-   Choose engines based on your language needs:
-
-   - **Chinese (Rime)**: `emerge --ask app-i18n/fcitx-rime`
-   - **Chinese (Pinyin)**: `emerge --ask app-i18n/fcitx-libpinyin`
-   - **Japanese (Mozc)**: `emerge --ask app-i18n/fcitx-mozc`
-   - **Korean (Hangul)**: `emerge --ask app-i18n/fcitx-hangul`
-
-3. **Configure Environment Variables (Wayland)**
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [Using Fcitx 5 on Wayland](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland)
-
-</div>
-
-   Edit `/etc/environment`:
-   ```bash
-   vim /etc/environment
-   ```
-   Write:
-   ```conf
-   # Force XWayland apps to use Fcitx5
-   XMODIFIERS=@im=fcitx
-
-   # (Optional) For non-KDE environments or specific apps
-   GTK_IM_MODULE=fcitx
-   QT_IM_MODULE=fcitx
-   ```
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**KDE User Tip**
-
-In KDE Plasma 5.27+, it's recommended to directly select Fcitx 5 in "System Settings" -> "Keyboard" -> "Virtual Keyboard" instead of manually setting the above environment variables (except `XMODIFIERS`).
-
-</div>
-
-4. **Start**
-   - KDE/GNOME usually start automatically.
-   - Hyprland/Sway need to add `exec-once = fcitx5 -d` to the configuration file.
-
-**Option B: IBus + Rime (GNOME Recommendation)**
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [IBus](https://wiki.gentoo.org/wiki/IBus)
-
-</div>
-
-GNOME has the best integration with IBus, recommended priority.
-
-1. **Install Core Components**
-   ```bash
-   emerge --ask app-i18n/ibus
-   ```
-
-2. **Install Language Engines**
-   Choose engines based on your language needs:
-
-   - **Chinese (Rime)**: `emerge --ask app-i18n/ibus-rime`
-   - **Japanese (Anthy)**: `emerge --ask app-i18n/ibus-anthy`
-   - **Japanese (Mozc)**: `emerge --ask app-i18n/ibus-mozc`
-   - **Korean (Hangul)**: `emerge --ask app-i18n/ibus-hangul`
-
-3. **Enable**
-   Go to GNOME Settings -> Keyboard -> Add Input Source -> Select "Chinese (Rime)" or your preferred language input method.
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**Rime Configuration Tips**
-
-*   **Switch Scheme**: Press `F4` key.
-*   **Supported Schemes**: Hanyu Pinyin (Traditional/Simplified), Bopomofo, Terra Pinyin, etc.
-*   **User Configuration Directory**: `~/.local/share/fcitx5/rime` (Fcitx5) or `~/.config/ibus/rime` (IBus).
-
-</div>
-
-### 12.8 Secure Boot [Optional]
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [Secure Boot](https://wiki.gentoo.org/wiki/Secure_Boot)
-
-</div>
-
-If you need to enable Secure Boot, Gentoo recommends using `sbctl` to simplify configuration.
-
-1. **Install sbctl**:
-    ```bash
-    emerge --ask app-crypt/sbctl
-    ```
-2. **Enter BIOS Settings**: Reboot into BIOS, set Secure Boot mode to "Setup Mode" (clear existing keys) and enable Secure Boot.
-3. **Create and Enroll Keys**:
-    Execute after entering the system:
-    ```bash
-    sbctl create-keys
-    sbctl enroll-keys -m # -m includes Microsoft keys (Recommended, otherwise may not boot Windows or load some firmware)
-    ```
-4. **Sign Kernel and Bootloader**:
-    ```bash
-    # Automatically find and sign all known files (including kernel, systemd-boot, etc.)
-    sbctl sign-all
-
-    # Or manually sign (e.g., GRUB)
-    # sbctl sign -s /efi/EFI/Gentoo/grubx64.efi
-    ```
-5. **Verify**:
-    ```bash
-    sbctl verify
-    ```
+- **Next**: [Advanced Optimization](/posts/2025-11-25-gentoo-install-advanced/) - make.conf optimization, LTO, system maintenance
+- **Previous**: [Basic Installation](/posts/2025-11-25-gentoo-install-base/)
 
 ---
 
-### 12.9 Portage Git Sync & Overlay [Optional]
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**Why This Step?**
-
-Default rsync sync is slower. Using Git sync is not only faster but also easier to manage.
-
-</div>
-
-**1. Install Git**
-```bash
-emerge --ask dev-vcs/git
-```
-
-**2. Configure Git Sync**
-```bash
-mkdir -p /etc/portage/repos.conf
-cp /usr/share/portage/config/repos.conf /etc/portage/repos.conf/gentoo.conf
-```
-
-Edit `/etc/portage/repos.conf/gentoo.conf`:
-```ini
-[DEFAULT]
-main-repo = gentoo
-
-[gentoo]
-location = /var/db/repos/gentoo
-sync-type = git
-sync-uri = https://github.com/gentoo-mirror/gentoo.git
-auto-sync = yes
-```
-
-Available Git mirror sources:
-- **GitHub (International)**: `https://github.com/gentoo-mirror/gentoo.git`
-- **BFSU (Beijing)**: `https://mirrors.bfsu.edu.cn/git/gentoo-portage.git`
-- **Tsinghua University**: `https://mirrors.tuna.tsinghua.edu.cn/git/gentoo-portage.git`
-
-**3. Add Gentoo-zh Overlay**
-   Create a `gentoo-zh.conf` file in `/etc/portage/repos.conf/` directory with the following content:
-   ```ini
-   [gentoo-zh]
-   location = /var/db/repos/gentoo-zh
-   sync-type = git
-   sync-uri = https://github.com/microcai/gentoo-zh.git
-   auto-sync = yes
-   ```
-
-   **Available gentoo-zh Git mirror sources (Optional)**:
-   - **Original Source (GitHub)**: `https://github.com/microcai/gentoo-zh.git`
-   - **Chongqing University**: `https://mirrors.cqu.edu.cn/git/gentoo-zh.git`
-   - **Nanjing University**: `https://mirror.nju.edu.cn/git/gentoo-zh.git`
-
-   **gentoo-zh distfiles mirror (Optional)**:
-   To accelerate downloads of packages in the gentoo-zh overlay, you can use the following distfiles mirrors:
-   - **Original Source**: `https://distfiles.gentoocn.org/`
-   - **Chongqing University**: `https://mirror.cqu.edu.cn/gentoo-zh`
-   - **Nanjing University**: `https://mirror.nju.edu.cn/gentoo-zh`
-
-   Usage help: https://t.me/gentoocn/56
-
-<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
-
-**Important Update (Updated: 2025-10-07)**
-
-According to Gentoo's official announcement, Gentoo has stopped providing cache mirror support for third-party repositories. Starting from 2025-10-30, mirror configurations for all third-party repositories (including gentoo-zh) will be removed from the official repository list.
-
-**What does this mean?**
-*   Tools like `eselect repository` and `layman` still work normally.
-*   Officials will no longer provide cache mirrors, instead syncing directly from upstream sources (GitHub).
-*   Official repositories (`::gentoo`, `::guru`, `::kde`, `::science`) are not affected and can still use mirrors.
-
-**If you have previously added the gentoo-zh overlay, please update the sync URI**:
-
-```bash
-# Check installed repositories
-eselect repository list -i
-
-# Remove old configuration
-eselect repository remove gentoo-zh
-
-# Re-enable (will automatically use the correct upstream source)
-eselect repository enable gentoo-zh
-```
-
-</div>
-
-**4. Execute Sync**
-```bash
-emerge --sync
-```
-
-**5. Software Installation Demo**
-
-For example, installing `flclash-bin`:
-
-```bash
-emerge -pv flclash-bin
-```
-
-Output example:
-```text
-These are the packages that would be merged, in order:
-
-Calculating dependencies
-    ... done!
-Dependency resolution took 0.45 s (backtrack: 0/20).
-
-[ebuild  N     ] dev-libs/keybinder-0.3.2-r300:3::gentoo  USE="introspection" 371 KiB
-[ebuild  N     ] x11-apps/xmessage-1.0.7::gentoo  126 KiB
-[ebuild  N     ] net-proxy/flclash-bin-0.8.90::gentoo-zh  39,565 KiB
-
-Total: 3 packages (3 new), Size of downloads: 40,061 KiB
-```
-
-After confirming no errors, execute installation:
-```bash
-emerge --ask flclash-bin
-```
-
----
-
-### 12.10 Flatpak Support and Software Center [Optional]
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [Flatpak](https://wiki.gentoo.org/wiki/Flatpak)
-
-</div>
-
-If you need to use Flatpak or want to manage Flatpak applications in the Software Center:
-
-1. **Install Flatpak**
-   ```bash
-   emerge --ask sys-apps/flatpak
-   ```
-
-2. **Enable Software Center Support**
-   To let GNOME Software or KDE Discover support Flatpak, enable the corresponding USE flag.
-
-   **GNOME Users**:
-   Add to `/etc/portage/package.use/gnome` (or create a new file):
-   ```conf
-   gnome-extra/gnome-software flatpak
-   ```
-
-   **KDE Users**:
-   Add to `/etc/portage/package.use/kde` (or create a new file):
-   ```conf
-   kde-plasma/discover flatpak
-   ```
-
-3. **Update Software Center**
-   ```bash
-   # GNOME
-   emerge --ask --newuse gnome-extra/gnome-software
-
-   # KDE
-   emerge --ask --newuse kde-plasma/discover
-   ```
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**Usage Tip**
-
-Flatpak is very suitable for installing proprietary software (like QQ, WeChat). Its sandbox isolation mechanism ensures main system security and cleanliness.
-
-```bash
-# Search applications
-flatpak search qq
-flatpak search wechat
-
-# Install QQ and WeChat
-flatpak install com.qq.QQ
-flatpak install com.tencent.WeChat
-```
-
-</div>
-
----
-
-### 12.11 System Maintenance (SSD TRIM & Power Management) [Optional]
-
-**1. SSD TRIM (Extend SSD Life)**
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [SSD](https://wiki.gentoo.org/wiki/SSD)
-
-</div>
-
-Regular TRIM execution can maintain SSD performance.
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**Check Support**
-
-Run `lsblk --discard`. If the DISC-GRAN column is non-zero, TRIM is supported.
-
-</div>
-
-- **Systemd Users**:
-  ```bash
-  systemctl enable --now fstrim.timer
-  ```
-- **OpenRC Users**:
-  Recommended to run `fstrim -av` manually every week, or configure a cron task.
-
-**2. Power Management (Recommended for Laptop Users)**
-
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
-
-**Reference**: [Power management/Guide](https://wiki.gentoo.org/wiki/Power_management/Guide)
-
-</div>
-
-Please **choose one of the following** options (do not install both):
-
-**Option A: TLP (Recommended, Extreme Power Saving)**
-Automatically optimizes battery life, suitable for most users.
-
-```bash
-emerge --ask sys-power/tlp
-# OpenRC
-rc-update add tlp default
-/etc/init.d/tlp start
-# Systemd
-systemctl enable --now tlp
-```
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**Configuration Tip**
-
-TLP's default configuration is excellent enough. For fine-tuning, the configuration file is located at `/etc/tlp.conf`. Run `tlp start` to take effect after modification.
-
-</div>
-
-**Option B: power-profiles-daemon (Desktop Integration)**
-Suitable for GNOME/KDE users, can switch "Performance/Balanced/Power Saver" modes directly in the system menu.
-
-```bash
-emerge --ask sys-power/power-profiles-daemon
-# OpenRC
-rc-update add power-profiles-daemon default
-/etc/init.d/power-profiles-daemon start
-# Systemd
-systemctl enable --now power-profiles-daemon
-```
-
-**3. Zram (Memory Compression)**
-
-<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
-
-**Recommended**
-
-Zram can create a compressed memory swap partition, effectively preventing Out of Memory (OOM) when compiling large software.
-
-</div>
-
-**OpenRC Users**:
-```bash
-emerge --ask sys-block/zram-init
-rc-update add zram-init default
-```
-*Configuration located at `/etc/conf.d/zram-init`*
-
-**Systemd Users**:
-Recommended to use `zram-generator`:
-```bash
-emerge --ask sys-apps/zram-generator
-# Create default configuration (Automatically use 50% memory as Swap)
-echo '[zram0]' > /etc/systemd/zram-generator.conf
-systemctl daemon-reload
-systemctl start dev-zram0.swap
-```
-
----
-
-
-<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
-
-**Next Step**: [Advanced Optimization](/posts/gentoo-install-advanced/)
-
-</div>
+> **Footnote**: This article is part of the **Gentoo Linux Installation Guide** series.

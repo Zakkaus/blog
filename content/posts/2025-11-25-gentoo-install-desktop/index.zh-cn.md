@@ -1,15 +1,9 @@
 ---
 title: "Gentoo Linux 安装指南 (桌面配置篇)"
-slug: gentoo-install-desktop
-translationKey: gentoo-install-desktop
-date: 2025-11-30
+date: 2025-11-25
+weight: 2
 summary: "Gentoo Linux 桌面环境配置教程，涵盖显卡驱动、KDE/GNOME/Hyprland、输入法、字体等。"
 description: "2025 年最新 Gentoo Linux 安装指南 (桌面配置篇)，涵盖显卡驱动、KDE/GNOME/Hyprland、输入法、字体等。"
-article:
-  showHero: true
-  heroStyle: background
-featureImage: feature-gentoo-chan.webp
-featureImageAlt: "Gentoo Chan"
 keywords:
   - Gentoo Linux
   - KDE Plasma
@@ -29,24 +23,24 @@ authors:
   - zakkaus
 ---
 
-<div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.05)); padding: 2rem; border-radius: 1rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+<div>
 
 ### 文章特别说明
 
 本文是 **Gentoo Linux 安装指南** 系列的第二部分：**桌面配置**。
 
 **系列导航**：
-1. [基础安装](/zh-cn/posts/gentoo-install/)：从零开始安装 Gentoo 基础系统
+1. [基础安装](/posts/2025-11-25-gentoo-install-base/)：从零开始安装 Gentoo 基础系统
 2. **桌面配置（本文）**：显卡驱动、桌面环境、输入法等
-3. [进阶优化](/zh-cn/posts/gentoo-install-advanced/)：make.conf 优化、LTO、系统维护
+3. [进阶优化](/posts/2025-11-25-gentoo-install-advanced/)：make.conf 优化、LTO、系统维护
 
-**上一步**：[基础安装](/zh-cn/posts/gentoo-install/)
+**上一步**：[基础安装](/posts/2025-11-25-gentoo-install-base/)
 
 </div>
 
 ## 12. 重启后的配置 {#step-12-post-reboot}
 
-<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
+<div>
 
 恭喜你！你已经完成了 Gentoo 的基础安装并成功进入了新系统（TTY 界面）。
 
@@ -54,11 +48,12 @@ authors:
 
 </div>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
-**重要提示：检查 Profile 与更新系统**
+> **重要提示：检查 Profile 与更新系统**
 
-在开始配置之前，请再次确认 Profile 设置正确，并确保系统处于最新状态：
+> 在开始配置之前，请再次确认 Profile 设置正确，并确保系统处于最新状态：
+
 ```bash
 eselect profile list          # 列出所有可用 Profile
 eselect profile set <编号>    # 设置选定的 Profile (例如 desktop/plasma/systemd)
@@ -70,129 +65,66 @@ emerge -avuDN @world          # 更新系统
 现在我们来配置图形界面和多媒体功能。
 
 ### 12.0 网络检查 [必选]
+
 登录后，请确保网络连接正常。
 - **有线网络**：通常会自动连接。
 - **无线网络**：使用 `nmtui` (NetworkManager) 或 `iwctl` (iwd) 连接 Wi-Fi。
 
 ### 12.1 全局配置 (make.conf) [必选]
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[make.conf](https://wiki.gentoo.org/wiki//etc/portage/make.conf) · [Handbook: VIDEO_CARDS](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation#VIDEO_CARDS) · [进阶篇 13 章：make.conf 完整配置指南](/zh-cn/posts/gentoo-install-advanced/#13-makeconf-高端配置指南)
-
-</div>
-
-`/etc/portage/make.conf` 是 Gentoo 的全局配置文件。在此阶段，我们只需配置输入设备和本地化选项。
-
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**重要说明**
-
-基础的 make.conf 配置已在 [基础安装篇 5.2 节](/zh-cn/posts/gentoo-install/#52-makeconf-范例) 完成。本节只需补充桌面相关配置。
-
-如需详细的编译优化、USE 标志、许可证管理等进阶配置，请查阅 [进阶篇 13 章](/zh-cn/posts/gentoo-install-advanced/#13-makeconf-高端配置指南)。
+> **可参考**：[make.conf](https://wiki.gentoo.org/wiki//etc/portage/make.conf)
 
 </div>
 
-#### 配置 make.conf
+`/etc/portage/make.conf` 是 Gentoo 的全局配置文件。在此阶段，我们只需配置显卡、输入设备和本地化选项。详细的编译优化配置将在 **Section 13.0** 中介绍。
 
 ```bash
 vim /etc/portage/make.conf
 ```
 
 添加或修改以下配置：
+
 ```bash
+# 显卡驱动 (根据硬件选择)
+VIDEO_CARDS="nvidia"        # NVIDIA
+# VIDEO_CARDS="amdgpu radeonsi" # AMD
+# VIDEO_CARDS="intel i965 iris" # Intel
 # 输入设备
 INPUT_DEVICES="libinput"
-
 # 本地化设置
 L10N="en zh zh-CN zh-TW"
 LINGUAS="en zh_CN zh_TW"
-
 # 桌面环境支持
 USE="${USE} wayland X pipewire pulseaudio alsa"
 ```
 
-#### 配置显卡驱动 (VIDEO_CARDS)
-
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
-
-**推荐做法**
-
-根据 [Gentoo Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation#VIDEO_CARDS)，推荐使用 `package.use` 而非在 `make.conf` 中设置 `VIDEO_CARDS`，这样可以更灵活地管理显卡驱动依赖。
-
-</div>
-
-创建 package.use 文件并设置显卡驱动：
-
-```bash
-mkdir -p /etc/portage/package.use
-vim /etc/portage/package.use/video-cards
-```
-
-**根据你的硬件选择对应配置**（参考下表）：
-
-```bash
-# NVIDIA 显卡
-*/* VIDEO_CARDS: nvidia
-
-# AMD 显卡 (Sea Islands 及更新)
-# */* VIDEO_CARDS: amdgpu radeonsi
-
-# Intel 显卡
-# */* VIDEO_CARDS: intel
-
-# 虚拟机 (QEMU/KVM)
-# */* VIDEO_CARDS: virgl
-```
-
-<details>
-<summary><b>显卡硬件对照表（点击展开）</b></summary>
-
-| 硬件平台 | 独立显卡 | VIDEO_CARDS 值 | 说明 |
-|---------|---------|---------------|------|
-| Intel x86 | 无独显 | `intel` | 详见 [Intel 特性支持](https://wiki.gentoo.org/wiki/Intel#Feature_support) |
-| x86/ARM | NVIDIA | `nvidia` | 闭源驱动（推荐） |
-| 任意平台 | NVIDIA（除 Maxwell/Pascal/Volta） | `nouveau` | 开源驱动（性能较差） |
-| 任意平台 | AMD Sea Islands 及更新 | `amdgpu radeonsi` | 推荐（GCN 1.2+） |
-| 任意平台 | ATI 和较旧的 AMD | 见 [Radeon 特性支持](https://wiki.gentoo.org/wiki/Radeon#Feature_support) | 旧款显卡 |
-| 任意平台 | Intel | `intel` | 集成显卡 |
-| Raspberry Pi | N/A | `vc4` | VideoCore IV |
-| QEMU/KVM | 任意 | `virgl` | 虚拟 GPU |
-| WSL | 任意 | `d3d12` | DirectX 12 |
-
-**详细信息**：
-- [AMDGPU](https://wiki.gentoo.org/wiki/AMDGPU)
-- [Intel](https://wiki.gentoo.org/wiki/Intel)
-- [Nouveau (开源)](https://wiki.gentoo.org/wiki/Nouveau)
-- [NVIDIA (专有)](https://wiki.gentoo.org/wiki/NVIDIA)
-
-</details>
-
 ### 12.2 应用配置与更新系统 [必选]
 
 应用新的 USE flags：
+
 ```bash
 emerge --ask --newuse --deep @world
 ```
 
 ### 12.3 显示卡驱动 [必选]
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[NVIDIA/nvidia-drivers](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers/zh-cn)
+> **可参考**：[NVIDIA/nvidia-drivers](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers/zh-cn)
 
 </div>
 
 - **NVIDIA 专有驱动**：`emerge --ask x11-drivers/nvidia-drivers`
-- **AMD**：在 `/etc/portage/package.use/video-cards` 中启用 `VIDEO_CARDS: amdgpu radeonsi`
-- **Intel**：在 `/etc/portage/package.use/video-cards` 中启用 `VIDEO_CARDS: intel`
+- **AMD**：设置 `VIDEO_CARDS="amdgpu radeonsi"`
+- **Intel**：设置 `VIDEO_CARDS="intel i965 iris"`
 
 **配置 VAAPI 视频加速**
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[VAAPI](https://wiki.gentoo.org/wiki/VAAPI) · [nvidia-vaapi-driver](https://packages.gentoo.org/packages/media-libs/nvidia-vaapi-driver)
+> **可参考**：[VAAPI](https://wiki.gentoo.org/wiki/VAAPI) · [nvidia-vaapi-driver](https://packages.gentoo.org/packages/media-libs/nvidia-vaapi-driver)
 
 </div>
 
@@ -212,7 +144,8 @@ emerge --ask --newuse --deep @world
    ```bash
    emerge --ask media-libs/nvidia-vaapi-driver
    ```
-<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(245, 158, 11); margin: 1.5rem 0;">
+
+<div>
 
 **注意**
 
@@ -234,7 +167,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 3. **验证**：
    运行 `vainfo` 查看输出，若无错误且显示支持的 Profile 即为成功。
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **关于 Firefox 与硬件加速**
 
@@ -247,9 +180,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 <details>
 <summary><b>NVIDIA Chromium 硬件加速配置 (推荐方法)（无需 VAAPI，点击展开）</b></summary>
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
-
-**提示**
+<div>
 
 以下配置适用于 Chromium、Chrome、Edge、Electron 应用（如 VSCode）。
 
@@ -260,7 +191,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 这种方法不需要修改 `.desktop` 文件,浏览器能正确识别为默认浏览器。
 
 **1. 环境变量**
+
 创建 `~/.config/environment.d/chromium-nvidia.conf`：
+
 ```bash
 # NVIDIA 环境变量
 __GLX_VENDOR_LIBRARY_NAME=nvidia
@@ -269,29 +202,34 @@ GBM_BACKEND=nvidia-drm
 ```
 
 **2. Chromium/Chrome Flags 配置**
+
 创建对应的 flags 文件：
 
 - Chrome Stable: `~/.config/chrome-flags.conf`
-- Chrome Unstable: `~/.config/chrome-dev-flags.conf`
+- Chrome Unstable: `~/.config/chrome-dev-flags.conf`  
 - Chromium: `~/.config/chromium-flags.conf`
 - Edge Beta: `~/.config/microsoft-edge-beta-flags.conf`
 - Edge Dev: `~/.config/microsoft-edge-dev-flags.conf`
 
 内容如下：
+
 ```bash
 # Vulkan 视频加速配置
-# NVIDIA + Wayland 硬件加速优化
-
---enable-features=VulkanVideoDecoder,Vulkan,VulkanFromANGLE,DefaultANGLEVulkan
+# NVIDIA 硬件加速优化
+--enable-features=Vulkan,DefaultANGLEVulkan,VulkanFromANGLE
+--enable-unsafe-webgpu
 --ozone-platform=x11
---use-vulkan=native
---enable-zero-copy
---enable-gpu-rasterization
---ignore-gpu-blocklist
---enable-native-gpu-memory-buffers
 ```
 
+> **注意**：如果遇到以下错误：
+> ```
+> '--ozone-platform=wayland' is not compatible with Vulkan.
+> Consider switching to '--ozone-platform=x11' or disabling Vulkan
+> ```
+> 请确保使用 `--ozone-platform=x11`，因为 Wayland 目前不兼容 Vulkan 硬件加速。
+
 **3. 应用配置**
+
 重新登录。
 
 > **验证**：访问 `chrome://gpu/` 或 `edge://gpu/`，查看 **Vulkan** 是否显示为 `Enabled`。
@@ -302,27 +240,28 @@ GBM_BACKEND=nvidia-drm
 
 ### 12.4 音频与蓝牙 [可选]
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[PipeWire](https://wiki.gentoo.org/wiki/PipeWire/zh-cn) · [Bluetooth](https://wiki.gentoo.org/wiki/Bluetooth/zh-cn)
+> **可参考**：[PipeWire](https://wiki.gentoo.org/wiki/PipeWire/zh-cn) · [Bluetooth](https://wiki.gentoo.org/wiki/Bluetooth/zh-cn)
 
 </div>
 
 ```bash
 # 安装 PipeWire 音频系统与 WirePlumber 会话管理器
 emerge --ask media-video/pipewire media-video/wireplumber
-
 # 安装蓝牙协议栈、工具与管理器 (Blueman 为 GUI 管理器)
 emerge --ask net-wireless/bluez net-wireless/bluez-tools net-wireless/blueman
 ```
 
 **启动服务 (OpenRC)**
+
 ```bash
-rc-update add bluetooth default
+rc-update add bluetooth default 
 /etc/init.d/bluetooth start
 ```
 
 **启动服务 (Systemd)**
+
 ```bash
 # 设定蓝牙服务 (系统级)：
 sudo systemctl enable --now bluetooth
@@ -336,40 +275,53 @@ systemctl --user enable --now wireplumber
 
 #### KDE Plasma（Wayland）
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[KDE](https://wiki.gentoo.org/wiki/KDE/zh-cn)
+> **可参考**：[KDE](https://wiki.gentoo.org/wiki/KDE/zh-cn)
 
 </div>
 
 ```bash
+# 添加 Wayland 支持
 echo "kde-plasma/plasma-meta wayland" >> /etc/portage/package.use/plasma
-emerge --ask kde-plasma/plasma-meta # 安装 Plasma 桌面
-emerge --ask kde-apps/kde-apps-meta # (可选) 安装全套 KDE 应用
-emerge --ask x11-misc/sddm # 安装 SDDM 显示管理器
+# 安装 Plasma 桌面
+emerge --ask kde-plasma/plasma-meta
+# (可选) 安装全套 KDE 应用
+emerge --ask kde-apps/kde-apps-meta
+# 安装 SDDM 显示管理器
+emerge --ask x11-misc/sddm
+```
 
-# OpenRC 配置 (SDDM 没有独立的 init 脚本)
-# 参考：https://wiki.gentoo.org/wiki/Display_manager#OpenRC
-emerge --ask gui-libs/display-manager-init # 安装通用显示管理器 init 脚本
+<details>
+<summary>展开 OpenRC 配置</summary>
 
-# 编辑 /etc/conf.d/display-manager
-# 设置 DISPLAYMANAGER="sddm" 和 CHECKVT=7
+```bash
+# 安装通用显示管理器 init 脚本
+emerge --ask gui-libs/display-manager-init
+# 配置 SDDM
 sed -i 's/^DISPLAYMANAGER=.*/DISPLAYMANAGER="sddm"/' /etc/conf.d/display-manager
 sed -i 's/^CHECKVT=.*/CHECKVT=7/' /etc/conf.d/display-manager
-
+# 启用 SDDM
 rc-update add display-manager default
-rc-service display-manager start  # 立即启动 (可选)
-
-# Systemd 配置
-systemctl enable sddm
-systemctl start sddm  # 立即启动 (可选)
+rc-service display-manager start
 ```
+</details>
+
+<details>
+<summary>展开 Systemd 配置</summary>
+
+```bash
+# 启用 SDDM
+systemctl enable sddm
+systemctl start sddm
+```
+</details>
 
 #### GNOME
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[GNOME](https://wiki.gentoo.org/wiki/GNOME/zh-cn)
+> **可参考**：[GNOME](https://wiki.gentoo.org/wiki/GNOME/zh-cn)
 
 </div>
 
@@ -382,18 +334,17 @@ systemctl enable gdm # 启用 GDM 显示管理器 (systemd)
 
 #### Hyprland (Wayland 动态平铺窗口管理器)
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[Hyprland](https://wiki.gentoo.org/wiki/Hyprland)
+> **可参考**：[Hyprland](https://wiki.gentoo.org/wiki/Hyprland)
 
 </div>
 
 ```bash
 emerge --ask gui-wm/hyprland
 ```
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
 
-**提示**
+<div>
 
 Hyprland 需要较新的显卡驱动支持，建议阅读 Wiki 进行详细配置。
 
@@ -407,7 +358,7 @@ Hyprland 需要较新的显卡驱动支持，建议阅读 Wiki 进行详细配�
 - **LXQt**: `emerge --ask lxqt-base/lxqt-meta` ([Wiki](https://wiki.gentoo.org/wiki/LXQt))
 - **Budgie**: `emerge --ask gnome-extra/budgie-desktop` ([Wiki](https://wiki.gentoo.org/wiki/Budgie))
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **更多选择**
 
@@ -417,9 +368,9 @@ Hyprland 需要较新的显卡驱动支持，建议阅读 Wiki 进行详细配�
 
 ### 12.6 本地化与字体 [可选]
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[Localization/Guide](https://wiki.gentoo.org/wiki/Localization/Guide) · [Fonts](https://wiki.gentoo.org/wiki/Fonts)
+> **可参考**：[Localization/Guide](https://wiki.gentoo.org/wiki/Localization/Guide) · [Fonts](https://wiki.gentoo.org/wiki/Fonts)
 
 </div>
 
@@ -428,24 +379,23 @@ Hyprland 需要较新的显卡驱动支持，建议阅读 Wiki 进行详细配�
 ```bash
 # 安装 Noto CJK (思源) 字体
 emerge --ask media-fonts/noto-cjk
-
 # 安装 Emoji 字体
 emerge --ask media-fonts/noto-emoji
-
 # (可选) 文泉驿微米黑
 emerge --ask media-fonts/wqy-microhei
 ```
 
 刷新字体缓存：
+
 ```bash
 fc-cache -fv
 ```
 
 ### 12.7 输入法配置 (Fcitx5 & Rime) [可选]
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[Fcitx5](https://wiki.gentoo.org/wiki/Fcitx5)
+> **可参考**：[Fcitx5](https://wiki.gentoo.org/wiki/Fcitx5)
 
 </div>
 
@@ -458,15 +408,16 @@ Rime 是一款强大的输入法引擎，支持朙月拼音 (简体/繁体)、�
 适合 KDE Plasma、Hyprland 等环境。
 
 1. **安装**
+
    ```bash
    emerge --ask app-i18n/fcitx app-i18n/fcitx-rime app-i18n/fcitx-configtool
    ```
 
 2. **配置环境变量 (Wayland)**
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[Using Fcitx 5 on Wayland](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland/zh-cn)
+> **可参考**：[Using Fcitx 5 on Wayland](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland/zh-cn)
 
 </div>
 
@@ -478,12 +429,12 @@ Rime 是一款强大的输入法引擎，支持朙月拼音 (简体/繁体)、�
    ```conf
    # 强制 XWayland 程序使用 Fcitx5
    XMODIFIERS=@im=fcitx
-     # (可选) 针对非 KDE 环境或特定程序
+   # (可选) 针对非 KDE 环境或特定程序
    GTK_IM_MODULE=fcitx
    QT_IM_MODULE=fcitx
    ```
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **KDE 用户提示**
 
@@ -492,28 +443,31 @@ Rime 是一款强大的输入法引擎，支持朙月拼音 (简体/繁体)、�
 </div>
 
 3. **启动**
+
    - KDE/GNOME 通常会自动启动。
    - Hyprland/Sway 需要在配置文件中添加 `exec-once = fcitx5 -d`。
 
 **方案 B：IBus + Rime (GNOME 推荐)**
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[IBus](https://wiki.gentoo.org/wiki/IBus)
+> **可参考**：[IBus](https://wiki.gentoo.org/wiki/IBus)
 
 </div>
 
 GNOME 对 IBus 集成最好，建议优先使用。
 
 1. **安装**
+
    ```bash
    emerge --ask app-i18n/ibus-rime
    ```
 
 2. **启用**
+
    进入 GNOME 设置 -> 键盘 -> 添加输入源 -> 选择 "Chinese (Rime)"。
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **Rime 配置提示**
 
@@ -525,9 +479,9 @@ GNOME 对 IBus 集成最好，建议优先使用。
 
 ### 12.8 安全启动 (Secure Boot) [可选]
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[Secure Boot](https://wiki.gentoo.org/wiki/Secure_Boot)
+> **可参考**：[Secure Boot](https://wiki.gentoo.org/wiki/Secure_Boot)
 
 </div>
 
@@ -548,7 +502,7 @@ GNOME 对 IBus 集成最好，建议优先使用。
     ```bash
     # 自动查找并签名所有已知文件 (包括内核、systemd-boot 等)
     sbctl sign-all
-       # 或者手动签名 (例如 GRUB)
+    # 或者手动签名 (例如 GRUB)
     # sbctl sign -s /efi/EFI/Gentoo/grubx64.efi
     ```
 5. **验证**：
@@ -560,7 +514,7 @@ GNOME 对 IBus 集成最好，建议优先使用。
 
 ### 12.9 Portage Git Sync & Overlay [可选]
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **为什么需要这一步？**
 
@@ -569,72 +523,65 @@ GNOME 对 IBus 集成最好，建议优先使用。
 </div>
 
 **1. 安装 Git**
+
 ```bash
 emerge --ask dev-vcs/git
 ```
 
 **2. 配置 Git 同步**
+
 ```bash
 mkdir -p /etc/portage/repos.conf
 cp /usr/share/portage/config/repos.conf /etc/portage/repos.conf/gentoo.conf
 ```
 
-編輯 `/etc/portage/repos.conf/gentoo.conf`：
+编辑 `/etc/portage/repos.conf/gentoo.conf`：
+
 ```ini
 [DEFAULT]
 main-repo = gentoo
-
 [gentoo]
 location = /var/db/repos/gentoo
 sync-type = git
-sync-uri = https://mirrors.ustc.edu.cn/git/gentoo-portage.git
+sync-uri = https://mirrors.bfsu.edu.cn/git/gentoo-portage.git
 auto-sync = yes
 ```
 
-**可用的 Gentoo Portage Git 镜像源（择一）：**
-
-更多镜像请参考：[Gentoo 镜像列表](https://www.gentoo.org/downloads/mirrors/)
-
-- **中国大陆**：
-  - `https://mirrors.ustc.edu.cn/git/gentoo-portage.git` - 中国科学技术大学（推荐）
-  - `https://mirrors.tuna.tsinghua.edu.cn/git/gentoo-portage.git` - 清华大学
-  - `https://mirrors.bfsu.edu.cn/git/gentoo-portage.git` - 北京外国语大学
-- **官方源（可能需要国际网络）**：
-  - `https://github.com/gentoo-mirror/gentoo.git` - GitHub
+可用的 Git 镜像源：
+- **北京外国语大学**：`https://mirrors.bfsu.edu.cn/git/gentoo-portage.git`
+- **清华大学**：`https://mirrors.tuna.tsinghua.edu.cn/git/gentoo-portage.git`
+- **GitHub（国外）**：`https://github.com/gentoo-mirror/gentoo.git`
 
 **3. 添加 Gentoo-zh Overlay**
 
-详细说明请参考：[Overlay 页面](/overlay/)
+   在 `/etc/portage/repos.conf/` 目录下创建 `gentoo-zh.conf` 文件，内容如下：
+   ```ini
+   [gentoo-zh]
+   location = /var/db/repos/gentoo-zh
+   sync-type = git
+   sync-uri = https://github.com/microcai/gentoo-zh.git
+   auto-sync = yes
+   ```
 
-在 `/etc/portage/repos.conf/` 目录下创建 `gentoo-zh.conf` 文件，内容如下：
+   **可用的 gentoo-zh Git 镜像源（可选）：**
 
-```ini
-[gentoo-zh]
-location = /var/db/repos/gentoo-zh
-sync-type = git
-sync-uri = https://github.com/microcai/gentoo-zh.git
-auto-sync = yes
-```
+   - **原始源（GitHub）**：`https://github.com/microcai/gentoo-zh.git`
+   - **重庆大学**：`https://mirrors.cqu.edu.cn/git/gentoo-zh.git`
+   - **南京大学**：`https://mirror.nju.edu.cn/git/gentoo-zh.git`
 
-**可用的 gentoo-zh Git 镜像源（择一）：**
-- **原始源（GitHub，可能需要国际网络）**：`https://github.com/microcai/gentoo-zh.git`
-- **重庆大学**：`https://mirrors.cqu.edu.cn/git/gentoo-zh.git`
-- **南京大学**：`https://mirror.nju.edu.cn/git/gentoo-zh.git`
+   **gentoo-zh distfiles 镜像（可选）：**
 
-**gentoo-zh distfiles 镜像（可选）：**
+   为加速 gentoo-zh overlay 中软件包的下载，可使用以下 distfiles 镜像：
+   - **原始源**：`https://distfiles.gentoocn.org/`
+   - **重庆大学**：`https://mirror.cqu.edu.cn/gentoo-zh`
+   - **南京大学**：`https://mirror.nju.edu.cn/gentoo-zh`
+   
+   使用帮助：https://t.me/gentoocn/56
 
-为加速 gentoo-zh overlay 中软件包的下载，可使用以下 distfiles 镜像：
-- **原始源**：`https://distfiles.gentoocn.org/`
-- **重庆大学**：`https://mirrors.cqu.edu.cn/gentoo-zh`
-- **南京大学**：`https://mirror.nju.edu.cn/gentoo-zh`
+<div>
 
-使用帮助：https://t.me/gentoocn/56
-
-<div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(239, 68, 68); margin: 1.5rem 0;">
-
-**重要提示（更新时间：2025-10-07）**
-
-根据 Gentoo 官方公告，Gentoo 已停止为第三方仓库提供缓存镜像支持。从 2025-10-30 起，所有第三方仓库（包括 gentoo-zh）的镜像配置将从官方仓库列表中移除。
+> **重要提示（更新时间：2025-10-07）**
+> 根据 Gentoo 官方公告，Gentoo 已停止为第三方仓库提供缓存镜像支持。从 2025-10-30 起，所有第三方仓库（包括 gentoo-zh）的镜像配置将从官方仓库列表中移除。
 
 **这意味着什么？**
 *   `eselect repository` 和 `layman` 等工具仍可正常使用。
@@ -646,17 +593,17 @@ auto-sync = yes
 ```bash
 # 查看已安装的仓库
 eselect repository list -i
-
 # 移除旧配置
 eselect repository remove gentoo-zh
-
 # 重新启用（将自动使用正确的上游源）
 eselect repository enable gentoo-zh
 ```
 
+> 官方公告：[Cache-enabled Mirrors Removal](https://www.gentoo.org/support/news-items/2025-10-07-cache-enabled-mirrors-removal.html)
 </div>
 
 **4. 执行同步**
+
 ```bash
 emerge --sync
 ```
@@ -670,20 +617,20 @@ emerge -pv flclash-bin
 ```
 
 输出示例：
+
 ```text
 These are the packages that would be merged, in order:
-
-Calculating dependencies     ... done!
+Calculating dependencies  
+    ... done!
 Dependency resolution took 0.45 s (backtrack: 0/20).
-
 [ebuild  N     ] dev-libs/keybinder-0.3.2-r300:3::gentoo  USE="introspection" 371 KiB
 [ebuild  N     ] x11-apps/xmessage-1.0.7::gentoo  126 KiB
 [ebuild  N     ] net-proxy/flclash-bin-0.8.90::gentoo-zh  39,565 KiB
-
 Total: 3 packages (3 new), Size of downloads: 40,061 KiB
 ```
 
 确认无误后，执行安装：
+
 ```bash
 emerge --ask flclash-bin
 ```
@@ -692,20 +639,22 @@ emerge --ask flclash-bin
 
 ### 12.10 Flatpak 支持与软件中心 [可选]
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[Flatpak](https://wiki.gentoo.org/wiki/Flatpak)
+> **可参考**：[Flatpak](https://wiki.gentoo.org/wiki/Flatpak)
 
 </div>
 
 如果你需要使用 Flatpak 或希望在软件中心管理 Flatpak 应用：
 
 1. **安装 Flatpak**
+
    ```bash
    emerge --ask sys-apps/flatpak
    ```
 
 2. **启用软件中心支持**
+
    为了让 GNOME Software 或 KDE Discover 支持 Flatpak，需要启用相应的 USE flag。
 
    **GNOME 用户**：
@@ -721,15 +670,15 @@ emerge --ask flclash-bin
    ```
 
 3. **更新软件中心**
+
    ```bash
    # GNOME
    emerge --ask --newuse gnome-extra/gnome-software
-
    # KDE
    emerge --ask --newuse kde-plasma/discover
    ```
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **使用提示**
 
@@ -739,7 +688,6 @@ Flatpak 非常适合安装专有软件 (如 QQ, WeChat)。它的沙盒隔离机�
 # 搜索应用
 flatpak search qq
 flatpak search wechat
-
 # 安装 QQ 和 WeChat
 flatpak install com.qq.QQ
 flatpak install com.tencent.WeChat
@@ -753,15 +701,15 @@ flatpak install com.tencent.WeChat
 
 **1. SSD TRIM (延长 SSD 寿命)**
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[SSD](https://wiki.gentoo.org/wiki/SSD)
+> **可参考**：[SSD](https://wiki.gentoo.org/wiki/SSD)
 
 </div>
 
 定期执行 TRIM 可以保持 SSD 性能。
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **检查支持**
 
@@ -770,23 +718,26 @@ flatpak install com.tencent.WeChat
 </div>
 
 - **Systemd 用户**：
+
   ```bash
   systemctl enable --now fstrim.timer
   ```
 - **OpenRC 用户**：
+
   建议每周手动运行一次 `fstrim -av`，或配置 cron 任务。
 
 **2. 电源管理 (笔记本用户推荐)**
 
-<div style="background: rgba(59, 130, 246, 0.08); padding: 0.75rem 1rem; border-radius: 0.5rem; border-left: 3px solid rgb(59, 130, 246); margin: 1rem 0;">
+<div>
 
-**可参考**：[Power management/Guide](https://wiki.gentoo.org/wiki/Power_management/Guide/zh-cn)
+> **可参考**：[Power management/Guide](https://wiki.gentoo.org/wiki/Power_management/Guide/zh-cn)
 
 </div>
 
 请在以下方案中**二选一** (不要同时安装)：
 
 **方案 A：TLP (推荐，极致省电)**
+
 自动优化电池寿命，适合大多数用户。
 
 ```bash
@@ -798,7 +749,7 @@ rc-update add tlp default
 systemctl enable --now tlp
 ```
 
-<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+<div>
 
 **配置提示**
 
@@ -807,6 +758,7 @@ TLP 默认配置已足够优秀。如需微调，配置文件位于 `/etc/tlp.co
 </div>
 
 **方案 B：power-profiles-daemon (桌面集成)**
+
 适合 GNOME/KDE 用户，可在系统菜单中直接切换"性能/平衡/省电"模式。
 
 ```bash
@@ -820,7 +772,7 @@ systemctl enable --now power-profiles-daemon
 
 **3. Zram (内存压缩)**
 
-<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
+<div>
 
 **推荐**
 
@@ -829,6 +781,7 @@ Zram 可以创建压缩的内存交换分区，有效防止编译大型软件时
 </div>
 
 **OpenRC 用户**：
+
 ```bash
 emerge --ask sys-block/zram-init
 rc-update add zram-init default
@@ -837,6 +790,7 @@ rc-update add zram-init default
 
 **Systemd 用户**：
 推荐使用 `zram-generator`：
+
 ```bash
 emerge --ask sys-apps/zram-generator
 # 创建默认配置 (自动使用 50% 内存作为 Swap)
@@ -847,9 +801,8 @@ systemctl start dev-zram0.swap
 
 ---
 
+<div>
 
-<div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05)); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid rgb(34, 197, 94); margin: 1.5rem 0;">
-
-**下一步**：[进阶优化](/zh-cn/posts/gentoo-install-advanced/)
+**下一步**：[进阶优化](/posts/2025-11-25-gentoo-install-advanced/)
 
 </div>

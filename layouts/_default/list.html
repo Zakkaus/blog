@@ -2,10 +2,6 @@
   {{ .Scratch.Set "scope" "list" }}
   {{ $enableToc := .Params.showTableOfContents | default (site.Params.list.showTableOfContents | default false) }}
   {{ $showToc := and $enableToc (in .TableOfContents "<ul") }}
-  {{ $pages := .Pages }}
-  {{ if hugo.IsMultilingual }}
-    {{ $pages = where $pages "Lang" .Lang }}
-  {{ end }}
 
   {{/* Hero */}}
   {{ if site.Params.list.showHero | default false }}
@@ -26,86 +22,26 @@
     <div class="mt-1 mb-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
       {{ partial "article-meta/list.html" (dict "context" . "scope" "single") }}
     </div>
-    {{ $oidPath := "" }}
-    {{ $rel := "" }}
-    {{ with .RelPermalink }}
-      {{ $rel = printf "%s" . }}
-    {{ end }}
-    {{ if ne $rel "" }}
-      {{ if not (strings.HasSuffix $rel "/") }}
-        {{ $rel = printf "%s/" $rel }}
-      {{ end }}
-      {{ $clean := strings.TrimLeft "/" $rel }}
-      {{ if or (eq $clean "") (eq $clean "/") }}
-        {{ $oidPath = "/" }}
-      {{ else }}
-        {{ $oidPath = $clean }}
-      {{ end }}
-    {{ end }}
-
-    {{ if and (eq $oidPath "") .File }}
-      {{ $dir := printf "%s" .File.Dir }}
-      {{ if ne $dir "" }}
-        {{ if strings.HasSuffix $dir "/" }}
-          {{ $oidPath = $dir }}
-        {{ else }}
-          {{ $oidPath = printf "%s/" $dir }}
-        {{ end }}
-      {{ end }}
-    {{ end }}
-
-    {{ if and (eq $oidPath "") .Path }}
-      {{ $path := printf "%s" .Path }}
-      {{ $clean := strings.TrimLeft "/" $path }}
-      {{ if eq $clean "" }}
-        {{ $oidPath = "/" }}
-      {{ else }}
-        {{ $oidPath = printf "%s/" $clean }}
-      {{ end }}
-    {{ end }}
-
-    {{ if and (eq $oidPath "") .File }}
-      {{ $path := .File.Path }}
-      {{ range .AllTranslations }}
-        {{ $lang := print "." .Lang ".md" }}
-        {{ $path = replace $path $lang ".md" }}
-      {{ end }}
-      {{ if not (strings.HasSuffix $path "/") }}
-        {{ $path = printf "%s/" $path }}
-      {{ end }}
-      {{ $oidPath = strings.TrimLeft "/" $path }}
-    {{ end }}
-
-    {{ if ne $oidPath "" }}
-      {{ $jsPage := resources.Get "js/page.js" }}
-      {{ $jsPage = $jsPage | resources.Minify | resources.Fingerprint (site.Params.fingerprintAlgorithm | default "sha512") }}
-      <script
-        type="text/javascript"
-        src="{{ $jsPage.RelPermalink }}"
-        integrity="{{ $jsPage.Data.Integrity }}"
-        data-oid="views_{{ $oidPath }}"
-        data-oid-likes="likes_{{ $oidPath }}"></script>
-    {{ end }}
   </header>
 
   {{/* Description (markdown content) */}}
   {{ $tocMargin := cond $showToc "mt-12" "mt-0" }}
   {{ $topClass := cond (hasPrefix site.Params.header.layout "fixed") "lg:top-[140px]" "lg:top-10" }}
-  <section class="{{ $tocMargin }} prose flex max-w-full flex-col dark:prose-invert lg:flex-row">
+  <section class="{{ $tocMargin }} prose flex max-w-full flex-col dark:prose-invert lg:flex-row mb-10">
     {{ if $showToc }}
-      <div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8">
-        <div class="toc ps-5 lg:sticky {{ $topClass }}">
+      <div class="order-first lg:ms-auto px-0 lg:order-last lg:ps-8 lg:max-w-2xs">
+        <div class="toc ps-5 print:hidden lg:sticky {{ $topClass }}">
           {{ partial "toc.html" . }}
         </div>
       </div>
     {{ end }}
-    <div class="min-w-0 min-h-0 max-w-prose">
+    <div class="min-w-0 min-h-0 max-w-prose w-full">
       {{ .Content }}
     </div>
   </section>
 
   {{/* Article Grid */}}
-  {{ if gt (len $pages) 0 }}
+  {{ if gt .Pages 0 }}
     {{ $cardView := .Params.cardView | default (site.Params.list.cardView | default false) }}
     {{ $cardViewScreenWidth := .Params.cardViewScreenWidth | default (site.Params.list.cardViewScreenWidth | default false) }}
     {{ $groupByYear := .Params.groupByYear | default (site.Params.list.groupByYear | default false) }}
@@ -115,7 +51,7 @@
     {{ if not $cardView }}
       <section class="space-y-10 w-full">
         {{ if not $orderByWeight }}
-          {{ range (.Paginate ($pages.GroupByDate "2006")).PageGroups }}
+          {{ range (.Paginate (.Pages.GroupByDate "2006")).PageGroups }}
             {{ if $groupByYear }}
               <h2 class="mt-12 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
                 {{ .Key }}
@@ -126,7 +62,7 @@
             {{ end }}
           {{ end }}
         {{ else }}
-          {{ range (.Paginate ($pages.ByWeight)).Pages }}
+          {{ range (.Paginate (.Pages.ByWeight)).Pages }}
             {{ partial "article-link/simple.html" . }}
           {{ end }}
         {{ end }}
@@ -134,7 +70,7 @@
     {{/* else: is cardView */}}
     {{ else }}
       {{ if $groupByYear }}
-        {{ range (.Paginate ($pages.GroupByDate "2006")).PageGroups }}
+        {{ range (.Paginate (.Pages.GroupByDate "2006")).PageGroups }}
           {{ if $cardViewScreenWidth }}
             <div class="relative w-screen max-w-[1600px] px-[30px] start-[calc(max(-50vw,-800px)+50%)]">
               <h2 class="mt-12 mb-3 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
@@ -164,13 +100,13 @@
           <div class="relative w-screen max-w-[1600px] px-[30px] start-[calc(max(-50vw,-800px)+50%)]">
             <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
               {{ if not $orderByWeight }}
-                {{ range (.Paginate ($pages.GroupByDate "2006")).PageGroups }}
+                {{ range (.Paginate (.Pages.GroupByDate "2006")).PageGroups }}
                   {{ range .Pages }}
                     {{ partial "article-link/card.html" . }}
                   {{ end }}
                 {{ end }}
               {{ else }}
-                {{ range (.Paginate ($pages.ByWeight)).Pages }}
+                {{ range (.Paginate (.Pages.ByWeight)).Pages }}
                   {{ partial "article-link/card.html" . }}
                 {{ end }}
               {{ end }}
@@ -179,13 +115,13 @@
         {{ else }}
           <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
             {{ if not $orderByWeight }}
-              {{ range (.Paginate ($pages.GroupByDate "2006")).PageGroups }}
+              {{ range (.Paginate (.Pages.GroupByDate "2006")).PageGroups }}
                 {{ range .Pages }}
                   {{ partial "article-link/card.html" . }}
                 {{ end }}
               {{ end }}
             {{ else }}
-              {{ range (.Paginate ($pages.ByWeight)).Pages }}
+              {{ range (.Paginate (.Pages.ByWeight)).Pages }}
                 {{ partial "article-link/card.html" . }}
               {{ end }}
             {{ end }}
@@ -193,7 +129,7 @@
         {{ end }}{{/* End of cardViewScreenWidth */}}
       {{ end }}{{/* End of groupByYear */}}
     {{ end }}{{/* End of cardView */}}
-  {{/* else: $pages not greater than zero */}}
+  {{/* else: .Pages not greater to zero */}}
   {{ else }}
     <section class="mt-10 prose dark:prose-invert">
       <p class="py-8 border-t">

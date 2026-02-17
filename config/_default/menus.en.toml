@@ -39,7 +39,7 @@
 [[main]]
   name = "Stats Monitor"
   parent = "more"
-  url = "/en/stats/"
+  url = "/stats/"
   weight = 45
 
 [[main]]
@@ -53,6 +53,12 @@
   parent = "more"
   url = "https://img.zakk.au/"
   weight = 48
+
+[[main]]
+  name = "Mirrors"
+  parent = "more"
+  url = "https://mirror.zakk.au/"
+  weight = 49
 
 # -- Footer Menu --
 # The footer menu is displayed at the bottom of the page, just before

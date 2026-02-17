@@ -54,6 +54,12 @@
   url = "https://img.zakk.au/"
   weight = 48
 
+[[main]]
+  name = "鏡像站"
+  parent = "more"
+  url = "https://mirror.zakk.au/"
+  weight = 49
+
 # -- Footer Menu --
 # The footer menu is displayed at the bottom of the page, just before
 # the copyright notice. Configure as per the main menu above.

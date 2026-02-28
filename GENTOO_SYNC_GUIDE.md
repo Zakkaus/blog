@@ -188,6 +188,28 @@ When `gentoo-zh` updates:
 
 *   **Fix**: Always verify packages at https://packages.gentoo.org/ before adding to articles.
 
+### Stage3 Download Method
+**Issue**: Using `wget $(wget ... | grep -oP '...')` scraping the autobuilds HTML directory listing is unreliable.
+
+*   **Fix**: Gentoo provides official `latest-stage3-*.txt` files specifically for automated downloads. Use these:
+
+```bash
+# Auto-detect latest Stage3 path using the official txt file:
+STAGE3=$(wget -qO- https://distfiles.gentoo.org/releases/amd64/autobuilds/latest-stage3-amd64-openrc.txt | grep -v '^#' | cut -d' ' -f1)
+wget "https://distfiles.gentoo.org/releases/amd64/autobuilds/${STAGE3}"
+wget "https://distfiles.gentoo.org/releases/amd64/autobuilds/${STAGE3}.asc"
+
+# Verify
+gpg --verify stage3-*.tar.xz.asc stage3-*.tar.xz
+
+# Extract
+tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
+```
+
+*   Available txt files: `latest-stage3-amd64-openrc.txt`, `latest-stage3-amd64-systemd.txt`, `latest-stage3-arm64-desktop-systemd.txt`, etc.
+*   **Alternative**: Visit **https://www.gentoo.org/downloads/**, right-click desired Stage3 → "Copy link address".
+
+
 ### Mixed Language Text
 **Issue**: Sometimes Chinese text remains in English articles.
 

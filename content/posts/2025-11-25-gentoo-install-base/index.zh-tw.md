@@ -1740,7 +1740,17 @@ passwd root # 設定 root 密碼
 useradd -m -G wheel,video,audio,plugdev zakk # 建立使用者並加入常用組
 passwd zakk # 設定使用者密碼
 emerge --ask app-admin/sudo
-echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel # 允許 wheel 組使用 sudo
+```
+
+透過編輯 sudoers 檔案，允許 `wheel` 群組的使用者以 root 身分執行命令：
+
+```bash
+visudo
+```
+
+取消註解以下行（刪除開頭的 `# `）：
+```text
+%wheel ALL=(ALL:ALL) ALL
 ```
 
 若使用 systemd，可視需求將賬號加入 `network`、`lp` 等群組。

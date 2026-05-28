@@ -1,0 +1,13 @@
+{{ $fingerprint := .Params.fingerprintAlgorithm | default "sha512" }}
+
+{{/* Timeline counters */}}
+{{ with resources.Get "js/timeline-counters.js" }}
+  {{ $script := . | resources.Minify | resources.Fingerprint $fingerprint }}
+  <script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
+{{ end }}
+
+{{/* Cloudflare stats integration */}}
+{{ with resources.Get "js/cloudflare-stats.js" }}
+  {{ $script := . | resources.Minify | resources.Fingerprint $fingerprint }}
+  <script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
+{{ end }}

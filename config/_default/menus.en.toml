@@ -1,0 +1,75 @@
+# -- Main Menu --
+# The main menu is displayed in the header at the top of the page.
+# Acceptable parameters are name, pageRef, page, url, title, weight.
+# 
+# The simplest menu configuration is to provide:
+#   name = The name to be displayed for this menu link
+#   pageRef = The identifier of the page or section to link to
+#
+# By default the menu is ordered alphabetically. This can be
+# overridden by providing a weight value. The menu will then be
+# ordered by weight from lowest to highest.
+
+[[main]]
+  name = "About"
+  pageRef = "about"
+  weight = 10
+
+[[main]]
+  name = "Posts"
+  pageRef = "posts"
+  weight = 20
+
+[[main]]
+  name = "Timeline"
+  pageRef = "timeline"
+  weight = 30
+
+[[main]]
+  name = "More"
+  identifier = "more"
+  weight = 40
+
+[[main]]
+  name = "Cloudflare Error Pages"
+  parent = "more"
+  url = "https://error.zakk.au/"
+  weight = 44
+
+[[main]]
+  name = "Stats Monitor"
+  parent = "more"
+  url = "/stats/"
+  weight = 45
+
+[[main]]
+  name = "Gentoo Chinese Community"
+  parent = "more"
+  url = "https://www.gentoo.org.cn/"
+  weight = 46
+
+[[main]]
+  name = "Image Host"
+  parent = "more"
+  url = "https://img.zakk.au/"
+  weight = 48
+
+[[main]]
+  name = "Mirrors"
+  parent = "more"
+  url = "https://mirror.zakk.au/"
+  weight = 49
+
+# -- Footer Menu --
+# The footer menu is displayed at the bottom of the page, just before
+# the copyright notice. Configure as per the main menu above.
+
+ [[footer]]
+   name = "Tags"
+   pageRef = "tags"
+   weight = 10
+
+ [[footer]]
+   name = "Authors"
+   pageRef = "authors"
+   weight = 20

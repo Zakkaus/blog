@@ -1,0 +1,5 @@
+# Standard crawl directives; custom directives removed due to search engine parser errors.
+User-agent: *
+Allow: /
+
+Sitemap: https://zakk.au/sitemap.xml

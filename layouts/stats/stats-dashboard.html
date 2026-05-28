@@ -1,0 +1,30 @@
+{{ define "main" }}
+  <section class="container flex flex-col gap-8 py-12">
+    <header class="max-w-3xl">
+      <h1 class="text-4xl font-semibold mb-4">{{ .Title }}</h1>
+      {{ with .Params.subtitle }}
+        <p class="text-lg text-neutral-500 dark:text-neutral-300">{{ . }}</p>
+      {{ end }}
+      {{ with .Params.description }}
+        <p class="mt-4 text-base text-neutral-600 dark:text-neutral-300">{{ . }}</p>
+      {{ end }}
+    </header>
+
+    <div class="relative w-full overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-50 shadow-md dark:border-neutral-700 dark:bg-neutral-900">
+      <iframe
+        src="{{ .Params.dashboardURL | default "https://stats.zakk.au" }}"
+        title="Cloudflare Stats Dashboard"
+        scrolling="no"
+        loading="lazy"
+        class="h-[1200px] w-full"
+        referrerpolicy="no-referrer"
+      ></iframe>
+    </div>
+
+    {{ if .Content }}
+      <article class="prose prose-neutral dark:prose-invert max-w-3xl">
+        {{ .Content | safeHTML }}
+      </article>
+    {{ end }}
+  </section>
+{{ end }}

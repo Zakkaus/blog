@@ -1,0 +1,42 @@
+locale = "en"
+contentDir = "content"
+label = "English"
+weight = 1
+title = "Zakk"
+
+[params]
+  displayName = "English"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2 January 2006"
+  logo = "img/logo-small.png"
+  description = """
+<div class=\"text-center\">
+Australia · UTC +11 (AEDT)<br/>
+With <a href="https://zakk.au/about/#paper-and-me" class="font-semibold text-primary-600 hover:text-primary-500 dark:text-primary-300">Paper</a> in Australia<br/>
+Guinea pigs · Gaming · Linux · Finance
+</div>
+"""
+
+[params.seo]
+  description = "Bilingual notes on Gentoo Linux, design experiments, finance workflows, and daily life with Paper in Australia."
+  keywords = ["Zakk", "Gentoo", "Linux blog", "art student", "design systems", "finance", "productivity", "guinea pigs"]
+
+[params.author]
+  name = "Zakk"
+  email = "admin@zakk.au"
+  image = "https://avatars.githubusercontent.com/u/221879664?v=4"
+  headline = """
+<div class=\"text-center\">
+Australia · UTC +11 (AEDT)<br/>
+With <a href="https://zakk.au/about/#paper-and-me" class="font-semibold text-primary-600 hover:text-primary-500 dark:text-primary-300">Paper</a> in Australia<br/>
+Guinea pigs · Gaming · Linux · Finance
+</div>
+"""
+  bio = "Art student in Australia. With Paper (who joined me here for uni), a houseful of Teddy guinea pigs, writing Linux notes and life journals."
+  links = [
+    { instagram = "https://www.instagram.com/zakk.au/" },
+    { github = "https://github.com/Zakkaus" },
+    { x-twitter = "https://x.com/zakkauu" },
+    { email = "mailto:admin@zakk.au" },
+  ]

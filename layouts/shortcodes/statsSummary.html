@@ -1,0 +1,20 @@
+{{ $api := .Get "api" | default .Page.Params.dashboardURL }}
+{{ $cards := slice
+  (dict "label" (.Get "totalViews") "field" "totalViews" "hint" (.Get "totalViewsHint"))
+  (dict "label" (.Get "totalVisitors") "field" "totalVisitors" "hint" (.Get "totalVisitorsHint"))
+  (dict "label" (.Get "todayViews") "field" "todayViews" "hint" (.Get "todayViewsHint"))
+  (dict "label" (.Get "todayVisitors") "field" "todayVisitors" "hint" (.Get "todayVisitorsHint"))
+}}
+<section class="stats-section" data-stats-summary data-api="{{ $api }}">
+  <div class="stats-summary-grid">
+    {{ range $cards }}
+      <article class="stats-card">
+        <span class="stats-card__label">{{ .label }}</span>
+        <span class="stats-card__value" data-field="{{ .field }}">—</span>
+        {{ with .hint }}
+          <span class="stats-card__hint">{{ . }}</span>
+        {{ end }}
+      </article>
+    {{ end }}
+  </div>
+</section>

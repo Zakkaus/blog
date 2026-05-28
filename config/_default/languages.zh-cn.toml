@@ -1,0 +1,42 @@
+locale = "zh-CN"
+contentDir = "content"
+label = "简体中文"
+weight = 3
+title = "Zakk"
+
+[params]
+  displayName = "简体中文"
+  isoCode = "zh-CN"
+  rtl = false
+  dateFormat = "2006-01-02"
+  logo = "img/logo-small.png"
+  description = """
+<div class=\"text-center\">
+澳洲 · UTC +11 (AEDT)<br/>
+与 <a href="https://zakk.au/zh-cn/about/#%E6%88%91%E5%92%8C-paper" class="font-semibold text-primary-600 hover:text-primary-500 dark:text-primary-300">Paper</a> 同在澳洲<br/>
+天竺鼠 · 游戏 · Linux · 金融
+</div>
+"""
+
+[params.seo]
+  description = "Zakk 在澳洲记录 Gentoo Linux 折腾、设计实验、理财流程，以及和 Paper 在澳洲一起念书的生活与天竺鼠日常的双语随记。"
+  keywords = ["Zakk", "Linux 博客", "Gentoo", "艺术学生", "设计系统", "理财", "效率工具", "天竺鼠"]
+
+[params.author]
+  name = "Zakk"
+  email = "admin@zakk.au"
+  image = "https://avatars.githubusercontent.com/u/221879664?v=4"
+  headline = """
+<div class=\"text-center\">
+澳洲 · UTC +11 (AEDT)<br/>
+与 <a href="https://zakk.au/zh-cn/about/#%E6%88%91%E5%92%8C-paper" class="font-semibold text-primary-600 hover:text-primary-500 dark:text-primary-300">Paper</a> 同在澳洲<br/>
+天竺鼠 · 游戏 · Linux · 金融
+</div>
+"""
+  bio = "在澳洲念艺术，和 Paper 一起（她后来也来澳洲念大学），家里养着一窝天竺鼠，同时写 Linux 与日常随笔。"
+  links = [
+    { instagram = "https://www.instagram.com/zakk.au/" },
+    { github = "https://github.com/Zakkaus" },
+    { x-twitter = "https://x.com/zakkauu" },
+    { email = "mailto:admin@zakk.au" },
+  ]

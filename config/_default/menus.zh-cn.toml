@@ -1,0 +1,75 @@
+# -- Main Menu --
+# The main menu is displayed in the header at the top of the page.
+# Acceptable parameters are name, pageRef, page, url, title, weight.
+# 
+# The simplest menu configuration is to provide:
+#   name = The name to be displayed for this menu link
+#   pageRef = The identifier of the page or section to link to
+#
+# By default the menu is ordered alphabetically. This can be
+# overridden by providing a weight value. The menu will then be
+# ordered by weight from lowest to highest.
+
+[[main]]
+  name = "关于我"
+  url = "/zh-cn/about/"
+  weight = 10
+
+[[main]]
+  name = "文章"
+  url = "/zh-cn/posts/"
+  weight = 20
+
+[[main]]
+  name = "时间轴"
+  url = "/zh-cn/timeline/"
+  weight = 30
+
+[[main]]
+  name = "更多"
+  identifier = "more"
+  weight = 40
+
+[[main]]
+  name = "Cloudflare 错误页"
+  parent = "more"
+  url = "https://error.zakk.au/"
+  weight = 44
+
+[[main]]
+  name = "统计监控"
+  parent = "more"
+  url = "/zh-cn/stats/"
+  weight = 45
+
+[[main]]
+  name = "Gentoo 中文社区"
+  parent = "more"
+  url = "https://www.gentoo.org.cn/"
+  weight = 46
+
+[[main]]
+  name = "图床"
+  parent = "more"
+  url = "https://img.zakk.au/"
+  weight = 48
+
+[[main]]
+  name = "镜像站"
+  parent = "more"
+  url = "https://mirror.zakk.au/"
+  weight = 49
+
+# -- Footer Menu --
+# The footer menu is displayed at the bottom of the page, just before
+# the copyright notice. Configure as per the main menu above.
+
+ [[footer]]
+   name = "标签"
+   url = "/zh-cn/tags/"
+   weight = 10
+
+ [[footer]]
+   name = "作者"
+   url = "/zh-cn/authors/"
+   weight = 20

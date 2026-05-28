@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<users>
+  <user>REPLACE_WITH_BING_VERIFICATION_CODE</user>
+  <!--
+    Step 1: In Microsoft Bing Webmaster Tools, add your site and choose file verification.
+    Step 2: Replace REPLACE_WITH_BING_VERIFICATION_CODE with the code provided (looks like 32-characters).
+    Step 3: Deploy your site so the file is accessible at https://zakk.au/BingSiteAuth.xml and click Verify.
+  -->
+</users>
